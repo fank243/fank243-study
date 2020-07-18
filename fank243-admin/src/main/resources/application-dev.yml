@@ -1,0 +1,45 @@
+spring:
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://127.0.0.1:3306/jboot?characterEncoding=utf8&serverTimezone=Hongkong&tinyInt1isBit=false&zeroDateTimeBehavior=convertToNull
+      username: root
+      password: root
+
+  jpa:  # 仅仅使用Hibernate自动更新表结构，底层数据库操作依然使用MyBatis
+    database: mysql
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    open-in-view: false
+
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    password: jboot
+    timeout: 6000  # 连接超时时长（毫秒）
+
+  freemarker:
+    suffix: .ftl  # 设置模板后缀名
+    content-type: text/html  # 设置文档类型
+    charset: UTF-8  # 设置页面编码格式
+    cache: false  # 设置页面缓存
+    template-loader-path: classpath:/templates # 设置ftl文件路径
+  mvc: # 设置静态文件路径，js,css等
+    static-path-pattern: /static/**
+
+jetcache:
+  remote:
+    default:
+      host: ${spring.redis.host}
+      port: ${spring.redis.port}
+      database: ${spring.redis.database}
+      password: ${spring.redis.password}
+
+logging:
+  config: classpath:log4j2/log4j2.xml
+

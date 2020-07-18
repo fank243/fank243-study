@@ -1,0 +1,8 @@
+server:
+  port: 8900
+
+spring:
+  application:
+    name: fank243-wechat
+  profiles:
+    active: dev

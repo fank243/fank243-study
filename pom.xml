@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.2.6.RELEASE</version>
+        <relativePath/>
+    </parent>
+    <groupId>com.fank243.springboot</groupId>
+    <artifactId>springboot</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+
+    <name>springboot</name>
+
+    <modules>
+        <module>fank243-app</module>
+        <module>fank243-wechat</module>
+        <module>fank243-miniapp</module>
+        <module>fank243-admin</module>
+        <module>fank243-core</module>
+        <module>fank243-common</module>
+        <module>fank243-3rd</module>
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+
+        <!--docker构建-->
+        <docker.registry>registry.cn-hangzhou.aliyuncs.com</docker.registry>
+        <docker.namespaces>${docker.registry}/fank243</docker.namespaces>
+        <docker.username>阿里云账号</docker.username>
+        <docker.password>阿里云登录密码或固定密码</docker.password>
+        <docker.from>fank243/dragonwell:1.8.0_242</docker.from>
+        <docker.logs>/data/logs/fank243:/app/logs</docker.logs>
+
+        <!-- org.springframework -->
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-parent -->
+        <spring-boot.version>2.2.6.RELEASE</spring-boot.version>
+
+        <!--org.apache-->
+        <shiro.version>1.5.2</shiro.version>
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+        <commons-lang3.version>3.10</commons-lang3.version>
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-email -->
+        <commons-email.version>1.5</commons-email.version>
+        <commons-io.version>2.6</commons-io.version>
+        <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+        <httpclient.version>4.5.12</httpclient.version>
+
+        <!--org.hibernate-->
+        <!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
+        <hibernate-validator.version>6.1.2.Final</hibernate-validator.version>
+
+        <!--com.alibaba-->
+        <!-- https://mvnrepository.com/artifact/com.alibaba/druid-spring-boot-starter -->
+        <spring-boot-druid.version>1.1.21</spring-boot-druid.version>
+        <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+        <fastjson.version>1.2.68</fastjson.version>
+        <!-- https://mvnrepository.com/artifact/com.alicp.jetcache/jetcache-core -->
+        <jetcache.version>2.6.0</jetcache.version>
+        <!--com.aliyun-->
+        <!-- https://mvnrepository.com/artifact/com.aliyun/aliyun-java-sdk-core -->
+        <aliyun-sdk-core.version>4.5.0</aliyun-sdk-core.version>
+        <!-- https://mvnrepository.com/artifact/com.aliyun.oss/aliyun-sdk-oss -->
+        <aliyun-sdk-oss.version>3.8.1</aliyun-sdk-oss.version>
+        <!-- https://mvnrepository.com/artifact/com.aliyun/aliyun-java-sdk-vod -->
+        <aliyun-sdk-vod.version>2.15.8</aliyun-sdk-vod.version>
+
+        <!--com.github-->
+        <!-- https://mvnrepository.com/artifact/com.github.whvcse/easy-captcha -->
+        <easy-captcha.version>1.6.2</easy-captcha.version>         <!-- 图形验证码-->
+
+        <!-- Other-->
+        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+        <mysql-connector.version>8.0.19</mysql-connector.version>
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+        <lombok.version>1.18.12</lombok.version>
+        <!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 -->
+        <swagger2.version>2.9.2</swagger2.version>
+
+        <!--插件-->
+        <!-- https://mvnrepository.com/artifact/io.fabric8/docker-maven-plugin -->
+        <docker-maven-plugin.version>0.33.0</docker-maven-plugin.version>
+        <buildnumber-maven-plugin.version>1.4</buildnumber-maven-plugin.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.fank243.springboot</groupId>
+                <artifactId>fank243-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fank243.springboot</groupId>
+                <artifactId>fank243-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fank243.springboot</groupId>
+                <artifactId>fank243-3rd</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-devtools</artifactId>
+                <version>${spring-boot.version}</version>
+                <optional>true</optional>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <version>${spring-boot.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-log4j2</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-jpa</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-aop</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${spring-boot-druid.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-spring</artifactId>
+                <version>${shiro.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-email</artifactId>
+                <version>${commons-email.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${httpclient.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${hibernate-validator.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>aliyun-java-sdk-core</artifactId>
+                <version>${aliyun-sdk-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.aliyun.oss</groupId>
+                <artifactId>aliyun-sdk-oss</artifactId>
+                <version>${aliyun-sdk-oss.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>aliyun-java-sdk-vod</artifactId>
+                <version>${aliyun-sdk-vod.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alicp.jetcache</groupId>
+                <artifactId>jetcache-starter-redis</artifactId>
+                <version>${jetcache.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-connector.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${swagger2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.whvcse</groupId>
+                <artifactId>easy-captcha</artifactId>
+                <version>${easy-captcha.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>io.fabric8</groupId>
+                    <artifactId>docker-maven-plugin</artifactId>
+                    <version>${docker-maven-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>buildnumber-maven-plugin</artifactId>
+                    <version>${buildnumber-maven-plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <profile.active>dev</profile.active>
+                <docker.host>https://192.168.31.100:2376</docker.host>
+                <!--suppress UnresolvedMavenProperty -->
+                <docker.cert.path>${project.parent.basedir}/docker/dev</docker.cert.path>
+            </properties>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <profile.active>test</profile.active>
+                <docker.host>https://192.168.31.100:2376</docker.host>
+                <!--suppress UnresolvedMavenProperty -->
+                <docker.cert.path>${project.parent.basedir}/docker/test</docker.cert.path>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <profile.active>prod</profile.active>
+                <docker.host>https://192.168.31.100:2376</docker.host>
+                <!--suppress UnresolvedMavenProperty -->
+                <docker.cert.path>${project.parent.basedir}/docker/prod</docker.cert.path>
+            </properties>
+        </profile>
+    </profiles>
+</project>

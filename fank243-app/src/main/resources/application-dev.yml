@@ -1,0 +1,40 @@
+spring:
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://127.0.0.1:3306/jboot?characterEncoding=utf8&serverTimezone=Hongkong&tinyInt1isBit=false&zeroDateTimeBehavior=convertToNull
+      username: root
+      password: root
+
+  jpa:
+    database: mysql
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    password: jboot
+    timeout: 6000  # 连接超时时长（毫秒）
+
+logging:
+  config: classpath:log4j2/log4j2.xml
+
+jboot:
+  app:
+    swagger: true
+    rsa-pub: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCij5Mlyeg39f29je/maPP16+XMi/YTK29VrNbJFAcmMHennWzKj/Xvb8Fya4mgqpgvewu7rYFaNbVmnFFm7xH5RV9vy1FbQa93v82UKFP96nfQJsEluDp2U3EtvUhloVkGABkoMUOZOUaXOcf2ZoGFUIN1dTDLRtP5OyIwoRqh/wIDAQAB
+    rsa-pri: MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAKKPkyXJ6Df1/b2N7+Zo8/Xr5cyL9hMrb1Ws1skUByYwd6edbMqP9e9vwXJriaCqmC97C7utgVo1tWacUWbvEflFX2/LUVtBr3e/zZQoU/3qd9AmwSW4OnZTcS29SGWhWQYAGSgxQ5k5Rpc5x/ZmgYVQg3V1MMtG0/k7IjChGqH/AgMBAAECgYAJ0Ktsy60Wu+aPLGPAwLOCNLUSTZ0U+TlmreHmECyCVMjUuP+Zl2mdBF1kwDN2HPbFXyONOGOoA7gpMuUDVwn5r0wnGHRsPDTFWGZWNmzOQHKZOjm6gihTlAmCjX8fXZEZSfsv+SSM7PHBWmNmtAJ9tuRrCqaf9hgRr2oXOy7u6QJBAN1ZpFQIR3dRI0hMvbpqmpMEjZZCPzfFakyIegMsOVAq6V6cWvVMCBiA4AqO7+4fm7HecXpTJSZMTQUy3DvOHXMCQQC8AgRb0i/kcLuEApO+ZEQDOfX588H0ylUsjllY1D2cZBPDKbxTzklp1Yv1ZqEx+zGqaRyf3GFPLGbTawzjtAZFAkA2R5AzhyA3Uy9KwH7aIuAq4zfxO+eSvpd1kxYQhxy62vsFV2Q6uN1XXOsTy79sblXYxUqgi5kVjipo9vLou3+fAkEAma78aSKTy6TrY6nHo+bKQejrTXsYnUWYAmgKWTaFdoXIMcy4CbmjAURyuBNAyV6Q5sAtie/YC6Q8Ga50Rt4uEQJBAMdK3UuSLgDQHf4dD2dmgckv3/NYkHIjGezmhsO+bLugO2lMAseSDjIX+btBseaAN3cCz84JGt1/VZszkS9ssR8=
+
+jetcache:
+  remote:
+    default:
+      host: ${spring.redis.host}
+      port: ${spring.redis.port}
+      database: ${spring.redis.database}
+      password: ${spring.redis.password}
