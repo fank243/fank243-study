@@ -8,9 +8,11 @@ import com.fank243.springboot.admin.service.SysPermissionService;
 import com.fank243.springboot.admin.service.SysRoleService;
 import com.fank243.springboot.admin.shiro.ShiroUtils;
 import com.fank243.springboot.common.utils.ResultInfo;
+import com.fank243.springboot.core.annotation.SysLog;
 import com.fank243.springboot.core.consts.IConsts;
 import com.fank243.springboot.core.entity.SysPermission;
 import com.fank243.springboot.core.entity.SysRole;
+import com.fank243.springboot.core.enums.SysLogType;
 import com.fank243.springboot.core.model.LayuiResultInfo;
 import com.fank243.springboot.core.model.PageBean;
 import com.fank243.springboot.core.model.PageInfo;
@@ -88,6 +90,7 @@ public class SysRoleController extends BaseController {
         return "admin/system/role/addOrModify";
     }
 
+    @SysLog(logType = SysLogType.SYS_SET_ROLE, desc = "添加或修改角色")
     @RequiresPermissions({"role:create", "role:update"})
     @PostMapping("/addOrModify")
     @ResponseBody

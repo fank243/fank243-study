@@ -9,6 +9,7 @@ import com.fank243.springboot.core.dto.SysPermissionDTO;
 import com.fank243.springboot.core.entity.SysPermission;
 import com.fank243.springboot.core.entity.SysRole;
 import com.fank243.springboot.core.entity.SysUser;
+import com.fank243.springboot.core.enums.LogLevel;
 import com.fank243.springboot.core.enums.PermissionType;
 import com.fank243.springboot.core.enums.SysUserEventType;
 import com.fank243.springboot.core.model.PageBean;
