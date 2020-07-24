@@ -78,14 +78,14 @@ public final class WebUtils {
 
     public static HttpServletRequest getRequest() {
         ServletRequestAttributes servletRequestAttributes =
-            (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+            (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
         assert servletRequestAttributes != null;
         return servletRequestAttributes.getRequest();
     }
 
     public static HttpServletResponse getResponse() {
         ServletRequestAttributes servletRequestAttributes =
-            (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+            (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
         assert servletRequestAttributes != null;
         return servletRequestAttributes.getResponse();
     }
@@ -373,7 +373,6 @@ public final class WebUtils {
         for (Map.Entry<String, String[]> entry : params.entrySet()) {
             body.put(entry.getKey(), entry.getValue()[0]);
         }
-
         return body;
     }
 

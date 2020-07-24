@@ -4,8 +4,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.fank243.springboot.admin.service.SysConfigService;
 import com.fank243.springboot.admin.shiro.ShiroUtils;
 import com.fank243.springboot.common.utils.ResultInfo;
+import com.fank243.springboot.core.annotation.SysLog;
 import com.fank243.springboot.core.consts.IConsts;
 import com.fank243.springboot.core.entity.SysConfig;
+import com.fank243.springboot.core.enums.SysLogType;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -46,6 +48,7 @@ public class SysConfigController {
         return "/admin/system/site/site";
     }
 
+    @SysLog(logType = SysLogType.SYS_SET_SITE, desc = "修改站点配置")
     @RequiresPermissions({"site:update"})
     @ResponseBody
     @PostMapping(value = "/modify", produces = "application/json;charset=UTF-8")

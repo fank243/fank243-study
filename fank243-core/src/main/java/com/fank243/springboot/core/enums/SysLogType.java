@@ -25,6 +25,8 @@ public enum SysLogType {
 
     SYS_SET_ROLE("角色管理"),
 
+    SYS_SET_SITE("站点配置"),
+
     ;
 
     private final String desc;

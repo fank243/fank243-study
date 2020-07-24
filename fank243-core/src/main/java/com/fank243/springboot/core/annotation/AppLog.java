@@ -1,5 +1,6 @@
 package com.fank243.springboot.core.annotation;
 
+import com.fank243.springboot.core.enums.AppLogType;
 import com.fank243.springboot.core.enums.LogLevel;
 import com.fank243.springboot.core.enums.SysLogType;
 import org.springframework.stereotype.Component;
@@ -21,7 +22,7 @@ public @interface AppLog {
     String desc();
 
     /** 日志类别 **/
-    SysLogType logType();
+    AppLogType logType();
 
     /** 日志级别 **/
     LogLevel logLevel() default LogLevel.INFO;

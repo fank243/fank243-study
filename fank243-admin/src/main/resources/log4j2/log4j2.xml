@@ -8,10 +8,11 @@
         <property name="logDir">logs</property>
 
         <!--控制台输出格式-->
-        <property name="consolePatternLayout">%d{HH:mm:ss} [%c]-[%p] [%t] %m%n</property>
+        <property name="consolePatternLayout">%d{HH:mm:ss} [%X{sessionId}] [%X{requestId}] [%t] [%c]-[%p] %m%n</property>
 
         <!--RollingFile 输出格式-->
-        <property name="filePatternLayout">%d{yyyy/MM/dd HH:mm:ss} [%c]-[%p] [%t] %m%n</property>
+        <property name="filePatternLayout">%d{yyyy/MM/dd HH:mm:ss} [%X{sessionId}] [%X{requestId}] [%t]  [%c]-[%p] %m%n</property>
+
         <!--RollingFile 单文件分隔大小-->
         <property name="fileSize">50MB</property>
         <!--RollingFile 存放数量，默认7个-->

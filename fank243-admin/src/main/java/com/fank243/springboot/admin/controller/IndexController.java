@@ -7,8 +7,10 @@ import com.fank243.springboot.admin.shiro.MyShiroToken;
 import com.fank243.springboot.admin.shiro.ShiroToken;
 import com.fank243.springboot.admin.shiro.ShiroUtils;
 import com.fank243.springboot.common.utils.ResultInfo;
+import com.fank243.springboot.core.annotation.SysLog;
 import com.fank243.springboot.core.consts.RedisKey;
 import com.fank243.springboot.core.consts.SysKey;
+import com.fank243.springboot.core.enums.SysLogType;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.DisabledAccountException;
@@ -57,6 +59,7 @@ public class IndexController {
     }
 
     /** 登录 **/
+    @SysLog(logType = SysLogType.LOGIN, desc = "登录系统")
     @PostMapping("/login")
     @ResponseBody
     public ResultInfo login(ShiroToken shiroToken) {

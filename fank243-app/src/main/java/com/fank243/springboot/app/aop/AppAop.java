@@ -4,13 +4,16 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.fank243.springboot.app.annotation.Login;
 import com.fank243.springboot.app.consts.AppConfig;
+import com.fank243.springboot.app.model.AppLogContext;
 import com.fank243.springboot.app.model.AppRequest;
 import com.fank243.springboot.app.service.UserService;
 import com.fank243.springboot.app.service.component.AppService;
 import com.fank243.springboot.app.service.component.RedisService;
+import com.fank243.springboot.app.utils.ThreadUtils;
 import com.fank243.springboot.app.utils.WebUtils;
 import com.fank243.springboot.common.encrypt.RsaUtils;
 import com.fank243.springboot.common.utils.ResultInfo;
+import com.fank243.springboot.common.utils.StrUtils;
 import com.fank243.springboot.core.consts.IConsts;
 import com.fank243.springboot.core.consts.RedisKey;
 import com.fank243.springboot.core.consts.SysKey;
@@ -23,6 +26,8 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.MDC;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -39,6 +44,7 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 @Aspect
 @Component
+@Order(0)
 public class AppAop {
 
     @Resource
@@ -56,7 +62,13 @@ public class AppAop {
     @Around("point()")
     public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
         HttpServletRequest request = WebUtils.getRequest();
+
+        String sessionId = request.getRequestedSessionId();
+        String requestId = StrUtils.getUUID();
+        ThreadUtils.set(new AppLogContext(sessionId, requestId));
         if (log.isDebugEnabled()) {
+            MDC.put("sessionId", sessionId);
+            MDC.put("requestId", requestId);
             log.debug("{} [{}] body[{}] header[{}]", request.getRequestURI(), WebUtils.getIp(request),
                 WebUtils.getBody(request), WebUtils.getHeader(request));
         }

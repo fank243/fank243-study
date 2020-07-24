@@ -7,6 +7,7 @@ import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Date;
@@ -28,8 +29,9 @@ public class UserEventDTO implements Serializable {
 
     private String type;
 
+    @Enumerated
     @Column(name = "device_type")
-    private Integer deviceType;
+    private DeviceType deviceType;
 
     @Column(name = "device_number")
     private String deviceNumber;
@@ -51,14 +53,6 @@ public class UserEventDTO implements Serializable {
             return "未知";
         }
         return eventType.getDesc();
-    }
-
-    public String getDeviceType() {
-        DeviceType deviceType = DeviceType.getEnum(this.deviceType);
-        if (deviceType == null) {
-            return "未知";
-        }
-        return deviceType.getDesc();
     }
 
 }

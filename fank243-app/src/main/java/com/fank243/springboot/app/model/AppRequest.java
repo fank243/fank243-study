@@ -59,7 +59,4 @@ public class AppRequest implements Serializable {
     @ApiModelProperty(hidden = true)
     private String signature;
 
-    public void setDeviceType(Integer deviceType) {
-        this.deviceType = DeviceType.getEnum(deviceType);
-    }
 }

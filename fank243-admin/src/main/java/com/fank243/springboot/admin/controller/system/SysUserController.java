@@ -6,9 +6,12 @@ import com.fank243.springboot.admin.service.SysRoleService;
 import com.fank243.springboot.admin.service.SysUserService;
 import com.fank243.springboot.admin.shiro.ShiroUtils;
 import com.fank243.springboot.common.utils.ResultInfo;
+import com.fank243.springboot.core.annotation.SysLog;
 import com.fank243.springboot.core.consts.IConsts;
 import com.fank243.springboot.core.entity.SysRole;
 import com.fank243.springboot.core.entity.SysUser;
+import com.fank243.springboot.core.enums.LogLevel;
+import com.fank243.springboot.core.enums.SysLogType;
 import com.fank243.springboot.core.model.LayuiResultInfo;
 import com.fank243.springboot.core.model.PageBean;
 import com.fank243.springboot.core.model.PageInfo;
@@ -57,6 +60,7 @@ public class SysUserController {
         return new LayuiResultInfo(pageBean.getTotalCount(), pageBean.getList());
     }
 
+    @SysLog(logType = SysLogType.SYS_USER, desc = "添加管理员")
     @RequiresPermissions("sysuser:create")
     @GetMapping("/add")
     public String add(Model model) {
@@ -115,6 +119,7 @@ public class SysUserController {
         return "admin/system/sysuser/addOrModify";
     }
 
+    @SysLog(logType = SysLogType.SYS_USER, desc = "修改管理员")
     @RequiresPermissions(value = {"sysuser:create", "sysuser:update"}, logical = Logical.OR)
     @PostMapping("/addOrModify")
     @ResponseBody
@@ -126,6 +131,7 @@ public class SysUserController {
         return result;
     }
 
+    @SysLog(logType = SysLogType.SYS_USER, desc = "修改管理员状态")
     @RequiresPermissions(value = "sysuser:update")
     @PutMapping("/modify-status/{id}")
     @ResponseBody
@@ -137,6 +143,7 @@ public class SysUserController {
         return result;
     }
 
+    @SysLog(logType = SysLogType.SYS_USER, desc = "解锁管理员登录")
     @RequiresPermissions(value = "sysuser:update")
     @PutMapping("/login-unlock/{id}")
     @ResponseBody
@@ -148,6 +155,7 @@ public class SysUserController {
         return result;
     }
 
+    @SysLog(logType = SysLogType.SYS_USER, desc = "重置管理员密码")
     @RequiresPermissions(value = "sysuser:update")
     @PutMapping("/reset-password/{id}")
     @ResponseBody
@@ -159,6 +167,7 @@ public class SysUserController {
         return result;
     }
 
+    @SysLog(logType = SysLogType.SYS_USER, logLevel = LogLevel.WARN, desc = "删除管理员")
     @RequiresPermissions(value = "sysuser:delete")
     @DeleteMapping("/delete/{id}")
     @ResponseBody

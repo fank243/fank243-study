@@ -12,37 +12,23 @@ import lombok.Getter;
 public enum DeviceType {
 
     /** 未知 **/
-    UNKNOWN(0, "未知"),
+    UNKNOWN("未知"),
 
     /** 安卓 **/
-    ANDROID(1, "安卓"),
+    ANDROID("安卓"),
 
-    IOS(2, "苹果"),
+    IOS("苹果"),
 
-    WX(3, "微信"),
+    WX("微信"),
 
-    OTHER(99, "其他"),
+    OTHER("其他"),
 
     ;
 
-    DeviceType(int code, String desc) {
-        this.code = code;
+    DeviceType(String desc) {
         this.desc = desc;
     }
 
-    private int code;
-    private String desc;
+    private final String desc;
 
-    public static DeviceType getEnum(Integer code) {
-        if (code == null) {
-            return null;
-        }
-        DeviceType[] values = DeviceType.values();
-        for (DeviceType deviceType : values) {
-            if (code == deviceType.getCode()) {
-                return deviceType;
-            }
-        }
-        return null;
-    }
 }

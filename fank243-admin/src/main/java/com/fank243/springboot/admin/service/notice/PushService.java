@@ -47,7 +47,7 @@ public class PushService {
 
         ResultInfo result;
         // Android
-        if (DeviceType.ANDROID.getCode() == userInfo.getDeviceType().getCode()) {
+        if (DeviceType.ANDROID.name().equals(userInfo.getDeviceType().name())) {
             result = ymPushService.sendAndroidWithUnicast(userInfo.getDeviceToken(), title, content);
         } else {
             // IOS
@@ -78,9 +78,9 @@ public class PushService {
             if (userInfo.getDeviceType() == null) {
                 continue;
             }
-            if (DeviceType.ANDROID.getCode() == userInfo.getDeviceType().getCode()) {
+            if (DeviceType.ANDROID.name().equals(userInfo.getDeviceType().name())) {
                 android.append(userInfo.getDeviceToken()).append(",");
-            } else if (DeviceType.IOS.getCode() == userInfo.getDeviceType().getCode()) {
+            } else if (DeviceType.IOS.name().equals(userInfo.getDeviceType().name())) {
                 ios.append(userInfo.getDeviceToken()).append(",");
             }
 

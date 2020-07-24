@@ -40,7 +40,7 @@ public class SysPermission extends BaseEntity implements Serializable {
     @Column(name = "permission", columnDefinition = "VARCHAR(30) NOT NULL DEFAULT '' COMMENT '权限'")
     private String permission;
 
-    @Column(name = "uri", columnDefinition = "VARCHAR(30) DEFAULT '' COMMENT 'URI'")
+    @Column(name = "uri", columnDefinition = "VARCHAR(255) DEFAULT '' COMMENT 'URI'")
     private String uri;
 
     @Column(name = "external", columnDefinition = "TINYINT(1) unsigned DEFAULT 0 COMMENT '是否外部链接(0:否,1:是)'")
