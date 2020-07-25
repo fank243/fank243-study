@@ -1,4 +1,4 @@
-package com.fank243.springboot.app.config;
+package com.fank243.springboot.core.config.druid;
 
 import com.alibaba.druid.support.spring.stat.DruidStatInterceptor;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
@@ -9,7 +9,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Scope;
 
 /**
- * Spring 监控配置
+ * Druid Spring 监控配置
  *
  * @author FanWeiJie
  * @date 2020-04-10 14:30:32

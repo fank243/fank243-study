@@ -1,4 +1,4 @@
-package com.fank243.springboot.admin.config;
+package com.fank243.springboot.core.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;

@@ -1,4 +1,4 @@
-package com.fank243.springboot.app.config;
+package com.fank243.springboot.core.config.druid;
 
 import com.alibaba.druid.support.http.StatViewServlet;
 

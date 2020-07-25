@@ -1,4 +1,4 @@
-package com.fank243.springboot.admin.config;
+package com.fank243.springboot.core.config;
 
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;

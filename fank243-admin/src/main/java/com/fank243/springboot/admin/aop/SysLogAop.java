@@ -2,7 +2,6 @@ package com.fank243.springboot.admin.aop;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.fank243.springboot.admin.config.RequestWrapper;
 import com.fank243.springboot.admin.model.ActiveUser;
 import com.fank243.springboot.admin.service.logger.SysLogService;
 import com.fank243.springboot.admin.shiro.ShiroUtils;
@@ -149,21 +148,15 @@ public class SysLogAop {
         return sysLogService.addRecord(sysLog);
     }
 
-    /**
-     * 请求参数拼装
-     *
-     * @param paramsArray
-     * @return
-     */
     private String argsArrayToString(Object[] paramsArray) {
-        String params = "";
+        StringBuilder params = new StringBuilder();
         if (paramsArray != null && paramsArray.length > 0) {
-            for (int i = 0; i < paramsArray.length; i++) {
-                Object jsonObj = JSON.toJSON(paramsArray[i]);
-                params += jsonObj.toString() + " ";
+            for (Object o : paramsArray) {
+                Object jsonObj = JSON.toJSON(o);
+                params.append(jsonObj.toString()).append(" ");
             }
         }
-        return params.trim();
+        return params.toString().trim();
     }
 
 }

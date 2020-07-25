@@ -1,4 +1,4 @@
-package com.fank243.springboot.admin.config;
+package com.fank243.springboot.core.config;
 
 import com.fank243.springboot.core.annotation.Interceptor;
 import lombok.extern.slf4j.Slf4j;

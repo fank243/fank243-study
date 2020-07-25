@@ -37,8 +37,8 @@ class PropertyContainer {
     // System.setProperty("jboss.i18n.generate-proxies", "true");
     // }
 
-    private static final CoreMessageLogger LOG = Logger.getMessageLogger(CoreMessageLogger.class,
-        PropertyContainer.class.getName());
+    private static final CoreMessageLogger LOG =
+        Logger.getMessageLogger(CoreMessageLogger.class, PropertyContainer.class.getName());
 
     /**
      * The class for which this container is created.
@@ -67,9 +67,10 @@ class PropertyContainer {
         org.hibernate.cfg.AccessType localClassLevelAccessType = determineLocalClassDefinedAccessStrategy();
         assert localClassLevelAccessType != null;
 
-        this.classLevelAccessType =
-            localClassLevelAccessType != org.hibernate.cfg.AccessType.DEFAULT ? localClassLevelAccessType : defaultClassLevelAccessType;
-        assert classLevelAccessType == org.hibernate.cfg.AccessType.FIELD || classLevelAccessType == org.hibernate.cfg.AccessType.PROPERTY;
+        this.classLevelAccessType = localClassLevelAccessType != org.hibernate.cfg.AccessType.DEFAULT
+            ? localClassLevelAccessType : defaultClassLevelAccessType;
+        assert classLevelAccessType == org.hibernate.cfg.AccessType.FIELD
+            || classLevelAccessType == org.hibernate.cfg.AccessType.PROPERTY;
 
         this.persistentAttributeMap = new LinkedHashMap<>();
 
@@ -80,8 +81,8 @@ class PropertyContainer {
 
         final Map<String, XProperty> persistentAttributesFromGetters = new HashMap<>();
 
-        collectPersistentAttributesUsingLocalAccessType(persistentAttributeMap, persistentAttributesFromGetters,
-            fields, getters);
+        collectPersistentAttributesUsingLocalAccessType(persistentAttributeMap, persistentAttributesFromGetters, fields,
+            getters);
         collectPersistentAttributesUsingClassLevelAccessType(persistentAttributeMap, persistentAttributesFromGetters,
             fields, getters);
     }
@@ -105,8 +106,8 @@ class PropertyContainer {
     }
 
     private void collectPersistentAttributesUsingLocalAccessType(
-        LinkedHashMap<String, XProperty> persistentAttributeMap,
-        Map<String, XProperty> persistentAttributesFromGetters, List<XProperty> fields, List<XProperty> getters) {
+        LinkedHashMap<String, XProperty> persistentAttributeMap, Map<String, XProperty> persistentAttributesFromGetters,
+        List<XProperty> fields, List<XProperty> getters) {
 
         // Check fields...
         Iterator<XProperty> propertyIterator = fields.iterator();
@@ -126,7 +127,8 @@ class PropertyContainer {
         while (propertyIterator.hasNext()) {
             final XProperty xProperty = propertyIterator.next();
             final Access localAccessAnnotation = xProperty.getAnnotation(Access.class);
-            if (localAccessAnnotation == null || localAccessAnnotation.value() != javax.persistence.AccessType.PROPERTY) {
+            if (localAccessAnnotation == null
+                || localAccessAnnotation.value() != javax.persistence.AccessType.PROPERTY) {
                 continue;
             }
 
@@ -137,8 +139,9 @@ class PropertyContainer {
             // HHH-10242 detect registration of the same property getter twice - eg boolean isId() + UUID getId()
             final XProperty previous = persistentAttributesFromGetters.get(name);
             if (previous != null) {
-                throw new org.hibernate.boot.MappingException(LOG.ambiguousPropertyMethods(xClass.getName(),
-                    HCANNHelper.annotatedElementSignature(previous), HCANNHelper.annotatedElementSignature(xProperty)),
+                throw new org.hibernate.boot.MappingException(
+                    LOG.ambiguousPropertyMethods(xClass.getName(), HCANNHelper.annotatedElementSignature(previous),
+                        HCANNHelper.annotatedElementSignature(xProperty)),
                     new Origin(SourceType.ANNOTATION, xClass.getName()));
             }
 
@@ -148,8 +151,8 @@ class PropertyContainer {
     }
 
     private void collectPersistentAttributesUsingClassLevelAccessType(
-        LinkedHashMap<String, XProperty> persistentAttributeMap,
-        Map<String, XProperty> persistentAttributesFromGetters, List<XProperty> fields, List<XProperty> getters) {
+        LinkedHashMap<String, XProperty> persistentAttributeMap, Map<String, XProperty> persistentAttributesFromGetters,
+        List<XProperty> fields, List<XProperty> getters) {
         if (classLevelAccessType == org.hibernate.cfg.AccessType.FIELD) {
             for (XProperty field : fields) {
                 if (persistentAttributeMap.containsKey(field.getName())) {
@@ -167,8 +170,8 @@ class PropertyContainer {
                 if (previous != null) {
                     throw new org.hibernate.boot.MappingException(
                         LOG.ambiguousPropertyMethods(xClass.getName(), HCANNHelper.annotatedElementSignature(previous),
-                            HCANNHelper.annotatedElementSignature(getter)), new Origin(SourceType.ANNOTATION,
-                            xClass.getName()));
+                            HCANNHelper.annotatedElementSignature(getter)),
+                        new Origin(SourceType.ANNOTATION, xClass.getName()));
                 }
 
                 if (persistentAttributeMap.containsKey(name)) {
@@ -201,10 +204,9 @@ class PropertyContainer {
     private void assertTypesAreResolvable() {
         for (XProperty xProperty : persistentAttributeMap.values()) {
             if (!xProperty.isTypeResolved() && !discoverTypeWithoutReflection(xProperty)) {
-                String msg =
-                    "Property " + StringHelper.qualify(xClass.getName(), xProperty.getName())
-                        + " has an unbound type and no explicit target entity. Resolve this Generic usage issue"
-                        + " or set an explicit target attribute (eg @OneToMany(target=) or use an explicit @Type";
+                String msg = "Property " + StringHelper.qualify(xClass.getName(), xProperty.getName())
+                    + " has an unbound type and no explicit target entity. Resolve this Generic usage issue"
+                    + " or set an explicit target attribute (eg @OneToMany(target=) or use an explicit @Type";
                 throw new AnnotationException(msg);
             }
         }
@@ -305,7 +307,8 @@ class PropertyContainer {
             jpaDefinedAccessType = org.hibernate.cfg.AccessType.getAccessStrategy(access.value());
         }
 
-        if (hibernateDefinedAccessType != org.hibernate.cfg.AccessType.DEFAULT && jpaDefinedAccessType != org.hibernate.cfg.AccessType.DEFAULT
+        if (hibernateDefinedAccessType != org.hibernate.cfg.AccessType.DEFAULT
+            && jpaDefinedAccessType != org.hibernate.cfg.AccessType.DEFAULT
             && hibernateDefinedAccessType != jpaDefinedAccessType) {
             throw new MappingException(
                 "@AccessType and @Access specified with contradicting values. Use of @Access only is recommended. ");
@@ -320,7 +323,8 @@ class PropertyContainer {
     }
 
     private static boolean discoverTypeWithoutReflection(XProperty p) {
-        if (p.isAnnotationPresent(OneToOne.class) && !p.getAnnotation(OneToOne.class).targetEntity().equals(void.class)) {
+        if (p.isAnnotationPresent(OneToOne.class)
+            && !p.getAnnotation(OneToOne.class).targetEntity().equals(void.class)) {
             return true;
         } else if (p.isAnnotationPresent(OneToMany.class)
             && !p.getAnnotation(OneToMany.class).targetEntity().equals(void.class)) {

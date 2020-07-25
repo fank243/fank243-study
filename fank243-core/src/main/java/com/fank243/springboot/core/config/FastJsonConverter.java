@@ -1,4 +1,4 @@
-package com.fank243.springboot.app.config;
+package com.fank243.springboot.core.config;
 
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
