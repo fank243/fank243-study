@@ -1,14 +1,13 @@
 package com.fank243.springboot.admin.controller;
 
 import com.fank243.springboot.admin.model.ActiveUser;
-import com.fank243.springboot.admin.service.SysUserService;
-import com.fank243.springboot.admin.service.component.RedisService;
 import com.fank243.springboot.admin.shiro.MyShiroToken;
 import com.fank243.springboot.admin.shiro.ShiroToken;
 import com.fank243.springboot.admin.shiro.ShiroUtils;
+import com.fank243.springboot.common.redis.RedisKey;
+import com.fank243.springboot.common.utils.CacheUtils;
 import com.fank243.springboot.common.utils.ResultInfo;
 import com.fank243.springboot.core.annotation.SysLog;
-import com.fank243.springboot.core.consts.RedisKey;
 import com.fank243.springboot.core.consts.SysKey;
 import com.fank243.springboot.core.enums.SysLogType;
 import lombok.extern.slf4j.Slf4j;
@@ -36,10 +35,6 @@ import javax.annotation.Resource;
 @RequestMapping("")
 @Controller
 public class IndexController {
-    @Resource
-    private SysUserService sysUserService;
-    @Resource
-    private RedisService redisService;
 
     /** 登录页面 **/
     @GetMapping({"/", "/login.html"})
@@ -50,10 +45,10 @@ public class IndexController {
         }
 
         // 站点信息
-        String siteName = redisService.hget(RedisKey.SYS_CONFIG, SysKey.SITE_NAME) + "";
+        String siteName = CacheUtils.hashGet(RedisKey.SYS_CONFIG, SysKey.SITE_NAME) + "";
         model.addAttribute("siteName", siteName);
         // 版权
-        String copyright = redisService.hget(RedisKey.SYS_CONFIG, SysKey.SITE_COPYRIGHT) + "";
+        String copyright = CacheUtils.hashGet(RedisKey.SYS_CONFIG, SysKey.SITE_COPYRIGHT) + "";
         model.addAttribute("copyright", copyright);
         return "login";
     }

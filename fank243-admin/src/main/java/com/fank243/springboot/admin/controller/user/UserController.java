@@ -48,6 +48,8 @@ public class UserController extends BaseController {
     @ResponseBody
     public LayuiResultInfo userList(PageInfo pageInfo, String keyword, Integer status) {
         keyword = StringUtils.trim(keyword);
+        status = status == null || status < 0 ? -1 : status;
+
         PageBean<User> page = userService.pageOfUser(pageInfo, keyword, status);
         return new LayuiResultInfo(page.getTotalCount(), page.getList());
     }
@@ -94,10 +96,13 @@ public class UserController extends BaseController {
     }
 
     @RequiresPermissions("user:update")
-    @PutMapping("/modify-status/{id}")
+    @PutMapping("/modify-status/{id}/{status}")
     @ResponseBody
-    public ResultInfo modifyStatus(@PathVariable("id") Long userId) {
-        ResultInfo result = userService.modifyStatus(ShiroUtils.getActiveUser().getUserId(), userId);
+    public ResultInfo modifyStatus(@PathVariable("id") Long userId, @PathVariable("status") Integer status) {
+        userId = userId == null || userId < 0 ? 0 : userId;
+        status = status == null || status < 0 ? 0 : status;
+
+        ResultInfo result = userService.modifyStatus(ShiroUtils.getActiveUser().getUserId(), userId, status);
         if (!result.isSuccess()) {
             log.warn(result.toString());
         }

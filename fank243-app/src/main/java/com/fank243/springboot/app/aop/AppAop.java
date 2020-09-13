@@ -8,14 +8,14 @@ import com.fank243.springboot.app.model.AppLogContext;
 import com.fank243.springboot.app.model.AppRequest;
 import com.fank243.springboot.app.service.UserService;
 import com.fank243.springboot.app.service.component.AppService;
-import com.fank243.springboot.app.service.component.RedisService;
 import com.fank243.springboot.app.utils.ThreadUtils;
 import com.fank243.springboot.app.utils.WebUtils;
 import com.fank243.springboot.common.encrypt.RsaUtils;
+import com.fank243.springboot.common.redis.RedisKey;
+import com.fank243.springboot.common.utils.CacheUtils;
 import com.fank243.springboot.common.utils.ResultInfo;
 import com.fank243.springboot.common.utils.StrUtils;
 import com.fank243.springboot.core.consts.IConsts;
-import com.fank243.springboot.core.consts.RedisKey;
 import com.fank243.springboot.core.consts.SysKey;
 import com.fank243.springboot.core.entity.User;
 import lombok.extern.slf4j.Slf4j;
@@ -50,8 +50,6 @@ public class AppAop {
     @Resource
     private AppService appService;
     @Resource
-    private RedisService redisService;
-    @Resource
     private AppConfig appConfig;
     @Resource
     private UserService userService;
@@ -79,7 +77,7 @@ public class AppAop {
         }
 
         String accessToken = request.getHeader(IConsts.ACCESS_TOKEN);
-        String redisToken = redisService.hget(RedisKey.SYS_CONFIG, SysKey.YAPI_ACCESS_TOKEN) + "";
+        String redisToken = CacheUtils.hashGet(RedisKey.SYS_CONFIG, SysKey.YAPI_ACCESS_TOKEN) + "";
         // 是否需要对请求、返回参数加解密
         boolean isNeed = !(StringUtils.isNotBlank(accessToken) && accessToken.equalsIgnoreCase(redisToken));
 

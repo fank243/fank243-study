@@ -2,8 +2,8 @@ package com.fank243.springboot.core.entity;
 
 import com.fank243.springboot.core.consts.IConsts;
 import com.fank243.springboot.core.entity.base.BaseEntity;
-import com.fank243.springboot.core.enums.UserStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.models.auth.In;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -45,9 +45,8 @@ public class User extends BaseEntity implements Serializable {
     @Column(name = "salt", columnDefinition = "VARCHAR(20) NOT NULL DEFAULT '' COMMENT '密码加盐'")
     private String salt;
 
-    @Enumerated
     @Column(name = "status", columnDefinition = "TINYINT(1) NOT NULL DEFAULT 0 COMMENT '状态(0：正常，1：禁用，1：登录锁定)'")
-    private UserStatus status;
+    private Integer status;
 
     @Column(name = "login_err_count", columnDefinition = "TINYINT(1) NOT NULL DEFAULT 0 COMMENT '连续登录错误次数'")
     private Integer loginErrCount;

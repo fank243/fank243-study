@@ -6,11 +6,11 @@ import com.fank243.springboot.admin.repository.SysPermissionRepository;
 import com.fank243.springboot.admin.repository.SysRoleRepository;
 import com.fank243.springboot.admin.repository.SysUserRepository;
 import com.fank243.springboot.admin.shiro.ShiroUtils;
+import com.fank243.springboot.core.consts.DictConsts;
 import com.fank243.springboot.core.entity.SysPermission;
 import com.fank243.springboot.core.entity.SysRole;
 import com.fank243.springboot.core.entity.SysUser;
 import com.fank243.springboot.core.enums.PermissionType;
-import com.fank243.springboot.core.enums.SysUserStatus;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -159,7 +159,7 @@ public class SystemInit extends BaseServiceTest {
             sysUser.setWxNumber(wxNumber);
             sysUser.setSalt(salt);
             sysUser.setPassword(ShiroUtils.md5WithSalt(salt, password));
-            sysUser.setStatus(SysUserStatus.getEnum(status));
+            sysUser.setStatus(DictConsts.SYS_USER_STATUS_ENABLE);
 
             sysUserepository.save(sysUser);
         }

@@ -4,8 +4,8 @@ import com.fank243.springboot.admin.BaseServiceTest;
 import com.fank243.springboot.admin.shiro.ShiroUtils;
 import com.fank243.springboot.common.utils.ResultInfo;
 import com.fank243.springboot.common.utils.StrUtils;
+import com.fank243.springboot.core.consts.DictConsts;
 import com.fank243.springboot.core.entity.SysUser;
-import com.fank243.springboot.core.enums.SysUserStatus;
 import org.junit.Test;
 
 import javax.annotation.Resource;
@@ -22,7 +22,7 @@ public class SysUserServiceTest extends BaseServiceTest {
         sysUser.setRealname("张三");
         sysUser.setWxNumber("j129");
         sysUser.setMobile("13212345678");
-        sysUser.setStatus(SysUserStatus.ENABLE);
+        sysUser.setStatus(DictConsts.SYS_USER_STATUS_ENABLE);
         String salt = StrUtils.randomStr(20);
         sysUser.setSalt(salt);
         sysUser.setPassword(ShiroUtils.md5WithSalt(salt, "123456"));
@@ -39,8 +39,8 @@ public class SysUserServiceTest extends BaseServiceTest {
 
     @Test
     public void modifyPassword() {
-//        ResultInfo result = sysUserService.modifyPassword(2L, "123456", "123456");
-//        System.out.println(result);
+        // ResultInfo result = sysUserService.modifyPassword(2L, "123456", "123456");
+        // System.out.println(result);
     }
 
     @Test

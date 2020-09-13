@@ -2,8 +2,8 @@ package com.fank243.springboot.app.service;
 
 import com.fank243.springboot.app.repository.UserRepository;
 import com.fank243.springboot.app.service.base.BaseService;
+import com.fank243.springboot.core.consts.DictConsts;
 import com.fank243.springboot.core.entity.User;
-import com.fank243.springboot.core.enums.UserStatus;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -27,6 +27,6 @@ public class UserService extends BaseService<User> {
     }
 
     public User findAvailableById(long userId) {
-        return repository.findByIdAndStatus(userId, UserStatus.ENABLE);
+        return repository.findByIdAndStatus(userId, DictConsts.USER_STATUS_DISABLE);
     }
 }

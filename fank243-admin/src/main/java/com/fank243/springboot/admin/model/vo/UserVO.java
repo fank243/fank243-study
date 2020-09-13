@@ -41,4 +41,6 @@ public class UserVO implements Serializable {
     @NotBlank(message = "请上传头像")
     private String photo;
 
+    @NotNull(message = "")
+    private Integer status;
 }

@@ -1,4 +1,4 @@
-package com.fank243.springboot.admin.config;
+package com.fank243.springboot.admin.config.freemarker;
 
 import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.TemplateHashModel;
@@ -83,23 +83,20 @@ public class FreemarkerConfig extends FreeMarkerViewResolver {
         }
     }
 
-//    @Autowired
-//    private freemarker.template.Configuration configuration;
-//    @Autowired
-//    private ApplicationContext applicationContext;
+    @Autowired
+    private freemarker.template.Configuration configuration;
+    @Autowired
+    protected DictTagDirective dictTagDirective;
+    @Autowired
+    protected ImgTagDirective imgTagDirective;
 
-//    @PostConstruct
-//    public void setSharedVariable() {
-//        // configuration.setSharedVariable("author_contents",
-//        // applicationContext.getBean(AuthorContentsDirective.class));
-//        // configuration.setSharedVariable("channel", applicationContext.getBean(ChannelDirective.class));
-//        // configuration.setSharedVariable("contents", applicationContext.getBean(ContentsDirective.class));
-////        configuration.setSharedVariable("num", applicationContext.getBean(NumberDirective.class));
-////        configuration.setSharedVariable("resource", applicationContext.getBean(ResourceDirective.class));
-////        configuration.setSharedVariable("menus", applicationContext.getBean(MenusDirective.class));
-////        // configuration.setSharedVariable("banner", applicationContext.getBean(BannerDirective.class));
-////
-////        configuration.setSharedVariable("timeAgo", new TimeAgoMethod());
-////        configuration.setSharedVariable("shiro", new ShiroTags());
-//    }
+    @PostConstruct
+    public void setSharedVariable() {
+        configuration.setNumberFormat("#");
+
+        // 自定义标签
+        configuration.setSharedVariable("dict", dictTagDirective);
+        configuration.setSharedVariable("img", imgTagDirective);
+    }
+
 }

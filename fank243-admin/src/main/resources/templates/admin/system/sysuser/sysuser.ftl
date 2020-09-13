@@ -14,8 +14,8 @@
                     <div class="layui-input-inline">
                         <select name="status" class="layui-select">
                             <option value="">--请选择--</option>
-                            <#list UserStatus.values() as status>
-                                <option value="${status.code}">${status.desc}</option>
+                            <#list dictService.getType('sys_user_status') as status>
+                                <option value="${status.dictValue}">${status.dictLabel}</option>
                             </#list>
                         </select>
                     </div>
@@ -58,19 +58,10 @@
             </table>
 
             <script type="text/html" id="tempStatus">
-                {{#  if(d.status == "${SysUserStatus.ENABLE.name()}"){ }}
-                <input type="checkbox" name="switch" lay-skin="switch" lay-filter="laySwitch" lay-text="正常|禁用" data-id="{{d.id}}" value="{{d.status}}" checked>&nbsp;&nbsp;&nbsp;
-                {{# } else if(d.status == "${SysUserStatus.DISABLE.name()}") { }}
-                <input type="checkbox" name="switch" lay-skin="switch" lay-filter="laySwitch" lay-text="正常|禁用" data-id="{{d.id}}" value="{{d.status}}">&nbsp;&nbsp;&nbsp;
-                {{#  } }}
+                <@dict eleType="template" dictType="user_status" fieldName="status"/>
             </script>
 
-            <script type="text/html" id="barDemo">
-                {{#  if(d.status == "${SysUserStatus.LOCK.name()}"){ }}
-                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="unlock" onmouseover="showTips(this,'解除管理员登录锁定')"><i class="layui-icon layui-icon-password"></i>解锁</a>
-                {{#  } else { }}
-                <a class="layui-btn layui-btn-normal layui-btn-xs layui-disabled" onmouseover="showTips(this,'锁定管理员登录')"><i class="layui-icon layui-icon-password"></i>锁定</a>
-                {{#  } }}
+            <script type="text/html" id="barDemo">s
                 <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
                 <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="reset"><i class="layui-icon layui-icon-password"></i>重置密码</a>
                 <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>

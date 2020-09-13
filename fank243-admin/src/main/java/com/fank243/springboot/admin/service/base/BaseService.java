@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.fank243.springboot.common.utils.ClassUtils;
 import com.fank243.springboot.common.utils.GenericsUtils;
 import com.fank243.springboot.common.utils.StrUtils;
+import com.fank243.springboot.core.entity.SysDictType;
 import com.fank243.springboot.core.entity.base.BaseEntity;
 import com.fank243.springboot.core.model.PageBean;
 import com.fank243.springboot.core.model.PageInfo;
@@ -349,4 +350,6 @@ public abstract class BaseService<T extends BaseEntity> {
         }
         return row;
     }
+
+
 }

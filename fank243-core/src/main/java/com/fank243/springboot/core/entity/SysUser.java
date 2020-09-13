@@ -1,7 +1,6 @@
 package com.fank243.springboot.core.entity;
 
 import com.fank243.springboot.core.entity.base.BaseEntity;
-import com.fank243.springboot.core.enums.SysUserStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
@@ -53,9 +52,8 @@ public class SysUser extends BaseEntity implements Serializable {
     @Column(name = "salt", columnDefinition = "VARCHAR(20) NOT NULL DEFAULT '' COMMENT '密码加盐'")
     private String salt;
 
-    @Enumerated(EnumType.ORDINAL)
-    @Column(name = "status", columnDefinition = "TINYINT(1) NOT NULL DEFAULT 0 COMMENT '状态(0:正常，1：禁用，2：登录锁定)'")
-    private SysUserStatus status;
+    @Column(name = "status", columnDefinition = "TINYINT(1) NOT NULL DEFAULT 0 COMMENT '状态(0:正常，1：禁用)'")
+    private Integer status;
 
     @Column(name = "login_err_count", columnDefinition = "TINYINT(2) NOT NULL DEFAULT 0 COMMENT '登录错误次数'")
     private Integer loginErrCount = 0;
@@ -97,11 +95,4 @@ public class SysUser extends BaseEntity implements Serializable {
         joinColumns = {@JoinColumn(name = "sys_user_id", referencedColumnName = "id")},
         inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private Set<SysRole> roles = new HashSet<>();
-
-    @Transient
-    private String statusCn;
-
-    public String getStatusCn() {
-        return this.status.getDesc();
-    }
 }

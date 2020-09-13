@@ -2,12 +2,12 @@ package com.fank243.springboot.admin.service.notice;
 
 import com.alibaba.fastjson.JSONObject;
 import com.fank243.springboot.admin.consts.ConfConfig;
-import com.fank243.springboot.admin.service.component.RedisService;
+import com.fank243.springboot.common.redis.RedisKey;
+import com.fank243.springboot.common.utils.CacheUtils;
 import com.fank243.springboot.common.utils.EmailUtils;
 import com.fank243.springboot.common.utils.ResultInfo;
 import com.fank243.springboot.common.utils.StrUtils;
 import com.fank243.springboot.core.consts.IConsts;
-import com.fank243.springboot.core.consts.RedisKey;
 import com.fank243.springboot.core.consts.SysKey;
 import com.fank243.springboot.core.entity.TemplateNotice;
 import com.fank243.springboot.core.enums.TemplateType;
@@ -28,8 +28,6 @@ import java.util.List;
 @Component
 public class EmailService {
     @Resource
-    private RedisService redisService;
-    @Resource
     private EmailRecordService emailRecordService;
     @Resource
     private ConfConfig confConfig;
@@ -45,16 +43,16 @@ public class EmailService {
         }
 
         // 限制邮件发送频率
-        Object obj = redisService.hget(RedisKey.EMAIL_RECORD, email);
+        Object obj = CacheUtils.hashGet(RedisKey.EMAIL_RECORD, email);
         if (obj != null) {
             long timestamp = Long.parseLong(String.valueOf(obj));
             if (System.currentTimeMillis() - timestamp <= 60 * 1000) {
                 return ResultInfo.fail("邮件发送过于频繁，请稍后重试");
             }
-            redisService.hdel(RedisKey.EMAIL_RECORD, email);
+            CacheUtils.remove(RedisKey.EMAIL_RECORD, email);
         }
 
-        int emailDayMax = StrUtils.strToInt(redisService.hget(RedisKey.SYS_CONFIG, SysKey.EMAIL_DAY_MAX) + "", 30);
+        int emailDayMax = StrUtils.strToInt(CacheUtils.hashGet(RedisKey.SYS_CONFIG, SysKey.EMAIL_DAY_MAX) + "", 30);
         // 限制邮件发送量
         int counts = emailRecordService.countByEmailAndDate(email);
         if (counts > emailDayMax) {
@@ -69,12 +67,12 @@ public class EmailService {
         ResultInfo result = sendEmail(email, templateNotice.getTitle(), content);
         if (result.isSuccess()) {
             // 发送记录
-            redisService.hset(RedisKey.EMAIL_RECORD, email, System.currentTimeMillis());
+            CacheUtils.hashPut(RedisKey.EMAIL_RECORD, email, System.currentTimeMillis());
             // 验证码
             JSONObject json = new JSONObject();
             json.put("code", number);
             json.put("timestamp", System.currentTimeMillis());
-            redisService.hset(RedisKey.EMAIL_CODE, email, json);
+            CacheUtils.hashPut(RedisKey.EMAIL_CODE, email, json);
         }
 
         return result;
@@ -87,11 +85,11 @@ public class EmailService {
             return ResultInfo.ok().message("测试环境不发送邮件");
         }
 
-        String username = redisService.hget(RedisKey.SYS_CONFIG, SysKey.EMAIL_USERNAME) + "";
-        String password = redisService.hget(RedisKey.SYS_CONFIG, SysKey.EMAIL_PASSWORD) + "";
-        String hostname = redisService.hget(RedisKey.SYS_CONFIG, SysKey.EMAIL_SMTP) + "";
-        String port = redisService.hget(RedisKey.SYS_CONFIG, SysKey.EMAIL_PORT) + "";
-        String nickname = redisService.hget(RedisKey.SYS_CONFIG, SysKey.EMAIL_NICKNAME) + "";
+        String username = CacheUtils.hashGet(RedisKey.SYS_CONFIG, SysKey.EMAIL_USERNAME) + "";
+        String password = CacheUtils.hashGet(RedisKey.SYS_CONFIG, SysKey.EMAIL_PASSWORD) + "";
+        String hostname = CacheUtils.hashGet(RedisKey.SYS_CONFIG, SysKey.EMAIL_SMTP) + "";
+        String port = CacheUtils.hashGet(RedisKey.SYS_CONFIG, SysKey.EMAIL_PORT) + "";
+        String nickname = CacheUtils.hashGet(RedisKey.SYS_CONFIG, SysKey.EMAIL_NICKNAME) + "";
         EmailUtils emailUtils = new EmailUtils(hostname, Integer.parseInt(port), nickname, username, password);
         ResultInfo result;
         try {
@@ -117,11 +115,11 @@ public class EmailService {
             return ResultInfo.ok().message("测试环境不发送邮件");
         }
 
-        String username = redisService.hget(RedisKey.SYS_CONFIG, SysKey.EMAIL_USERNAME) + "";
-        String password = redisService.hget(RedisKey.SYS_CONFIG, SysKey.EMAIL_PASSWORD) + "";
-        String hostname = redisService.hget(RedisKey.SYS_CONFIG, SysKey.EMAIL_SMTP) + "";
-        String port = redisService.hget(RedisKey.SYS_CONFIG, SysKey.EMAIL_PORT) + "";
-        String nickname = redisService.hget(RedisKey.SYS_CONFIG, SysKey.EMAIL_NICKNAME) + "";
+        String username = CacheUtils.hashGet(RedisKey.SYS_CONFIG, SysKey.EMAIL_USERNAME) + "";
+        String password = CacheUtils.hashGet(RedisKey.SYS_CONFIG, SysKey.EMAIL_PASSWORD) + "";
+        String hostname = CacheUtils.hashGet(RedisKey.SYS_CONFIG, SysKey.EMAIL_SMTP) + "";
+        String port = CacheUtils.hashGet(RedisKey.SYS_CONFIG, SysKey.EMAIL_PORT) + "";
+        String nickname = CacheUtils.hashGet(RedisKey.SYS_CONFIG, SysKey.EMAIL_NICKNAME) + "";
         EmailUtils emailUtils = new EmailUtils(hostname, Integer.parseInt(port), nickname, username, password);
         ResultInfo result;
         try {

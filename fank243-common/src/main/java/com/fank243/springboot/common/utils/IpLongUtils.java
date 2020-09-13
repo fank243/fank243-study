@@ -44,7 +44,7 @@ public class IpLongUtils {
     }
 
     public static void main(String[] args) {
-        System.out.println(ip2Long("127.0.0.1"));
+        System.out.println(ip2Long("192.168.31.120"));
         System.out.println(long2Ip(3232235521L));
         System.out.println(ip2Long("10.0.0.1"));
     }

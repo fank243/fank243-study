@@ -1,4 +1,4 @@
-package com.fank243.springboot.core.consts;
+package com.fank243.springboot.common.redis;
 
 /**
  * Redis Key
@@ -21,4 +21,5 @@ public class RedisKey {
     /** 系统配置表 **/
     public static final String SYS_CONFIG = "sys::config";
 
+    public static final String SYS_DICT = "sys::dict";
 }

@@ -14,8 +14,8 @@
                     <div class="layui-input-inline">
                         <select name="status" class="layui-select">
                             <option value="">--请选择--</option>
-                            <#list UserStatus.values() as status>
-                                <option value="${status.code}">${status.desc}</option>
+                            <#list dictService.getType('user_status') as status>
+                                <option value="${status.dictValue}">${status.dictLabel}</option>
                             </#list>
                         </select>
                     </div>
@@ -51,25 +51,16 @@
                     <th lay-data="{field:'gmtCreated',width:120}">添加时间</th>
                     <th lay-data="{field:'gmtModified',width:150}">修改时间</th>
                     <th lay-data="{field:'status',width:110,templet:'#tempStatus'}">状态</th>
-                    <th lay-data="{fixed:'right',width:250, align:'center', toolbar: '#barDemo'}">操作</th>
+                    <th lay-data="{fixed:'right',width:180, align:'center', toolbar: '#barDemo'}">操作</th>
                 </tr>
                 </thead>
             </table>
 
             <script type="text/html" id="tempStatus">
-                {{#  if(d.status == "${UserStatus.ENABLE.name()}"){ }}
-                    <input type="checkbox" name="switch" lay-skin="switch" lay-filter="laySwitch" lay-text="正常|禁用" data-id="{{d.id}}" value="{{d.status}}" checked>&nbsp;&nbsp;&nbsp;
-                {{# } else if(d.status == "${UserStatus.DISABLE.name()}") { }}
-                    <input type="checkbox" name="switch" lay-skin="switch" lay-filter="laySwitch" lay-text="正常|禁用" data-id="{{d.id}}" value="{{d.status}}">&nbsp;&nbsp;&nbsp;
-                {{#  } }}
+                <@dict eleType="template" dictType="user_status" fieldName="status"/>
             </script>
 
             <script type="text/html" id="barDemo">
-                {{#  if(d.status == "${UserStatus.LOCK.name()}"){ }}
-                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="unlock" onmouseover="showTips(this,'解除管理员登录锁定')"><i class="layui-icon layui-icon-password"></i>解锁</a>
-                {{#  } else { }}
-                <a class="layui-btn layui-btn-normal layui-btn-xs layui-disabled" onmouseover="showTips(this,'锁定管理员登录')"><i class="layui-icon layui-icon-password"></i>解锁</a>
-                {{#  } }}
                 <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
                 <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="reset"><i class="layui-icon layui-icon-password"></i>重置密码</a>
             </script>
@@ -130,29 +121,6 @@
                     }
                 });
             }
-            if(obj.event === 'unlock'){
-                layer.confirm("确定要对用户【"+data.username+"】进行登录解锁？",function () {
-                    layer.load(1);
-                    $.ajax({
-                        url:"/admin/user/login-unlock/" + id,
-                        type:"PUT",
-                        success:function (data) {
-                            layer.closeAll();
-                            if(!data.success){
-                                layer.msg(data.msg,{icon:2});
-                                return;
-                            }
-                            layer.msg(data.msg,{time:2000},function () {
-                                table.reload('layTable');
-                            });
-                        },
-                        error:function () {
-                            layer.closeAll();
-                            layer.alert("系统繁忙，请稍后重试");
-                        }
-                    });
-                });
-            }
             if(obj.event === 'reset'){
                 layer.confirm("确定要对用户【"+data.username+"】进行密码重置？",function () {
                     layer.load(1);
@@ -183,7 +151,7 @@
             let sysUserId = $(this).data("id");
             layer.load(1);
             $.ajax({
-                url: "/admin/user/modify-status/" + sysUserId,
+                url: "/admin/user/modify-status/" + sysUserId + "/" + data.value,
                 type: "PUT",
                 success: function (data) {
                     layer.closeAll();

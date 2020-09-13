@@ -56,6 +56,8 @@ public class SysUserController {
     @ResponseBody
     public LayuiResultInfo sysUserList(PageInfo pageInfo, String keyword, Integer status) {
         keyword = StringUtils.trim(keyword);
+        status = status == null || status < 0 ? -1 : status;
+
         PageBean<SysUser> pageBean = sysUserService.pageOfSysUser(pageInfo, keyword, status);
         return new LayuiResultInfo(pageBean.getTotalCount(), pageBean.getList());
     }

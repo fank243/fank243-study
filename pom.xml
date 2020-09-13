@@ -22,15 +22,15 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
 
         <!--docker构建-->
         <docker.registry>registry.cn-hangzhou.aliyuncs.com</docker.registry>
         <docker.namespaces>${docker.registry}/fank243</docker.namespaces>
         <docker.username>阿里云账号</docker.username>
         <docker.password>阿里云登录密码或固定密码</docker.password>
-        <docker.from>fank243/dragonwell:1.8.0_242</docker.from>
+        <docker.from>fank243/dragonwell:1.8.0_262</docker.from>
         <docker.logs>/data/logs/fank243:/app/logs</docker.logs>
 
         <!-- org.springframework -->

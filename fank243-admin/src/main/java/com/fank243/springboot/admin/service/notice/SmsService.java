@@ -2,11 +2,11 @@ package com.fank243.springboot.admin.service.notice;
 
 import com.alibaba.fastjson.JSONObject;
 import com.fank243.springboot.admin.consts.ConfConfig;
-import com.fank243.springboot.admin.service.component.RedisService;
+import com.fank243.springboot.common.redis.RedisKey;
+import com.fank243.springboot.common.utils.CacheUtils;
 import com.fank243.springboot.common.utils.ResultInfo;
 import com.fank243.springboot.common.utils.StrUtils;
 import com.fank243.springboot.core.consts.IConsts;
-import com.fank243.springboot.core.consts.RedisKey;
 import com.fank243.springboot.core.consts.SysKey;
 import com.fank243.springboot.core.entity.TemplateNotice;
 import com.fank243.springboot.core.enums.TemplateType;
@@ -26,8 +26,6 @@ import java.util.List;
 @Component
 public class SmsService {
     @Resource
-    private RedisService redisService;
-    @Resource
     private SmsRecordService smsRecordService;
     @Resource
     private ConfConfig confConfig;
@@ -46,16 +44,16 @@ public class SmsService {
         }
 
         // 限制短信发送频率
-        Object obj = redisService.hget(RedisKey.SMS_RECORD, mobile);
+        Object obj = CacheUtils.hashGet(RedisKey.SMS_RECORD, mobile);
         if (obj != null) {
             long timestamp = Long.parseLong(String.valueOf(obj));
             if (System.currentTimeMillis() - timestamp <= 60 * 1000) {
                 return ResultInfo.fail("短信发送过于频繁，请稍后重试");
             }
-            redisService.hdel(RedisKey.SMS_RECORD, mobile);
+            CacheUtils.remove(RedisKey.SMS_RECORD, mobile);
         }
 
-        int smsDayMax = StrUtils.strToInt(redisService.hget(RedisKey.SYS_CONFIG, SysKey.SMS_DAY_MAX) + "", 10);
+        int smsDayMax = StrUtils.strToInt(CacheUtils.hashGet(RedisKey.SYS_CONFIG, SysKey.SMS_DAY_MAX) + "", 10);
         // 限制短信发送量
         int counts = smsRecordService.countByMobileAndDate(mobile);
         if (counts > smsDayMax) {
@@ -72,10 +70,10 @@ public class SmsService {
         ResultInfo result = sendSms(mobile, content, smsJson.toString(), templateNotice.getAliyunCode());
         if (result.isSuccess()) {
             // 发送记录
-            redisService.hset(RedisKey.SMS_RECORD, mobile, System.currentTimeMillis());
+            CacheUtils.hashPut(RedisKey.SMS_RECORD, mobile, System.currentTimeMillis());
             // 验证码
             smsJson.put("timestamp", System.currentTimeMillis());
-            redisService.hset(RedisKey.SMS_CODE, mobile, smsJson);
+            CacheUtils.hashPut(RedisKey.SMS_CODE, mobile, smsJson);
         }
 
         return result;
@@ -88,9 +86,9 @@ public class SmsService {
             return ResultInfo.ok().message("测试环境不发送短信");
         }
 
-        String accessKeyId = redisService.hget(RedisKey.SYS_CONFIG, SysKey.ALIYUN_ACCESS_KEY_ID) + "";
-        String accessSecret = redisService.hget(RedisKey.SYS_CONFIG, SysKey.ALIYUN_ACCESS_SECRET) + "";
-        String signName = redisService.hget(RedisKey.SYS_CONFIG, SysKey.SMS_SIGN_NAME) + "";
+        String accessKeyId = CacheUtils.hashGet(RedisKey.SYS_CONFIG, SysKey.ALIYUN_ACCESS_KEY_ID) + "";
+        String accessSecret = CacheUtils.hashGet(RedisKey.SYS_CONFIG, SysKey.ALIYUN_ACCESS_SECRET) + "";
+        String signName = CacheUtils.hashGet(RedisKey.SYS_CONFIG, SysKey.SMS_SIGN_NAME) + "";
         ResultInfo result =
             aliyunSmsService.sendSms(accessKeyId, accessSecret, signName, aliyunCode, mobile, json);
         if (!result.isSuccess()) {
@@ -108,9 +106,9 @@ public class SmsService {
             return ResultInfo.ok().message("测试环境不发送短信");
         }
 
-        String accessKeyId = redisService.hget(RedisKey.SYS_CONFIG, SysKey.ALIYUN_ACCESS_KEY_ID) + "";
-        String accessSecret = redisService.hget(RedisKey.SYS_CONFIG, SysKey.ALIYUN_ACCESS_SECRET) + "";
-        String signName = redisService.hget(RedisKey.SYS_CONFIG, SysKey.SMS_SIGN_NAME) + "";
+        String accessKeyId = CacheUtils.hashGet(RedisKey.SYS_CONFIG, SysKey.ALIYUN_ACCESS_KEY_ID) + "";
+        String accessSecret = CacheUtils.hashGet(RedisKey.SYS_CONFIG, SysKey.ALIYUN_ACCESS_SECRET) + "";
+        String signName = CacheUtils.hashGet(RedisKey.SYS_CONFIG, SysKey.SMS_SIGN_NAME) + "";
         ResultInfo result = aliyunSmsService.sendSms(accessKeyId, accessSecret, signName, templateCode,
             String.join(",", mobileList), json);
         if (!result.isSuccess()) {

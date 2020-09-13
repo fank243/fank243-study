@@ -4,21 +4,21 @@ import com.fank243.springboot.admin.consts.ConfConfig;
 import com.fank243.springboot.admin.model.vo.SysUserInfoVO;
 import com.fank243.springboot.admin.repository.SysUserRepository;
 import com.fank243.springboot.admin.service.base.BaseService;
-import com.fank243.springboot.admin.service.component.RedisService;
 import com.fank243.springboot.admin.service.third.IpAddrService;
 import com.fank243.springboot.admin.shiro.ShiroUtils;
 import com.fank243.springboot.admin.utils.WebUtils;
+import com.fank243.springboot.common.redis.RedisKey;
+import com.fank243.springboot.common.utils.CacheUtils;
 import com.fank243.springboot.common.utils.RegexUtils;
 import com.fank243.springboot.common.utils.ResultInfo;
 import com.fank243.springboot.common.utils.StrUtils;
+import com.fank243.springboot.core.consts.DictConsts;
 import com.fank243.springboot.core.consts.IConsts;
-import com.fank243.springboot.core.consts.RedisKey;
 import com.fank243.springboot.core.consts.SysKey;
 import com.fank243.springboot.core.entity.SysRole;
 import com.fank243.springboot.core.entity.SysUser;
 import com.fank243.springboot.core.entity.ipaddr.IpAddr;
 import com.fank243.springboot.core.enums.SysUserEventType;
-import com.fank243.springboot.core.enums.SysUserStatus;
 import com.fank243.springboot.core.model.PageBean;
 import com.fank243.springboot.core.model.PageInfo;
 import org.apache.commons.lang3.StringUtils;
@@ -45,8 +45,6 @@ public class SysUserService extends BaseService<SysUser> {
     private SysRoleService sysRoleService;
     @Resource
     private ConfConfig confConfig;
-    @Resource
-    private RedisService redisService;
     @Resource
     private IpAddrService ipAddrService;
 
@@ -128,11 +126,10 @@ public class SysUserService extends BaseService<SysUser> {
         }
 
         String salt = StrUtils.randomStr(20);
-        String defaultPwd = redisService.hget(RedisKey.SYS_CONFIG, SysKey.DEFAULT_PWD) + "";
+        String defaultPwd = CacheUtils.hashGet(RedisKey.SYS_CONFIG, SysKey.DEFAULT_PWD) + "";
         String password = ShiroUtils.md5WithSalt(salt, defaultPwd);
         sysUser.setSalt(salt);
         sysUser.setPassword(password);
-        sysUser.setStatus(SysUserStatus.ENABLE);
         sysUser.setIsDeleted(Boolean.FALSE);
         sysUser.setLoginErrCount(0);
 
@@ -221,7 +218,7 @@ public class SysUserService extends BaseService<SysUser> {
             if (StringUtils.isBlank(vo.getSmsCode())) {
                 return ResultInfo.fail("请填写短信验证码");
             } else {
-                Object obj = redisService.hget(RedisKey.SMS_CODE, vo.getMobile());
+                Object obj = CacheUtils.hashGet(RedisKey.SMS_CODE, vo.getMobile());
                 if (obj == null) {
                     return ResultInfo.fail("短信验证码已失效，请重新获取");
                 }
@@ -385,7 +382,7 @@ public class SysUserService extends BaseService<SysUser> {
         if (!ShiroUtils.md5WithSalt(sysUser.getSalt(), password).equals(sysUser.getPassword())) {
             if (sysUser.getLoginErrCount() + 1 > 5) {
                 // 更新状态及锁定时间
-                int rows = repository.updateStatusAndLoginLockTime(sysUser.getId(), SysUserStatus.LOCK.getCode(),
+                int rows = repository.updateStatusAndLoginLockTime(sysUser.getId(), DictConsts.SYS_USER_STATUS_DISABLE,
                     LocalDateTime.now());
                 if (rows <= 0) {
                     return ResultInfo.fail("登录失败，更新数据失败");
@@ -406,7 +403,7 @@ public class SysUserService extends BaseService<SysUser> {
         if (sysUser.getStatus() == null) {
             return ResultInfo.fail("账号状态非法");
         }
-        if (SysUserStatus.DISABLE.getCode() == sysUser.getStatus().getCode()) {
+        if (DictConsts.SYS_USER_STATUS_DISABLE == sysUser.getStatus()) {
             return ResultInfo.fail("账号已被禁用，请联系管理人员");
         }
 
@@ -420,7 +417,7 @@ public class SysUserService extends BaseService<SysUser> {
         }
 
         // 更新登录信息，修改状态、清除登录锁定时间、登录错误次数
-        sysUser.setStatus(SysUserStatus.ENABLE);
+        sysUser.setStatus(DictConsts.SYS_USER_STATUS_ENABLE);
         sysUser.setLastLoginIp(ip);
         sysUser.setLastLoginIpAddr(addr);
         sysUser.setLoginErrCount(0);
@@ -454,7 +451,7 @@ public class SysUserService extends BaseService<SysUser> {
             querySql.append(" and (username like :keyword or realname like :keyword or mobile like :keyword)");
             conditionArgs.put("keyword", "%" + keyword + "%");
         }
-        if (SysUserStatus.getEnum(status) != null) {
+        if (status >= 0) {
             countSql.append(" and status =:status");
             querySql.append(" and status =:status");
             conditionArgs.put("status", status);
@@ -470,8 +467,8 @@ public class SysUserService extends BaseService<SysUser> {
             return ResultInfo.fail("管理员不存在");
         }
 
-        SysUserStatus status = sysUser.getStatus().getCode() == SysUserStatus.ENABLE.getCode() ? SysUserStatus.DISABLE
-            : SysUserStatus.ENABLE;
+        int status = sysUser.getStatus() == DictConsts.SYS_USER_STATUS_ENABLE ? DictConsts.SYS_USER_STATUS_DISABLE
+            : DictConsts.SYS_USER_STATUS_ENABLE;
         int rows = repository.updateStatusById(userId, status);
         if (rows <= 0) {
             return ResultInfo.fail("修改管理员状态失败");
@@ -491,10 +488,7 @@ public class SysUserService extends BaseService<SysUser> {
             return ResultInfo.fail("管理员不存在");
         }
 
-        if (SysUserStatus.LOCK.getCode() != sysUser.getStatus().getCode()) {
-            return ResultInfo.fail("管理员未被登录锁定，无需解锁");
-        }
-        int rows = repository.updateLoginErrorInfoById(userId, SysUserStatus.ENABLE);
+        int rows = repository.updateLoginErrorInfoById(userId, DictConsts.SYS_USER_STATUS_ENABLE);
         if (rows <= 0) {
             return ResultInfo.fail("解锁管理员登录失败");
         }
@@ -512,7 +506,7 @@ public class SysUserService extends BaseService<SysUser> {
             return ResultInfo.fail("管理员不存在");
         }
 
-        Object obj = redisService.hget(RedisKey.SYS_CONFIG, SysKey.DEFAULT_PWD);
+        Object obj = CacheUtils.hashGet(RedisKey.SYS_CONFIG, SysKey.DEFAULT_PWD);
         if (obj == null) {
             return ResultInfo.fail("获取系统初始密码失败");
         }

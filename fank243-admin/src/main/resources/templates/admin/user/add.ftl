@@ -44,6 +44,14 @@
                         <img id="showImg" alt="" src="${IConsts.DEFAULT_PHOTO}" width="70%" height="25%" onerror="this.src='${IConsts.DEFAULT_PHOTO}'">
                     </div>
                 </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">状态</label>
+                    <div class="layui-input-block">
+                       <#list dictService.getType('user_status') as status>
+                           <input type="radio" name="status" value="${status.dictValue}" title="${status.dictLabel}" <#if status.isDefault>checked</#if>>
+                        </#list>
+                    </div>
+                </div>
             </div>
             <div class="layui-form-item layui-hide">
                 <input type="button" lay-submit lay-filter="layuiadmin-app-form-submit" id="layuiadmin-app-form-submit"

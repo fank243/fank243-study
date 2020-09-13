@@ -1,7 +1,6 @@
 package com.fank243.springboot.admin.repository;
 
 import com.fank243.springboot.core.entity.SysUser;
-import com.fank243.springboot.core.enums.SysUserStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -83,7 +82,7 @@ public interface SysUserRepository extends JpaRepository<SysUser, Long> {
      * @param sysUserId 管理员ID
      * @return 操作结果
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Modifying
     @Query("update SysUser set isDeleted = true ,deletedTime = now() where id =:sysUserId")
     int updateIsDeletedById(Long sysUserId);
@@ -122,12 +121,12 @@ public interface SysUserRepository extends JpaRepository<SysUser, Long> {
     @Transactional
     @Modifying
     @Query(value = "update SysUser set status =:status where id =:sysUserId")
-    int updateStatusById(Long sysUserId, SysUserStatus status);
+    int updateStatusById(Long sysUserId, int status);
 
     @Transactional
     @Modifying
     @Query(value = "update SysUser set status =:status,loginErrCount=0,loginLockTime = null where id =:sysUserId")
-    int updateLoginErrorInfoById(Long sysUserId, SysUserStatus status);
+    int updateLoginErrorInfoById(Long sysUserId, int status);
 
     @Transactional
     @Modifying

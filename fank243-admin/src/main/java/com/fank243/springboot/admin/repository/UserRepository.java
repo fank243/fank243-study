@@ -1,7 +1,6 @@
 package com.fank243.springboot.admin.repository;
 
 import com.fank243.springboot.core.entity.User;
-import com.fank243.springboot.core.enums.UserStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -19,12 +18,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Transactional
     @Modifying
     @Query(value = "update User set status =:status where id =:userId")
-    int updateStatusById(Long userId, UserStatus status);
+    int updateStatusById(Long userId, Integer status);
 
     @Transactional
     @Modifying
     @Query(value = "update User set status =:status,loginErrCount=0,loginLockTime = null where id =:userId")
-    int updateLoginErrorInfoById(Long userId, UserStatus status);
+    int updateLoginErrorInfoById(Long userId, Integer status);
 
     @Transactional
     @Modifying

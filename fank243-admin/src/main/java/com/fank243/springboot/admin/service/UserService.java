@@ -3,15 +3,15 @@ package com.fank243.springboot.admin.service;
 import com.fank243.springboot.admin.model.vo.UserVO;
 import com.fank243.springboot.admin.repository.UserRepository;
 import com.fank243.springboot.admin.service.base.BaseService;
-import com.fank243.springboot.admin.service.component.RedisService;
 import com.fank243.springboot.admin.shiro.ShiroUtils;
+import com.fank243.springboot.common.redis.RedisKey;
+import com.fank243.springboot.common.utils.CacheUtils;
 import com.fank243.springboot.common.utils.ResultInfo;
 import com.fank243.springboot.common.utils.StrUtils;
-import com.fank243.springboot.core.consts.RedisKey;
+import com.fank243.springboot.core.consts.DictConsts;
 import com.fank243.springboot.core.consts.SysKey;
 import com.fank243.springboot.core.entity.User;
 import com.fank243.springboot.core.enums.SysUserEventType;
-import com.fank243.springboot.core.enums.UserStatus;
 import com.fank243.springboot.core.exception.BizException;
 import com.fank243.springboot.core.model.PageBean;
 import com.fank243.springboot.core.model.PageInfo;
@@ -41,8 +41,6 @@ public class UserService extends BaseService<User> {
     private UserInfoService userInfoService;
     @Resource
     private SysUserEventService sysUserEventService;
-    @Resource
-    private RedisService redisService;
 
     public PageBean<User> pageOfUser(PageInfo pageInfo, String keyword, Integer status) {
         StringBuilder countSql = new StringBuilder();
@@ -57,12 +55,12 @@ public class UserService extends BaseService<User> {
             querySql.append(" AND (username like :keyword or mobile like :keyword)");
             conditionArgs.put("keyword", "%" + keyword + "%");
         }
-        if (UserStatus.getEnum(status) != null) {
+        if (status >= 0) {
             countSql.append(" AND status =:status");
             querySql.append(" AND status =:status");
             conditionArgs.put("status", status);
         }
-        querySql.append(" ORDER BY gmt_modified DESC,id DESC");
+        querySql.append(" ORDER BY id DESC");
 
         return pageOfBySql(pageInfo, countSql.toString(), querySql.toString(), conditionArgs);
     }
@@ -78,7 +76,7 @@ public class UserService extends BaseService<User> {
             return ResultInfo.fail("手机号码已被使用");
         }
 
-        String defaultPwd = redisService.hget(RedisKey.SYS_CONFIG, SysKey.DEFAULT_PWD) + "";
+        String defaultPwd = CacheUtils.hashGet(RedisKey.SYS_CONFIG, SysKey.DEFAULT_PWD) + "";
         String salt = StrUtils.randomStr(20);
         String password = ShiroUtils.md5WithSalt(salt, defaultPwd);
 
@@ -89,7 +87,7 @@ public class UserService extends BaseService<User> {
         user.setSalt(salt);
         user.setPassword(password);
         user.setIsDeleted(false);
-        user.setStatus(UserStatus.ENABLE);
+        user.setStatus(vo.getStatus());
         user.setLoginErrCount(0);
 
         user = repository.save(user);
@@ -131,10 +129,11 @@ public class UserService extends BaseService<User> {
         user.setMobile(vo.getMobile());
         user.setNickname(vo.getNickname());
         user.setGmtModified(new Date());
+        user.setStatus(vo.getStatus());
 
         user = repository.save(user);
         if (user.getId() == null || user.getId() <= 0) {
-            return ResultInfo.fail("添加用户失败");
+            return ResultInfo.fail("修改用户失败");
         }
 
         // 同步UserInfo mobile 字段
@@ -151,15 +150,13 @@ public class UserService extends BaseService<User> {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public ResultInfo modifyStatus(Long sysUserId, Long userId) {
+    public ResultInfo modifyStatus(Long sysUserId, Long userId, Integer status) {
         Optional<User> optional = repository.findById(userId);
         if (optional.isEmpty()) {
             return ResultInfo.fail("用户不存在");
         }
         User user = optional.get();
 
-        UserStatus status =
-            UserStatus.DISABLE.getCode() == user.getStatus().getCode() ? UserStatus.ENABLE : UserStatus.DISABLE;
         int rows = repository.updateStatusById(userId, status);
         if (rows <= 0) {
             return ResultInfo.fail("修改用户状态失败");
@@ -180,10 +177,7 @@ public class UserService extends BaseService<User> {
         }
         User user = optional.get();
 
-        if (user.getStatus().getCode() != UserStatus.LOCK.getCode()) {
-            return ResultInfo.fail("用户未被登录锁定，无需解锁");
-        }
-        int rows = repository.updateLoginErrorInfoById(userId, UserStatus.ENABLE);
+        int rows = repository.updateLoginErrorInfoById(userId, DictConsts.USER_STATUS_DISABLE);
         if (rows <= 0) {
             return ResultInfo.fail("解锁用户登录失败");
         }
@@ -203,7 +197,7 @@ public class UserService extends BaseService<User> {
         }
         User user = optional.get();
 
-        Object obj = redisService.hget(RedisKey.SYS_CONFIG, SysKey.DEFAULT_PWD);
+        Object obj = CacheUtils.hashGet(RedisKey.SYS_CONFIG, SysKey.DEFAULT_PWD);
         if (obj == null) {
             return ResultInfo.fail("获取系统初始密码失败");
         }

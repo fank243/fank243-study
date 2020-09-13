@@ -3,16 +3,17 @@ package com.fank243.springboot.admin.service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.fank243.springboot.admin.repository.SysConfigRepository;
+import com.fank243.springboot.common.redis.RedisKey;
+import com.fank243.springboot.common.utils.CacheUtils;
 import com.fank243.springboot.common.utils.ResultInfo;
 import com.fank243.springboot.common.utils.StrUtils;
-import com.fank243.springboot.core.consts.RedisKey;
 import com.fank243.springboot.core.entity.SysConfig;
 import com.fank243.springboot.core.enums.SysUserEventType;
-import com.fank243.springboot.admin.service.component.RedisService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,22 +32,25 @@ public class SysConfigService {
     private SysConfigRepository repository;
     @Resource
     private SysUserEventService sysUserEventService;
-    @Resource
-    private RedisService redisService;
 
     /** 刷新 Redis 缓存 **/
-    public void refreshCache() {
+    @PostConstruct
+    public void init() {
+        refreshCache();
+    }
+
+    private void refreshCache() {
         List<SysConfig> sysConfigList = repository.findAll();
         if (sysConfigList.isEmpty()) {
             return;
         }
 
         // 清理缓存
-        redisService.del(RedisKey.SYS_CONFIG);
+        CacheUtils.delete(RedisKey.SYS_CONFIG);
 
         // 添加缓存
         for (SysConfig sysConfig : sysConfigList) {
-            redisService.hset(RedisKey.SYS_CONFIG, sysConfig.getSysKey(), sysConfig.getSysValue());
+            CacheUtils.hashPut(RedisKey.SYS_CONFIG, sysConfig.getSysKey(), sysConfig.getSysValue());
         }
     }
 
