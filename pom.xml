@@ -40,7 +40,7 @@
         <fank243-dependencies>1.0.1</fank243-dependencies>
 
         <!--org.apache-->
-        <shiro.version>1.5.2</shiro.version>
+        <shiro.version>1.7.0</shiro.version>
         <jetcache.version>2.6.0</jetcache.version>
 
         <!--com.alibaba-->
