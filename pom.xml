@@ -25,8 +25,8 @@
         <fank243-dependencies>1.0.1</fank243-dependencies>
 
         <lombok.version>1.18.8</lombok.version>
-        <netty.version>4.1.9.Final</netty.version>
-        <junit.version>4.12</junit.version>
+        <netty.version>4.1.63.Final</netty.version>
+        <junit.version>4.13.2</junit.version>
         <hutool.version>5.6.4</hutool.version>
         <slf4j.version>1.7.9</slf4j.version>
         <logback.version>1.2.3</logback.version>
