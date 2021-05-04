@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>WebSocket</title>
+    <meta charset="utf-8">
+</head>
+<body>
+<div>
+    <input type="text" name="text" value=""/>
+    <button onclick="sendMessage()">发送消息</button>
+    <button onclick="close()">关闭连接</button>
+</div>
+
+<script>
+    let ws = new WebSocket("ws://localhost:1900/ws");
+    ws.onopen = function () {
+        console.log("ws连接成功");
+        sendMsg("LOGIN", "");
+    }
+    ws.onclose = function () {
+        console.log("ws关闭成功");
+    }
+    ws.onmessage = function (data) {
+        console.log(data.data);
+    }
+
+    function close() {
+        ws.close(1005, "关闭连接");
+    }
+
+    function sendMessage() {
+        let data = document.getElementsByName("text")[0].value;
+        sendMsg("LOG", data);
+    }
+
+    function sendMsg(msgType, message) {
+        let obj = {};
+        obj["msgType"] = msgType;
+        obj["fromUser"] = "user";
+        obj["message"] = message;
+        ws.send(JSON.stringify(obj));
+    }
+</script>
+</body>
+</html>
