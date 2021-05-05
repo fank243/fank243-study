@@ -31,8 +31,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Slf4j
 public class WsServer {
 
-    private final AtomicInteger wsCount = new AtomicInteger(0);
-
     /**
      * 独立线程启动
      * 
@@ -40,13 +38,11 @@ public class WsServer {
      * @param port 绑定端口
      */
     public void start(String ip, int port) {
-        new ThreadPoolExecutor(1, 3, 5, TimeUnit.SECONDS, new SynchronousQueue<>(), r -> {
+        new ThreadPoolExecutor(1, 1, 5, TimeUnit.SECONDS, new SynchronousQueue<>(), r -> {
             Thread thread = new Thread(r);
-            String name = WsServer.class.getSimpleName() + "-" + wsCount.addAndGet(1);
-            thread.setName(name);
+            thread.setName("Netty-" + WsServer.class.getSimpleName());
             return thread;
         }).execute(() -> init(ip, port));
-        // init(ip, port);
     }
 
     private void init(String ip, int port) {
