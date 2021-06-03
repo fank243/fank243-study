@@ -12,7 +12,7 @@
 </div>
 
 <script>
-    let ws = new WebSocket("ws://localhost:1900/ws");
+    let ws = new WebSocket("ws://localhost:9000/ws");
     ws.onopen = function () {
         console.log("ws连接成功");
         sendMsg("LOGIN", "");

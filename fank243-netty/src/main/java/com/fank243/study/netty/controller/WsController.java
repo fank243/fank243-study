@@ -16,7 +16,7 @@ public class WsController {
 
     @PostMapping("/sendMsg")
     public String sendMsg(@RequestBody NettyModel nettyModel) {
-        WsSender.getInstance().sendMessage(nettyModel);
+        WsSender.sendMessage(nettyModel);
         return "OK";
     }
 }

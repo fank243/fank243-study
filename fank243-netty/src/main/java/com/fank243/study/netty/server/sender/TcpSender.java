@@ -14,13 +14,13 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * WebSocket 消息发送器
+ * Tcp Server 消息发送器
  * 
  * @author FanWeiJie
  * @date 2021-05-04 15:05:34
  */
 @Slf4j
-public class WsSender {
+public class TcpSender {
 
     /** 保存用于与通道关系 **/
     public static ConcurrentHashMap<String, Channel> channelMap = new ConcurrentHashMap<>();
@@ -90,15 +90,15 @@ public class WsSender {
     /**
      * 发送消息
      */
-    public static void sendMessage(NettyModel nettyModel) {
+    public void sendMessage(NettyModel nettyModel) {
         String msg = JSONUtil.toJsonStr(nettyModel);
-        System.out.println("[WebSocket Server]发送消息：" + msg);
+        System.out.println("[TCP Server]发送消息：" + msg);
         if (StrUtil.isNotEmpty(nettyModel.getReceiveUser())) {
             Channel channel = getChannel(nettyModel.getReceiveUser());
             if (isOnline(channel)) {
                 channel.writeAndFlush(new TextWebSocketFrame(msg));
             } else {
-                System.out.println("[WebSocket Server]接收用户不在线：" + msg);
+                System.out.println("[TCP Server]接收用户不在线：" + msg);
             }
             return;
         }

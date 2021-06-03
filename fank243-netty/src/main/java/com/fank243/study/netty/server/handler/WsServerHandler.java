@@ -7,6 +7,7 @@ import cn.hutool.json.JSONUtil;
 import com.fank243.study.netty.common.NettyConstants;
 import com.fank243.study.netty.model.MsgTypeEnum;
 import com.fank243.study.netty.model.NettyModel;
+import com.fank243.study.netty.server.sender.WsSender;
 import com.fank243.study.netty.utils.ChannelUtils;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -31,16 +32,16 @@ public class WsServerHandler extends SimpleChannelInboundHandler<TextWebSocketFr
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         System.out.println("[WebSocket Server]与客户端连接成功：" + ctx.channel().remoteAddress().toString());
-        ChannelUtils.saveChannel(ctx.channel());
-        System.out.println("[WebSocket Server]当前已保存的通道数:" + ChannelUtils.channelCount);
+        WsSender.saveChannel(ctx.channel());
+        System.out.println("[WebSocket Server]当前已保存的通道数:" + WsSender.channelCount);
     }
 
     /** 与客户端断开连接时调用 **/
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         System.out.println("[WebSocket Server]与客户端断开连接：" + ctx.channel().remoteAddress().toString());
-        ChannelUtils.removeChannelByChannelId(ctx.channel());
-        System.out.println("[WebSocket Server]当前已保存的通道数:" + ChannelUtils.channelCount);
+        WsSender.removeChannelByChannelId(ctx.channel());
+        System.out.println("[WebSocket Server]当前已保存的通道:" + WsSender.channelMap);
     }
 
     /** 接收到客户端消息时调用，如果客户端发送的消息无法解析时不调用 **/
@@ -72,11 +73,11 @@ public class WsServerHandler extends SimpleChannelInboundHandler<TextWebSocketFr
         switch (msgTypeEnum) {
             case LOGIN:
                 if (StrUtil.isNotEmpty(nettyModel.getFromUser())) {
-                    ChannelUtils.setChannel(ctx.channel(), nettyModel.getFromUser());
+                    WsSender.setChannel(ctx.channel(), nettyModel.getFromUser());
                 }
                 break;
             case LOGOUT:
-                ChannelUtils.removeChannel(nettyModel.getFromUser());
+                WsSender.removeChannel(nettyModel.getFromUser());
                 break;
 
             case LOG:
