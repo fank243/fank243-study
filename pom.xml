@@ -7,7 +7,16 @@
     <artifactId>fank243-study</artifactId>
     <version>1.0.0</version>
     <modules>
-        <module>fank243-netty</module>
+        <module>study-netty</module>
+        <module>study-nacos</module>
+        <module>study-sentinel</module>
+        <module>study-gateway</module>
+        <module>study-mq</module>
+        <module>study-mp</module>
+        <module>study-jpa</module>
+        <module>study-redis</module>
+        <module>study-mybatis</module>
+        <module>study-domain</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -18,18 +27,29 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
 
-        <!-- org.springframework -->
-        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-parent -->
-        <spring-boot.version>2.3.7.RELEASE</spring-boot.version>
-        <spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies -->
+        <spring-boot.version>2.5.0</spring-boot.version>
+        <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-dependencies -->
+        <spring-cloud.version>2020.0.3</spring-cloud.version>
+        <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
         <fank243-dependencies>1.0.1</fank243-dependencies>
 
-        <lombok.version>1.18.8</lombok.version>
-        <netty.version>4.1.63.Final</netty.version>
+        <nacos-client.version>2.0.0</nacos-client.version>
+
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+        <lombok.version>1.18.20</lombok.version>
+        <netty.version>4.1.65.Final</netty.version>
         <junit.version>4.13.2</junit.version>
         <hutool.version>5.6.4</hutool.version>
         <slf4j.version>1.7.9</slf4j.version>
         <logback.version>1.2.3</logback.version>
+        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+        <mysql-connector-java.version>8.0.25</mysql-connector-java.version>
+        <!-- https://mvnrepository.com/artifact/com.alibaba/druid-spring-boot-starter -->
+        <druid.version>1.2.6</druid.version>
+        <!-- https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-boot-starter -->
+        <mybatis-plus.version>3.4.3</mybatis-plus.version>
+
     </properties>
 
     <dependencyManagement>
@@ -42,6 +62,20 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
                 <groupId>com.fank243.maven</groupId>
                 <artifactId>fank243-dependencies</artifactId>
                 <version>${fank243-dependencies}</version>
@@ -50,9 +84,58 @@
             </dependency>
 
             <dependency>
+                <groupId>com.fank243.study</groupId>
+                <artifactId>study-mybatis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fank243.study</groupId>
+                <artifactId>study-jpa</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fank243.study</groupId>
+                <artifactId>study-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fank243.study</groupId>
+                <artifactId>study-redis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fank243.study</groupId>
+                <artifactId>study-netty</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-connector-java.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+
+            <!--替换官方版本1.4.1版本-->
+            <dependency>
+                <groupId>com.alibaba.nacos</groupId>
+                <artifactId>nacos-client</artifactId>
+                <version>${nacos-client.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
+                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>io.netty</groupId>
