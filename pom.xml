@@ -7,16 +7,11 @@
     <artifactId>fank243-study</artifactId>
     <version>1.0.0</version>
     <modules>
-        <module>study-netty</module>
-        <module>study-nacos</module>
-        <module>study-sentinel</module>
         <module>study-gateway</module>
-        <module>study-mq</module>
-        <module>study-mp</module>
-        <module>study-jpa</module>
-        <module>study-redis</module>
-        <module>study-mybatis</module>
-        <module>study-domain</module>
+        <module>study-core</module>
+        <module>study-infrastructure</module>
+        <module>study-adapter</module>
+        <module>study-server</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -85,17 +80,12 @@
 
             <dependency>
                 <groupId>com.fank243.study</groupId>
-                <artifactId>study-mybatis</artifactId>
+                <artifactId>study-mybatis-plus</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fank243.study</groupId>
                 <artifactId>study-jpa</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fank243.study</groupId>
-                <artifactId>study-domain</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -106,6 +96,26 @@
             <dependency>
                 <groupId>com.fank243.study</groupId>
                 <artifactId>study-netty</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fank243.study</groupId>
+                <artifactId>study-nacos</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fank243.study</groupId>
+                <artifactId>study-sentinel</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fank243.study</groupId>
+                <artifactId>study-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fank243.study</groupId>
+                <artifactId>study-feign</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -135,7 +145,6 @@
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
-                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>io.netty</groupId>
@@ -164,6 +173,22 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot.version}</version>
+                   <!-- <configuration>
+                        &lt;!&ndash;打包时排除 lombok&ndash;&gt;
+                        <excludeGroupIds>org.projectlombok</excludeGroupIds>
+                    </configuration>-->
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
     <!--自建仓库-->
     <repositories>

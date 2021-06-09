@@ -1,0 +1,14 @@
+study:
+  netty:
+    # netty 作为服务端
+    server:
+      # websocket
+      ws:
+        enable: true  # 是否开启
+        ip: 0.0.0.0   # 绑定IP
+        port: 9000    # 绑定端口
+      # tcp
+      tcp:
+        enable: true  # 是否开启
+        ip: 0.0.0.0   # 绑定IP
+        port: 9001    # 绑定端口
