@@ -1,0 +1,16 @@
+study:
+  nacos-addr: 106.12.120.151:8848
+  nacos-namespace: study
+
+spring:
+  cloud:
+    nacos:
+      config:
+        # 是否自动刷新配置，默认：true
+        refresh-enabled: true
+        # 获取配置失败时重试次数
+        config-retry-time: 3
+        # 连接服务器失败时最大重连次数
+        max-retry: 10
+        # 指定配置文件后缀，默认：properties
+        file-extension: properties

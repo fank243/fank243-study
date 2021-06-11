@@ -1,11 +1,11 @@
 server:
-  port: 8901
+  port: 8800
 
 spring:
   profiles:
     include: common
   application:
-    name: study-system
+    name: study-gateway
   cloud:
     nacos:
       discovery:
@@ -16,5 +16,5 @@ spring:
         namespace: ${spring.cloud.nacos.discovery.namespace}
         # 共享配置文件
         shared-configs:
-          - study-shared-datasource.properties # Datasource
+          - study-shared-redis.properties # redis
 
