@@ -16,8 +16,8 @@ spring:
         namespace: ${spring.cloud.nacos.discovery.namespace}
         # 共享配置文件
         shared-configs:
-          - study-shared-datasource.properties # Datasource
+          - study-common.yml
+          - study-shared-mysql.yml
         # 额外配置文件
         extension-configs:
-          - study-extension-netty.properties # Netty
-
+          - study-extension-netty.yml

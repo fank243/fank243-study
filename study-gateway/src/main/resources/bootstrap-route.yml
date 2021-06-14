@@ -1,0 +1,20 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: study-auth
+          uri: lb://study-auth
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            - StripPrefix=1
+          order: 1
+
+        - id: study-api
+          uri: lb://study-api
+          predicates:
+            - Path=/api/client/**
+          filters:
+            - StripPrefix=1
+
+# 获取路由地址：/actuator/gateway/routes

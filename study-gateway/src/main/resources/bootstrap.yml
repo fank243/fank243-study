@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    include: common
+    include: route,common
   application:
     name: study-gateway
   cloud:
@@ -14,7 +14,42 @@ spring:
       config:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
         namespace: ${spring.cloud.nacos.discovery.namespace}
+        file-extension: yml
         # 共享配置文件
         shared-configs:
-          - study-shared-redis.properties # redis
+          - study-common.yml
+          - study-shared-redis.yml
 
+    gateway:
+      discovery:
+        locator:
+          lower-case-service-id: true
+
+    sentinel:
+      filter:
+        enabled: false
+      log:
+        # sentinel日志存储目录，连接成功与否可查看日志“sentinel-record.log”
+        dir: ${user.home}/logs/sentinel
+      transport:
+        dashboard: ${study.sentinel-dashboard} # sentinel控制台地址
+      eager: true # 服务启动时与控制台建立心跳
+csp:
+  sentinel:
+    app:
+      type: 1
+#      datasource:
+#        # sentinel 数据保存到 nacos
+#        - nacos:
+#            server-addr: ${spring.cloud.nacos.discovery.server-addr}
+#            namespace: ${spring.cloud.nacos.discovery.namespace}
+#            dataId: study-sentinel-flow.json
+#            data-type: json
+#            rule-type: gw-flow # 流控
+#        # sentinel 数据保存到 nacos
+#        - nacos:
+#            server-addr: ${spring.cloud.nacos.discovery.server-addr}
+#            namespace: ${spring.cloud.nacos.discovery.namespace}
+#            dataId: study-sentinel-degrade.json
+#            data-type: json
+#            rule-type: degrade # 降级

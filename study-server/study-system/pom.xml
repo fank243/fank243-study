@@ -28,6 +28,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -36,15 +37,16 @@
         </dependency>
         <dependency>
             <groupId>com.fank243.study</groupId>
-            <artifactId>study-nacos</artifactId>
+            <artifactId>study-ds</artifactId>
         </dependency>
         <dependency>
             <groupId>com.fank243.study</groupId>
-            <artifactId>study-redis</artifactId>
+            <artifactId>study-client</artifactId>
         </dependency>
+
         <dependency>
-            <groupId>com.fank243.study</groupId>
-            <artifactId>study-mybatis-plus</artifactId>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
     </dependencies>
 
@@ -53,14 +55,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>repackage</id>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

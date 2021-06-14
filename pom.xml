@@ -8,10 +8,10 @@
     <version>1.0.0</version>
     <modules>
         <module>study-gateway</module>
-        <module>study-core</module>
-        <module>study-infrastructure</module>
+        <module>study-common</module>
         <module>study-adapter</module>
         <module>study-server</module>
+        <module>study-client</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -29,7 +29,8 @@
         <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
         <fank243-dependencies>1.0.1</fank243-dependencies>
 
-        <nacos-client.version>2.0.0</nacos-client.version>
+        <nacos-client.version>2.0.2</nacos-client.version>
+        <sentinel.version>1.8.1</sentinel.version>
 
         <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
         <lombok.version>1.18.20</lombok.version>
@@ -40,11 +41,15 @@
         <logback.version>1.2.3</logback.version>
         <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
         <mysql-connector-java.version>8.0.25</mysql-connector-java.version>
+        <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+        <postgresql.version>42.2.21</postgresql.version>
         <!-- https://mvnrepository.com/artifact/com.alibaba/druid-spring-boot-starter -->
         <druid.version>1.2.6</druid.version>
         <!-- https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-boot-starter -->
         <mybatis-plus.version>3.4.3</mybatis-plus.version>
 
+        <!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 -->
+        <swagger.version>3.0.0</swagger.version>
     </properties>
 
     <dependencyManagement>
@@ -80,27 +85,7 @@
 
             <dependency>
                 <groupId>com.fank243.study</groupId>
-                <artifactId>study-mybatis-plus</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fank243.study</groupId>
-                <artifactId>study-jpa</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fank243.study</groupId>
-                <artifactId>study-redis</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fank243.study</groupId>
                 <artifactId>study-netty</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fank243.study</groupId>
-                <artifactId>study-nacos</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -118,11 +103,28 @@
                 <artifactId>study-feign</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.fank243.study</groupId>
+                <artifactId>study-ds</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+           <dependency>
+                <groupId>com.fank243.study</groupId>
+                <artifactId>study-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql-connector-java.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgresql.version}</version>
+                <scope>runtime</scope>
             </dependency>
             <dependency>
                 <groupId>com.alibaba</groupId>
@@ -145,6 +147,7 @@
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
+                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>io.netty</groupId>
@@ -171,6 +174,17 @@
                 <artifactId>logback-classic</artifactId>
                 <version>${logback.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -181,6 +195,14 @@
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
                     <version>${spring-boot.version}</version>
+                    <executions>
+                        <execution>
+                            <id>repackage</id>
+                            <goals>
+                                <goal>repackage</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                    <!-- <configuration>
                         &lt;!&ndash;打包时排除 lombok&ndash;&gt;
                         <excludeGroupIds>org.projectlombok</excludeGroupIds>

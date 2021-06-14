@@ -1,0 +1,15 @@
+feign:
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+  client:
+    config:
+      # 全局生效
+      default:
+        # FULL 打印[请求方法，URL，body，响应头，响应状态码]日志信息，@see feign.Logger.Level
+        logger-level: FULL
+        # 建立连接超时时间：30s
+        connect-timeout: 30000
+        # 请求获取响应数据超时时间：30s
+        read-timeout: 30000
