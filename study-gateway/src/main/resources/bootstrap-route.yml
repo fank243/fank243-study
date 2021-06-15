@@ -10,10 +10,10 @@ spring:
             - StripPrefix=1
           order: 1
 
-        - id: study-api
-          uri: lb://study-api
+        - id: api-system
+          uri: lb://api-system
           predicates:
-            - Path=/api/client/**
+            - Path=/api/system/**
           filters:
             - StripPrefix=1
 

@@ -1,5 +1,6 @@
 package com.fank243.study.gateway.exception;
 
+import com.fank243.study.core.enums.ResultCodeEnum;
 import com.fank243.study.core.utils.ResultInfo;
 import com.fank243.study.gateway.utils.ResponseUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -36,9 +37,9 @@ public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
             result = ResultInfo.err503();
         } else if (ex instanceof ResponseStatusException) {
             ResponseStatusException responseStatusException = (ResponseStatusException)ex;
-            result = ResultInfo.error(responseStatusException.getMessage());
+            result = ResultInfo.error(ResultCodeEnum.R500.getMessage(), responseStatusException.getMessage());
         } else {
-            result = ResultInfo.error("系统内部错误，请稍后重试");
+            result = ResultInfo.fail("系统内部错误，请稍后重试");
         }
 
         log.error("[网关异常处理]请求路径:{},异常信息:{}", exchange.getRequest().getPath(), ex.getMessage());
