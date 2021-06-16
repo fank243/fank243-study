@@ -8,12 +8,18 @@ spring:
             - Path=/api/auth/**
           filters:
             - StripPrefix=1
-          order: 1
 
-        - id: api-system
-          uri: lb://api-system
+        - id: server-system
+          uri: lb://server-system
           predicates:
             - Path=/api/system/**
+          filters:
+            - StripPrefix=1
+
+        - id: server-demo
+          uri: lb://server-demo
+          predicates:
+            - Path=/api/demo/**
           filters:
             - StripPrefix=1
 

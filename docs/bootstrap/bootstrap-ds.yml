@@ -22,7 +22,7 @@ mybatis-plus:
       # 表名前缀
       table-prefix: tb_
       # 全局的entity的逻辑删除字段属性名
-      logic-delete-field: is_deleted
+      logic-delete-field: isDeleted
       # 逻辑已删除值
       logic-not-delete-value: 0
       # 逻辑未删除值

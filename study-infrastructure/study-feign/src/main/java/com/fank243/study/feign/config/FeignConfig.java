@@ -1,6 +1,7 @@
 package com.fank243.study.feign.config;
 
 import com.fank243.study.feign.decoder.DefaultErrorDecoder;
+import feign.Logger;
 import feign.Retryer;
 import feign.codec.ErrorDecoder;
 import org.springframework.cloud.openfeign.EnableFeignClients;
@@ -16,6 +17,12 @@ import org.springframework.context.annotation.Configuration;
 @EnableFeignClients(basePackages = {"com.fank243.study"})
 @Configuration
 public class FeignConfig {
+
+    /** 日志级别 **/
+    @Bean
+    Logger.Level loggerLevel() {
+        return Logger.Level.FULL;
+    }
 
     @Bean
     public ErrorDecoder errorDecoder() {
