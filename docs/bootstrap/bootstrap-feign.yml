@@ -1,4 +1,7 @@
 feign:
+  # 开启断路器，需要引入hystrix依赖
+  circuitbreaker:
+    enabled: true
   httpclient:
     enabled: false
   okhttp:
@@ -13,3 +16,4 @@ feign:
         connect-timeout: 30000
         # 请求获取响应数据超时时间：30s
         read-timeout: 30000
+

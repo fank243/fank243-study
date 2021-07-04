@@ -19,7 +19,6 @@
 
     <modules>
         <module>study-ds</module>
-        <module>study-feign</module>
         <module>study-mq</module>
         <module>study-netty</module>
         <module>study-sentinel</module>

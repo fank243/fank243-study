@@ -1,0 +1,21 @@
+server:
+  port: 8801
+
+spring:
+  profiles:
+    include: common
+  application:
+    name: study-adapter
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${study.nacos-addr}
+        namespace: ${study.nacos-namespace}
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        namespace: ${spring.cloud.nacos.discovery.namespace}
+        # 共享配置文件
+        shared-configs:
+          - study-shared-common.yml
+          - study-shared-redis.yml
+          - study-shared-postgres.yml

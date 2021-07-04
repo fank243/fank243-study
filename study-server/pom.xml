@@ -18,7 +18,6 @@
 
     <modules>
         <module>server-system</module>
-        <module>server-demo</module>
     </modules>
 
 </project>

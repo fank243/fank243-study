@@ -2,24 +2,10 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: study-auth
-          uri: lb://study-auth
+        - id: study-adapter
+          uri: lb://study-adapter
           predicates:
-            - Path=/api/auth/**
-          filters:
-            - StripPrefix=1
-
-        - id: server-system
-          uri: lb://server-system
-          predicates:
-            - Path=/api/system/**
-          filters:
-            - StripPrefix=1
-
-        - id: server-demo
-          uri: lb://server-demo
-          predicates:
-            - Path=/api/demo/**
+            - Path=/api/auth/**,/api/system/**
           filters:
             - StripPrefix=1
 

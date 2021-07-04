@@ -12,7 +12,7 @@
         <module>study-core</module>
         <module>study-server</module>
         <module>study-api</module>
-        <module>study-client</module>
+        <module>study-adapter</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -24,33 +24,17 @@
         <maven.compiler.target>11</maven.compiler.target>
 
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies -->
-        <spring-boot.version>2.5.0</spring-boot.version>
+        <spring-boot.version>2.5.2</spring-boot.version>
         <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-dependencies -->
         <spring-cloud.version>2020.0.3</spring-cloud.version>
+        <!--https://maven.aliyun.com/mvn/search-->
         <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
-        <fank243-dependencies>1.0.1</fank243-dependencies>
 
-        <nacos-client.version>2.0.2</nacos-client.version>
+        <fank243-dependencies.version>1.0.1</fank243-dependencies.version>
+
         <sentinel.version>1.8.1</sentinel.version>
 
-        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
-        <lombok.version>1.18.20</lombok.version>
-        <netty.version>4.1.65.Final</netty.version>
-        <junit.version>4.13.2</junit.version>
-        <hutool.version>5.6.7</hutool.version>
         <slf4j.version>1.7.9</slf4j.version>
-        <logback.version>1.2.3</logback.version>
-        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
-        <mysql-connector-java.version>8.0.25</mysql-connector-java.version>
-        <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
-        <postgresql.version>42.2.21</postgresql.version>
-        <!-- https://mvnrepository.com/artifact/com.alibaba/druid-spring-boot-starter -->
-        <druid.version>1.2.6</druid.version>
-        <!-- https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-boot-starter -->
-        <mybatis-plus.version>3.4.3</mybatis-plus.version>
-
-        <!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 -->
-        <swagger.version>3.0.0</swagger.version>
     </properties>
 
     <dependencyManagement>
@@ -79,7 +63,7 @@
             <dependency>
                 <groupId>com.fank243.maven</groupId>
                 <artifactId>fank243-dependencies</artifactId>
-                <version>${fank243-dependencies}</version>
+                <version>${fank243-dependencies.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -101,11 +85,6 @@
             </dependency>
             <dependency>
                 <groupId>com.fank243.study</groupId>
-                <artifactId>study-feign</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fank243.study</groupId>
                 <artifactId>study-ds</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -114,88 +93,6 @@
                 <artifactId>study-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.fank243.study</groupId>
-                <artifactId>study-client</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fank243.study</groupId>
-                <artifactId>study-domain</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
-                <version>${mysql-connector-java.version}</version>
-                <scope>runtime</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.postgresql</groupId>
-                <artifactId>postgresql</artifactId>
-                <version>${postgresql.version}</version>
-                <scope>runtime</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>druid-spring-boot-starter</artifactId>
-                <version>${druid.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-boot-starter</artifactId>
-                <version>${mybatis-plus.version}</version>
-            </dependency>
-
-            <!--替换官方版本1.4.1版本-->
-            <dependency>
-                <groupId>com.alibaba.nacos</groupId>
-                <artifactId>nacos-client</artifactId>
-                <version>${nacos-client.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>${lombok.version}</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>io.netty</groupId>
-                <artifactId>netty-all</artifactId>
-                <version>${netty.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${junit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.hutool</groupId>
-                <artifactId>hutool-all</artifactId>
-                <version>${hutool.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>${slf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-classic</artifactId>
-                <version>${logback.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger2</artifactId>
-                <version>${swagger.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger-ui</artifactId>
-                <version>${swagger.version}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -203,21 +100,81 @@
         <pluginManagement>
             <plugins>
                 <plugin>
+                    <groupId>com.github.shalousun</groupId>
+                    <artifactId>smart-doc-maven-plugin</artifactId>
+                </plugin>
+                <!-- 基于maven-jar-plugin插件实现把依赖jar定义写入输出jar的META-INFO/MANIFEST文件 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <configuration>
+                        <archive>
+                            <manifest>
+                                <addClasspath>true</addClasspath>
+                                <classpathPrefix>lib/</classpathPrefix>
+                                <useUniqueVersions>false</useUniqueVersions>
+                            </manifest>
+                           <!-- <manifestEntries>
+                                &lt;!&ndash;
+                                有些非官方三方的诸如sdk jar在pom中是以systemPath方式引入的，maven-jar-plugin组件没有直接参数声明包含指定scope的组件
+                                通过使用额外定义 Class-Path 值来追加指定依赖组件列表，在子模块按实际情况指定 jar-manifestEntries-classpath 值即可
+                                例如(注意前面个点字符及各空格分隔符)：. lib/xxx-1.0.0.jar lib/yyy-2.0.0.jar
+                                详见各子模块中 boot-jar-output 属性定义示例
+                                &ndash;&gt;
+                                <Class-Path>${jar-manifestEntries-classpath}</Class-Path>
+                            </manifestEntries>-->
+                        </archive>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>copy-dependencies</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>copy-dependencies</goal>
+                            </goals>
+                            <configuration>
+                                <!--
+                                各子模块按照实际层级定义各模块对应的属性值，检查所有微服务模块依赖jar文件合并复制到同一个目录
+                                详见各子模块中 boot-jar-output 属性定义
+                                -->
+                                <outputDirectory>${boot-jar-output}/lib</outputDirectory>
+                                <excludeTransitive>false</excludeTransitive>
+                                <stripVersion>false</stripVersion>
+                                <silent>false</silent>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
                     <version>${spring-boot.version}</version>
+                    <configuration>
+                        <!--表示编译版本配置有效-->
+                        <fork>true</fork>
+                        <!--引入项目引用的第三方jar-->
+                        <includeSystemScope>true</includeSystemScope>
+                        <layout>ZIP</layout>
+                        <outputDirectory>${boot-jar-output}</outputDirectory>
+                        <!--排除第三方jar文件-->
+                        <includes>
+                            <include>
+                                <groupId>nothing</groupId>
+                                <artifactId>nothing</artifactId>
+                            </include>
+                        </includes>
+                    </configuration>
                     <executions>
                         <execution>
-                            <id>repackage</id>
                             <goals>
                                 <goal>repackage</goal>
                             </goals>
                         </execution>
                     </executions>
-                    <!-- <configuration>
-                         &lt;!&ndash;打包时排除 lombok&ndash;&gt;
-                         <excludeGroupIds>org.projectlombok</excludeGroupIds>
-                     </configuration>-->
                 </plugin>
             </plugins>
         </pluginManagement>

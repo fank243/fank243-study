@@ -1,6 +1,6 @@
 package com.fank243.study.netty.server.sender;
 
-import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.fank243.study.netty.model.NettyModel;
@@ -102,7 +102,7 @@ public class WsSender {
             }
             return;
         }
-        if (CollUtil.isEmpty(channelMap)) {
+        if (MapUtil.isEmpty(channelMap)) {
             return;
         }
         for (Map.Entry<String, Channel> entry : channelMap.entrySet()) {

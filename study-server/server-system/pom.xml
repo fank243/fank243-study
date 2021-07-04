@@ -18,6 +18,7 @@
         <maven.install.skip>true</maven.install.skip>
         <!--mvn 跳过单元测试-->
         <maven.test.skip>true</maven.test.skip>
+        <boot-jar-output>${user.home}/devops/output/study</boot-jar-output>
     </properties>
 
     <dependencies>
@@ -59,6 +60,14 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
