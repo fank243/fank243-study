@@ -1,7 +1,0 @@
-
-sentinel:
-  log:
-    # sentinel日志存储目录，连接成功与否可查看日志“sentinel-record.log”
-    dir: ${user.home}/logs/sentinel
-  transport:
-    dashboard: localhost:8858 # sentinel控制台地址

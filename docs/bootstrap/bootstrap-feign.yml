@@ -1,7 +1,8 @@
 feign:
-  # 开启断路器，需要引入hystrix依赖
   circuitbreaker:
-    enabled: true
+    enabled: true # SC 地铁站版本，需要单独引入 spring-cloud-starter-loadbalancer
+  sentinel:
+    enabled: true # SC 年份版本，需要单独引入 spring-cloud-starter-alibaba-sentinel
   httpclient:
     enabled: false
   okhttp:
