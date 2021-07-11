@@ -2,8 +2,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: RNAe3uUtptxANRh8S
-    url: jdbc:mysql://106:12:120:151:3306/fank243-study?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false
+    password: root
+    url: jdbc:mysql://127.0.0.1:3306/fank243-study?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false
 
 # 原生 MyBatis 所支持的配置，具体请查看 https://baomidou.com/config/#configuration-2
 mybatis-plus:
