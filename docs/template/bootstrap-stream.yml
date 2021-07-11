@@ -1,0 +1,12 @@
+spring:
+  cloud:
+    stream:
+      # https://github.com/alibaba/spring-cloud-alibaba/wiki/RocketMQ
+      rocketmq:
+        binder:
+          # RocketMQ NameServer 地址
+          name-server: 127.0.0.1:9876
+          # 是否为 Producer 和 Consumer 开启消息轨迹功能
+          enable-msg-trace: true
+          # 消息轨迹开启后存储的 topic 名称，默认：RMQ_SYS_TRACE_TOPIC
+          customized-trace-topic: RMQ_SYS_TRACE_TOPIC

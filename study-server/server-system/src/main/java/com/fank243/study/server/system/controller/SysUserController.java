@@ -5,7 +5,7 @@ import com.fank243.study.api.system.dto.SysUserDTO;
 import com.fank243.study.api.system.vo.SysUserVO;
 import com.fank243.study.core.model.PageBean;
 import com.fank243.study.core.utils.ResultInfo;
-import com.fank243.study.server.system.service.ISysUserService;
+import com.fank243.study.server.system.service.SysUserService;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -20,7 +20,7 @@ import javax.annotation.Resource;
 public class SysUserController implements ISysUserApi {
 
     @Resource
-    private ISysUserService sysUserService;
+    private SysUserService sysUserService;
 
     @Override
     public ResultInfo<SysUserVO> getById(String id) {

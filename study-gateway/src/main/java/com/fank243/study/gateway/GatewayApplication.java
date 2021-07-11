@@ -13,7 +13,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class GatewayApplication {
 
     public static void main(String[] args) {
-        System.setProperty("csp.sentinel.app.type", "1");
         SpringApplication.run(GatewayApplication.class, args);
     }
 }

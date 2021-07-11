@@ -1,0 +1,25 @@
+logging:
+  pattern.level: '%X{traceId}/%X{spanId}] %-5p [%t] %C{2} - %m%n'
+  logging:
+    # 含日志目录的日志文件名称,可以是相对当前目录(相对于父project根目录)或者绝对路径，如果与“logging.file.path”同时存在，则“logging.file.path”将不会生效
+    file.name: ${user.home}/logs/study/gateway.log
+    # 含日志目录的日志文件名称
+    # file.path: ${user.home}/logs/study/gateway.log
+  logback:
+    rollingpolicy:
+      # 当日志文件达到100MB时将进行切割，默认：10MB
+      max-file-size: 100MB
+      # 最长保留日志文件时间，根据日期从前往后删除，默认：7天
+      max-history: 30
+      # 日至目录下文件最大存储大小，超出后根据日期从前往后删除
+      total-size-cap: 1GB
+  # nacos 组
+  group.nacos: com.alibaba.nacos.client,com.alibaba.nacos.config
+  level:
+    # ROOT日志级别，默认为：info warn error
+    # root: debug
+    # 预定义组 logging.group.web: org.springframework.core.codec, org.springframework.http, org.springframework.web
+    nacos: warn
+    org.springframework.web: debug
+    org.mybatis: info
+    com.alibaba.nacos: info

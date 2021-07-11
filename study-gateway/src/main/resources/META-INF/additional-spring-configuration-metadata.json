@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "csp.sentinel.app.type",
+      "type": "java.lang.String",
+      "description": "Description for csp.sentinel.app.type."
+  }
+] }

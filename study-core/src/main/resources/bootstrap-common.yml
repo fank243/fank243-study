@@ -1,9 +1,16 @@
 study:
-  nacos-addr: 106.12.120.151:8848
+  nacos-addr: 127.0.0.1:8848
   nacos-namespace: study
   sentinel-dashboard: 127.0.0.1:8858
 
 spring:
+  main:
+    allow-bean-definition-overriding: true
+  jackson:
+    # 日期对象转JSON时，定义日期参照上海时区转换成字符串
+    time-zone: Asia/Shanghai
+    # 日期对象转JSON时，定义全局格式，个别字段需要自定义，可使用注解：@JsonFormatter
+    date-format: yyyy-MM-dd
   cloud:
     nacos:
       config:
@@ -15,3 +22,41 @@ spring:
         max-retry: 10
         # 指定配置文件后缀，默认：yml
         file-extension: yml
+
+logging:
+  pattern.level: '%X{traceId}/%X{spanId}] %-5p [%t] %C{2} - %m%n'
+  logback:
+    rollingpolicy:
+      # 当日志文件达到100MB时将进行切割，默认：10MB
+      max-file-size: 100MB
+      # 最长保留日志文件时间，根据日期从前往后删除，默认：7天
+      max-history: 30
+      # 日至目录下文件最大存储大小，超出后根据日期从前往后删除
+      total-size-cap: 1GB
+  # nacos 组
+  group.nacos: com.alibaba.nacos.client,com.alibaba.nacos.config
+  level:
+    # ROOT日志级别，默认为：info warn error
+    # root: debug
+    # 预定义组 logging.group.web: org.springframework.core.codec, org.springframework.http, org.springframework.web
+    nacos: warn
+    org.springframework.web: debug
+    org.mybatis: info
+    com.alibaba.nacos: info
+
+feign:
+  sentinel:
+    enabled: false
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+  client:
+    config:
+      default:
+        # FULL 打印[请求方法，URL，body，响应头，响应状态码]日志信息，see more feign.Logger.Level
+        logger-level: FULL
+        # 建立连接超时时间：30s
+        connect-timeout: 30000
+        # 请求获取响应数据超时时间：30s
+        read-timeout: 30000

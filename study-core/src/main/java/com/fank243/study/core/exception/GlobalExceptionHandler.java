@@ -25,21 +25,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     /**
-     * 基础异常
-     */
-    @ExceptionHandler(BaseException.class)
-    public ResultInfo<?> handlerBaseException(BaseException e) {
-        return ResultInfo.fail(e.getDefaultMessage());
-    }
-
-    /**
      * 业务异常
      */
-    @ExceptionHandler(BizeException.class)
-    public ResultInfo<?> handlerBizException(BizeException e) {
-        if (e.getStatus() == null) {
-            return ResultInfo.fail(e.getMessage());
-        }
+    @ExceptionHandler(BizException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResultInfo<?> handlerBizException(BizException e) {
+        log.error("全局异常[BizException]:{}", e.getLocalizedMessage(), e);
         return ResultInfo.fail(e.getStatus(), e.getMessage());
     }
 

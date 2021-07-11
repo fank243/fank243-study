@@ -2,6 +2,7 @@ package com.fank243.study.core.config;
 
 import feign.Logger;
 import feign.Retryer;
+import feign.codec.ErrorDecoder;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,10 +23,10 @@ public class FeignConfig {
         return Logger.Level.FULL;
     }
 
-//    @Bean
-//    public ErrorDecoder errorDecoder() {
-//        return new DefaultErrorDecoder();
-//    }
+    @Bean
+    public ErrorDecoder errorDecoder() {
+        return new DefaultErrorDecoder();
+    }
 
     @Bean
     public Retryer retryer() {

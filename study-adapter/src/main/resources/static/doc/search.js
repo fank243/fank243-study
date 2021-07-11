@@ -1,25 +1,7 @@
 let api = [];
 api.push({
-    alias: 'SysUserCtrl',
-    order: '1',
-    link: '',
-    desc: '',
-    list: []
-})
-api[0].list.push({
-    order: '1',
-    desc: '',
-});
-api.push({
-    alias: 'BaseController',
-    order: '2',
-    link: 'base_controller',
-    desc: 'Base Controller',
-    list: []
-})
-api.push({
     alias: 'dict',
-    order: '3',
+    order: '1',
     link: 'dict_list',
     desc: '数据字典',
     list: []

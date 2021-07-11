@@ -3,6 +3,7 @@ package com.fank243.study.api.system;
 import com.fank243.study.api.system.constants.SystemApiConstants;
 import com.fank243.study.api.system.dto.SysUserDTO;
 import com.fank243.study.api.system.vo.SysUserVO;
+import com.fank243.study.core.exception.BizException;
 import com.fank243.study.core.model.PageBean;
 import com.fank243.study.core.utils.ResultInfo;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public interface ISysUserApi {
      * @return 用户实体
      */
     @GetMapping(SystemApiConstants.BASE_URI + "/get/{id}")
-    ResultInfo<SysUserVO> getById(@PathVariable("id") String id);
+    ResultInfo<SysUserVO> getById(@PathVariable("id") String id) ;
 
     /**
      * 系统管理员列表

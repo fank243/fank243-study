@@ -14,7 +14,7 @@ spring:
         file-extension: properties
         # 共享配置文件
         shared-configs:
-          - study-shared-datasource.yml
+          - study-shared-ds.yml
         # 额外配置文件
         extension-configs:
           - study-extension-netty.yml

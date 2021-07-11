@@ -1,0 +1,42 @@
+spring:
+  cloud:
+    # https://github.com/alibaba/spring-cloud-alibaba/wiki/Sentinel#spring-cloud-gateway-%E6%94%AF%E6%8C%81
+    sentinel:
+      # 服务启动时与控制台建立心跳
+      eager: true
+      # 关闭filter
+      filter.enabled: false
+      # sentinel日志存储目录，连接成功与否可查看日志“sentinel-record.log”
+      log.dir: ${user.home}/logs/sentinel
+
+      # sentinel控制台地址
+      transport.dashboard: ${study.sentinel-dashboard}
+
+      scg.fallback:
+        # Spring Cloud Gateway 流控处理逻辑 (选择 redirect or response)
+        mode: response
+        # Spring Cloud Gateway 响应模式为 'response' 模式对应的 content-type，默认：application/json
+        content-type: application/json
+        # Spring Cloud Gateway 响应模式为 'response' 模式对应的响应内容
+        response-body: '{"status":429,"message":"您的操作过于频繁，请稍后再试"}'
+        # Spring Cloud Gateway 响应模式为 'response' 模式对应的响应码，默认：429
+        response-status: 429
+
+      datasource:
+        # 限流规则
+        ds1.nacos:
+          server-addr: ${spring.cloud.nacos.discovery.server-addr}
+          namespace: ${spring.cloud.nacos.discovery.namespace}
+          dataId: study-sentinel-flow.json
+          data-type: json
+          rule-type: gw-flow
+        # 降级规则
+        ds2.nacos:
+          server-addr: ${spring.cloud.nacos.discovery.server-addr}
+          namespace: ${spring.cloud.nacos.discovery.namespace}
+          dataId: study-sentinel-degrade.json
+          data-type: json
+          rule-type: degrade
+
+# 设置为网关模式，如果不设置，则console不会出现“API管理”菜单
+csp.sentinel.app.type: 1

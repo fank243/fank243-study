@@ -27,14 +27,11 @@
         <spring-boot.version>2.5.2</spring-boot.version>
         <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-dependencies -->
         <spring-cloud.version>2020.0.3</spring-cloud.version>
-        <!--https://maven.aliyun.com/mvn/search-->
+        <!--https://maven.aliyun.com/mvn/search -->
         <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
-
         <fank243-dependencies.version>1.0.1</fank243-dependencies.version>
 
-        <sentinel.version>1.8.1</sentinel.version>
-
-        <slf4j.version>1.7.9</slf4j.version>
+        <sentinel.version>1.8.2</sentinel.version>
     </properties>
 
     <dependencyManagement>

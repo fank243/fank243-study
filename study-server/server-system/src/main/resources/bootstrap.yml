@@ -16,7 +16,5 @@ spring:
         namespace: ${spring.cloud.nacos.discovery.namespace}
         # 共享配置文件
         shared-configs:
-          - study-shared-common.yml
-          - study-shared-redis.yml
-          - study-shared-postgres.yml
-
+#          - study-shared-common.yml
+          - study-shared-ds.yml
