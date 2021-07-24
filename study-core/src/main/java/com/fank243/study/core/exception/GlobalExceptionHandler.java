@@ -1,7 +1,7 @@
 package com.fank243.study.core.exception;
 
-import com.fank243.study.core.enums.ResultCodeEnum;
-import com.fank243.study.core.utils.ResultInfo;
+import com.fank243.study.common.enums.ResultCodeEnum;
+import com.fank243.study.common.utils.ResultInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;

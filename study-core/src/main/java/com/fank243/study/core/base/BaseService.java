@@ -8,5 +8,4 @@ package com.fank243.study.core.base;
  */
 public interface BaseService {
 
-
 }

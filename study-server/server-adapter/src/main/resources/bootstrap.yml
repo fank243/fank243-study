@@ -1,0 +1,30 @@
+server:
+  port: 8801
+
+spring:
+  profiles.include: common
+  application.name: server-adapter
+  # 多个模块启用时，必须指定端口
+  devtools.livereload.port: 35730
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${study.nacos-addr}
+        namespace: ${study.nacos-namespace}
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        namespace: ${spring.cloud.nacos.discovery.namespace}
+        # 共享配置文件
+        shared-configs:
+          - study-shared-common.yml
+          - study-shared-ds.yml
+    stream:
+      # https://github.com/alibaba/spring-cloud-alibaba/wiki/RocketMQ
+      rocketmq:
+        binder:
+          # RocketMQ NameServer 地址
+          name-server: 192.168.2.129:9876
+          # 是否为 Producer 和 Consumer 开启消息轨迹功能
+          enable-msg-trace: true
+          # 消息轨迹开启后存储的 topic 名称，默认：RMQ_SYS_TRACE_TOPIC
+          customized-trace-topic: RMQ_SYS_TRACE_TOPIC

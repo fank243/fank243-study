@@ -1,13 +1,17 @@
 package com.fank243.study.netty.server.handler;
 
+import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.EnumUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONException;
 import cn.hutool.json.JSONUtil;
-import com.fank243.study.netty.common.NettyConstants;
+import com.fank243.study.netty.constants.MessageReceiveEnum;
+import com.fank243.study.netty.constants.NettyConstants;
+import com.fank243.study.netty.factory.NettyMessageFactory;
 import com.fank243.study.netty.model.MsgTypeEnum;
 import com.fank243.study.netty.model.NettyModel;
 import com.fank243.study.netty.server.sender.TcpSender;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
@@ -17,7 +21,7 @@ import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.internal.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 
-import java.nio.charset.StandardCharsets;
+import java.util.concurrent.ExecutorService;
 
 /**
  * TCP 服务端消息处理器
@@ -28,25 +32,35 @@ import java.nio.charset.StandardCharsets;
 @Slf4j
 public class TcpServerHandler extends ChannelInboundHandlerAdapter {
 
+    private final ExecutorService executorService;
+
+    public TcpServerHandler() {
+        executorService = ThreadUtil.newExecutor(Runtime.getRuntime().availableProcessors());
+    }
+
     /** 与客户端成功建立连接时调用 **/
     @Override
-    public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("[TCP Server]与客户端连接成功：" + ctx.channel().remoteAddress().toString());
-        TcpSender.saveChannel(ctx.channel());
-        System.out.println("[TCP Server]当前已保存的通道数:" + TcpSender.channelCount);
+    public void channelActive(ChannelHandlerContext ctx) {
+        Channel channel = ctx.channel();
+        TcpSender.saveChannel(channel);
+        String msg =
+            StrUtil.format("与客户端[{}]建立连接，分配通道ID：{}", channel.remoteAddress().toString(), channel.id().asLongText());
+        log.debug("[TCP Server]:{}", msg);
     }
 
     /** 与客户端断开连接时调用 **/
     @Override
-    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("[TCP Server]与客户端断开连接：" + ctx.channel().remoteAddress().toString());
-        TcpSender.removeChannelByChannelId(ctx.channel());
-        System.out.println("[TCP Server]当前已保存的通道:" + TcpSender.channelMap);
+    public void channelInactive(ChannelHandlerContext ctx) {
+        Channel channel = ctx.channel();
+        TcpSender.removeChannelByChannelId(channel);
+        String msg =
+            StrUtil.format("与客户端[{}]断开连接，断连通道ID：{}", channel.remoteAddress().toString(), channel.id().asLongText());
+        log.debug("[TCP Server]{}", msg);
     }
 
     /** 接收到客户端消息时调用，如果客户端发送的消息无法解析时不调用 **/
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+    public void channelRead(ChannelHandlerContext ctx, Object msg) {
         String text = msg.toString();
         System.out.println("[TCP Server]接收到消息：" + text);
         if (StringUtil.isNullOrEmpty(text)) {
@@ -62,6 +76,7 @@ public class TcpServerHandler extends ChannelInboundHandlerAdapter {
         try {
             nettyModel = JSONUtil.toBean(text, NettyModel.class);
         } catch (JSONException e) {
+            log.warn("[TCP Server]消息格式无法解析：{}", text);
             return;
         }
 
@@ -80,11 +95,10 @@ public class TcpServerHandler extends ChannelInboundHandlerAdapter {
                 TcpSender.removeChannel(nettyModel.getFromUser());
                 break;
 
-            case LOG:
-                ctx.channel().writeAndFlush(text.getBytes(StandardCharsets.UTF_8));
-                break;
-
             default:
+                executorService.submit(() -> new NettyMessageFactory().getTcpInstance(MessageReceiveEnum.SYSTEM)
+                    .receive(ctx.channel(), nettyModel));
+                break;
         }
     }
 
@@ -98,7 +112,7 @@ public class TcpServerHandler extends ChannelInboundHandlerAdapter {
      * 由于我方是服务端，因此此处我们只需要监听{@link IdleState#READER_IDLE}超时事件
      */
     @Override
-    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) {
         if (evt instanceof IdleStateEvent) {
             IdleStateEvent event = (IdleStateEvent)evt;
             // 监听读事件
@@ -111,7 +125,11 @@ public class TcpServerHandler extends ChannelInboundHandlerAdapter {
 
     /** 出现异常时调用 **/
     @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        log.error("[TCP Server]出现异常：{}", cause.toString());
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+        Channel channel = ctx.channel();
+        String msg = StrUtil.format("与客户端[{}]出现异常，断连通道ID：{}，异常原因：{}", channel.remoteAddress().toString(),
+            channel.id().asLongText(), cause.getLocalizedMessage());
+        log.debug("[TCP Server]{}", msg, cause);
+        channel.close();
     }
 }

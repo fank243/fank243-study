@@ -1,0 +1,12 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: server-adapter
+          uri: lb://server-adapter
+          predicates:
+            - Path=/api/auth/**,/api/system/**
+          filters:
+            - StripPrefix=1
+
+# 获取路由地址：/actuator/gateway/routes

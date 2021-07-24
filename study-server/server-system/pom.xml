@@ -48,11 +48,15 @@
             <groupId>com.fank243.study</groupId>
             <artifactId>study-api</artifactId>
         </dependency>
-
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
+            <groupId>com.fank243.study</groupId>
+            <artifactId>study-mq</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.fank243.study</groupId>
+            <artifactId>study-netty</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.retry</groupId>
             <artifactId>spring-retry</artifactId>

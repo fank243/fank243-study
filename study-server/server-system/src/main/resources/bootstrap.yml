@@ -2,10 +2,10 @@ server:
   port: 8901
 
 spring:
-  profiles:
-    include: common
-  application:
-    name: server-system
+  profiles.include: common
+  application.name: server-system
+  # 多个模块启用时，必须指定端口
+  devtools.livereload.port: 35732
   cloud:
     nacos:
       discovery:
@@ -16,5 +16,18 @@ spring:
         namespace: ${spring.cloud.nacos.discovery.namespace}
         # 共享配置文件
         shared-configs:
-#          - study-shared-common.yml
+          - study-shared-common.yml
           - study-shared-ds.yml
+
+    stream:
+      rocketmq:
+        binder:
+          name-server: localhost:9876
+      bindings: # 绑定通道和交换机
+        source:
+          destination: study-mq
+          group: STUDY_MQ_GROUP
+          content-type: application/json
+        dest:
+          destination: study-mq
+          content-type: application/json
