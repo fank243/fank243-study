@@ -1,10 +1,8 @@
-package com.fank243.study.netty.server.handler;
+package com.fank243.study.netty.client.handler;
 
 import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.StrUtil;
-import com.fank243.study.netty.constants.MessageReceiveEnum;
 import com.fank243.study.netty.constants.NettyConstants;
-import com.fank243.study.netty.factory.NettyMessageFactory;
 import com.fank243.study.netty.protobuf.MessageProto;
 import com.fank243.study.netty.server.sender.TcpSender;
 import io.netty.channel.Channel;
@@ -20,17 +18,17 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.concurrent.ExecutorService;
 
 /**
- * TCP 服务端消息处理器
+ * TCP 客户端消息处理器
  *
  * @author FanWeiJie
  * @date 2021-05-03 01:12:26
  */
 @Slf4j
-public class TcpServerHandler extends ChannelInboundHandlerAdapter {
+public class TcpClientHandler extends ChannelInboundHandlerAdapter {
 
     private final ExecutorService executorService;
 
-    public TcpServerHandler() {
+    public TcpClientHandler() {
         executorService = ThreadUtil.newExecutor(Runtime.getRuntime().availableProcessors());
     }
 
@@ -41,7 +39,7 @@ public class TcpServerHandler extends ChannelInboundHandlerAdapter {
         TcpSender.saveChannel(channel);
         String msg =
             StrUtil.format("与客户端[{}]建立连接，分配通道ID：{}", channel.remoteAddress().toString(), channel.id().asLongText());
-        log.debug("[TCP Server]:{}", msg);
+        log.debug("[TCP Client]:{}", msg);
     }
 
     /** 与客户端断开连接时调用 **/
@@ -51,14 +49,14 @@ public class TcpServerHandler extends ChannelInboundHandlerAdapter {
         TcpSender.removeChannelByChannelId(channel);
         String msg =
             StrUtil.format("与客户端[{}]断开连接，断连通道ID：{}", channel.remoteAddress().toString(), channel.id().asLongText());
-        log.debug("[TCP Server]{}", msg);
+        log.debug("[TCP Client]{}", msg);
     }
 
     /** 接收到客户端消息时调用，如果客户端发送的消息无法解析时不调用 **/
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         String text = msg.toString();
-        System.out.println("[TCP Server]接收到消息：" + text);
+        System.out.println("[TCP Client]接收到消息：" + text);
         if (StringUtil.isNullOrEmpty(text)) {
             return;
         }
@@ -71,21 +69,6 @@ public class TcpServerHandler extends ChannelInboundHandlerAdapter {
         MessageProto.Netty message = (MessageProto.Netty) msg;
 
         MessageProto.Netty.MsgType msgType = message.getMsgType();
-        switch (msgType) {
-            case Login:
-                if (StrUtil.isNotEmpty(message.getFromUser())) {
-                    TcpSender.setChannel(ctx.channel(), message.getFromUser());
-                }
-                break;
-            case LoginOut:
-                TcpSender.removeChannel(message.getFromUser());
-                break;
-
-            default:
-                executorService.submit(() -> new NettyMessageFactory().getTcpInstance(MessageReceiveEnum.SYSTEM)
-                    .receive(ctx.channel(), message));
-                break;
-        }
     }
 
     /**
@@ -113,9 +96,9 @@ public class TcpServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         Channel channel = ctx.channel();
-        String msg = StrUtil.format("与客户端[{}]出现异常，断连通道ID：{}，异常原因：{}", channel.remoteAddress().toString(),
+        String msg = StrUtil.format("与服务端[{}]出现异常，断连通道ID：{}，异常原因：{}", channel.remoteAddress().toString(),
             channel.id().asLongText(), cause.getLocalizedMessage());
-        log.debug("[TCP Server]{}", msg, cause);
+        log.debug("[TCP Client]{}", msg, cause);
         channel.close();
     }
 }

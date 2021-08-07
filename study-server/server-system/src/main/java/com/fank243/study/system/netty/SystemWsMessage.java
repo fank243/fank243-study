@@ -16,7 +16,8 @@ import org.springframework.stereotype.Component;
 public class SystemWsMessage implements NettyMessage {
 
     @Override
-    public void receive(Channel channel, NettyModel nettyModel) {
+    public void receive(Channel channel, Object msg) {
+        NettyModel nettyModel = (NettyModel) msg;
         WsSender.sendUnicastMessage(channel, nettyModel);
 
         WsSender.sendMessage(nettyModel);

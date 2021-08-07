@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>fank243-study</artifactId>
+        <artifactId>study-server</artifactId>
         <groupId>com.fank243.study</groupId>
         <version>1.0.0</version>
     </parent>
@@ -18,7 +18,7 @@
         <maven.install.skip>true</maven.install.skip>
         <!--mvn 跳过单元测试-->
         <maven.test.skip>true</maven.test.skip>
-        <boot-jar-output>${user.home}/devops/output/study</boot-jar-output>
+        <boot-jar-output>${user.home}/devops/study</boot-jar-output>
     </properties>
 
     <dependencies>

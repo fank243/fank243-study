@@ -32,6 +32,10 @@
 
         <sentinel.version>1.8.2</sentinel.version>
 
+        <!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->
+        <!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java-util -->
+        <protobuf.version>3.17.3</protobuf.version>
+
         <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <!--https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-jar-plugin -->
@@ -121,6 +125,17 @@
                 <groupId>de.siegmar</groupId>
                 <artifactId>logback-gelf</artifactId>
                 <version>3.0.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-java</artifactId>
+                <version>${protobuf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-java-util</artifactId>
+                <version>${protobuf.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

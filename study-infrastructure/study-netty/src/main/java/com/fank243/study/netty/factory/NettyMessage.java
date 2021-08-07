@@ -1,6 +1,5 @@
 package com.fank243.study.netty.factory;
 
-import com.fank243.study.netty.model.NettyModel;
 import io.netty.channel.Channel;
 
 /**
@@ -15,7 +14,7 @@ public interface NettyMessage {
      * 接受消息
      * 
      * @param channel 通道
-     * @param nettyModel 接收到的消息
+     * @param message 接收到的消息
      */
-    void receive(Channel channel, NettyModel nettyModel);
+    void receive(Channel channel, Object message);
 }
