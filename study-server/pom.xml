@@ -18,7 +18,6 @@
 
     <modules>
         <module>server-gateway</module>
-        <module>server-adapter</module>
         <module>server-system</module>
     </modules>
 

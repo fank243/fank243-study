@@ -41,29 +41,29 @@ public class ResultInfo<T> implements Serializable {
 
     private T payload;
 
-    // public boolean isSuccess() {
-    // return success;
-    // }
-    //
-    // public ResultInfo<T> message(String message) {
-    // this.message = message;
-    // return this;
-    // }
-    //
-    // public ResultInfo<T> payload(T payload) {
-    // this.payload = payload;
-    // return this;
-    // }
-    //
-    // public ResultInfo<T> path(String path) {
-    // this.path = path;
-    // return this;
-    // }
-    //
-    // public ResultInfo<T> error(String error) {
-    // this.error = error;
-    // return this;
-    // }
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public ResultInfo<T> message(String message) {
+        this.message = message;
+        return this;
+    }
+
+    public ResultInfo<T> payload(T payload) {
+        this.payload = payload;
+        return this;
+    }
+
+    public ResultInfo<T> path(String path) {
+        this.path = path;
+        return this;
+    }
+
+    public ResultInfo<T> error(String error) {
+        this.error = error;
+        return this;
+    }
 
     private static <T> ResultInfo<T> builder(boolean success, int status, String message, T payload) {
         ResultInfo<T> resultInfo = new ResultInfo<>();

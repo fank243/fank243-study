@@ -5,7 +5,7 @@ spring:
   profiles.include: route,sentinel,common
   application.name: server-gateway
   # 多个模块启用时，必须指定端口
-  devtools.livereload.port: 35731
+  devtools.livereload.port: 35730
   cloud:
     nacos:
       discovery:

@@ -1,38 +1,65 @@
 package com.fank243.study.system.controller;
 
+import cn.hutool.core.bean.BeanUtil;
+import com.fank243.study.api.constants.ValidatorGroup;
 import com.fank243.study.api.system.ISysUserApi;
 import com.fank243.study.api.system.dto.SysUserDTO;
 import com.fank243.study.api.system.vo.SysUserVO;
 import com.fank243.study.common.utils.ResultInfo;
+import com.fank243.study.core.base.BaseController;
+import com.fank243.study.core.exception.BizException;
 import com.fank243.study.core.model.PageBean;
-import com.fank243.study.netty.model.MsgTypeEnum;
-import com.fank243.study.netty.model.NettyModel;
-import com.fank243.study.netty.server.sender.WsSender;
+import com.fank243.study.system.entity.SysUserEntity;
 import com.fank243.study.system.service.SysUserService;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
- * 系统管理员控制器
- * 
+ * <p>
+ * 系统管理员表 控制器
+ * </p>
+ *
  * @author FanWeiJie
- * @since 2021-06-13 23:59:03
+ * @since 2021-09-03
  */
 @RestController
-public class SysUserController implements ISysUserApi {
+public class SysUserController extends BaseController implements ISysUserApi {
 
     @Resource
     private SysUserService sysUserService;
 
     @Override
     public ResultInfo<SysUserVO> getById(String id) {
-        WsSender.sendMessage(new NettyModel(MsgTypeEnum.LOG.name(), "postman", "admin", "test"));
-        return ResultInfo.ok(sysUserService.findById(id));
+        SysUserEntity sysUser = sysUserService.getById(id);
+        return ResultInfo.ok(BeanUtil.toBean(sysUser, SysUserVO.class));
     }
 
     @Override
-    public ResultInfo<PageBean<SysUserVO>> pageOfSysUser(SysUserDTO sysUser) {
-        return ResultInfo.ok(sysUserService.pageOfUser(sysUser));
+    public ResultInfo<PageBean<SysUserVO>> page(@RequestBody SysUserDTO sysUser) {
+        return ResultInfo.ok(sysUserService.page(sysUser));
+    }
+
+    @Override
+    public ResultInfo<?> add(@RequestBody @Validated({ValidatorGroup.Create.class}) SysUserDTO sysUser)
+        throws BizException {
+        boolean isOk = sysUserService.add(sysUser);
+        return isOk ? ResultInfo.ok().message("添加成功") : ResultInfo.fail("添加失败");
+    }
+
+    @Override
+    public ResultInfo<?> modify(@RequestBody @Validated({ValidatorGroup.Modify.class}) SysUserDTO sysUser)
+        throws BizException {
+        boolean isOk = sysUserService.add(sysUser);
+        return isOk ? ResultInfo.ok().message("修改成功") : ResultInfo.fail("修改失败");
+    }
+
+    @Override
+    public ResultInfo<?> delete(@RequestBody String[] ids) throws BizException {
+        boolean isOk = sysUserService.removeByIds(List.of(ids));
+        return isOk ? ResultInfo.ok().message("删除成功") : ResultInfo.fail("删除失败");
     }
 }

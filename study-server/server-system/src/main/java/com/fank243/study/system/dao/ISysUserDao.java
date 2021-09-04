@@ -1,14 +1,18 @@
 package com.fank243.study.system.dao;
 
+import com.fank243.study.system.entity.SysUserEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.fank243.study.system.domain.entity.SysUserEntity;
 import org.springframework.stereotype.Repository;
 
 /**
- * 系统管理员
- * 
+ * <p>
+ * 系统管理员表 数据访问层
+ * </p>
+ *
  * @author FanWeiJie
- * @since 2021-06-14 00:00:51
+ * @since 2021-09-03
  */
 @Repository
-public interface ISysUserDao extends BaseMapper<SysUserEntity> {}
+public interface ISysUserDao extends BaseMapper<SysUserEntity> {
+
+}

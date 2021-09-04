@@ -1,5 +1,6 @@
 package com.fank243.study.core.base;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
@@ -16,6 +17,9 @@ import java.util.Date;
 public class BaseEntity implements Serializable {
 
     protected static final String YY_MM_DD_HH_MM_SS = "yy/MM/dd HH:mm:ss";
+
+    @TableId
+    private Long id;
 
     /** 创建人 **/
     private String createdBy;

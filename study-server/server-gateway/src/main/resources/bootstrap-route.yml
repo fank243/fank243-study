@@ -2,8 +2,8 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: server-adapter
-          uri: lb://server-adapter
+        - id: server-system
+          uri: lb://server-system
           predicates:
             - Path=/api/auth/**,/api/system/**
           filters:

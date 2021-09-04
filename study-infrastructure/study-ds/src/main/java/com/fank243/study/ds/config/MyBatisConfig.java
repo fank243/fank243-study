@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
  * @author FanWeiJie
  * @since 2021-06-15 22:56:38
  */
-@MapperScan("com.fank243.study")
+@MapperScan("com.fank243.study.*.dao")
 @Configuration
 public class MyBatisConfig {
 

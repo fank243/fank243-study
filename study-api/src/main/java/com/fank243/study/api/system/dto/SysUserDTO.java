@@ -1,22 +1,31 @@
 package com.fank243.study.api.system.dto;
 
-import com.fank243.study.core.model.PageDTO;
+import com.fank243.study.core.base.BaseDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 系统用户表
- * 
- * @author FanWeiJie
- * @date 2021-06-07 00:40:27
- */
-@EqualsAndHashCode(callSuper = true)
+* <p>
+* 系统管理员表
+* </p>
+*
+* @author FanWeiJie
+* @since 2021-09-03
+*/
 @Data
-public class SysUserDTO extends PageDTO {
+@EqualsAndHashCode(callSuper = true)
+public class SysUserDTO extends BaseDTO {
 
-    private String id;
 
+    /**
+    * 用户名
+    */
     private String username;
 
+    /**
+    * 登录密码
+    */
     private String password;
+
+
 }

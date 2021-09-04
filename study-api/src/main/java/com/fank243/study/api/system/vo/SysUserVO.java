@@ -1,21 +1,31 @@
 package com.fank243.study.api.system.vo;
 
+import com.fank243.study.core.base.BaseVO;
 import lombok.Data;
-
-import java.io.Serializable;
+import lombok.EqualsAndHashCode;
 
 /**
- * 系统用户表
- * 
- * @author FanWeiJie
- * @date 2021-06-07 00:40:27
- */
+* <p>
+* 系统管理员表
+* </p>
+*
+* @author FanWeiJie
+* @since 2021-09-03
+*/
 @Data
-public class SysUserVO implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+public class SysUserVO extends BaseVO {
 
-    private String id;
 
+    /**
+    * 用户名
+    */
     private String username;
 
+    /**
+    * 登录密码
+    */
     private String password;
+
+
 }
