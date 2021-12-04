@@ -87,7 +87,8 @@ public class TcpClientHandler extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) {
-        if (evt instanceof IdleStateEvent event) {
+        if (evt instanceof IdleStateEvent) {
+            IdleStateEvent event = (IdleStateEvent) evt;
             // 监听读事件
             if (event.state().name().equalsIgnoreCase(IdleState.READER_IDLE.name())) {
                 // send pong commend

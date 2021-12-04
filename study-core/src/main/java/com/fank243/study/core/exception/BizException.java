@@ -1,10 +1,11 @@
 package com.fank243.study.core.exception;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import java.io.Serializable;
+
 import org.springframework.http.HttpStatus;
 
-import java.io.Serial;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 自定义异常
@@ -14,9 +15,7 @@ import java.io.Serial;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class BizException extends Exception {
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class BizException extends Exception implements Serializable {
 
     private Integer status = HttpStatus.INTERNAL_SERVER_ERROR.value();
 

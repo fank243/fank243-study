@@ -1,10 +1,11 @@
 package com.fank243.study.core.exception;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import java.io.Serializable;
+
 import org.springframework.http.HttpStatus;
 
-import java.io.Serial;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 认证异常
@@ -14,9 +15,7 @@ import java.io.Serial;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class AuthException extends Exception {
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class AuthException extends Exception implements Serializable {
 
     private int status = HttpStatus.UNAUTHORIZED.value();
 
