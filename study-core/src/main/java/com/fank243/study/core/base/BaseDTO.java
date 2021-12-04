@@ -17,7 +17,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class BaseDTO implements Serializable {
 
-    private Long id;
+    private String id;
 
     private Long currPage;
 

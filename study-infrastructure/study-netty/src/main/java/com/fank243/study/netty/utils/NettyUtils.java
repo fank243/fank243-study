@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Channel 工具
  * 
  * @author FanWeiJie
- * @date 2021-05-04 13:34:51
+ * @since 2021-05-04 13:34:51
  */
 @Slf4j
 public class NettyUtils {

@@ -5,7 +5,7 @@ spring:
         - id: server-system
           uri: lb://server-system
           predicates:
-            - Path=/api/auth/**,/api/system/**
+            - Path=/api/system/**
           filters:
             - StripPrefix=1
 

@@ -2,19 +2,23 @@ package com.fank243.study.core.exception;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.http.HttpStatus;
+
+import java.io.Serial;
 
 /**
  * 自定义异常
  * 
  * @author FanWeiJie
- * @date 2021-04-05 23:41:10
+ * @since 2021-04-05 23:41:10
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class BizException extends Exception {
+    @Serial
     private static final long serialVersionUID = 1L;
 
-    private Integer status = 500;
+    private Integer status = HttpStatus.INTERNAL_SERVER_ERROR.value();
 
     private final String message;
 

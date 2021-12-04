@@ -1,6 +1,14 @@
 package com.fank243.study.system.controller;
 
-import cn.hutool.core.bean.BeanUtil;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import com.fank243.study.common.model.PageBean;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.fank243.study.api.constants.ValidatorGroup;
 import com.fank243.study.api.system.ISysUserApi;
 import com.fank243.study.api.system.dto.SysUserDTO;
@@ -8,21 +16,14 @@ import com.fank243.study.api.system.vo.SysUserVO;
 import com.fank243.study.common.utils.ResultInfo;
 import com.fank243.study.core.base.BaseController;
 import com.fank243.study.core.exception.BizException;
-import com.fank243.study.core.model.PageBean;
 import com.fank243.study.system.entity.SysUserEntity;
 import com.fank243.study.system.service.SysUserService;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
-import java.util.List;
+import cn.hutool.core.bean.BeanUtil;
 
 /**
- * <p>
  * 系统管理员表 控制器
- * </p>
- *
+ * 
  * @author FanWeiJie
  * @since 2021-09-03
  */

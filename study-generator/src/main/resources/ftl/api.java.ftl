@@ -16,9 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import com.fank243.study.core.exception.BizException;
 
 /**
- * <p>
  * ${table.comment!} Api
- * </p>
  *
  * @author ${author}
  * @since ${date}

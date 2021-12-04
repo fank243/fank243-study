@@ -6,7 +6,7 @@ import lombok.Getter;
  * 统一响应代码，无特殊意义响应代码无需在此定义
  * 
  * @author FanWeiJie
- * @date 2019-05-22 15:31:44
+ * @since 2019-05-22 15:31:44
  */
 @Getter
 public enum ResultCodeEnum {
@@ -14,11 +14,9 @@ public enum ResultCodeEnum {
     /** 请求成功 **/
     R200(200, "请求成功"),
 
-    R201(201, "您的登录会话已失效，请重新登录"),
-
     R400(400, "错误的请求"),
 
-    R401(401, "您访问的资源需要认证"),
+    R401(401, "您的登录会话已失效，请重新登录"),
 
     R402(402, "Token Expired"),
 

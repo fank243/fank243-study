@@ -1,4 +1,5 @@
 let api = [];
+const apiDocListSize = 1
 api.push({
     name: 'default',
     order: '1',
@@ -8,12 +9,7 @@ api[0].list.push({
     alias: 'BaseController',
     order: '1',
     link: 'base_controller',
-    desc: 'BaseController',
-    list: []
-})
-api.push({
-    name: '数据字典',
-    order: '2',
+    desc: 'Base Controller',
     list: []
 })
 document.onkeydown = keyDownSearch;
@@ -22,7 +18,8 @@ function keyDownSearch(e) {
     const code = theEvent.keyCode || theEvent.which || theEvent.charCode;
     if (code == 13) {
         const search = document.getElementById('search');
-        const searchValue = search.value;
+        const searchValue = search.value.toLocaleLowerCase();
+
         let searchGroup = [];
         for (let i = 0; i < api.length; i++) {
 
@@ -32,7 +29,7 @@ function keyDownSearch(e) {
             for (let i = 0; i < apiGroup.list.length; i++) {
                 let apiData = apiGroup.list[i];
                 const desc = apiData.desc;
-                if (desc.indexOf(searchValue) > -1) {
+                if (desc.toLocaleLowerCase().indexOf(searchValue) > -1) {
                     searchArr.push({
                         order: apiData.order,
                         desc: apiData.desc,
@@ -45,7 +42,7 @@ function keyDownSearch(e) {
                     for (let j = 0; j < methodList.length; j++) {
                         const methodData = methodList[j];
                         const methodDesc = methodData.desc;
-                        if (methodDesc.indexOf(searchValue) > -1) {
+                        if (methodDesc.toLocaleLowerCase().indexOf(searchValue) > -1) {
                             methodListTemp.push(methodData);
                             break;
                         }
@@ -60,6 +57,14 @@ function keyDownSearch(e) {
                         searchArr.push(data);
                     }
                 }
+            }
+            if (apiGroup.name.toLocaleLowerCase().indexOf(searchValue) > -1) {
+                searchGroup.push({
+                    name: apiGroup.name,
+                    order: apiGroup.order,
+                    list: searchArr
+                });
+                continue;
             }
             if (searchArr.length === 0) {
                 continue;
@@ -105,27 +110,54 @@ function buildAccordion(apiGroups, liClass, display) {
     let html = "";
     let doc;
     if (apiGroups.length > 0) {
-        for (let i = 0; i < apiGroups.length; i++) {
-            let apiGroup = apiGroups[i];
-            html += '<li class="'+liClass+'">';
-            html += '<a class="dd" href="#_' + apiGroup.name + '">' + apiGroup.order + '.&nbsp;' + apiGroup.name + '</a>';
-            html += '<ul class="sectlevel1">';
-
-            let apiData = apiGroup.list;
+         if (apiDocListSize == 1) {
+            let apiData = apiGroups[0].list;
             for (let j = 0; j < apiData.length; j++) {
                 html += '<li class="'+liClass+'">';
                 html += '<a class="dd" href="#_' + apiData[j].link + '">' + apiData[j].order + '.&nbsp;' + apiData[j].desc + '</a>';
                 html += '<ul class="sectlevel2" style="'+display+'">';
                 doc = apiData[j].list;
                 for (let m = 0; m < doc.length; m++) {
-                    html += '<li><a href="#_' + apiData[j].order + '_' + doc[m].order + '_' + doc[m].desc + '">' + apiData[j].order + '.' + doc[m].order + '.&nbsp;' + doc[m].desc + '</a> </li>';
+                    let spanString;
+                    if (doc[m].deprecated == 'true') {
+                        spanString='<span class="line-through">';
+                    } else {
+                        spanString='<span>';
+                    }
+                    html += '<li><a href="#_1_' + apiData[j].order + '_' + doc[m].order + '_' + doc[m].desc + '">' + apiData[j].order + '.' + doc[m].order + '.&nbsp;' + spanString + doc[m].desc + '<span></a> </li>';
                 }
                 html += '</ul>';
                 html += '</li>';
             }
+        } else {
+            for (let i = 0; i < apiGroups.length; i++) {
+                let apiGroup = apiGroups[i];
+                html += '<li class="'+liClass+'">';
+                html += '<a class="dd" href="#_' + apiGroup.name + '">' + apiGroup.order + '.&nbsp;' + apiGroup.name + '</a>';
+                html += '<ul class="sectlevel1">';
 
-            html += '</ul>';
-            html += '</li>';
+                let apiData = apiGroup.list;
+                for (let j = 0; j < apiData.length; j++) {
+                    html += '<li class="'+liClass+'">';
+                    html += '<a class="dd" href="#_'+apiGroup.order+'_'+ apiData[j].order + '_'+ apiData[j].link + '">' +apiGroup.order+'.'+ apiData[j].order + '.&nbsp;' + apiData[j].desc + '</a>';
+                    html += '<ul class="sectlevel2" style="'+display+'">';
+                    doc = apiData[j].list;
+                    for (let m = 0; m < doc.length; m++) {
+                       let spanString;
+                       if (doc[m].deprecated == 'true') {
+                           spanString='<span class="line-through">';
+                       } else {
+                           spanString='<span>';
+                       }
+                       html += '<li><a href="#_'+apiGroup.order+'_' + apiData[j].order + '_' + doc[m].order + '_' + doc[m].desc + '">'+apiGroup.order+'.' + apiData[j].order + '.' + doc[m].order + '.&nbsp;' + spanString + doc[m].desc + '<span></a> </li>';
+                   }
+                    html += '</ul>';
+                    html += '</li>';
+                }
+
+                html += '</ul>';
+                html += '</li>';
+            }
         }
     }
     return html;

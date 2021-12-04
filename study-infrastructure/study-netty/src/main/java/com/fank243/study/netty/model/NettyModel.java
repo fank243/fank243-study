@@ -10,7 +10,7 @@ import java.io.Serializable;
  * Model
  * 
  * @author FanWeiJie
- * @date 2021-05-04 14:12:36
+ * @since 2021-05-04 14:12:36
  */
 @AllArgsConstructor
 @NoArgsConstructor

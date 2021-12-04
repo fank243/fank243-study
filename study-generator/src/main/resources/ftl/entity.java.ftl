@@ -16,9 +16,7 @@ import lombok.experimental.Accessors;
 </#if>
 
 /**
-* <p>
 * ${table.comment!}
-* </p>
 *
 * @author ${author}
 * @since ${date}
@@ -61,9 +59,7 @@ private static final long serialVersionUID = 1L;
         <#if swagger2>
         @ApiModelProperty(value = "${field.comment}")
         <#else>
-    /**
-    * ${field.comment}
-    */
+    /** ${field.comment} */
         </#if>
     </#if>
     <#if field.keyFlag>

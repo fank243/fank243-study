@@ -1,11 +1,12 @@
 package com.fank243.study.ds.utils;
 
-import cn.hutool.core.bean.BeanUtil;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.fank243.study.core.model.PageBean;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.fank243.study.common.model.PageBean;
+
+import cn.hutool.core.bean.BeanUtil;
 
 /**
  * Bean Util

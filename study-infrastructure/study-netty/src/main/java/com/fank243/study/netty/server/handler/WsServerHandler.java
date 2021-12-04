@@ -1,16 +1,19 @@
 package com.fank243.study.netty.server.handler;
 
+import java.util.concurrent.ExecutorService;
+
+import com.fank243.study.netty.constants.MessageReceiveEnum;
+import com.fank243.study.netty.constants.NettyConstants;
+import com.fank243.study.netty.factory.MessageFactory;
+import com.fank243.study.netty.model.MsgTypeEnum;
+import com.fank243.study.netty.model.NettyModel;
+import com.fank243.study.netty.server.sender.WsSender;
+
 import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.EnumUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONException;
 import cn.hutool.json.JSONUtil;
-import com.fank243.study.netty.constants.MessageReceiveEnum;
-import com.fank243.study.netty.constants.NettyConstants;
-import com.fank243.study.netty.factory.NettyMessageFactory;
-import com.fank243.study.netty.model.MsgTypeEnum;
-import com.fank243.study.netty.model.NettyModel;
-import com.fank243.study.netty.server.sender.WsSender;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -22,13 +25,11 @@ import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.internal.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.concurrent.ExecutorService;
-
 /**
  * WebSocket 服务端消息处理器
  *
  * @author FanWeiJie
- * @date 2021-05-03 01:12:26
+ * @since 2021-05-03 01:12:26
  */
 @Slf4j
 public class WsServerHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
@@ -100,8 +101,8 @@ public class WsServerHandler extends SimpleChannelInboundHandler<TextWebSocketFr
                 break;
 
             default:
-                executorService.submit(() -> new NettyMessageFactory().getWsInstance(MessageReceiveEnum.SYSTEM)
-                    .receive(channel, nettyModel));
+                executorService.submit(
+                    () -> new MessageFactory().getWsInstance(MessageReceiveEnum.SYSTEM).receive(channel, nettyModel));
                 break;
         }
     }

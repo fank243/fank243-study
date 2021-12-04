@@ -1,12 +1,15 @@
 package com.fank243.study.netty.server.handler;
 
-import cn.hutool.core.thread.ThreadUtil;
-import cn.hutool.core.util.StrUtil;
+import java.util.concurrent.ExecutorService;
+
 import com.fank243.study.netty.constants.MessageReceiveEnum;
 import com.fank243.study.netty.constants.NettyConstants;
-import com.fank243.study.netty.factory.NettyMessageFactory;
+import com.fank243.study.netty.factory.MessageFactory;
 import com.fank243.study.netty.protobuf.MessageProto;
 import com.fank243.study.netty.server.sender.TcpSender;
+
+import cn.hutool.core.thread.ThreadUtil;
+import cn.hutool.core.util.StrUtil;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -17,13 +20,11 @@ import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.internal.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.concurrent.ExecutorService;
-
 /**
  * TCP 服务端消息处理器
  *
  * @author FanWeiJie
- * @date 2021-05-03 01:12:26
+ * @since 2021-05-03 01:12:26
  */
 @Slf4j
 public class TcpServerHandler extends ChannelInboundHandlerAdapter {
@@ -68,7 +69,7 @@ public class TcpServerHandler extends ChannelInboundHandlerAdapter {
             return;
         }
 
-        MessageProto.Netty message = (MessageProto.Netty) msg;
+        MessageProto.Netty message = (MessageProto.Netty)msg;
 
         MessageProto.Netty.MsgType msgType = message.getMsgType();
         switch (msgType) {
@@ -82,7 +83,7 @@ public class TcpServerHandler extends ChannelInboundHandlerAdapter {
                 break;
 
             default:
-                executorService.submit(() -> new NettyMessageFactory().getTcpInstance(MessageReceiveEnum.SYSTEM)
+                executorService.submit(() -> new MessageFactory().getTcpInstance(MessageReceiveEnum.SYSTEM)
                     .receive(ctx.channel(), message));
                 break;
         }

@@ -1,16 +1,17 @@
 package com.fank243.study.common.utils;
 
-import cn.hutool.json.JSONUtil;
-import com.fank243.study.common.enums.ResultCodeEnum;
-import lombok.Data;
-
 import java.io.Serializable;
+
+import com.fank243.study.common.enums.ResultCodeEnum;
+
+import cn.hutool.json.JSONUtil;
+import lombok.Data;
 
 /**
  * 系统统一消息组件，可用于HTTP 响应JSON串，也可用用于接收被调用层返回处理结果
  *
  * @author FanWeiJie
- * @date 2018-09-31 10:10:10
+ * @since 2018-09-31 10:10:10
  */
 @Data
 public class ResultInfo<T> implements Serializable {
@@ -122,6 +123,7 @@ public class ResultInfo<T> implements Serializable {
     public static <T> ResultInfo<T> fail() {
         return fail(ResultCodeEnum.R500.getMessage());
     }
+
 
     public static <T> ResultInfo<T> err401(String message) {
         return builderFail(ResultCodeEnum.R401.getStatus(), message);

@@ -17,5 +17,5 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class BaseVO implements Serializable {
 
-    private Long id;
+    private String id;
 }

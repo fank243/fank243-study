@@ -8,7 +8,10 @@ package com.fank243.study.api.constants;
  */
 public class ApiConstants {
 
+    public static final String BASE_URI_OAUTH2 = "/oauth2";
+
     public static final String BASE_URI_MESSAGE = "/system/message";
 
     public static final String BASE_URI_SYSTEM_ADMIN = "/system/admin";
+
 }

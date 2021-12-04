@@ -5,9 +5,7 @@ import ${superMapperClassPackage};
 import org.springframework.stereotype.Repository;
 
 /**
- * <p>
  * ${table.comment!} 数据访问层
- * </p>
  *
  * @author ${author}
  * @since ${date}

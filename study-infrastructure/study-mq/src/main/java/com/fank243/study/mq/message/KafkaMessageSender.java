@@ -21,7 +21,7 @@ public class KafkaMessageSender {
     private StudyChannel studyChannel;
 
     /**
-     * 消息发送到默认通道：缺省通道对应缺省主题
+     * 消息发送到默认通道：默认通道对应默认主题
      * 
      * @param message 消息
      */

@@ -19,9 +19,7 @@ import com.fank243.study.core.model.PageBean;
 import javax.annotation.Resource;
 
 /**
- * <p>
  * ${table.comment!} 服务类
- * </p>
  *
  * @author ${author}
  * @since ${date}

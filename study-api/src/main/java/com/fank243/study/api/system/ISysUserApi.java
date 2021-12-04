@@ -1,14 +1,15 @@
 package com.fank243.study.api.system;
 
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
 import com.fank243.study.api.constants.ApiConstants;
 import com.fank243.study.api.constants.ValidatorGroup;
 import com.fank243.study.api.system.dto.SysUserDTO;
 import com.fank243.study.api.system.vo.SysUserVO;
+import com.fank243.study.common.model.PageBean;
 import com.fank243.study.common.utils.ResultInfo;
 import com.fank243.study.core.exception.BizException;
-import com.fank243.study.core.model.PageBean;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>

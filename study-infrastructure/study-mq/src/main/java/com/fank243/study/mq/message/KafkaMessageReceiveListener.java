@@ -10,8 +10,8 @@ import org.springframework.messaging.Message;
 /**
  * kafka 从不同的通道实现消息的订阅
  * 
- * @author sfy
- * @date 2020/9/22 10:52 上午
+ * @author FanWeiJie
+ * @since 2021-09-04 19:06:21
  */
 @Slf4j
 @EnableBinding(StudyChannel.class)

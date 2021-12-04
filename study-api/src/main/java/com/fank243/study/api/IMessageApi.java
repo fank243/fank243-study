@@ -17,6 +17,7 @@ public interface IMessageApi {
      * 默认消息发送通道
      * 
      * @param message 消息
+     * @return 消息发送结果
      */
     @GetMapping(ApiConstants.BASE_URI_MESSAGE + "/sendDefaultMsg")
     ResultInfo<?> sendDefaultMsg(@RequestBody String message);
@@ -25,6 +26,7 @@ public interface IMessageApi {
      * 告警消息发送通道
      * 
      * @param message 消息
+     * @return 消息发送结果
      */
     @GetMapping(ApiConstants.BASE_URI_MESSAGE + "/sendAlertMsg")
     ResultInfo<?> sendAlertMsg(@RequestBody String message);

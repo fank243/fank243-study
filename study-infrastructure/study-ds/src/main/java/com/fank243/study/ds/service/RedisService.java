@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
  * spring data redis 工具类
  * 
  * @author FanWeiJie
- * @date 2021-04-05 23:41:10
+ * @since 2021-04-05 23:41:10
  **/
 @SuppressWarnings(value = {"unchecked", "rawtypes"})
 @Component

@@ -4,7 +4,7 @@ package com.fank243.study.core.constant;
  * 日期常量
  * 
  * @author FanWeiJie
- * @date 2021-06-08 22:49:20
+ * @since 2021-06-08 22:49:20
  */
 public class DateConstant {
 

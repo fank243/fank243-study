@@ -18,7 +18,7 @@
 // * sentinel configuration
 // *
 // * @author FanWeiJie
-// * @date 2021-06-12 13:56:21
+// * @since 2021-06-12 13:56:21
 // */
 //@Configuration
 //public class GatewayConfiguration {

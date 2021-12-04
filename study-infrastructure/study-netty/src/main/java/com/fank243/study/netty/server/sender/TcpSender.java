@@ -1,21 +1,22 @@
 package com.fank243.study.netty.server.sender;
 
-import cn.hutool.core.util.StrUtil;
-import com.fank243.study.netty.model.NettyModel;
-import com.fank243.study.netty.utils.NettyUtils;
-import io.netty.channel.Channel;
-import io.netty.util.AttributeKey;
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import com.fank243.study.netty.model.NettyModel;
+import com.fank243.study.netty.utils.NettyUtils;
+
+import cn.hutool.core.util.StrUtil;
+import io.netty.channel.Channel;
+import io.netty.util.AttributeKey;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Tcp Server 消息发送器
  * 
  * @author FanWeiJie
- * @date 2021-05-04 15:05:34
+ * @since 2021-05-04 15:05:34
  */
 @Slf4j
 public class TcpSender {

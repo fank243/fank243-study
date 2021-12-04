@@ -5,15 +5,18 @@ import com.fank243.study.common.utils.ResultInfo;
 import com.fank243.study.gateway.utils.ResponseUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpResponse;
+import org.springframework.lang.NonNullApi;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebExceptionHandler;
 import reactor.core.publisher.Mono;
+
+import javax.annotation.Nonnull;
 
 /**
  * 自定义限流异常处理
  *
  * @author FanWeiJie
- * @date 2021-04-05 23:41:10
+ * @since 2021-04-05 23:41:10
  */
 public class SentinelFallbackHandler implements WebExceptionHandler {
 

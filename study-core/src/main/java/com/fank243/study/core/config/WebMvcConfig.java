@@ -8,6 +8,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistration
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -30,7 +31,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     }
 
     @Override
-    public void addInterceptors(InterceptorRegistry registry) {
+    public void addInterceptors(@Nonnull InterceptorRegistry registry) {
         if (handlerInterceptors == null || handlerInterceptors.isEmpty()) {
             return;
         }
@@ -56,9 +57,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
             excludeList.addAll(Arrays.asList(annotation.exclude()));
             excludeList
                 .addAll(Arrays.asList("/style/**", "/js/**", "/layui/**", "*.js", "*.css", "*.icon", "*.png", "*.jpg"));
-            if (excludeList.size() > 0) {
-                registration.excludePathPatterns(excludeList);
-            }
+            registration.excludePathPatterns(excludeList);
         }
     }
 

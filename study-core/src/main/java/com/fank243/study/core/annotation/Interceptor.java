@@ -25,8 +25,6 @@ public @interface Interceptor {
     /** 排除资源 **/
     String[] exclude() default {};
 
-    /**
-     * 顺序，数值越小优先级越高
-     */
+    /** 顺序，数值越小优先级越高 */
     int order() default Ordered.LOWEST_PRECEDENCE;
 }

@@ -20,22 +20,27 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
 
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies -->
-        <spring-boot.version>2.5.4</spring-boot.version>
+        <spring-boot.version>2.5.7</spring-boot.version>
         <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-dependencies -->
-        <spring-cloud.version>2020.0.3</spring-cloud.version>
-        <!--https://maven.aliyun.com/mvn/search -->
+        <spring-cloud.version>2020.0.4</spring-cloud.version>
+        <!-- https://maven.aliyun.com/mvn/search -->
+        <!-- https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E -->
         <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
-        <fank243-dependencies.version>1.0.1</fank243-dependencies.version>
+        <!-- https://github.com/fank243?tab=packages&repo_name=mvn-repo -->
+        <fank243-dependencies.version>1.0.2</fank243-dependencies.version>
 
         <sentinel.version>1.8.2</sentinel.version>
 
         <!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->
         <!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java-util -->
         <protobuf.version>3.17.3</protobuf.version>
+
+        <!-- https://mvnrepository.com/artifact/cn.dev33/sa-token-spring-boot-starter -->
+        <sa-token.version>1.28.0</sa-token.version>
     </properties>
 
     <dependencyManagement>
@@ -128,6 +133,30 @@
                 <artifactId>protobuf-java-util</artifactId>
                 <version>${protobuf.version}</version>
             </dependency>
+            <!-- Sa-Token 权限认证, 在线文档：http://sa-token.dev33.cn/ -->
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-spring-boot-starter</artifactId>
+                <version>${sa-token.version}</version>
+            </dependency>
+            <!-- Sa-Token 权限认证（Reactor响应式集成）, 在线文档：http://sa-token.dev33.cn/ -->
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-reactor-spring-boot-starter</artifactId>
+                <version>${sa-token.version}</version>
+            </dependency>
+            <!-- Sa-Token 整合 Redis （使用jackson序列化方式） -->
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-dao-redis-jackson</artifactId>
+                <version>${sa-token.version}</version>
+            </dependency>
+            <!-- Sa-Token-OAuth2.0 模块 -->
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-oauth2</artifactId>
+                <version>${sa-token.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -135,46 +164,17 @@
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-dependency-plugin</artifactId>
-                    <executions>
-                        <execution>
-                            <id>copy-dependencies</id>
-                            <phase>package</phase>
-                            <goals>
-                                <goal>copy-dependencies</goal>
-                            </goals>
-                            <configuration>
-                                <!--
-                                各子模块按照实际层级定义各模块对应的属性值，检查所有微服务模块依赖jar文件合并复制到同一个目录
-                                详见各子模块中 boot-jar-output 属性定义
-                                -->
-                                <outputDirectory>${boot-jar-output}/lib</outputDirectory>
-                                <excludeTransitive>false</excludeTransitive>
-                                <stripVersion>false</stripVersion>
-                                <silent>false</silent>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
                     <version>${spring-boot.version}</version>
                     <configuration>
-                        <!--表示编译版本配置有效-->
-                        <fork>true</fork>
-                        <!--引入项目引用的第三方jar-->
-                        <includeSystemScope>true</includeSystemScope>
-                        <layout>ZIP</layout>
-                        <outputDirectory>${boot-jar-output}</outputDirectory>
-                        <!--排除第三方jar文件-->
-                        <includes>
-                            <include>
-                                <groupId>nothing</groupId>
-                                <artifactId>nothing</artifactId>
-                            </include>
-                        </includes>
+                        <!--
+                            分层打包：主要用于docker部署时打包的镜像文件变得更小
+                            https://docs.spring.io/spring-boot/docs/2.6.1/maven-plugin/reference/htmlsingle/#packaging.layers
+                         -->
+                        <layers>
+                            <enabled>true</enabled>
+                        </layers>
                     </configuration>
                     <executions>
                         <execution>

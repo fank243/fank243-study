@@ -12,8 +12,6 @@
     <artifactId>server-system</artifactId>
 
     <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
         <!--mvn install 不安装到本地仓库-->
         <maven.install.skip>true</maven.install.skip>
         <!--mvn 跳过单元测试-->
@@ -39,6 +37,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.fank243.study</groupId>
             <artifactId>study-ds</artifactId>
@@ -49,13 +48,8 @@
         </dependency>
         <dependency>
             <groupId>com.fank243.study</groupId>
-            <artifactId>study-mq</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fank243.study</groupId>
             <artifactId>study-netty</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.retry</groupId>
             <artifactId>spring-retry</artifactId>
@@ -67,14 +61,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

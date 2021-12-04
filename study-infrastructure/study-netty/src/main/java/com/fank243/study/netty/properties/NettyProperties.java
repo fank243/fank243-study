@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * Netty Properties
  * 
  * @author FanWeiJie
- * @date 2021-06-03 21:52:21
+ * @since 2021-06-03 21:52:21
  */
 @Data
 @Component

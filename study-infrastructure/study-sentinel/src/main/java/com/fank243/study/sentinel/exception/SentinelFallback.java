@@ -4,7 +4,7 @@ package com.fank243.study.sentinel.exception;
  * Sentinel 限流通用处理
  *
  * @author FanWeiJie
- * @date 2021-06-05 20:41:21
+ * @since 2021-06-05 20:41:21
  */
 @SuppressWarnings("unused")
 public class SentinelFallback {

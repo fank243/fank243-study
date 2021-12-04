@@ -1,10 +1,16 @@
 package com.fank243.study.netty.client.handler;
 
+import java.util.concurrent.ExecutorService;
+
+import com.fank243.study.netty.constants.MessageReceiveEnum;
+import com.fank243.study.netty.constants.NettyConstants;
+import com.fank243.study.netty.factory.IMessage;
+import com.fank243.study.netty.factory.MessageFactory;
+import com.fank243.study.netty.server.sender.TcpSender;
+
 import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.StrUtil;
-import com.fank243.study.netty.constants.NettyConstants;
-import com.fank243.study.netty.protobuf.MessageProto;
-import com.fank243.study.netty.server.sender.TcpSender;
+import cn.hutool.json.JSONUtil;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -15,13 +21,11 @@ import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.internal.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.concurrent.ExecutorService;
-
 /**
  * TCP 客户端消息处理器
  *
  * @author FanWeiJie
- * @date 2021-05-03 01:12:26
+ * @since 2021-05-03 01:12:26
  */
 @Slf4j
 public class TcpClientHandler extends ChannelInboundHandlerAdapter {
@@ -65,10 +69,11 @@ public class TcpClientHandler extends ChannelInboundHandlerAdapter {
         if (NettyConstants.PING.equalsIgnoreCase(text)) {
             return;
         }
+        Channel channel = ctx.channel();
+        IMessage message = JSONUtil.toBean(JSONUtil.toJsonStr(msg), IMessage.class);
 
-        MessageProto.Netty message = (MessageProto.Netty) msg;
-
-        MessageProto.Netty.MsgType msgType = message.getMsgType();
+        executorService
+            .submit(() -> new MessageFactory().getTcpInstance(MessageReceiveEnum.SYSTEM).receive(channel, message));
     }
 
     /**
@@ -82,8 +87,7 @@ public class TcpClientHandler extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) {
-        if (evt instanceof IdleStateEvent) {
-            IdleStateEvent event = (IdleStateEvent)evt;
+        if (evt instanceof IdleStateEvent event) {
             // 监听读事件
             if (event.state().name().equalsIgnoreCase(IdleState.READER_IDLE.name())) {
                 // send pong commend
