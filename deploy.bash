@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "去除study-server目录：mv study-server/* ."
+mv study-server/* .
+
 # shellcheck disable=SC2006
 project=("server-gateway" "server-oauth2" "server-system")
 # 端口号
