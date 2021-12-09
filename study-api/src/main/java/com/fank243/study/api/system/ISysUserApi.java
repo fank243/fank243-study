@@ -12,26 +12,25 @@ import com.fank243.study.common.utils.ResultInfo;
 import com.fank243.study.core.exception.BizException;
 
 /**
- * <p>
- * 系统管理员表 Api
- * </p>
+ * 系统管理员
  *
  * @author FanWeiJie
  * @since 2021-09-03
+ * @restApi
  */
 public interface ISysUserApi {
 
     /**
-     * 系统管理员表_根据ID查找
+     * 系统管理员_根据ID查找
      *
-     * @param id 主键ID
+     * @param userId 用户ID
      * @return 用户实体
      */
-    @GetMapping(ApiConstants.BASE_URI_SYSTEM_ADMIN + "/get/{id}")
-    ResultInfo<SysUserVO> getById(@PathVariable("id") String id);
+    @GetMapping(ApiConstants.BASE_URI_SYSTEM_ADMIN + "/get/{userId}")
+    ResultInfo<SysUserVO> getById(@PathVariable("userId") String userId);
 
     /**
-     * 系统管理员表_分页
+     * 系统管理员_分页
      *
      * @param sysUser 查询条件
      * @return 列表
@@ -40,7 +39,7 @@ public interface ISysUserApi {
     ResultInfo<PageBean<SysUserVO>> page(@RequestBody SysUserDTO sysUser);
 
     /**
-     * 系统管理员表_新增
+     * 系统管理员_新增
      *
      * @param sysUser 请求参数
      * @return 操作结果
@@ -49,7 +48,7 @@ public interface ISysUserApi {
     ResultInfo<?> add(@RequestBody @Validated({ValidatorGroup.Create.class}) SysUserDTO sysUser) throws BizException;
 
     /**
-     * 系统管理员表_修改
+     * 系统管理员_修改
      *
      * @param sysUser 请求参数
      * @return 操作结果
@@ -58,7 +57,7 @@ public interface ISysUserApi {
     ResultInfo<?> modify(@RequestBody @Validated({ValidatorGroup.Modify.class}) SysUserDTO sysUser) throws BizException;
 
     /**
-     * 系统管理员表_删除
+     * 系统管理员_删除
      *
      * @param ids 主键ID集合
      * @return 操作结果

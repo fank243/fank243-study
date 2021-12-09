@@ -22,6 +22,7 @@ import cn.dev33.satoken.stp.StpUtil;
  * @author FanWeiJie
  * @since 2021-11-24 14:54:25
  */
+@SuppressWarnings("ALL")
 @Service
 public class AuthService extends ServiceImpl<IAuthDao, SysUserEntity> {
 

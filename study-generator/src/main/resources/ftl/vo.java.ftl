@@ -1,13 +1,12 @@
 package ${package.Entity};
 
-import com.fank243.study.core.base.BaseVO;
+import java.io.Serializable;
 <#if swagger2>
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 </#if>
 <#if entityLombokModel>
 import lombok.Data;
-import lombok.EqualsAndHashCode;
     <#if chainModel>
 import lombok.experimental.Accessors;
     </#if>
@@ -20,11 +19,10 @@ import lombok.experimental.Accessors;
 * @since ${date}
 */
 @Data
-@EqualsAndHashCode(callSuper = true)
 <#if swagger2>
 @ApiModel(value="${entity}对象", description="${table.comment!}")
 </#if>
-public class ${entity}VO extends BaseVO {
+public class ${entity}VO implements Serializable {
 
 <#-- ----------  BEGIN 字段循环遍历  ---------->
 <#list table.fields as field>

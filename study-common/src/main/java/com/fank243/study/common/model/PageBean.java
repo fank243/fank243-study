@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 public class PageBean<T> implements Serializable {
 
     /**
-     * 当前页
+     * 当前页码，默认：1
      */
     protected long currPage = 1;
 
@@ -40,7 +40,7 @@ public class PageBean<T> implements Serializable {
     protected long totalPage = 0;
 
     /**
-     * 查询数据列表
+     * 数据集
      */
     protected List<T> data = Collections.emptyList();
 }

@@ -21,6 +21,7 @@ public class TraceIdInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(@Nullable HttpServletRequest request, @Nullable HttpServletResponse response,
         @Nullable Object handler) {
+        System.out.println(TraceContext.traceId());
         MDC.put("traceId", TraceContext.traceId());
         return true;
     }

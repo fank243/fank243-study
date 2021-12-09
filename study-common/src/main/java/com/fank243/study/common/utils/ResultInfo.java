@@ -8,8 +8,9 @@ import cn.hutool.json.JSONUtil;
 import lombok.Data;
 
 /**
- * 系统统一消息组件，可用于HTTP 响应JSON串，也可用用于接收被调用层返回处理结果
+ * 系统统一消息组件
  *
+ * @apiNote 可用于HTTP响应JSON串，也可用用于接收被调用层返回处理结果
  * @author FanWeiJie
  * @since 2018-09-31 10:10:10
  */
@@ -22,7 +23,7 @@ public class ResultInfo<T> implements Serializable {
     /** 错误消息 */
     private String message = ResultCodeEnum.R500.getMessage();
 
-    /** ERROR */
+    /** 异常消息 */
     private String error = "";
 
     /**
@@ -37,9 +38,10 @@ public class ResultInfo<T> implements Serializable {
     /** 时间戳 **/
     private Long timestamp = System.currentTimeMillis();
 
-    /** 请求URI */
+    /** 请求地址 */
     private String path = "";
 
+    /** 数据载体 */
     private T payload;
 
     public boolean isSuccess() {
@@ -123,7 +125,6 @@ public class ResultInfo<T> implements Serializable {
     public static <T> ResultInfo<T> fail() {
         return fail(ResultCodeEnum.R500.getMessage());
     }
-
 
     public static <T> ResultInfo<T> err401(String message) {
         return builderFail(ResultCodeEnum.R401.getStatus(), message);

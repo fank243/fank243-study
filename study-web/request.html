@@ -1,0 +1,42 @@
+<!Doctype>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>xm-select</title>
+    <script src="static/js/request.js"></script>
+    <script src="static/js/jquery-1.11.3.min.js"></script>
+</head>
+
+<body>
+
+<div>
+    <button onclick="test()">测试</button>
+</div>
+
+<script src="static/lib/layui/layui.js"></script>
+<script type="text/javascript">
+    // https://maplemei.gitee.io/xm-select/#/plugin/tree
+    layui.use(['element'], function () {
+        window.test = function (){
+            // layer.open({
+            //     type:2,
+            //     title: "登录",
+            //     area:['800','600'],
+            //     btn:[],
+            //     content: "http://localhost:8112/new/customer/auth/login-box/0",
+            // });
+            // gasPost({
+            //     url: "static/json/gas.json",
+            //     isLoad: true,
+            //     isHandleFail: true,
+            //     success: function (res) {
+            //         layer.msg("success:" + res.results.resultMap.goodsList[0].companyName);
+            //     }
+            // });
+            layer.closeAll(function (){
+               location.reload();
+            });
+        }
+    });
+</script>
+</body>

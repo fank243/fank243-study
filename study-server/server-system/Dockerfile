@@ -1,4 +1,4 @@
-FROM openjdk:17-slim as builder
+FROM fank243/dragonwell:17.0.1 as builder
 
 # 指定工作目录，目录不存在会自动创建
 WORKDIR /app
@@ -8,7 +8,7 @@ COPY target/*.jar app.jar
 RUN java -Djarmode=layertools -jar app.jar extract
 
 # 正式构建镜像
-FROM openjdk:17-slim
+FROM fank243/dragonwell:17.0.1
 # 指定工作目录，目录不存在会自动创建
 WORKDIR /app
 # 前一阶段从jar中提取除了多个文件，这里分别执行COPY命令复制到镜像空间中，每次COPY都是一个layer

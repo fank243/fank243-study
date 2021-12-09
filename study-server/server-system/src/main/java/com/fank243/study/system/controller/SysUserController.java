@@ -34,8 +34,8 @@ public class SysUserController extends BaseController implements ISysUserApi {
     private SysUserService sysUserService;
 
     @Override
-    public ResultInfo<SysUserVO> getById(String id) {
-        SysUserEntity sysUser = sysUserService.getById(id);
+    public ResultInfo<SysUserVO> getById(String userId) {
+        SysUserEntity sysUser = sysUserService.getById(userId);
         return ResultInfo.ok(BeanUtil.toBean(sysUser, SysUserVO.class));
     }
 

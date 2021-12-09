@@ -33,7 +33,8 @@ public class OauthClientService {
 
     private AccessTokenVO request(String method, Map<String, Object> params) throws AuthException {
         Future<String> future;
-        if ("token".equalsIgnoreCase(method)) {
+        String type = "token";
+        if (type.equalsIgnoreCase(method)) {
             future = ThreadUtil.execAsync(() -> oauthFeignClient.token(params));
         } else {
             future = ThreadUtil.execAsync(() -> oauthFeignClient.refresh(params));
@@ -49,7 +50,8 @@ public class OauthClientService {
             }
 
             JSONObject json = JSONUtil.parseObj(body);
-            if (!json.containsKey("code") || json.getInt("code") != HttpStatus.OK.value()) {
+            String code = "code";
+            if (!json.containsKey(code) || json.getInt(code) != HttpStatus.OK.value()) {
                 throw new AuthException(json.getStr("msg"));
             }
             JSONObject respData = json.getJSONObject("data");

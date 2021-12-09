@@ -6,16 +6,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 /**
- * MQ 消息发送器
- * 
+ * MQ消息发送器
+ *
  * @author FanWeiJie
  * @since 2021-09-04 16:44:19
+ * @restApi
  */
 public interface IMessageApi {
 
     /**
      * 默认消息发送通道
-     * 
+     *
      * @param message 消息
      * @return 消息发送结果
      */
@@ -24,7 +25,7 @@ public interface IMessageApi {
 
     /**
      * 告警消息发送通道
-     * 
+     *
      * @param message 消息
      * @return 消息发送结果
      */

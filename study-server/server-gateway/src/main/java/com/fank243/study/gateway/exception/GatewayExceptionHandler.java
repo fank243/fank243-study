@@ -1,5 +1,7 @@
 package com.fank243.study.gateway.exception;
 
+import javax.annotation.Nonnull;
+
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
 import org.springframework.cloud.gateway.support.NotFoundException;
 import org.springframework.context.annotation.Configuration;
@@ -30,8 +32,9 @@ import reactor.core.publisher.Mono;
 public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
 
     @Override
-    public Mono<Void> handle(ServerWebExchange exchange, Throwable ex) {
-        ex.printStackTrace();
+    public Mono<Void> handle(ServerWebExchange exchange, @Nonnull Throwable ex) {
+        log.error("[网关异常处理]请求路径:{}，异常信息:{}", exchange.getRequest().getPath(), ex.getMessage(), ex);
+
         ServerHttpResponse response = exchange.getResponse();
         if (exchange.getResponse().isCommitted()) {
             return Mono.error(ex);
@@ -42,8 +45,7 @@ public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
         if (ex instanceof NotFoundException) {
             status = HttpStatus.SERVICE_UNAVAILABLE;
             result = ResultInfo.err503();
-        } else if (ex instanceof ResponseStatusException) {
-            ResponseStatusException responseStatusException = (ResponseStatusException)ex;
+        } else if (ex instanceof ResponseStatusException responseStatusException) {
             status = responseStatusException.getStatus();
             result = ResultInfo.error(ResultCodeEnum.R500.getMessage(), responseStatusException.getMessage());
         } else if (ex instanceof AuthException) {
@@ -54,8 +56,6 @@ public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
         } else {
             result = ResultInfo.error("系统内部错误，请稍后重试", ex.getMessage());
         }
-
-        log.error("[网关异常处理]请求路径:{}，异常信息:{}", exchange.getRequest().getPath(), ex.getMessage());
 
         return ResponseUtils.printJson(response, status, result);
     }

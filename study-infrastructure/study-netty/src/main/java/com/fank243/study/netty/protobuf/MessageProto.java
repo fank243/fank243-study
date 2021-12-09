@@ -1092,6 +1092,7 @@ public final class MessageProto {
        * <code>string fromUser = 2;</code>
        * @return The fromUser.
        */
+      @Override
       public java.lang.String getFromUser() {
         java.lang.Object ref = fromUser_;
         if (!(ref instanceof java.lang.String)) {

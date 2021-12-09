@@ -1,5 +1,6 @@
 package com.fank243.study.oauth2.domain;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import lombok.Data;
@@ -13,6 +14,10 @@ import lombok.Data;
 @Data
 @TableName("tb_oauth_access_token")
 public class OauthAccessTokenEntity {
+
+    /** 主键ID */
+    @TableId
+    private String id;
 
     /** 用户ID */
     private String userId;

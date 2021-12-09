@@ -6,10 +6,66 @@ api.push({
     list: []
 })
 api[0].list.push({
-    alias: 'BaseController',
+    alias: 'IMessageApi',
     order: '1',
-    link: 'base_controller',
-    desc: 'Base Controller',
+    link: 'mq消息发送器',
+    desc: 'MQ消息发送器',
+    list: []
+})
+api[0].list[0].list.push({
+    order: '1',
+    deprecated: 'false',
+    url: 'http://127.0.0.1/api/system/message/sendDefaultMsg',
+    desc: '默认消息发送通道',
+});
+api[0].list[0].list.push({
+    order: '2',
+    deprecated: 'false',
+    url: 'http://127.0.0.1/api/system/message/sendAlertMsg',
+    desc: '告警消息发送通道',
+});
+api[0].list.push({
+    alias: 'ISysUserApi',
+    order: '2',
+    link: '系统管理员',
+    desc: '系统管理员',
+    list: []
+})
+api[0].list[1].list.push({
+    order: '1',
+    deprecated: 'false',
+    url: 'http://127.0.0.1/api/system/admin/get/{userId}',
+    desc: '系统管理员_根据ID查找',
+});
+api[0].list[1].list.push({
+    order: '2',
+    deprecated: 'false',
+    url: 'http://127.0.0.1/api/system/admin/page',
+    desc: '系统管理员_分页',
+});
+api[0].list[1].list.push({
+    order: '3',
+    deprecated: 'false',
+    url: 'http://127.0.0.1/api/system/admin/add',
+    desc: '系统管理员_新增',
+});
+api[0].list[1].list.push({
+    order: '4',
+    deprecated: 'false',
+    url: 'http://127.0.0.1/api/system/admin/modify',
+    desc: '系统管理员_修改',
+});
+api[0].list[1].list.push({
+    order: '5',
+    deprecated: 'false',
+    url: 'http://127.0.0.1/api/system/admin/delete',
+    desc: '系统管理员_删除',
+});
+api[0].list.push({
+    alias: 'error',
+    order: '3',
+    link: 'error_code_list',
+    desc: '错误码列表',
     list: []
 })
 document.onkeydown = keyDownSearch;

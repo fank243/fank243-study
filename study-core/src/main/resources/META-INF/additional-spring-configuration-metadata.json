@@ -3,11 +3,11 @@
     {
       "name": "study.nacos-addr",
       "type": "java.lang.String",
-      "description": "nacos 服务器地址"
+      "description": "nacos host addr."
     },
     {
       "name": "study.nacos-namespace",
       "type": "java.lang.String",
-      "description": "nacos 命名空间"
+      "description": "nacos namespace."
     }
   ] }
