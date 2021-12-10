@@ -2,12 +2,14 @@
 
 echo "去除study-server目录：mv study-server/* ."
 mv study-server/* .
+rm -rf study-server
 
 # shellcheck disable=SC2006
 project=("server-gateway" "server-oauth2" "server-system")
 # 端口号
 port=8800
 # 版本号 > 当前日期
+# shellcheck disable=SC2006
 version=`date +%m%d%H`
 
 for serve in "${project[@]}"
