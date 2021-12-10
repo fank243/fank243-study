@@ -18,11 +18,11 @@
 //public class GeneratorCode {
 //
 //    private static final String jdbcUrl =
-//        "jdbc:mysql://106.12.120.151:3306/fank243-study?useUnicode=true&useSSL=false&characterEncoding=utf8";
+//        "jdbc:mysql://127.0.01:3306/fank243-study?useUnicode=true&useSSL=false&characterEncoding=utf8";
 //
 //    private static final String username = "root";
 //
-//    private static final String password = "RNAe3uUtptxANRh8S";
+//    private static final String password = "root";
 //
 //    /**
 //     * <p>
