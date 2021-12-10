@@ -11,6 +11,13 @@
     <artifactId>study-server</artifactId>
     <packaging>pom</packaging>
 
+    <properties>
+        <!--mvn install 不安装到本地仓库-->
+        <maven.install.skip>true</maven.install.skip>
+        <!--mvn 跳过单元测试-->
+        <maven.test.skip>true</maven.test.skip>
+    </properties>
+
     <modules>
         <module>server-gateway</module>
         <module>server-system</module>
