@@ -9,8 +9,8 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 10.23.77.167
-        namespace: study
+        server-addr: ${study.nacos-addr}
+        namespace: ${study.nacos-namespace}
       config:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
         namespace: ${spring.cloud.nacos.discovery.namespace}
