@@ -1,6 +1,7 @@
 #!/bin/bash
 
-echo "去除study-server目录：mv study-server/* ."
+echo "清理历史文件"
+rm -rf server-*
 mv study-server/* .
 rm -rf study-server
 
