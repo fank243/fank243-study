@@ -1,9 +1,9 @@
 #!/bin/bash
 
-echo "清理历史文件"
-rm -rf server-*
-mv study-server/* .
-rm -rf study-server
+#echo "清理历史文件"
+#rm -rf server-*
+#mv study-server .
+#rm -rf study-server
 
 # shellcheck disable=SC2006
 project=("server-gateway" "server-oauth2" "server-system")
