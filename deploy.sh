@@ -55,7 +55,7 @@ docker run -d --restart=always --name "${container}" -p ${port}:${port} "${image
 
 if [ "$1" == "prod" ]; then
     echo "开始推送镜像：docker push ${image}:${version}"
-    docker push "${image}:${version}"
+    nohup docker push "${image}:${version}" > nohup.log 2>&1 &
 fi
 
 echo "******************************** 操作容器[${serve}]结束 ***************************"
