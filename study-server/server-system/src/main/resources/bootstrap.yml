@@ -4,7 +4,7 @@ server:
 spring:
   profiles.include: common
   application.name: server-system
-  # 多个模块启用时，必须指定端口
+  # 指定devtools端口
   devtools.livereload.port: 35733
   cloud:
     nacos:
