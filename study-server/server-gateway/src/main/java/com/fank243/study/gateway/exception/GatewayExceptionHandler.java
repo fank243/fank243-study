@@ -47,7 +47,11 @@ public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
             result = ResultInfo.err503();
         } else if (ex instanceof ResponseStatusException responseStatusException) {
             status = responseStatusException.getStatus();
-            result = ResultInfo.error(ResultCodeEnum.R500.getMessage(), responseStatusException.getMessage());
+            if (HttpStatus.NOT_FOUND.value() == status.value()) {
+                result = ResultInfo.err404();
+            } else {
+                result = ResultInfo.error(ResultCodeEnum.R500.getMessage(), responseStatusException.getMessage());
+            }
         } else if (ex instanceof AuthException) {
             status = HttpStatus.UNAUTHORIZED;
             result = ResultInfo.err401(ex.getMessage());
