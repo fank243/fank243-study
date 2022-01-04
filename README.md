@@ -13,3 +13,15 @@ idea 设置
 SW_AGENT_NAME=${应用名称};SW_AGENT_COLLECTOR_BACKEND_SERVICES=${SkyWorking后台服务地址:127.0.0.1:11800}
 SW_AGENT_NAME=server-gateway;SW_AGENT_COLLECTOR_BACKEND_SERVICES=127.0.0.1:11800
 ```
+
+## 更新版本
+
+```bash
+mvn versions:set -DnewVersion=1.0.0
+
+# 提交
+mvn versions:commit
+
+# 撤销
+mvn versions:revert
+```
