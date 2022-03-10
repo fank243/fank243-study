@@ -31,7 +31,7 @@
         <!-- https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E -->
         <spring-cloud-alibaba.version>2021.0.1.0</spring-cloud-alibaba.version>
         <!-- https://github.com/fank243?tab=packages&repo_name=mvn-repo -->
-        <fank243-dependencies.version>1.0.2</fank243-dependencies.version>
+        <fank243-dependencies.version>1.0.4</fank243-dependencies.version>
 
         <sentinel.version>1.8.2</sentinel.version>
 

@@ -1,7 +1,7 @@
 study:
-  nacos-addr: 106.12.120.151:8848
+  nacos-addr: 127.0.0.1:8848
   nacos-namespace: study
-  sentinel-dashboard: 106.12.120.15:8858
+  sentinel-dashboard: 127.0.0.1:8858
 
 spring:
   main.allow-bean-definition-overriding: true
