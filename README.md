@@ -1,5 +1,14 @@
 # 学习之旅
 
+## JVM 配置
+```bash
+# gateway
+-Dstudy.nacos-addr=${nacos addr:port} -Dstudy.nacos-namespace=${nacos namespace} -Dsentinel-dashboard=${sentinel:port}
+
+# other
+-Dstudy.nacos-addr=${nacos addr:port} -Dstudy.nacos-namespace=${nacos namespace}
+```
+
 ## Apache SkyWorking
 
 idea 设置
