@@ -2,11 +2,18 @@ server:
   port: 8800
 
 spring:
+  sleuth.traceId128: true
+  # 采样比例
+  sleuth.sampler.probability: 1.0
   profiles.include: route,sentinel,common
   application.name: server-gateway
   # 多个模块启用时，必须指定端口
   devtools.livereload.port: 35730
   cloud:
+    # 负载均衡器缓存
+    loadbalancer:
+      cache:
+        enabled: true
     nacos:
       discovery:
         server-addr: ${study.nacos-addr}
@@ -19,7 +26,6 @@ spring:
         shared-configs:
           - study-shared-common.yml
           - study-shared-ds.yml
-
 # Sa-Token 配置
 sa-token:
   # token名称 (同时也是cookie名称)

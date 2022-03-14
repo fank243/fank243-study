@@ -15,7 +15,7 @@ import com.fank243.study.common.enums.ResultCodeEnum;
 import com.fank243.study.common.utils.ResultInfo;
 import com.fank243.study.core.exception.AuthException;
 import com.fank243.study.core.exception.BizException;
-import com.fank243.study.gateway.utils.ResponseUtils;
+import com.fank243.study.gateway.utils.ReactiveUtils;
 
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
@@ -61,6 +61,6 @@ public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
             result = ResultInfo.error("系统内部错误，请稍后重试", ex.getMessage());
         }
 
-        return ResponseUtils.printJson(response, status, result);
+        return ReactiveUtils.printJson(response, status, result);
     }
 }

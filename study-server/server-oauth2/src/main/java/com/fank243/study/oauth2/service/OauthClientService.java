@@ -30,6 +30,7 @@ public class OauthClientService extends ServiceImpl<IOauthClientDao, OauthClient
     }
 
     public String login(String name, String pwd) throws AuthException {
+        log.debug("asdfasf");
         SysUserEntity sysUser = oauthClientDao.findSysUserByUsername(name);
         if (sysUser == null) {
             throw new AuthException("用户名或密码错误");

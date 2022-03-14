@@ -43,6 +43,7 @@ public interface ISysUserApi {
      *
      * @param sysUser 请求参数
      * @return 操作结果
+     * @throws BizException BizException
      */
     @PostMapping(ApiConstants.BASE_URI_SYSTEM_ADMIN + "/add")
     ResultInfo<?> add(@RequestBody @Validated({ValidatorGroup.Create.class}) SysUserDTO sysUser) throws BizException;
@@ -52,6 +53,7 @@ public interface ISysUserApi {
      *
      * @param sysUser 请求参数
      * @return 操作结果
+     * @throws BizException BizException
      */
     @PostMapping(ApiConstants.BASE_URI_SYSTEM_ADMIN + "/modify")
     ResultInfo<?> modify(@RequestBody @Validated({ValidatorGroup.Modify.class}) SysUserDTO sysUser) throws BizException;
@@ -61,6 +63,7 @@ public interface ISysUserApi {
      *
      * @param ids 主键ID集合
      * @return 操作结果
+     * @throws BizException BizException
      */
     @DeleteMapping(ApiConstants.BASE_URI_SYSTEM_ADMIN + "/delete")
     ResultInfo<?> delete(@RequestBody String[] ids) throws BizException;

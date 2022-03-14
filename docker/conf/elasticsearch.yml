@@ -1,0 +1,26 @@
+# 集群名称
+cluster.name: elasticsearch
+
+# 节点名称
+node.name: master
+
+# 绑定IP
+network.host: 0.0.0.0
+# 主机IP地址
+# network.publish_host: 192.168.31.148
+# 绑定端口
+http.port: 9200
+transport.port: 9300
+
+# 开启认证
+xpack.security.enabled: true
+
+# 数据目录
+path.data: /usr/share/elasticsearch/data
+
+# 日志目录
+path.logs: /usr/share/elasticsearch/logs
+
+# 允许跨域请求
+http.cors.enabled: true
+http.cors.allow-origin: "*"

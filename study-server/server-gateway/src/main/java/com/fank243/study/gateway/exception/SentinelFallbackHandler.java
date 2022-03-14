@@ -8,7 +8,7 @@ import org.springframework.web.server.WebExceptionHandler;
 
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.fank243.study.common.utils.ResultInfo;
-import com.fank243.study.gateway.utils.ResponseUtils;
+import com.fank243.study.gateway.utils.ReactiveUtils;
 
 import lombok.NonNull;
 import reactor.core.publisher.Mono;
@@ -31,6 +31,6 @@ public class SentinelFallbackHandler implements WebExceptionHandler {
         if (!BlockException.isBlockException(ex)) {
             return Mono.error(ex);
         }
-        return ResponseUtils.printJson(response, HttpStatus.TOO_MANY_REQUESTS, ResultInfo.fail("请求过于频繁，请稍后再试"));
+        return ReactiveUtils.printJson(response, HttpStatus.TOO_MANY_REQUESTS, ResultInfo.fail("请求过于频繁，请稍后再试"));
     }
 }

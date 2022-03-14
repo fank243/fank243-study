@@ -1,12 +1,14 @@
 package com.fank243.study.gateway.utils;
 
-import com.fank243.study.common.utils.ResultInfo;
+import java.nio.charset.StandardCharsets;
+
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpResponse;
-import reactor.core.publisher.Mono;
 
-import java.nio.charset.StandardCharsets;
+import com.fank243.study.common.utils.ResultInfo;
+
+import reactor.core.publisher.Mono;
 
 /**
  * WebFlux 响应工具类
@@ -14,7 +16,7 @@ import java.nio.charset.StandardCharsets;
  * @author FanWeiJie
  * @since 2020-10-25 15:44:35
  */
-public class ResponseUtils {
+public class ReactiveUtils {
 
     /**
      * 响应 JSON
@@ -30,4 +32,5 @@ public class ResponseUtils {
         DataBuffer buffer = response.bufferFactory().wrap(result.toString().getBytes(StandardCharsets.UTF_8));
         return response.writeWith(Mono.just(buffer));
     }
+
 }

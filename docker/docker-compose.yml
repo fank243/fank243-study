@@ -1,0 +1,139 @@
+version: '3.7'
+services:
+  mysql:
+    image: mysql:8.0
+    hostname: mysql
+    container_name: mysql
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default-authentication-plugin=mysql_native_password #设置utf8字符集
+    environment:
+      - TZ=Asia/Shanghai
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - E:/data/mysql:/var/lib/mysql
+    ports:  
+      - "3306:3306"
+    networks:
+      - docker-network
+
+  mongo:
+    image: mongo:5.0
+    hostname: mongo
+    container_name: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+    volumes:
+      - E:/data/mongo:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - docker-network
+
+  elasticsearch:
+    image: elastic/elasticsearch:7.17.1
+    hostname: elasticsearch
+    container_name: elasticsearch
+    environment:
+      - ES_JAVA_OPTS=-Xmx256m -Xms256m  # jvm参数
+      - TZ=Asia/Shanghai                # 设置上海时区 +0800
+      - discovery.type=single-node      # 运行单例模式
+      - TAKE_FILE_OWNERSHIP=true        # 跳过data、conf目录拥有者权限认证，否则需要给data、conf目录授权
+      # 跨域
+      - http.cors.enabled=true
+      - http.cors.allow-origin=*
+      - http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization
+      - http.cors.allow-credentials=true
+
+    volumes:
+      - ./conf/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml   # 配置文件
+      - E:/data/elk/elasticsearch:/usr/share/elasticsearch/data                   # 数据目录
+      - E:/logs/elk/elasticsearch:/usr/share/elasticsearch/logs                  # 日志目录
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    networks:
+      - docker-network
+
+  elastichd:
+    # https://hub.docker.com/r/containerize/elastichd
+    image: containerize/elastichd:latest
+    hostname: elastichd
+    container_name: elastichd
+    ports:
+      - "9800:9800"
+    links:
+      - elasticsearch
+    networks:
+      - docker-network
+
+  nacos:
+    image: nacos/nacos-server:2.0.3-slim
+    hostname: nacos
+    container_name: nacos
+    env_file:
+      - ./conf/nacos-standlone-mysql.env
+    volumes:
+      - E:/logs/nacos:/home/nacos/logs
+    #  - ./init.d/custom.properties:/home/nacos/init.d/custom.properties
+    environment:        
+      - JVM_XMS=128m     # 设定程序启动时占用内存大小
+      - JVM_XMX=256m     # 设定程序运行期间最大可占用的内存大小
+      - JVM_XMN=32m      # 新生代大小
+    ports:
+      - "8848:8848"
+      - "9848:9848" # 2.x 新增GRPC端口
+      - "9555:9555" # 2.x 新增GRPC端口
+    depends_on:
+      - mysql
+    links:
+      - mysql
+    networks:
+      - docker-network
+  
+  sentinel:
+    image: fank243/sentinel-dashboard:1.8.3
+    hostname: sentinel
+    container_name: sentinel
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - ./conf/sentinel.properties:/app/application.properties
+      - E:/logs/sentinel:/root/logs/csp
+    ports:
+      - "8858:8858"
+      - "8719:8719"
+    networks:
+      - docker-network
+
+  zipkin:
+    image: openzipkin/zipkin:latest
+    hostname: zipkin
+    container_name: zipkin
+    ports:
+      - "9411:9411"
+    networks:
+      - docker-network
+
+  graylog:
+    hostname: graylog
+    image: graylog/graylog:4.2
+    container_name: graylog
+    volumes:
+      # Mount local configuration directory into Docker container
+      - ./conf/graylog.conf:/usr/share/graylog/data/config/graylog.conf
+      - E:/data/graylog:/usr/share/graylog/data/journal
+    ports:
+      # Graylog web interface and REST API
+      - "9000:9000"
+      - "5044:5044"
+      - "12201-12202:12201-12202/udp"
+    links:
+      - elasticsearch
+      - mongo
+    networks:
+      - docker-network
+
+networks:
+  docker-network:
+     name: docker-network
+     driver: bridge

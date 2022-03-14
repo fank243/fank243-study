@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import com.fank243.study.common.model.PageBean;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +28,7 @@ import cn.hutool.core.bean.BeanUtil;
  * @author FanWeiJie
  * @since 2021-09-03
  */
+@Slf4j
 @RestController
 public class SysUserController extends BaseController implements ISysUserApi {
 
