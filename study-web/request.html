@@ -25,17 +25,18 @@
             //     btn:[],
             //     content: "http://localhost:8112/new/customer/auth/login-box/0",
             // });
-            // gasPost({
-            //     url: "static/json/gas.json",
-            //     isLoad: true,
-            //     isHandleFail: true,
-            //     success: function (res) {
-            //         layer.msg("success:" + res.results.resultMap.goodsList[0].companyName);
-            //     }
-            // });
-            layer.closeAll(function (){
-               location.reload();
+            ajaxPost({
+                url: "",
+                isNeedLogin: false,
+                isLoad: true,
+                isHandleFail: true,
+                success: function (res) {
+                    layer.msg("success:" + res.payload.goodsList[0].goodsName);
+                }
             });
+            // layer.closeAll(function (){
+            //    location.reload();
+            // });
         }
     });
 </script>

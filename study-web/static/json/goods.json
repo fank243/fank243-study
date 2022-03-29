@@ -1,46 +1,17 @@
 {
-  "status": {
-    "code": 200,
-    "message": "操作成功"
-  },
-  "list": [
-    {
-      "children": [
-        {
-          "children": [
-            {
-              "goodsid": "3C672DD62F8F7A045DE2F7799FAB305E",
-              "id": "7B6DDB173C54F7CF9EB6898E5FF26260",
-              "title": "舟山接收站"
-            },
-            {
-              "goodsid": "526256CF004940BFAC858049B52088CC",
-              "id": "9EC300A9570D4FB8E265DB30868EC6AD",
-              "title": "舟山接收站进口气(浙江省（不含舟山市）;华南（福建省内）;)"
-            },
-            {
-              "goodsid": "526256CF004940BFAC858049B52088CC",
-              "id": "BB35BABD5565B20A9F3D426FA3584BAF",
-              "title": "舟山接收站进口气(浙江省（不含舟山市）;)"
-            },
-            {
-              "goodsid": "3C672DD62F8F7A045DE2F7799FAB305E",
-              "id": "D3C5E6D5ABBD7A058E838D6603694D25",
-              "title": "舟山接收站(不限;浙江省（不含舟山市）、上海（不含崇明区）;)"
-            },
-            {
-              "goodsid": "526256CF004940BFAC858049B52088CC",
-              "id": "F03B9856D815A23D357324CB208D58A9",
-              "title": "舟山接收站进口气(崇明区天津云南、山西江苏安徽;浙江省（不含舟山市）、湖南省内、崇明区天津云南、华南（福建省内）;)"
-            }
-          ],
-          "id": "07",
-          "title": "挂牌"
-        }
-      ],
-      "id": "0000",
-      "title": "全部商品",
-      "parentId": "-1"
-    }
-  ]
+  "status": 200,
+  "success": true,
+  "payload": {
+    "goodsList": [
+      {
+        "goodsName": "苹果"
+      },
+      {
+        "goodsName": "香蕉"
+      },
+      {
+        "goodsName": "雪梨"
+      }
+    ]
+  }
 }
