@@ -10,9 +10,7 @@ import com.fank243.study.core.base.BaseController;
 import com.fank243.study.mq.message.KafkaMessageSender;
 
 /**
- * <p>
  * 系统管理员表 控制器
- * </p>
  *
  * @author FanWeiJie
  * @since 2021-09-03
