@@ -24,9 +24,9 @@
         <maven.compiler.target>17</maven.compiler.target>
 
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies -->
-        <spring-boot.version>2.6.6</spring-boot.version>
+        <spring-boot.version>2.6.7</spring-boot.version>
         <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-dependencies -->
-        <spring-cloud.version>2021.0.1</spring-cloud.version>
+        <spring-cloud.version>2021.0.2</spring-cloud.version>
         <!-- https://maven.aliyun.com/mvn/search -->
         <!-- https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E -->
         <spring-cloud-alibaba.version>2021.0.1.0</spring-cloud-alibaba.version>
@@ -170,6 +170,10 @@
     <build>
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <groupId>com.github.shalousun</groupId>
+                    <artifactId>smart-doc-maven-plugin</artifactId>
+                </plugin>
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>

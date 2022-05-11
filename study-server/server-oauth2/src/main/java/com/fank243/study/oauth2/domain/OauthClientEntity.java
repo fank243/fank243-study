@@ -1,5 +1,6 @@
 package com.fank243.study.oauth2.domain;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import lombok.Data;
@@ -15,6 +16,7 @@ import lombok.Data;
 public class OauthClientEntity {
 
     /** AppID */
+    @TableId
     private String clientId;
 
     /** AppSecret */

@@ -73,9 +73,18 @@
             <optional>true</optional>
         </dependency>
 
+<!--        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <optional>true</optional>
+        </dependency>-->
         <dependency>
-            <groupId>com.fank243.study</groupId>
-            <artifactId>study-ds</artifactId>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
         </dependency>
 
 <!--        <dependency>-->
@@ -92,6 +101,11 @@
         <dependency>
             <groupId>cn.dev33</groupId>
             <artifactId>sa-token-dao-redis-jackson</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fank243.study</groupId>
+            <artifactId>study-core</artifactId>
         </dependency>
     </dependencies>
 

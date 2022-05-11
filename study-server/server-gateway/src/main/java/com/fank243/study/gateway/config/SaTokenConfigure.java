@@ -1,5 +1,9 @@
 package com.fank243.study.gateway.config;
 
+import cn.hutool.core.collection.CollUtil;
+import com.fank243.study.gateway.entity.SysPermissionEntity;
+import com.fank243.study.gateway.service.SysPermissionService;
+import com.fank243.study.gateway.service.SysRoleService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,6 +18,9 @@ import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.stp.StpUtil;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.annotation.Resource;
+import java.util.List;
+
 /**
  * [Sa-Token 权限认证] 全局配置类
  * 
@@ -23,9 +30,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Configuration
 public class SaTokenConfigure {
-    /**
-     * 注册 [Sa-Token全局过滤器]
-     */
+
+    @Resource
+    private SysRoleService sysRoleService;
+    @Resource
+    private SysPermissionService sysPermissionService;
+
+    /** 注册 [Sa-Token全局过滤器] */
     @Bean
     public SaReactorFilter getSaReactorFilter() {
         return new SaReactorFilter()
@@ -40,6 +51,14 @@ public class SaTokenConfigure {
                     SaHttpMethod.DELETE).check(() -> SaTokenException.throwByNull(null, "请求方法非法"));
 
                 SaRouter.match("/api/**", StpUtil::checkLogin);
+
+                // 菜单权限
+                List<SysPermissionEntity> perms = sysPermissionService.findAll();
+                if (CollUtil.isNotEmpty(perms)) {
+                    for (SysPermissionEntity perm : perms) {
+                        SaRouter.match("/api" + perm.getPermUri(), r -> StpUtil.checkPermission(perm.getPermCode()));
+                    }
+                }
             })
             // 指定[异常处理函数]：每次[认证函数]发生异常时执行此函数
             .setError((e) -> {

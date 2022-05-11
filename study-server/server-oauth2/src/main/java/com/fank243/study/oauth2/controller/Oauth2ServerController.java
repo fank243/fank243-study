@@ -4,9 +4,11 @@ import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fank243.study.common.utils.ResultInfo;
 import com.fank243.study.core.exception.AuthException;
 import com.fank243.study.oauth2.service.OauthClientService;
 
@@ -32,7 +34,18 @@ public class Oauth2ServerController {
     /** 请求统一入口 **/
     @RequestMapping("/oauth2/*")
     public Object request() {
-        return SaOAuth2Handle.serverRequest();
+        SaResult saResult = (SaResult)SaOAuth2Handle.serverRequest();
+        if (saResult.getCode() != SaResult.CODE_SUCCESS) {
+            return ResultInfo.fail(saResult.getMsg());
+        }
+        return ResultInfo.ok(saResult.getMsg(), StpUtil.getTokenInfo());
+    }
+
+    /** 登出 **/
+    @GetMapping("/oauth2/logout")
+    public ResultInfo<?> logout() {
+        StpUtil.logout();
+        return ResultInfo.ok().message("登出成功");
     }
 
     @Autowired
@@ -45,7 +58,7 @@ public class Oauth2ServerController {
                 e.printStackTrace();
                 return SaResult.error(e.getMessage());
             }
-            StpUtil.login(userId);
+            StpUtil.login(userId, "PC");
             return SaResult.ok();
         });
         // 开启密码认证模式

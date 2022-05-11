@@ -3,6 +3,11 @@ spring:
     gateway:
       routes:
         - id: server-system
+          uri: lb://server-oauth2
+          predicates:
+            - Path=/oauth2/**
+
+        - id: server-system
           uri: lb://server-system
           predicates:
             - Path=/api/system/**
