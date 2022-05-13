@@ -30,7 +30,7 @@ services:
       - docker-network
 
   elasticsearch:
-    image: elastic/elasticsearch:7.17.1
+    image: elastic/elasticsearch:7.17.3
     hostname: elasticsearch
     container_name: elasticsearch
     environment:
@@ -67,7 +67,7 @@ services:
       - docker-network
 
   nacos:
-    image: nacos/nacos-server:2.0.3-slim
+    image: nacos/nacos-server:v2.1.0-slim
     hostname: nacos
     container_name: nacos
     env_file:

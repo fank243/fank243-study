@@ -14,4 +14,8 @@ public class ApiConstants {
 
     public static final String BASE_URI_SYSTEM_ADMIN = "/system/admin";
 
+    public static final String BASE_URI_SYSTEM_ROLE = "/system/role";
+
+    public static final String BASE_URI_SYSTEM_PERM = "/system/perm";
+
 }

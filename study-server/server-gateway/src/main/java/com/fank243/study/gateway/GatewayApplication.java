@@ -2,6 +2,7 @@ package com.fank243.study.gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
@@ -10,6 +11,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @author FanWeiJie
  * @since 2021-06-09 22:48:47
  */
+@EnableCaching
 @EnableFeignClients
 @SpringBootApplication
 public class GatewayApplication {
@@ -17,9 +19,9 @@ public class GatewayApplication {
     public static void main(String[] args) {
         SpringApplication.run(GatewayApplication.class, args);
     }
-//
-//    @Bean
-//    FeignRequestInterceptor requestInterceptor() {
-//        return new FeignRequestInterceptor();
-//    }
+    //
+    // @Bean
+    // FeignRequestInterceptor requestInterceptor() {
+    // return new FeignRequestInterceptor();
+    // }
 }

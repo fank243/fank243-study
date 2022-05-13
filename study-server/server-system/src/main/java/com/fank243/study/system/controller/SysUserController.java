@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fank243.study.api.constants.ValidatorGroup;
-import com.fank243.study.api.system.ISysUserApi;
+import com.fank243.study.api.system.api.ISysUserApi;
 import com.fank243.study.api.system.dto.SysUserDTO;
 import com.fank243.study.api.system.vo.SysUserVO;
 import com.fank243.study.common.utils.ResultInfo;
@@ -56,12 +56,12 @@ public class SysUserController extends BaseController implements ISysUserApi {
     @Override
     public ResultInfo<?> modify(@RequestBody @Validated({ValidatorGroup.Modify.class}) SysUserDTO sysUser)
         throws BizException {
-        boolean isOk = sysUserService.add(sysUser);
+        boolean isOk = sysUserService.modify(sysUser);
         return isOk ? ResultInfo.ok().message("修改成功") : ResultInfo.fail("修改失败");
     }
 
     @Override
-    public ResultInfo<?> delete(@RequestBody String[] ids) throws BizException {
+    public ResultInfo<?> delete(@RequestBody String[] ids) {
         boolean isOk = sysUserService.removeByIds(List.of(ids));
         return isOk ? ResultInfo.ok().message("删除成功") : ResultInfo.fail("删除失败");
     }

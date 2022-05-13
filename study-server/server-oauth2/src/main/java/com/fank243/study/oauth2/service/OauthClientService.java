@@ -2,14 +2,16 @@ package com.fank243.study.oauth2.service;
 
 import javax.annotation.Resource;
 
-import com.fank243.study.core.exception.AuthException;
-import com.fank243.study.oauth2.domain.SysUserEntity;
 import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fank243.study.core.exception.AuthException;
 import com.fank243.study.oauth2.dao.IOauthClientDao;
 import com.fank243.study.oauth2.domain.OauthClientEntity;
+import com.fank243.study.oauth2.domain.SysUserEntity;
+
+import cn.hutool.crypto.SecureUtil;
 
 /**
  * 授权客户端表 服务类
@@ -34,9 +36,9 @@ public class OauthClientService extends ServiceImpl<IOauthClientDao, OauthClient
         if (sysUser == null) {
             throw new AuthException("用户名或密码错误");
         }
-        if (!sysUser.getPassword().equalsIgnoreCase(pwd)) {
+        if (!sysUser.getPassword().equalsIgnoreCase(SecureUtil.md5(pwd))) {
             throw new AuthException("用户名或密码错误");
         }
-        return sysUser.getId();
+        return sysUser.getUserId();
     }
 }

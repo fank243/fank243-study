@@ -1,13 +1,15 @@
 package com.fank243.study.gateway.config;
 
-import cn.hutool.core.collection.CollUtil;
-import com.fank243.study.gateway.entity.SysPermissionEntity;
-import com.fank243.study.gateway.service.SysPermissionService;
-import com.fank243.study.gateway.service.SysRoleService;
+import java.util.List;
+
+import javax.annotation.Resource;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.fank243.study.common.utils.ResultInfo;
+import com.fank243.study.gateway.entity.SysPermissionEntity;
+import com.fank243.study.gateway.service.SysPermissionService;
 
 import cn.dev33.satoken.context.SaHolder;
 import cn.dev33.satoken.exception.NotLoginException;
@@ -16,10 +18,8 @@ import cn.dev33.satoken.reactor.filter.SaReactorFilter;
 import cn.dev33.satoken.router.SaHttpMethod;
 import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.collection.CollUtil;
 import lombok.extern.slf4j.Slf4j;
-
-import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * [Sa-Token 权限认证] 全局配置类
@@ -32,8 +32,6 @@ import java.util.List;
 public class SaTokenConfigure {
 
     @Resource
-    private SysRoleService sysRoleService;
-    @Resource
     private SysPermissionService sysPermissionService;
 
     /** 注册 [Sa-Token全局过滤器] */
@@ -43,7 +41,7 @@ public class SaTokenConfigure {
             // 指定 [拦截路由]
             .addInclude("/**")
             // 指定 [放行路由]
-            .addExclude("/favicon.ico", "/static/**", "/auth/**")
+            .addExclude("/favicon.ico", "/static/**")
             // 指定[认证函数]: 每次请求执行
             .setAuth(obj -> {
                 // HTTP METHOD
@@ -61,13 +59,13 @@ public class SaTokenConfigure {
                 }
             })
             // 指定[异常处理函数]：每次[认证函数]发生异常时执行此函数
-            .setError((e) -> {
-                log.error("认证异常：{}", e.getMessage(), e);
-                if (e instanceof NotLoginException) {
-                    return ResultInfo.err401();
-                }
-                return ResultInfo.err401(e.getMessage());
-            })
+            // .setError((e) -> {
+            // log.error("认证异常：{}", e.getMessage(), e);
+            // if (e instanceof NotLoginException) {
+            // return ResultInfo.err401();
+            // }
+            // return ResultInfo.err403(e.getMessage());
+            // })
             // 前置函数：在每次认证函数之前执行
             .setBeforeAuth(r -> SaHolder.getResponse()
                 // 服务器名称

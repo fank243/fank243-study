@@ -21,6 +21,6 @@ public interface SysRoleDao {
      * @param userId 管理员ID
      * @return 角色集合
      */
-    @Select("SELECT a.* FROM `tb_sys_role` a left join tb_sys_user_role b on a.id = b.role_id where b.user_id = #{userId}")
+    @Select("SELECT a.* FROM `tb_sys_role` a left join tb_sys_user_role b on a.role_id = b.role_id where b.user_id = #{userId}")
     List<SysRoleEntity> findByUserId(String userId);
 }

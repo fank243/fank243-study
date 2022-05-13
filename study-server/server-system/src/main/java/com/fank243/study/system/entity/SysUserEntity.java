@@ -1,6 +1,6 @@
 package com.fank243.study.system.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fank243.study.core.base.BaseEntity;
 
@@ -18,8 +18,8 @@ import lombok.EqualsAndHashCode;
 @TableName("tb_sys_user")
 public class SysUserEntity extends BaseEntity {
 
-    /** 用户ID **/
-    @TableField(exist = false)
+    /** 用户ID */
+    @TableId
     private String userId;
 
     /** 用户名 */
@@ -30,8 +30,4 @@ public class SysUserEntity extends BaseEntity {
 
     /** 是否已删除 */
     private Boolean isDeleted;
-
-    public String getUserId() {
-        return this.getId();
-    }
 }

@@ -126,6 +126,10 @@ public class ResultInfo<T> implements Serializable {
         return fail(ResultCodeEnum.R500.getMessage());
     }
 
+    public static <T> ResultInfo<T> err401(String message, String error) {
+        return builderError(ResultCodeEnum.R401.getStatus(), message, error);
+    }
+
     public static <T> ResultInfo<T> err401(String message) {
         return builderFail(ResultCodeEnum.R401.getStatus(), message);
     }
@@ -134,12 +138,16 @@ public class ResultInfo<T> implements Serializable {
         return err401(ResultCodeEnum.R401.getMessage());
     }
 
-    public static <T> ResultInfo<T> e403(String message) {
-        return builderFail(ResultCodeEnum.R401.getStatus(), message);
+    public static <T> ResultInfo<T> err403(String message, String error) {
+        return builderError(ResultCodeEnum.R403.getStatus(), message, error);
+    }
+
+    public static <T> ResultInfo<T> err403(String message) {
+        return builderFail(ResultCodeEnum.R403.getStatus(), message);
     }
 
     public static <T> ResultInfo<T> err403() {
-        return e403(ResultCodeEnum.R403.getMessage());
+        return err403(ResultCodeEnum.R403.getMessage());
     }
 
     public static <T> ResultInfo<T> err404() {

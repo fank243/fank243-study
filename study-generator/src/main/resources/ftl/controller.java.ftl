@@ -9,7 +9,7 @@ import com.fank243.study.api.${package.ModuleName}.vo.${entity}VO;
 import ${package.Service}.${table.serviceName};
 import ${package.Entity}.${table.entityName}Entity;
 import com.fank243.study.common.utils.ResultInfo;
-import com.fank243.study.core.model.PageBean;
+import com.fank243.study.common.model.PageBean;
 import com.fank243.study.api.constants.ValidatorGroup;
 import java.util.Arrays;
 import java.util.List;

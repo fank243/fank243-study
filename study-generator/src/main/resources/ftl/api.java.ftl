@@ -6,7 +6,7 @@ import com.fank243.study.api.constants.ValidatorGroup;
 import com.fank243.study.api.${package.ModuleName}.dto.${entity}DTO;
 import com.fank243.study.api.${package.ModuleName}.vo.${entity}VO;
 import com.fank243.study.common.utils.ResultInfo;
-import com.fank243.study.core.model.PageBean;
+import com.fank243.study.common.model.PageBean;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,6 +46,7 @@ public interface I${entity}Api {
       *
       * @param ${entity?uncap_first} 请求参数
       * @return 操作结果
+      * @throws BizException 业务异常，见{@link BizException}
       */
       @PostMapping(ApiConstants. + "/add")
       ResultInfo<?> add(@RequestBody @Validated({ValidatorGroup.Create.class}) ${entity}DTO ${entity?uncap_first}) throws BizException;
@@ -55,6 +56,7 @@ public interface I${entity}Api {
       *
       * @param ${entity?uncap_first} 请求参数
       * @return 操作结果
+      * @throws BizException 业务异常，见{@link BizException}
       */
       @PostMapping(ApiConstants. + "/modify")
       ResultInfo<?> modify(@RequestBody @Validated({ValidatorGroup.Modify.class}) ${entity}DTO ${entity?uncap_first}) throws BizException;
@@ -64,6 +66,7 @@ public interface I${entity}Api {
       *
       * @param ids 主键ID集合
       * @return 操作结果
+      * @throws BizException 业务异常，见{@link BizException}
       */
       @DeleteMapping(ApiConstants. + "/delete")
       ResultInfo<?> delete(@RequestBody String[] ids) throws BizException;

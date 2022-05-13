@@ -1,5 +1,6 @@
 package com.fank243.study.gateway.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fank243.study.core.base.BaseEntity;
 
@@ -16,6 +17,9 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @TableName("tb_sys_permission")
 public class SysPermissionEntity extends BaseEntity {
+
+    @TableId
+    private String permId;
 
     /**
      * 权限代码

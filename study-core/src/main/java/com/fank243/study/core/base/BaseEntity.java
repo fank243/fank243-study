@@ -21,9 +21,6 @@ public class BaseEntity implements Serializable {
 
     protected static final String YY_MM_DD_HH_MM_SS = "yy/MM/dd HH:mm:ss";
 
-    @TableId
-    private String id;
-
     /** 创建人 **/
     @TableField(fill = FieldFill.INSERT)
     private String createdBy;

@@ -55,8 +55,13 @@ public class SysRoleService extends ServiceImpl<ISysRoleDao, SysRoleEntity> {
      */
     @Transactional(rollbackFor = Exception.class)
     public boolean add(SysRoleDTO sysRole) throws BizException {
-        // TODO FanWeiJie 业务逻辑
-        SysRoleEntity sysRoleEntity = BeanUtil.toBean(sysRole, SysRoleEntity.class);
+        QueryWrapper<SysRoleEntity> wrapper = new QueryWrapper<>();
+        wrapper.eq("roleCode", sysRole.getRoleCode());
+        SysRoleEntity sysRoleEntity = sysRoleDao.selectOne(wrapper);
+        if (sysRoleEntity != null) {
+            throw new BizException("角色代码已存在");
+        }
+        sysRoleEntity = BeanUtil.toBean(sysRole, SysRoleEntity.class);
         return save(sysRoleEntity);
     }
 
@@ -68,8 +73,12 @@ public class SysRoleService extends ServiceImpl<ISysRoleDao, SysRoleEntity> {
      */
     @Transactional(rollbackFor = Exception.class)
     public boolean modify(SysRoleDTO sysRole) throws BizException {
-        // TODO FanWeiJie 业务逻辑
-        SysRoleEntity sysRoleEntity = BeanUtil.toBean(sysRole, SysRoleEntity.class);
+        SysRoleEntity sysRoleEntity = sysRoleDao.selectById(sysRole.getRoleId());
+        if (sysRoleEntity != null) {
+            throw new BizException("角色不存在");
+        }
+
+        sysRoleEntity = BeanUtil.toBean(sysRole, SysRoleEntity.class);
         return sysRoleDao.updateById(sysRoleEntity) > 0;
     }
 }

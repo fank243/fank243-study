@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import com.fank243.study.api.${package.ModuleName}.dto.${entity}DTO;
 import com.fank243.study.api.${package.ModuleName}.vo.${entity}VO;
 import com.fank243.study.common.utils.ResultInfo;
-import com.fank243.study.core.model.PageBean;
+import com.fank243.study.common.model.PageBean;
 import ${package.Mapper}.${table.mapperName};
 import com.fank243.study.ds.utils.BeanUtils;
 import com.fank243.study.core.exception.BizException;

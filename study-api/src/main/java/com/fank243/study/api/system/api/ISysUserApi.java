@@ -1,4 +1,4 @@
-package com.fank243.study.api.system;
+package com.fank243.study.api.system.api;
 
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -43,7 +43,7 @@ public interface ISysUserApi {
      *
      * @param sysUser 请求参数
      * @return 操作结果
-     * @throws BizException BizException
+     * @throws BizException 业务异常，见{@link BizException}
      */
     @PostMapping(ApiConstants.BASE_URI_SYSTEM_ADMIN + "/add")
     ResultInfo<?> add(@RequestBody @Validated({ValidatorGroup.Create.class}) SysUserDTO sysUser) throws BizException;
@@ -53,7 +53,7 @@ public interface ISysUserApi {
      *
      * @param sysUser 请求参数
      * @return 操作结果
-     * @throws BizException BizException
+     * @throws BizException 业务异常，见{@link BizException}
      */
     @PostMapping(ApiConstants.BASE_URI_SYSTEM_ADMIN + "/modify")
     ResultInfo<?> modify(@RequestBody @Validated({ValidatorGroup.Modify.class}) SysUserDTO sysUser) throws BizException;
@@ -63,7 +63,7 @@ public interface ISysUserApi {
      *
      * @param ids 主键ID集合
      * @return 操作结果
-     * @throws BizException BizException
+     * @throws BizException 业务异常，见{@link BizException}
      */
     @DeleteMapping(ApiConstants.BASE_URI_SYSTEM_ADMIN + "/delete")
     ResultInfo<?> delete(@RequestBody String[] ids) throws BizException;

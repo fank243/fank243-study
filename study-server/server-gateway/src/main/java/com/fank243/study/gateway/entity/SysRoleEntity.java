@@ -1,5 +1,6 @@
 package com.fank243.study.gateway.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fank243.study.core.base.BaseEntity;
@@ -17,6 +18,9 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @TableName("tb_sys_role")
 public class SysRoleEntity extends BaseEntity {
+
+    @TableId
+    private String roleId;
 
     /**
      * 角色代码

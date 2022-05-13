@@ -2,6 +2,7 @@ package com.fank243.study.system.service;
 
 import javax.annotation.Resource;
 
+import cn.hutool.crypto.SecureUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,8 +54,15 @@ public class SysUserService extends ServiceImpl<ISysUserDao, SysUserEntity> {
      */
     @Transactional(rollbackFor = Exception.class)
     public boolean add(SysUserDTO sysUser) throws BizException {
-        // TODO FanWeiJie 业务逻辑
-        SysUserEntity sysUserEntity = BeanUtil.toBean(sysUser, SysUserEntity.class);
+        QueryWrapper<SysUserEntity> wrapper = new QueryWrapper<>();
+        wrapper.eq("username", sysUser.getUsername());
+        SysUserEntity sysUserEntity = sysUserDao.selectOne(wrapper);
+        if (sysUserEntity != null) {
+            throw new BizException("用户名已存在");
+        }
+
+        sysUserEntity = BeanUtil.toBean(sysUser, SysUserEntity.class);
+        sysUserEntity.setPassword(SecureUtil.md5(sysUser.getPassword()));
         return save(sysUserEntity);
     }
 
@@ -66,8 +74,13 @@ public class SysUserService extends ServiceImpl<ISysUserDao, SysUserEntity> {
      */
     @Transactional(rollbackFor = Exception.class)
     public boolean modify(SysUserDTO sysUser) throws BizException {
-        // TODO FanWeiJie 业务逻辑
-        SysUserEntity sysUserEntity = BeanUtil.toBean(sysUser, SysUserEntity.class);
+        SysUserEntity sysUserEntity = sysUserDao.selectById(sysUser.getUserId());
+        if (sysUserEntity != null) {
+            throw new BizException("用户不存在");
+        }
+
+        sysUserEntity = BeanUtil.toBean(sysUser, SysUserEntity.class);
+        sysUserEntity.setPassword(SecureUtil.md5(sysUser.getPassword()));
         return sysUserDao.updateById(sysUserEntity) > 0;
     }
 

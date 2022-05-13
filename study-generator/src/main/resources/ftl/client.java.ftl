@@ -10,7 +10,7 @@ import org.springframework.cloud.openfeign.FeignClient;
  * @since ${date}
  */
 @FeignClient(value = "server-${package.ModuleName}")
-public interface I${entity}Service extends I${entity}Api {
+public interface I${entity}FeignClient extends I${entity}Api {
 
 }
 
