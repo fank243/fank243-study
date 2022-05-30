@@ -2,6 +2,8 @@ package com.fank243.study.system.service;
 
 import javax.annotation.Resource;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -55,9 +57,8 @@ public class SysRoleService extends ServiceImpl<ISysRoleDao, SysRoleEntity> {
      */
     @Transactional(rollbackFor = Exception.class)
     public boolean add(SysRoleDTO sysRole) throws BizException {
-        QueryWrapper<SysRoleEntity> wrapper = new QueryWrapper<>();
-        wrapper.eq("roleCode", sysRole.getRoleCode());
-        SysRoleEntity sysRoleEntity = sysRoleDao.selectOne(wrapper);
+        SysRoleEntity sysRoleEntity = sysRoleDao
+            .selectOne(Wrappers.<SysRoleEntity>lambdaQuery().eq(SysRoleEntity::getRoleCode, sysRole.getRoleCode()));
         if (sysRoleEntity != null) {
             throw new BizException("角色代码已存在");
         }

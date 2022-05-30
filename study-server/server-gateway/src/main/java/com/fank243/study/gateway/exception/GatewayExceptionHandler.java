@@ -76,6 +76,6 @@ public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
             result = ResultInfo.error("系统内部错误，请稍后重试", ex.getMessage());
         }
 
-        return ReactiveUtils.printJson(response, status, result);
+        return ReactiveUtils.renderJson(response, status, result);
     }
 }

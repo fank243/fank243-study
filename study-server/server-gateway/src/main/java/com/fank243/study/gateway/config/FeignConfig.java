@@ -65,7 +65,7 @@ public class FeignConfig {
                     exception = new BizException(StrUtil.format("系统出错了[{}]", exception.getLocalizedMessage()));
                     return exception;
                 }
-                if (!JSONUtil.isJson(respTxt)) {
+                if (!JSONUtil.isTypeJSON(respTxt)) {
                     exception = new BizException(StrUtil.format("系统出错了[{}]", exception.getLocalizedMessage()));
                     return exception;
                 }

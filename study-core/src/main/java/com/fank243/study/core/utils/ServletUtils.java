@@ -1,15 +1,7 @@
 package com.fank243.study.core.utils;
 
-import cn.hutool.core.convert.Convert;
-import cn.hutool.core.util.StrUtil;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
+import java.io.File;
+import java.io.InputStream;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -17,6 +9,20 @@ import java.util.Enumeration;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.servlet.ServletUtil;
+import cn.hutool.http.ContentType;
+import cn.hutool.http.Header;
 
 /**
  * 客户端工具类
@@ -109,38 +115,49 @@ public class ServletUtils {
     /**
      * 将字符串渲染到客户端
      * 
+     * @param response 渲染对象
      * @param str 待渲染的字符串
-     * @return null
      */
-    public static String renderStr(String str) {
-        return renderStr(Objects.requireNonNull(getResponse()), str);
+    public static void renderStr(HttpServletResponse response, String str) {
+        ServletUtil.write(response, str, ContentType.TEXT_PLAIN.getValue());
     }
 
     /**
-     * 将字符串渲染到客户端
+     * 将JSON字符串渲染到客户端
      * 
      * @param response 渲染对象
      * @param str 待渲染的字符串
-     * @return null
      */
-    public static String renderStr(HttpServletResponse response, String str) {
-        try {
-            response.setStatus(200);
-            response.setContentType("application/json");
-            response.setCharacterEncoding("utf-8");
-            response.getWriter().print(str);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public static void renderJson(HttpServletResponse response, String str) {
+        ServletUtil.write(response, str, ContentType.JSON.getValue());
+    }
+
+    /**
+     * 将输入流渲染到客户端
+     * 
+     * @param response 渲染对象
+     * @param inputStream 输入流
+     */
+    public static void renderStream(HttpServletResponse response, InputStream inputStream) {
+        ServletUtil.write(response, inputStream);
+    }
+
+    /**
+     * 将文件渲染到客户端
+     * 
+     * @param response 渲染对象
+     * @param file 文件
+     */
+    public static void renderFile(HttpServletResponse response, File file) {
+        ServletUtil.write(response, file);
     }
 
     /**
      * 是否是Ajax异步请求
      */
     public static boolean isAjax(HttpServletRequest request) {
-        String accept = request.getHeader("accept");
-        if (accept != null && accept.contains("application/json")) {
+        String accept = request.getHeader(Header.ACCEPT.getValue());
+        if (accept != null && accept.contains(ContentType.JSON.getValue())) {
             return true;
         }
 

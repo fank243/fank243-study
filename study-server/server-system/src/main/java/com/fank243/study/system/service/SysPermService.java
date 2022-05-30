@@ -2,11 +2,13 @@ package com.fank243.study.system.service;
 
 import javax.annotation.Resource;
 
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fank243.study.api.system.dto.SysPermDTO;
@@ -53,9 +55,8 @@ public class SysPermService extends ServiceImpl<ISysPermDao, SysPermEntity> {
      */
     @Transactional(rollbackFor = Exception.class)
     public boolean add(SysPermDTO sysPerm) throws BizException {
-        QueryWrapper<SysPermEntity> wrapper = new QueryWrapper<>();
-        wrapper.eq("permCode", sysPerm.getPermCode());
-        SysPermEntity sysPermEntity = sysPermDao.selectOne(wrapper);
+        SysPermEntity sysPermEntity = sysPermDao
+            .selectOne(Wrappers.<SysPermEntity>lambdaQuery().eq(SysPermEntity::getPermCode, sysPerm.getPermCode()));
         if (sysPermEntity != null) {
             throw new BizException("权限代码已存在");
         }

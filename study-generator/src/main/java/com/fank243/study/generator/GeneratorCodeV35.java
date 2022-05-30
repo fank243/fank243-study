@@ -1,5 +1,7 @@
 //package com.fank243.study.generator;
 //
+//import java.util.Scanner;
+//
 //import com.baomidou.mybatisplus.generator.AutoGenerator;
 //import com.baomidou.mybatisplus.generator.config.*;
 //import com.baomidou.mybatisplus.generator.config.builder.ConfigBuilder;
@@ -7,7 +9,8 @@
 //import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 //import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 //
-//import java.util.Scanner;
+//import cn.hutool.setting.dialect.Props;
+//import cn.hutool.setting.dialect.PropsUtil;
 //
 ///**
 // * 生成代码
@@ -15,14 +18,20 @@
 // * @author FanWeiJie
 // * @since 2021-08-28 17:17:31
 // */
-//public class GeneratorCode {
+//public class GeneratorCodeV35 {
 //
-//    private static final String jdbcUrl =
-//        "jdbc:mysql://127.0.01:3306/fank243-study?useUnicode=true&useSSL=false&characterEncoding=utf8";
+//    private static final String JDBC_URL;
 //
-//    private static final String username = "root";
+//    private static final String USERNAME;
 //
-//    private static final String password = "root";
+//    private static final String PASSWORD;
+//
+//    static {
+//        Props props = PropsUtil.get("application");
+//        JDBC_URL = props.getProperty("jdbc.url");
+//        USERNAME = props.getProperty("jdbc.username");
+//        PASSWORD = props.getProperty("jdbc.password");
+//    }
 //
 //    /**
 //     * <p>
@@ -47,17 +56,15 @@
 //        // @formatter:off
 //        GlobalConfig globalConfig = new GlobalConfig.Builder()
 //            .outputDir(System.getProperty("user.home") + "/Desktop/study")
-//            // 覆盖已有文件
-//            .fileOverride()
 //            .author("FanWeiJie")
-//            .openDir(false)
 //            .dateType(DateType.ONLY_DATE)
+//            .disableOpenDir()
+//            .commentDate("yyyy-MM-dd HH:mm:ss")
 //            .build();
 //        // @formatter:on
 //
 //        // 数据源
-//        DataSourceConfig dataSourceConfig =
-//            new DataSourceConfig.Builder(jdbcUrl, username, password).build();
+//        DataSourceConfig dataSourceConfig = new DataSourceConfig.Builder(JDBC_URL, USERNAME, PASSWORD).build();
 //
 //        // 包配置
 //        // @formatter:off
@@ -72,12 +79,11 @@
 //        // 模板配置
 //        // @formatter:off
 //        TemplateConfig templateConfig = new TemplateConfig.Builder()
-//                .controller("ftl/controller.java")
-//                // 去除ServiceImpl
-//                .service("ftl/service.java","")
-//                .mapper("ftl/mapper.java")
-//                .entity("ftl/entity.java")
-//                // 禁用XML
+//                .controller("ftl35/controller.java")
+//                .service("ftl35/service.java")
+//                .mapper("ftl35/mapper.java")
+//                .entity("ftl35/entity.java")
+//                .disable(TemplateType.SERVICEIMPL)
 //                .disable(TemplateType.XML)
 //                .build();
 //        // @formatter:on

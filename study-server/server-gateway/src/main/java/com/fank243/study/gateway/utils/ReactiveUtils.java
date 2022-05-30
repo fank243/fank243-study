@@ -26,7 +26,7 @@ public class ReactiveUtils {
      * @param result {@link com.fank243.study.common.utils.ResultInfo}
      * @return void
      */
-    public static Mono<Void> printJson(ServerHttpResponse response, HttpStatus httpStatus, ResultInfo<?> result) {
+    public static Mono<Void> renderJson(ServerHttpResponse response, HttpStatus httpStatus, ResultInfo<?> result) {
         response.setStatusCode(httpStatus);
         response.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
         DataBuffer buffer = response.bufferFactory().wrap(result.toString().getBytes(StandardCharsets.UTF_8));

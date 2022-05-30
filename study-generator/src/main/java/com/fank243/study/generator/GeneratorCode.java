@@ -1,7 +1,9 @@
 package com.fank243.study.generator;
 
-import cn.hutool.setting.dialect.Props;
-import cn.hutool.setting.dialect.PropsUtil;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
@@ -11,9 +13,8 @@ import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import cn.hutool.setting.dialect.Props;
+import cn.hutool.setting.dialect.PropsUtil;
 
 /**
  * 生成代码
@@ -23,17 +24,17 @@ import java.util.Scanner;
  */
 public class GeneratorCode {
 
-    private static final String jdbcUrl;
+    private static final String JDBC_URL;
 
-    private static final String username;
+    private static final String USERNAME;
 
-    private static final String password;
+    private static final String PASSWORD;
 
     static {
         Props props = PropsUtil.get("application");
-        jdbcUrl = props.getProperty("jdbc.url");
-        username = props.getProperty("jdbc.username");
-        password = props.getProperty("jdbc.password");
+        JDBC_URL = props.getProperty("jdbc.url");
+        USERNAME = props.getProperty("jdbc.username");
+        PASSWORD = props.getProperty("jdbc.password");
     }
 
     /**
@@ -54,7 +55,7 @@ public class GeneratorCode {
 
     /**
      * 自定义生成模板
-     * 
+     *
      * @param outDir 输出目录
      * @return 模板文件
      */
@@ -70,7 +71,7 @@ public class GeneratorCode {
         fileList.add(new FileOutConfig("/ftl/client.java.ftl") {
             @Override
             public String outputFile(TableInfo tableInfo) {
-                return outDir + "/client/" + "I" + tableInfo.getEntityName() + "Service" + StringPool.DOT_JAVA;
+                return outDir + "/client/" + "I" + tableInfo.getEntityName() + "FeignClient" + StringPool.DOT_JAVA;
             }
         });
         fileList.add(new FileOutConfig("/ftl/controller.java.ftl") {
@@ -133,10 +134,10 @@ public class GeneratorCode {
 
         // 数据源配置
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
-        dataSourceConfig.setUrl(jdbcUrl);
+        dataSourceConfig.setUrl(JDBC_URL);
         dataSourceConfig.setDriverName("com.mysql.cj.jdbc.Driver");
-        dataSourceConfig.setUsername(username);
-        dataSourceConfig.setPassword(password);
+        dataSourceConfig.setUsername(USERNAME);
+        dataSourceConfig.setPassword(PASSWORD);
         dataSourceConfig.setSchemaName("");
         autoGenerator.setDataSource(dataSourceConfig);
 

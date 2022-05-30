@@ -2,12 +2,12 @@ package com.fank243.study.system.service;
 
 import javax.annotation.Resource;
 
-import cn.hutool.crypto.SecureUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fank243.study.api.system.dto.SysUserDTO;
@@ -19,6 +19,7 @@ import com.fank243.study.system.dao.ISysUserDao;
 import com.fank243.study.system.entity.SysUserEntity;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.crypto.SecureUtil;
 
 /**
  * 系统管理员表 服务类
@@ -54,9 +55,8 @@ public class SysUserService extends ServiceImpl<ISysUserDao, SysUserEntity> {
      */
     @Transactional(rollbackFor = Exception.class)
     public boolean add(SysUserDTO sysUser) throws BizException {
-        QueryWrapper<SysUserEntity> wrapper = new QueryWrapper<>();
-        wrapper.eq("username", sysUser.getUsername());
-        SysUserEntity sysUserEntity = sysUserDao.selectOne(wrapper);
+        SysUserEntity sysUserEntity = sysUserDao
+            .selectOne(Wrappers.<SysUserEntity>lambdaQuery().eq(SysUserEntity::getUsername, sysUser.getUsername()));
         if (sysUserEntity != null) {
             throw new BizException("用户名已存在");
         }
