@@ -4,16 +4,13 @@
 
 ```bash
 # gateway
--Dstudy.nacos-addr=127.0.0.1:8848
--Dstudy.nacos-namespace=study-dev
+-Dstudy.remote-ip=127.0.0.1
 -javaagent:E:/devops/local/apache-skywalking-apm-bin/agent/skywalking-agent.jar
 -Dskywalking.agent.service_name=server-gateway
 -Dskywalking.collector.backend_service=127.0.0.1:11800
--Dsentinel-dashboard=127.0.0.1:8858
 
 # other
--Dstudy.nacos-addr=127.0.0.1:8848
--Dstudy.nacos-namespace=study-dev
+-Dstudy.nacos-addr=127.0.0.1
 -javaagent:E:/devops/local/apache-skywalking-apm-bin/agent/skywalking-agent.jar
 -Dskywalking.agent.service_name=server-oauth2
 -Dskywalking.collector.backend_service=127.0.0.1:11800
@@ -24,11 +21,7 @@
 idea VM options
 
 ```bash
-# gateway
--Dstudy.nacos-addr=${nacos addr:port} -Dstudy.nacos-namespace=${nacos namespace} -Dsentinel-dashboard=${sentinel:port}
-
-# other
--Dstudy.nacos-addr=${nacos addr:port} -Dstudy.nacos-namespace=${nacos namespace}
+-Dstudy.remote-ip=${remote addr} 
 ```
 
 ## Apache SkyWorking

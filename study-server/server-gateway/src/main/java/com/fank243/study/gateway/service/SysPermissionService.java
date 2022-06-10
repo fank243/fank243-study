@@ -4,14 +4,11 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import com.fank243.study.core.config.CacheKeyGenerator;
-import com.fank243.study.gateway.dao.SysPermissionDao;
-import com.fank243.study.gateway.entity.SysPermissionEntity;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import com.fank243.study.gateway.dao.SysRoleDao;
-import com.fank243.study.gateway.entity.SysRoleEntity;
+import com.fank243.study.gateway.dao.SysPermissionDao;
+import com.fank243.study.gateway.entity.SysPermissionEntity;
 
 /**
  * 系统权限

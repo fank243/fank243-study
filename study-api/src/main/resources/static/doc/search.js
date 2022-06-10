@@ -25,37 +25,111 @@ api[0].list[0].list.push({
     desc: '告警消息发送通道',
 });
 api[0].list.push({
-    alias: 'ISysUserApi',
+    alias: 'ISysPermApi',
     order: '2',
-    link: '系统管理员',
-    desc: '系统管理员',
+    link: '菜单管理',
+    desc: '菜单管理',
     list: []
 })
 api[0].list[1].list.push({
     order: '1',
     deprecated: 'false',
+    url: 'http://127.0.0.1/api/system/perm/get/{id}',
+    desc: '菜单管理_根据ID查找',
+});
+api[0].list[1].list.push({
+    order: '2',
+    deprecated: 'false',
+    url: 'http://127.0.0.1/api/system/perm/page',
+    desc: '菜单管理_分页',
+});
+api[0].list[1].list.push({
+    order: '3',
+    deprecated: 'false',
+    url: 'http://127.0.0.1/api/system/perm/add',
+    desc: '菜单管理_新增',
+});
+api[0].list[1].list.push({
+    order: '4',
+    deprecated: 'false',
+    url: 'http://127.0.0.1/api/system/perm/modify',
+    desc: '菜单管理_修改',
+});
+api[0].list[1].list.push({
+    order: '5',
+    deprecated: 'false',
+    url: 'http://127.0.0.1/api/system/perm/delete',
+    desc: '菜单管理_删除',
+});
+api[0].list.push({
+    alias: 'ISysRoleApi',
+    order: '3',
+    link: '角色管理',
+    desc: '角色管理',
+    list: []
+})
+api[0].list[2].list.push({
+    order: '1',
+    deprecated: 'false',
+    url: 'http://127.0.0.1/api/system/role/get/{id}',
+    desc: '角色管理_根据ID查找',
+});
+api[0].list[2].list.push({
+    order: '2',
+    deprecated: 'false',
+    url: 'http://127.0.0.1/api/system/role/page',
+    desc: '角色管理_分页',
+});
+api[0].list[2].list.push({
+    order: '3',
+    deprecated: 'false',
+    url: 'http://127.0.0.1/api/system/role/add',
+    desc: '角色管理_新增',
+});
+api[0].list[2].list.push({
+    order: '4',
+    deprecated: 'false',
+    url: 'http://127.0.0.1/api/system/role/modify',
+    desc: '角色管理_修改',
+});
+api[0].list[2].list.push({
+    order: '5',
+    deprecated: 'false',
+    url: 'http://127.0.0.1/api/system/role/delete',
+    desc: '角色管理_删除',
+});
+api[0].list.push({
+    alias: 'ISysUserApi',
+    order: '4',
+    link: '系统管理员',
+    desc: '系统管理员',
+    list: []
+})
+api[0].list[3].list.push({
+    order: '1',
+    deprecated: 'false',
     url: 'http://127.0.0.1/api/system/admin/get/{userId}',
     desc: '系统管理员_根据ID查找',
 });
-api[0].list[1].list.push({
+api[0].list[3].list.push({
     order: '2',
     deprecated: 'false',
     url: 'http://127.0.0.1/api/system/admin/page',
     desc: '系统管理员_分页',
 });
-api[0].list[1].list.push({
+api[0].list[3].list.push({
     order: '3',
     deprecated: 'false',
     url: 'http://127.0.0.1/api/system/admin/add',
     desc: '系统管理员_新增',
 });
-api[0].list[1].list.push({
+api[0].list[3].list.push({
     order: '4',
     deprecated: 'false',
     url: 'http://127.0.0.1/api/system/admin/modify',
     desc: '系统管理员_修改',
 });
-api[0].list[1].list.push({
+api[0].list[3].list.push({
     order: '5',
     deprecated: 'false',
     url: 'http://127.0.0.1/api/system/admin/delete',
@@ -63,7 +137,7 @@ api[0].list[1].list.push({
 });
 api[0].list.push({
     alias: 'error',
-    order: '3',
+    order: '5',
     link: 'error_code_list',
     desc: '错误码列表',
     list: []

@@ -9,9 +9,9 @@
     <!--日志文件存储路径-->
     <property name="logDir" value="${user.home}/logs/study"/>
     <!--RollingFile 文件名称-->
-    <property name="rollingFileName" value="system-%d{yyyy-MM-dd}-%i.log"/>
+    <property name="rollingFileName" value="${appName}-%d{yyyy-MM-dd}-%i.log"/>
     <!--RollingFile 按月归档-->
-    <property name="rollingFilePattern" value="${logDir}/%d{yyyy-MM}/system-%d{yyyy-MM-dd}-%i.log.gz"/>
+    <property name="rollingFilePattern" value="${logDir}/%d{yyyy-MM}/${appName}/${appName}-%d{yyyy-MM-dd}-%i.log.gz"/>
 
     <!-- 彩色日志依赖的渲染类 -->
     <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
@@ -57,7 +57,7 @@
 
     <!-- graylog https://github.com/osiegmar/logback-gelf/blob/master/examples/advanced_udp.xml -->
     <appender name="graylog" class="de.siegmar.logbackgelf.GelfUdpAppender">
-        <graylogHost>127.0.0.1</graylogHost>
+        <graylogHost>${study.remote-ip}</graylogHost>
         <graylogPort>12201</graylogPort>
         <!--以下为可选配置-->
         <maxChunkSize>508</maxChunkSize>

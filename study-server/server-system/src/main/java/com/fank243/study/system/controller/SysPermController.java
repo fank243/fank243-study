@@ -14,6 +14,7 @@ import com.fank243.study.api.system.dto.SysPermDTO;
 import com.fank243.study.api.system.vo.SysPermVO;
 import com.fank243.study.common.model.PageBean;
 import com.fank243.study.common.utils.ResultInfo;
+import com.fank243.study.core.annotation.RepeatSubmit;
 import com.fank243.study.core.base.BaseController;
 import com.fank243.study.core.exception.BizException;
 import com.fank243.study.system.entity.SysPermEntity;
@@ -44,6 +45,7 @@ public class SysPermController extends BaseController implements ISysPermApi {
         return ResultInfo.ok(sysPermService.page(sysPerm));
     }
 
+    @RepeatSubmit
     @Override
     public ResultInfo<?> add(@RequestBody @Validated({ValidatorGroup.Create.class}) SysPermDTO sysPerm)
         throws BizException {
@@ -51,6 +53,7 @@ public class SysPermController extends BaseController implements ISysPermApi {
         return isOk ? ResultInfo.ok().message("添加成功") : ResultInfo.fail("添加失败");
     }
 
+    @RepeatSubmit
     @Override
     public ResultInfo<?> modify(@RequestBody @Validated({ValidatorGroup.Modify.class}) SysPermDTO sysPerm)
         throws BizException {
@@ -58,6 +61,7 @@ public class SysPermController extends BaseController implements ISysPermApi {
         return isOk ? ResultInfo.ok().message("修改成功") : ResultInfo.fail("修改失败");
     }
 
+    @RepeatSubmit
     @Override
     public ResultInfo<?> delete(@RequestBody String[] ids) throws BizException {
         boolean isOk = sysPermService.removeByIds(List.of(ids));

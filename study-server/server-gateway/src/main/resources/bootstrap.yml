@@ -17,8 +17,8 @@ spring:
         enabled: true
     nacos:
       discovery:
-        server-addr: ${study.nacos-addr}
-        namespace: ${study.nacos-namespace}
+        server-addr: ${study.remote-ip}:8848
+        namespace: study
       config:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
         namespace: ${spring.cloud.nacos.discovery.namespace}

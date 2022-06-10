@@ -4,8 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import com.fank243.study.common.model.PageBean;
-import lombok.extern.slf4j.Slf4j;
+import com.fank243.study.core.annotation.RepeatSubmit;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +13,7 @@ import com.fank243.study.api.constants.ValidatorGroup;
 import com.fank243.study.api.system.api.ISysUserApi;
 import com.fank243.study.api.system.dto.SysUserDTO;
 import com.fank243.study.api.system.vo.SysUserVO;
+import com.fank243.study.common.model.PageBean;
 import com.fank243.study.common.utils.ResultInfo;
 import com.fank243.study.core.base.BaseController;
 import com.fank243.study.core.exception.BizException;
@@ -21,6 +21,7 @@ import com.fank243.study.system.entity.SysUserEntity;
 import com.fank243.study.system.service.SysUserService;
 
 import cn.hutool.core.bean.BeanUtil;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 系统管理员表 控制器
@@ -46,6 +47,7 @@ public class SysUserController extends BaseController implements ISysUserApi {
         return ResultInfo.ok(sysUserService.page(sysUser));
     }
 
+    @RepeatSubmit
     @Override
     public ResultInfo<?> add(@RequestBody @Validated({ValidatorGroup.Create.class}) SysUserDTO sysUser)
         throws BizException {
@@ -53,6 +55,7 @@ public class SysUserController extends BaseController implements ISysUserApi {
         return isOk ? ResultInfo.ok().message("添加成功") : ResultInfo.fail("添加失败");
     }
 
+    @RepeatSubmit
     @Override
     public ResultInfo<?> modify(@RequestBody @Validated({ValidatorGroup.Modify.class}) SysUserDTO sysUser)
         throws BizException {
@@ -60,6 +63,7 @@ public class SysUserController extends BaseController implements ISysUserApi {
         return isOk ? ResultInfo.ok().message("修改成功") : ResultInfo.fail("修改失败");
     }
 
+    @RepeatSubmit
     @Override
     public ResultInfo<?> delete(@RequestBody String[] ids) {
         boolean isOk = sysUserService.removeByIds(List.of(ids));

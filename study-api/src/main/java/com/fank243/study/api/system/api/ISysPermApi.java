@@ -1,7 +1,11 @@
 package com.fank243.study.api.system.api;
 
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.fank243.study.api.constants.ApiConstants;
 import com.fank243.study.api.constants.ValidatorGroup;
@@ -12,15 +16,16 @@ import com.fank243.study.common.utils.ResultInfo;
 import com.fank243.study.core.exception.BizException;
 
 /**
- * 系统权限表 Api
+ * 菜单管理
  *
  * @author FanWeiJie
  * @since 2022-05-13
+ * @restApi
  */
 public interface ISysPermApi {
 
     /**
-     * 系统权限表_根据ID查找
+     * 菜单管理_根据ID查找
      *
      * @param id 主键ID
      * @return 用户实体
@@ -29,7 +34,7 @@ public interface ISysPermApi {
     ResultInfo<SysPermVO> getById(@PathVariable("id") String id);
 
     /**
-     * 系统权限表_分页
+     * 菜单管理_分页
      *
      * @param sysPerm 查询条件
      * @return 列表
@@ -38,7 +43,7 @@ public interface ISysPermApi {
     ResultInfo<PageBean<SysPermVO>> page(@RequestBody SysPermDTO sysPerm);
 
     /**
-     * 系统权限表_新增
+     * 菜单管理_新增
      *
      * @param sysPerm 请求参数
      * @return 操作结果
@@ -48,7 +53,7 @@ public interface ISysPermApi {
     ResultInfo<?> add(@RequestBody @Validated({ValidatorGroup.Create.class}) SysPermDTO sysPerm) throws BizException;
 
     /**
-     * 系统权限表_修改
+     * 菜单管理_修改
      *
      * @param sysPerm 请求参数
      * @return 操作结果
@@ -58,7 +63,7 @@ public interface ISysPermApi {
     ResultInfo<?> modify(@RequestBody @Validated({ValidatorGroup.Modify.class}) SysPermDTO sysPerm) throws BizException;
 
     /**
-     * 系统权限表_删除
+     * 菜单管理_删除
      *
      * @param ids 主键ID集合
      * @return 操作结果

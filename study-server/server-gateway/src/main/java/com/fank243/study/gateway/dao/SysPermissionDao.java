@@ -24,7 +24,7 @@ public interface SysPermissionDao {
      * @return 权限集合
      */
     @Select("""
-        SELECT a.* FROM `tb_sys_permission` a LEFT JOIN tb_sys_role_permission b ON a.perm_id=b.perm_id LEFT JOIN tb_sys_user_role c ON b.role_id=c.role_id
+        SELECT a.* FROM `tb_sys_perm` a LEFT JOIN tb_sys_role_perm b ON a.perm_id=b.perm_id LEFT JOIN tb_sys_user_role c ON b.role_id=c.role_id
         WHERE c.user_id= #{userId}
         """)
     List<SysPermissionEntity> findByUserId(String userId);
@@ -34,6 +34,6 @@ public interface SysPermissionDao {
      * 
      * @return 权限集合
      */
-    @Select("select * from tb_sys_permission")
+    @Select("select * from tb_sys_perm")
     List<SysPermissionEntity> findAll();
 }

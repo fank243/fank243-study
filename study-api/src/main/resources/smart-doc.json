@@ -1,7 +1,7 @@
 {
   "serverUrl": "http://127.0.0.1/api",
   "isStrict": false,
-  "allInOne": true,
+  "allInOne": false,
   "outPath": "src/main/resources/static/doc",
   "projectName": "fank243-study",
   "packageFilters": "com.fank243.study",

@@ -1,7 +1,10 @@
 package com.fank243.study.core.utils;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -14,6 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import cn.hutool.core.exceptions.UtilException;
+import cn.hutool.core.io.IoUtil;
+import cn.hutool.json.JSONUtil;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -126,10 +132,30 @@ public class ServletUtils {
      * 将JSON字符串渲染到客户端
      * 
      * @param response 渲染对象
+     * @param obj 对象
+     */
+    public static void renderJson(HttpServletResponse response, Object obj) {
+        renderJson(response,JSONUtil.toJsonStr(obj));
+    }
+
+    /**
+     * 将JSON字符串渲染到客户端
+     * 
+     * @param response 渲染对象
      * @param str 待渲染的字符串
      */
     public static void renderJson(HttpServletResponse response, String str) {
-        ServletUtil.write(response, str, ContentType.JSON.getValue());
+        response.setContentType("application/json;charset=UTF-8");
+        Writer writer = null;
+        try {
+            writer = response.getWriter();
+            writer.write(str);
+            writer.flush();
+        } catch (IOException e) {
+            throw new UtilException(e);
+        } finally {
+            IoUtil.close(writer);
+        }
     }
 
     /**

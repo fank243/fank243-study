@@ -2,6 +2,8 @@ spring:
   cloud:
     # https://github.com/alibaba/spring-cloud-alibaba/wiki/Sentinel#spring-cloud-gateway-%E6%94%AF%E6%8C%81
     sentinel:
+      # 是否启用Sentinel
+      enabled: true
       # 服务启动时与控制台建立心跳
       eager: true
       # 关闭filter
@@ -10,7 +12,7 @@ spring:
       log.dir: ${user.home}/logs/sentinel
 
       # sentinel控制台地址
-      transport.dashboard: ${study.sentinel-dashboard}
+      transport.dashboard: localhost:8858
 
       scg.fallback:
         # Spring Cloud Gateway 流控处理逻辑 (选择 redirect or response)
@@ -38,5 +40,6 @@ spring:
           data-type: json
           rule-type: degrade
 
+
 # 设置为网关模式，如果不设置，则console不会出现“API管理”菜单
-csp.sentinel.app.type: 1
+#csp.sentinel.app.type: 1

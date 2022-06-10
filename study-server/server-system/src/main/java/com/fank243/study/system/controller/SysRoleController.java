@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.fank243.study.core.annotation.RepeatSubmit;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,6 +45,7 @@ public class SysRoleController extends BaseController implements ISysRoleApi {
         return ResultInfo.ok(sysRoleService.page(sysRole));
     }
 
+    @RepeatSubmit
     @Override
     public ResultInfo<?> add(@RequestBody @Validated({ValidatorGroup.Create.class}) SysRoleDTO sysRole)
         throws BizException {
@@ -51,6 +53,7 @@ public class SysRoleController extends BaseController implements ISysRoleApi {
         return isOk ? ResultInfo.ok().message("添加成功") : ResultInfo.fail("添加失败");
     }
 
+    @RepeatSubmit
     @Override
     public ResultInfo<?> modify(@RequestBody @Validated({ValidatorGroup.Modify.class}) SysRoleDTO sysRole)
         throws BizException {
@@ -58,6 +61,7 @@ public class SysRoleController extends BaseController implements ISysRoleApi {
         return isOk ? ResultInfo.ok().message("修改成功") : ResultInfo.fail("修改失败");
     }
 
+    @RepeatSubmit
     @Override
     public ResultInfo<?> delete(@RequestBody String[] ids) throws BizException {
         boolean isOk = sysRoleService.removeByIds(List.of(ids));

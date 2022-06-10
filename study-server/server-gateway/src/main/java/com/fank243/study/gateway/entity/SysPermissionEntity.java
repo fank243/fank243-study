@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("tb_sys_permission")
+@TableName("tb_sys_perm")
 public class SysPermissionEntity extends BaseEntity {
 
     @TableId
