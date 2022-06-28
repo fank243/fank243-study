@@ -7,8 +7,8 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 
-import com.fank243.study.gateway.entity.SysPermissionEntity;
-import com.fank243.study.gateway.entity.SysRoleEntity;
+import com.fank243.study.gateway.domain.SysPermVO;
+import com.fank243.study.gateway.domain.SysRoleVO;
 import com.fank243.study.gateway.service.SysPermissionService;
 import com.fank243.study.gateway.service.SysRoleService;
 
@@ -32,21 +32,21 @@ public class StpInterfaceImpl implements StpInterface {
     @Override
     public List<String> getPermissionList(Object loginId, String loginType) {
         // 返回此 loginId 拥有的权限列表
-        List<SysPermissionEntity> perms = sysPermissionService.findByUserId((String)loginId);
+        List<SysPermVO> perms = sysPermissionService.findByUserId((String)loginId);
         if (CollUtil.isEmpty(perms)) {
             return null;
         }
-        return perms.stream().map(SysPermissionEntity::getPermCode).collect(Collectors.toList());
+        return perms.stream().map(SysPermVO::getPermCode).collect(Collectors.toList());
     }
 
     @Override
     public List<String> getRoleList(Object loginId, String loginType) {
         // 返回此 loginId 拥有的角色列表
-        List<SysRoleEntity> roles = sysRoleService.findByUserId((String)loginId);
+        List<SysRoleVO> roles = sysRoleService.findByUserId((String)loginId);
         if (CollUtil.isEmpty(roles)) {
             return null;
         }
-        return roles.stream().map(SysRoleEntity::getRoleCode).collect(Collectors.toList());
+        return roles.stream().map(SysRoleVO::getRoleCode).collect(Collectors.toList());
     }
 
 }

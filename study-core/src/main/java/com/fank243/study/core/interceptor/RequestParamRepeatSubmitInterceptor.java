@@ -26,7 +26,7 @@ import cn.hutool.json.JSONUtil;
 public class RequestParamRepeatSubmitInterceptor extends AbstractRepeatSubmitInterceptor {
 
     @Override
-    public boolean isRepeatSubmit(HttpServletRequest request, RepeatSubmit annotation) throws Exception {
+    public boolean isRepeatSubmit(HttpServletRequest request, RepeatSubmit annotation) {
         HttpSession session = request.getSession();
 
         String uri = request.getRequestURI();

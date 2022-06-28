@@ -4,21 +4,28 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.boot.autoconfigure.cache.CacheProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.cache.RedisCacheConfiguration;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializationContext;
 
-import com.fank243.study.common.utils.ResultInfo;
-import com.fank243.study.gateway.entity.SysPermissionEntity;
+import com.fank243.study.core.enums.PermTypeEnum;
+import com.fank243.study.gateway.domain.SysPermVO;
 import com.fank243.study.gateway.service.SysPermissionService;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import cn.dev33.satoken.context.SaHolder;
-import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.exception.SaTokenException;
 import cn.dev33.satoken.reactor.filter.SaReactorFilter;
 import cn.dev33.satoken.router.SaHttpMethod;
 import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -33,6 +40,35 @@ public class SaTokenConfigure {
 
     @Resource
     private SysPermissionService sysPermissionService;
+
+    @Bean
+    public RedisCacheConfiguration redisCacheConfiguration(CacheProperties cacheProperties) {
+        Jackson2JsonRedisSerializer<Object> serializer = new Jackson2JsonRedisSerializer<>(Object.class);
+        ObjectMapper om = new ObjectMapper();
+        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+        om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+        serializer.setObjectMapper(om);
+
+        CacheProperties.Redis redisProperties = cacheProperties.getRedis();
+        RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig();
+
+        redisCacheConfiguration = redisCacheConfiguration
+            .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(serializer));
+
+        if (redisProperties.getTimeToLive() != null) {
+            redisCacheConfiguration = redisCacheConfiguration.entryTtl(redisProperties.getTimeToLive());
+        }
+        if (redisProperties.getKeyPrefix() != null) {
+            redisCacheConfiguration = redisCacheConfiguration.prefixCacheNameWith(redisProperties.getKeyPrefix());
+        }
+        if (!redisProperties.isCacheNullValues()) {
+            redisCacheConfiguration = redisCacheConfiguration.disableCachingNullValues();
+        }
+        if (!redisProperties.isUseKeyPrefix()) {
+            redisCacheConfiguration = redisCacheConfiguration.disableKeyPrefix();
+        }
+        return redisCacheConfiguration;
+    }
 
     /** 注册 [Sa-Token全局过滤器] */
     @Bean
@@ -50,10 +86,13 @@ public class SaTokenConfigure {
 
                 SaRouter.match("/api/**", StpUtil::checkLogin);
 
-                // 菜单权限
-                List<SysPermissionEntity> perms = sysPermissionService.findAll();
+                // 菜单、接口权限
+                List<SysPermVO> perms = sysPermissionService.findByPermTypes(PermTypeEnum.PERMS);
                 if (CollUtil.isNotEmpty(perms)) {
-                    for (SysPermissionEntity perm : perms) {
+                    for (SysPermVO perm : perms) {
+                        if (StrUtil.isBlank(perm.getPermUri())) {
+                            continue;
+                        }
                         SaRouter.match("/api" + perm.getPermUri(), r -> StpUtil.checkPermission(perm.getPermCode()));
                     }
                 }

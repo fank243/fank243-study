@@ -19,7 +19,6 @@ import lombok.EqualsAndHashCode;
 @TableName("tb_sys_role")
 public class SysRoleEntity extends BaseEntity {
 
-
     /** 角色ID */
     @TableId
     private String roleId;
@@ -38,6 +37,9 @@ public class SysRoleEntity extends BaseEntity {
      * 角色描述
      */
     private String roleDesc;
+
+    /** 状态(0：正常，1：禁用) **/
+    private Integer status;
 
     /**
      * 是否已删除(0：未删除，1：已删除)

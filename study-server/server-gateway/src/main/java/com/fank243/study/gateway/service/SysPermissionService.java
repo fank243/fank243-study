@@ -7,8 +7,8 @@ import javax.annotation.Resource;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import com.fank243.study.gateway.dao.SysPermissionDao;
-import com.fank243.study.gateway.entity.SysPermissionEntity;
+import com.fank243.study.gateway.dao.ISysPermissionDao;
+import com.fank243.study.gateway.domain.SysPermVO;
 
 /**
  * 系统权限
@@ -20,15 +20,15 @@ import com.fank243.study.gateway.entity.SysPermissionEntity;
 public class SysPermissionService {
 
     @Resource
-    private SysPermissionDao sysPermissionDao;
+    private ISysPermissionDao sysPermissionDao;
 
     @Cacheable(value = "perm:user", key = "#userId")
-    public List<SysPermissionEntity> findByUserId(String userId) {
+    public List<SysPermVO> findByUserId(String userId) {
         return sysPermissionDao.findByUserId(userId);
     }
 
-    @Cacheable(value = "perm:all", keyGenerator = "cacheKeyGenerator")
-    public List<SysPermissionEntity> findAll() {
-        return sysPermissionDao.findAll();
+    @Cacheable(value = "perm:perm-type",  key = "#permTypes")
+    public List<SysPermVO> findByPermTypes(List<Integer> permTypes) {
+        return sysPermissionDao.findByPermTypes(permTypes);
     }
 }

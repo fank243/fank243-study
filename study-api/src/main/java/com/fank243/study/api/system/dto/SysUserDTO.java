@@ -26,6 +26,9 @@ public class SysUserDTO extends BaseDTO {
     @NotBlank(message = "请填写用户名")
     private String username;
 
+    /*** 昵称 */
+    private String nickname;
+
     /** 密码 **/
     @NotBlank(message = "请填写密码")
     private String password;

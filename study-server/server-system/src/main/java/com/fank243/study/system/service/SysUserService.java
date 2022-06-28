@@ -75,7 +75,7 @@ public class SysUserService extends ServiceImpl<ISysUserDao, SysUserEntity> {
     @Transactional(rollbackFor = Exception.class)
     public boolean modify(SysUserDTO sysUser) throws BizException {
         SysUserEntity sysUserEntity = sysUserDao.selectById(sysUser.getUserId());
-        if (sysUserEntity != null) {
+        if (sysUserEntity == null) {
             throw new BizException("用户不存在");
         }
 

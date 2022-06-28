@@ -1,6 +1,9 @@
 package com.fank243.study.oauth2.controller;
 
+import java.nio.charset.StandardCharsets;
+
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -10,12 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fank243.study.common.utils.ResultInfo;
 import com.fank243.study.core.exception.AuthException;
+import com.fank243.study.core.utils.ServletUtils;
 import com.fank243.study.oauth2.service.OauthClientService;
 
 import cn.dev33.satoken.oauth2.config.SaOAuth2Config;
 import cn.dev33.satoken.oauth2.logic.SaOAuth2Handle;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
+import cn.hutool.extra.servlet.ServletUtil;
+import cn.hutool.http.Header;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -53,9 +59,13 @@ public class Oauth2ServerController {
         cfg.setDoLoginHandle((name, pwd) -> {
             String userId;
             try {
-                userId = oauthClientService.login(name, pwd);
+                HttpServletRequest request = ServletUtils.getRequest();
+                assert request != null;
+                String clientIp = ServletUtil.getClientIP(request);
+                String userAgent = ServletUtil.getHeader(request, Header.USER_AGENT.getValue(), StandardCharsets.UTF_8);
+                userId = oauthClientService.login(name, pwd, clientIp, userAgent);
             } catch (AuthException e) {
-                e.printStackTrace();
+                log.error(e.getMessage(), e);
                 return SaResult.error(e.getMessage());
             }
             StpUtil.login(userId, "PC");

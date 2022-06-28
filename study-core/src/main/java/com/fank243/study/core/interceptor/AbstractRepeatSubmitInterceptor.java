@@ -11,6 +11,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import com.fank243.study.common.utils.ResultInfo;
 import com.fank243.study.core.annotation.Interceptor;
 import com.fank243.study.core.annotation.RepeatSubmit;
+import com.fank243.study.core.constant.InterceptorOrderConstant;
 import com.fank243.study.core.utils.ServletUtils;
 
 /**
@@ -19,7 +20,7 @@ import com.fank243.study.core.utils.ServletUtils;
  * @author FanWeiJie
  * @since 2022-06-10 09:56:23
  */
-@Interceptor(value = "repeatSubmitInterceptor", order = -1)
+@Interceptor(value = "repeatSubmitInterceptor", order = InterceptorOrderConstant.REPEAT_SUBMIT)
 public abstract class AbstractRepeatSubmitInterceptor implements HandlerInterceptor {
 
     @Override
@@ -33,7 +34,7 @@ public abstract class AbstractRepeatSubmitInterceptor implements HandlerIntercep
                 return Boolean.TRUE;
             }
 
-            // 根据不同的验证规则执行响应的验证逻辑
+            // 根据不同的验证规则执行相应的验证逻辑
             if (this.isRepeatSubmit(request, annotation)) {
                 ServletUtils.renderJson(response, ResultInfo.fail(annotation.message()));
                 return Boolean.FALSE;

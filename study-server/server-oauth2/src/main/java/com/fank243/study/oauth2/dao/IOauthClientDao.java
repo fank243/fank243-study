@@ -1,11 +1,16 @@
 package com.fank243.study.oauth2.dao;
 
+import java.util.Date;
+
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.fank243.study.oauth2.domain.OauthClientEntity;
 import com.fank243.study.oauth2.domain.SysUserEntity;
+import com.fank243.study.oauth2.domain.SysUserLoginLogEntity;
 
 /**
  * 授权客户端表 数据访问层
@@ -24,4 +29,26 @@ public interface IOauthClientDao extends BaseMapper<OauthClientEntity> {
      */
     @Select("select * from tb_sys_user where username = #{username}")
     SysUserEntity findSysUserByUsername(String username);
+
+    /***
+     * 锁定登录错误信息
+     * 
+     * @param userId 用户ID
+     * @param loginLockTime 登录锁定时间
+     * @param status 用户状态
+     */
+    @Update("""
+        update tb_sys_user set
+        login_err_count = login_err_count + 1,login_lock_time = #{loginLockTime},`status` = #{status} where user_id = #{userId}
+        """)
+    void lockLoginErr(@Param("userId") String userId, @Param("loginLockTime") Date loginLockTime,
+        @Param("status") int status);
+
+    /***
+     * 解锁登录错误信息
+     *
+     * @param sysUserEntity SysUserEntity
+     */
+    @Update("update tb_sys_user set login_err_count = 0,login_lock_time = null, status = #{status},last_login_time = #{lastLoginTime},last_login_ip = #{lastLoginIp} where user_id = #{userId}")
+    void unLockLoginErr(SysUserEntity sysUserEntity);
 }

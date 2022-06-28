@@ -1,7 +1,7 @@
 package com.fank243.study.gateway.service;
 
-import com.fank243.study.gateway.dao.SysRoleDao;
-import com.fank243.study.gateway.entity.SysRoleEntity;
+import com.fank243.study.gateway.dao.ISysRoleDao;
+import com.fank243.study.gateway.domain.SysRoleVO;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -17,9 +17,9 @@ import java.util.List;
 public class SysRoleService {
 
     @Resource
-    private SysRoleDao sysRoleDao;
+    private ISysRoleDao sysRoleDao;
 
-    public List<SysRoleEntity> findByUserId(String userId){
+    public List<SysRoleVO> findByUserId(String userId){
         return sysRoleDao.findByUserId(userId);
     }
 }
