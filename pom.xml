@@ -24,23 +24,21 @@
         <maven.compiler.target>17</maven.compiler.target>
 
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies -->
-        <spring-boot.version>2.6.7</spring-boot.version>
+        <spring-boot.version>2.6.3</spring-boot.version>
         <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-dependencies -->
-        <spring-cloud.version>2021.0.2</spring-cloud.version>
+        <spring-cloud.version>2021.0.1</spring-cloud.version>
         <!-- https://maven.aliyun.com/mvn/search -->
         <!-- https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E -->
         <spring-cloud-alibaba.version>2021.0.1.0</spring-cloud-alibaba.version>
         <!-- https://github.com/fank243?tab=packages&repo_name=mvn-repo -->
         <fank243-dependencies.version>1.0.4</fank243-dependencies.version>
 
-        <sentinel.version>1.8.2</sentinel.version>
-
         <!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->
         <!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java-util -->
-        <protobuf.version>3.17.3</protobuf.version>
+        <protobuf.version>3.21.2</protobuf.version>
 
         <!-- https://mvnrepository.com/artifact/cn.dev33/sa-token-spring-boot-starter -->
-        <sa-token.version>1.29.0</sa-token.version>
+        <sa-token.version>1.30.0</sa-token.version>
     </properties>
 
     <dependencyManagement>
