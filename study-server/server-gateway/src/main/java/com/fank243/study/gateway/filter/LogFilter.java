@@ -9,6 +9,7 @@ import java.util.Objects;
 
 import javax.annotation.Resource;
 
+import com.fank243.study.gateway.utils.LogUtils;
 import org.reactivestreams.Publisher;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -22,6 +23,7 @@ import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.core.io.buffer.DefaultDataBufferFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ReactiveHttpOutputMessage;
 import org.springframework.http.codec.HttpMessageReader;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpRequestDecorator;
@@ -114,9 +116,7 @@ public class LogFilter implements GlobalFilter, Ordered {
         // 获取响应体
         ServerHttpResponseDecorator decoratedResponse = recordResponseLog(exchange, logDTO);
         return chain.filter(exchange.mutate().response(decoratedResponse).build()).then(Mono.fromRunnable(() -> {
-            if (log.isDebugEnabled()) {
-                log.debug(JSONUtil.toJsonStr(logDTO));
-            }
+            LogUtils.printLog(logDTO);
             ThreadUtil.execAsync(() -> {
                 reqRespLogService.add(logDTO);
             });
@@ -138,7 +138,6 @@ public class LogFilter implements GlobalFilter, Ordered {
                 } else {
                     logDTO.setReqBody(JSONUtil.parseObj(body).toJSONString(0));
                 }
-
             } else {
                 logDTO.setReqBody(body);
             }
@@ -146,7 +145,7 @@ public class LogFilter implements GlobalFilter, Ordered {
         });
 
         // 通过 BodyInsert 插入 body(支持修改body), 避免 request body 只能获取一次
-        BodyInserter bodyInserter = BodyInserters.fromPublisher(modifiedBody, String.class);
+        BodyInserter<Mono<String>, ReactiveHttpOutputMessage> bodyInserter = BodyInserters.fromPublisher(modifiedBody, String.class);
         HttpHeaders headers = new HttpHeaders();
         headers.putAll(exchange.getRequest().getHeaders());
 
@@ -163,9 +162,7 @@ public class LogFilter implements GlobalFilter, Ordered {
             // 记录普通的
             return chain.filter(exchange.mutate().request(decoratedRequest).response(decoratedResponse).build())
                 .then(Mono.fromRunnable(() -> {
-                    if (log.isDebugEnabled()) {
-                        log.debug(JSONUtil.toJsonStr(logDTO));
-                    }
+                    LogUtils.printLog(logDTO);
                     ThreadUtil.execAsync(() -> {
                         reqRespLogService.add(logDTO);
                     });
@@ -218,9 +215,6 @@ public class LogFilter implements GlobalFilter, Ordered {
             public Mono<Void> writeWith(Publisher<? extends DataBuffer> body) {
                 if (body instanceof Flux) {
                     logDTO.setRespTime(new Date());
-                    // 计算执行时间
-                    long executeTime = logDTO.getRespTime().getTime() - logDTO.getReqTime().getTime();
-                    logDTO.setExecuteTime(executeTime);
 
                     // 获取响应类型，如果是 json 就打印
                     String respContentType =

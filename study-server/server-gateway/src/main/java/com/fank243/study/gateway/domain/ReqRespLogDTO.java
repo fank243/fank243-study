@@ -55,4 +55,7 @@ public class ReqRespLogDTO implements Serializable {
     /** spanId */
     private String spanId;
 
+    public Long getExecuteTime() {
+        return this.getRespTime().getTime() - this.getReqTime().getTime();
+    }
 }

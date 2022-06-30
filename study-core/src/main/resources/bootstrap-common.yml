@@ -26,19 +26,18 @@ logging:
   config: file:study-core/src/main/resources/logback-spring.xml
 #  config: classpath:logback-spring.xml
   level:
-    org:
-      apache: info
-      springframework: info
-      springframework.web.servelet: debug
-      mybatis: info
-      hibernate: info
-      jboss: info
-    io:
-      netty: info
-      lettuce: info
-      micrometer: info
-    com:
-      zaxxer: info
-      alibaba.cloud: info
-      alibaba.nacos: warn
+    org.springframework: info
+    org.springframework.cloud.openfeign: debug
+    org.springframework.cloud.sleuth: debug
+    org.springframework.web.servlet: debug
+    org.apache: info
+    org.mybatis: info
+    org.hibernate: info
+    org.jboss: info
+    io.netty: info
+    io.lettuce: info
+    io.micrometer: info
+    com.zaxxer: info
+    com.alibaba.cloud: info
+    com.alibaba.nacos: warn
     reactor: info

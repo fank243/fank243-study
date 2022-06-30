@@ -11,10 +11,6 @@ spring:
   # 多个模块启用时，必须指定端口
   devtools.livereload.port: 35730
   cloud:
-    # 负载均衡器缓存
-    loadbalancer:
-      cache:
-        enabled: true
     nacos:
       discovery:
         server-addr: ${study.remote-ip}:8848

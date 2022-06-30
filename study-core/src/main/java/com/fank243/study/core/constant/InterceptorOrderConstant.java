@@ -8,6 +8,9 @@ package com.fank243.study.core.constant;
  */
 public class InterceptorOrderConstant {
 
+    /** traceId **/
+    public static final int TRACE_ID = 0;
+
     /** 防重复提交 **/
-    public static final int REPEAT_SUBMIT = 0;
+    public static final int REPEAT_SUBMIT = 1;
 }
