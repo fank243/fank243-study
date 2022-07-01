@@ -1,0 +1,21 @@
+version: '3.7'
+services:
+  server-gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - ../study.env
+    image: server-gateway:${STUDY_VER}
+    container_name: server-gateway
+    environment:
+      - JVM_OPTS=-Dstudy.remote-ip=${STUDY_SERVER_IP}
+    ports:
+      - "8800:8800"
+    networks:
+      - docker-network
+
+networks:
+  docker-network:
+    name: docker-network
+    driver: bridge

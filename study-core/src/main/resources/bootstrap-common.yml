@@ -23,8 +23,8 @@ spring:
         file-extension: yml
 
 logging:
-  config: file:study-core/src/main/resources/logback-spring.xml
-#  config: classpath:logback-spring.xml
+#  config: file:study-core/src/main/resources/logback-spring.xml
+  config: classpath:logback-spring.xml
   level:
     org.springframework: info
     org.springframework.cloud.openfeign: debug
