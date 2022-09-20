@@ -9,7 +9,7 @@
 //import org.springframework.web.servlet.HandlerInterceptor;
 //
 //import com.fank243.study.core.annotation.Interceptor;
-//import com.fank243.study.core.constant.InterceptorOrderConstant;
+//import com.fank243.study.common.constants.InterceptorOrderConstant;
 //
 //import brave.Span;
 //import brave.Tracer;

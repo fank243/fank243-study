@@ -28,7 +28,7 @@ import javax.annotation.Resource;
 public class ${table.serviceName} extends ServiceImpl<${table.mapperName}, ${entity}Entity> {
 
     @Resource
-    private ${table.mapperName} ${table.mapperName?substring(1)?uncap_first};
+    private ${table.mapperName} ${table.mapperName?uncap_first};
 
     /**
     * ${table.comment!}_分页
@@ -39,7 +39,7 @@ public class ${table.serviceName} extends ServiceImpl<${table.mapperName}, ${ent
     public PageBean<${entity}VO> page(${entity}DTO ${entity?uncap_first}){
         // TODO ${author} 添加查询条件
         QueryWrapper<${entity}Entity> wrapper = new QueryWrapper<>();
-        IPage<${entity}Entity> page =${table.mapperName?substring(1)?uncap_first}.selectPage(new Page<>(${entity?uncap_first}.getCurrPage(), ${entity?uncap_first}.getPageSize()), wrapper);
+        IPage<${entity}Entity> page = ${table.mapperName?uncap_first}.selectPage(new Page<>(${entity?uncap_first}.getCurrPage(), ${entity?uncap_first}.getPageSize()), wrapper);
         return BeanUtils.convert(page,${entity}VO.class);
     }
 
@@ -66,6 +66,6 @@ public class ${table.serviceName} extends ServiceImpl<${table.mapperName}, ${ent
     public boolean modify(${entity}DTO ${entity?uncap_first}) throws BizException{
         // TODO ${author} 业务逻辑
         ${entity}Entity ${entity?uncap_first}Entity = BeanUtil.toBean(${entity?uncap_first},${entity}Entity.class);
-        return ${table.mapperName?substring(1)?uncap_first}.updateById(${entity?uncap_first}Entity) > 0;
+        return ${table.mapperName?uncap_first}.updateById(${entity?uncap_first}Entity) > 0;
     }
 }

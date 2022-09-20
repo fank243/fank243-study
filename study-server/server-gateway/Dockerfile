@@ -22,7 +22,9 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # 定义一些环境变量，方便环境变量传参
 ENV JVM_OPTS=""
+
 # 指定暴露的端口，起到说明的作用，不指定也会暴露对应端口
 EXPOSE 8800
+
 # 启动 jar 的命令
 ENTRYPOINT ["sh","-c","java $JVM_OPTS org.springframework.boot.loader.JarLauncher"]

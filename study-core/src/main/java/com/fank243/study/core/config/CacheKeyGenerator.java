@@ -1,7 +1,11 @@
 package com.fank243.study.core.config;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
+import cn.hutool.core.util.ClassUtil;
+import cn.hutool.core.util.HashUtil;
+import com.fank243.study.common.constants.StudyConstants;
 import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.stereotype.Component;
 
@@ -19,17 +23,9 @@ public class CacheKeyGenerator implements KeyGenerator {
     @Override
     public Object generate(Object target, Method method, Object... params) {
         if (params.length == 0) {
-            return "";
+            return HashUtil.oneByOneHash(StudyConstants.EMPTY);
         }
-        StringBuilder sb = new StringBuilder();
-        for (Object obj : params) {
-            if (obj != null) {
-                sb.append(obj).append("-");
-            } else {
-                sb.append(StrUtil.uuid()).append("-");
-            }
-        }
-        String str = sb.toString();
-        return str.substring(0, str.lastIndexOf("-"));
+        return HashUtil.oneByOneHash(ClassUtil.getClass(target).getName() + method.getName() + Arrays.toString(params))
+                & Integer.MAX_VALUE;
     }
 }

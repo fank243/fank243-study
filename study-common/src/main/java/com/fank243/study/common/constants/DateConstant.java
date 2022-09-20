@@ -1,4 +1,4 @@
-package com.fank243.study.core.constant;
+package com.fank243.study.common.constants;
 
 /**
  * 日期常量

@@ -11,7 +11,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import com.fank243.study.common.utils.ResultInfo;
 import com.fank243.study.core.annotation.Interceptor;
 import com.fank243.study.core.annotation.RepeatSubmit;
-import com.fank243.study.core.constant.InterceptorOrderConstant;
+import com.fank243.study.common.constants.InterceptorOrderConstant;
 import com.fank243.study.core.utils.ServletUtils;
 
 /**

@@ -1,0 +1,25 @@
+<!Doctype>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>dtree</title>
+    <link rel="stylesheet" href="static/lib/layui/css/layui.css">
+</head>
+
+<body>
+
+<form action="close-tab.html" method="post" class="layui-form" target="_self">
+   <input type="text" name="text" value="abcd">
+</form>
+
+<script src="static/lib/layui/layui.js"></script>
+<script type="text/javascript">
+    layui.use(['layer'], function () {
+        let layer = layui.layer;
+        let $ = layui.$;
+
+        $("form").submit();
+    });
+</script>
+</body>
+</html>

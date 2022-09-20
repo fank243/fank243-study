@@ -22,12 +22,12 @@ public class SysPermissionService {
     @Resource
     private ISysPermissionDao sysPermissionDao;
 
-    @Cacheable(value = "perm:user", key = "#userId")
+    @Cacheable(value = "gateway:perm:user", key = "#userId")
     public List<SysPermVO> findByUserId(String userId) {
         return sysPermissionDao.findByUserId(userId);
     }
 
-    @Cacheable(value = "perm:perm-type",  key = "#permTypes")
+    @Cacheable(value = "gateway:perm:type", keyGenerator = "cacheKeyGenerator")
     public List<SysPermVO> findByPermTypes(List<Integer> permTypes) {
         return sysPermissionDao.findByPermTypes(permTypes);
     }
