@@ -1,6 +1,10 @@
 package com.fank243.study.core.config;
 
-import com.fank243.study.core.annotation.Interceptor;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -8,11 +12,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistration
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import com.fank243.study.core.annotation.Interceptor;
 
 /**
  * Mvc Configuration
@@ -31,7 +31,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     }
 
     @Override
-    public void addInterceptors(@Nonnull InterceptorRegistry registry) {
+    public void addInterceptors(InterceptorRegistry registry) {
         if (handlerInterceptors == null || handlerInterceptors.isEmpty()) {
             return;
         }

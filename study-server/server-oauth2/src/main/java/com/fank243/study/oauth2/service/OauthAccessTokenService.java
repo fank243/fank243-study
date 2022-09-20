@@ -1,21 +1,18 @@
 package com.fank243.study.oauth2.service;
 
 import javax.annotation.Resource;
-import javax.annotation.WillClose;
 
-import cn.dev33.satoken.util.SaFoxUtil;
-import cn.hutool.core.lang.UUID;
-import cn.hutool.core.util.IdUtil;
-import cn.hutool.core.util.RandomUtil;
-import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.fank243.study.core.exception.BizException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fank243.study.core.exception.BizException;
 import com.fank243.study.oauth2.dao.IOauthAccessTokenDao;
 import com.fank243.study.oauth2.domain.OauthAccessTokenEntity;
-import org.springframework.transaction.annotation.Transactional;
+
+import cn.dev33.satoken.util.SaFoxUtil;
+import cn.hutool.core.util.RandomUtil;
 
 /**
  * 系统管理员角色关联表 服务类
