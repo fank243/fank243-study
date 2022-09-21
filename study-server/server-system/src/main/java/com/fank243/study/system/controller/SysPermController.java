@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.fank243.study.api.domain.PageBean;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,7 +13,6 @@ import com.fank243.study.api.constants.ValidatorGroup;
 import com.fank243.study.api.system.api.ISysPermApi;
 import com.fank243.study.api.system.dto.SysPermDTO;
 import com.fank243.study.api.system.vo.SysPermVO;
-import com.fank243.study.common.model.PageBean;
 import com.fank243.study.common.utils.ResultInfo;
 import com.fank243.study.core.annotation.RepeatSubmit;
 import com.fank243.study.core.base.BaseController;

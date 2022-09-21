@@ -2,8 +2,8 @@ package com.fank243.study.system.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fank243.study.core.base.BaseEntity;
 
+import com.fank243.study.ds.domain.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

@@ -31,3 +31,5 @@ logs/
 target/
 
 static/doc/
+
+study-generator/src/main/resources/application.properties

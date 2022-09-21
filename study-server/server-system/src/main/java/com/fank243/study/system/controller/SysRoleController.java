@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.fank243.study.api.domain.PageBean;
 import com.fank243.study.core.annotation.RepeatSubmit;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,7 +14,6 @@ import com.fank243.study.api.constants.ValidatorGroup;
 import com.fank243.study.api.system.api.ISysRoleApi;
 import com.fank243.study.api.system.dto.SysRoleDTO;
 import com.fank243.study.api.system.vo.SysRoleVO;
-import com.fank243.study.common.model.PageBean;
 import com.fank243.study.common.utils.ResultInfo;
 import com.fank243.study.core.base.BaseController;
 import com.fank243.study.core.exception.BizException;

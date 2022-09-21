@@ -1,5 +1,6 @@
 package com.fank243.study.api.system.api;
 
+import com.fank243.study.api.domain.PageBean;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +12,6 @@ import com.fank243.study.api.constants.ApiConstants;
 import com.fank243.study.api.constants.ValidatorGroup;
 import com.fank243.study.api.system.dto.SysUserDTO;
 import com.fank243.study.api.system.vo.SysUserVO;
-import com.fank243.study.common.model.PageBean;
 import com.fank243.study.common.utils.ResultInfo;
 import com.fank243.study.core.exception.BizException;
 

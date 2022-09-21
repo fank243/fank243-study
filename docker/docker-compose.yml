@@ -10,6 +10,7 @@ services:
 #      - MYSQL_ROOT_PASSWORD=root
 #    volumes:
 #      - E:/data/mysql:/var/lib/mysql
+#      - ./conf/my.cnf:/etc/mysql/my.cnf
 #    ports:
 #      - "3306:3306"
 #    networks:

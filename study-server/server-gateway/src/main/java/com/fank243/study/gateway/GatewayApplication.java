@@ -5,12 +5,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
+import com.alicp.jetcache.anno.config.EnableMethodCache;
+
 /**
  * 网关服务
  * 
  * @author FanWeiJie
  * @since 2021-06-09 22:48:47
  */
+@EnableMethodCache(basePackages = "com.fank243.study")
 @EnableCaching
 @EnableFeignClients
 @SpringBootApplication

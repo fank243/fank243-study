@@ -1,11 +1,14 @@
 package com.fank243.study.mq.message;
 
-import cn.hutool.core.date.DateUtil;
-import com.fank243.study.mq.config.StudyChannel;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Date;
+
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.messaging.Message;
+
+import com.fank243.study.mq.config.StudyChannel;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * kafka 从不同的通道实现消息的订阅
@@ -24,7 +27,7 @@ public class KafkaMessageReceiveListener {
      */
     @StreamListener(StudyChannel.DEFAULT_INPUT)
     public void receiveDefaultMsg(Message<String> message) {
-        log.info("{}订阅默认消息：通道 = default，data = {}", DateUtil.now(), message);
+        log.info("{}订阅默认消息：通道 = default，data = {}", new Date(), message);
     }
 
     /**
@@ -34,6 +37,6 @@ public class KafkaMessageReceiveListener {
      */
     @StreamListener(StudyChannel.ALERT_INPUT)
     public void receiveAlertMsg(Message<String> message) {
-        log.info("{}订阅告警消息：通道 = alert，data = {}", DateUtil.now(), message);
+        log.info("{}订阅告警消息：通道 = alert，data = {}", new Date(), message);
     }
 }

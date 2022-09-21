@@ -39,6 +39,12 @@
 
         <!-- https://mvnrepository.com/artifact/cn.dev33/sa-token-spring-boot-starter -->
         <sa-token.version>1.31.0</sa-token.version>
+        <poi.version>5.2.2</poi.version>
+        <jetcache.version>2.7.0</jetcache.version>
+        <jedis.version>4.2.3</jedis.version>
+        <mybatis-plus.version>3.5.2</mybatis-plus.version>
+        <hutool.version>5.8.7</hutool.version>
+        <fastjson.version>2.0.14</fastjson.version>
     </properties>
 
     <dependencyManagement>
@@ -108,18 +114,18 @@
                 <version>${project.version}</version>
             </dependency>
 
-<!--            &lt;!&ndash; https://mvnrepository.com/artifact/org.apache.skywalking/apm-toolkit-trace &ndash;&gt;-->
-<!--            <dependency>-->
-<!--                <groupId>org.apache.skywalking</groupId>-->
-<!--                <artifactId>apm-toolkit-trace</artifactId>-->
-<!--                <version>8.9.0</version>-->
-<!--            </dependency>-->
-<!--            &lt;!&ndash; https://mvnrepository.com/artifact/org.apache.skywalking/apm-toolkit-logback-1.x &ndash;&gt;-->
-<!--            <dependency>-->
-<!--                <groupId>org.apache.skywalking</groupId>-->
-<!--                <artifactId>apm-toolkit-logback-1.x</artifactId>-->
-<!--                <version>8.9.0</version>-->
-<!--            </dependency>-->
+            <!--            &lt;!&ndash; https://mvnrepository.com/artifact/org.apache.skywalking/apm-toolkit-trace &ndash;&gt;-->
+            <!--            <dependency>-->
+            <!--                <groupId>org.apache.skywalking</groupId>-->
+            <!--                <artifactId>apm-toolkit-trace</artifactId>-->
+            <!--                <version>8.9.0</version>-->
+            <!--            </dependency>-->
+            <!--            &lt;!&ndash; https://mvnrepository.com/artifact/org.apache.skywalking/apm-toolkit-logback-1.x &ndash;&gt;-->
+            <!--            <dependency>-->
+            <!--                <groupId>org.apache.skywalking</groupId>-->
+            <!--                <artifactId>apm-toolkit-logback-1.x</artifactId>-->
+            <!--                <version>8.9.0</version>-->
+            <!--            </dependency>-->
 
             <!-- https://mvnrepository.com/artifact/de.siegmar/logback-gelf -->
             <dependency>

@@ -6,6 +6,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.alicp.jetcache.anno.config.EnableMethodCache;
+
 /**
  * 系统管理服务
  * 
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @since 2021-06-08 23:32:33
  */
 @EnableRetry
+@EnableMethodCache(basePackages = {"com.fank243.study"})
 @EnableTransactionManagement
 @ComponentScan(basePackages = {"com.fank243.study"})
 @SpringBootApplication

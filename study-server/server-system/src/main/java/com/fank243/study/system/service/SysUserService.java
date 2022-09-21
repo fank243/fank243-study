@@ -2,6 +2,8 @@ package com.fank243.study.system.service;
 
 import javax.annotation.Resource;
 
+import com.fank243.study.api.domain.PageBean;
+import com.fank243.study.api.utils.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,9 +14,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fank243.study.api.system.dto.SysUserDTO;
 import com.fank243.study.api.system.vo.SysUserVO;
-import com.fank243.study.common.model.PageBean;
 import com.fank243.study.core.exception.BizException;
-import com.fank243.study.ds.utils.BeanUtils;
 import com.fank243.study.system.dao.ISysUserDao;
 import com.fank243.study.system.entity.SysUserEntity;
 

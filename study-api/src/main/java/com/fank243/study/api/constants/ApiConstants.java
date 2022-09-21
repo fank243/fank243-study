@@ -18,4 +18,6 @@ public class ApiConstants {
 
     public static final String BASE_URI_SYSTEM_PERM = "/system/perm";
 
+    public static final String BASE_URI_SYSTEM_AREA = "/system/area";
+
 }

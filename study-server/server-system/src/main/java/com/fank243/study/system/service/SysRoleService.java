@@ -2,20 +2,19 @@ package com.fank243.study.system.service;
 
 import javax.annotation.Resource;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.fank243.study.api.domain.PageBean;
+import com.fank243.study.api.utils.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fank243.study.api.system.dto.SysRoleDTO;
 import com.fank243.study.api.system.vo.SysRoleVO;
-import com.fank243.study.common.model.PageBean;
 import com.fank243.study.core.exception.BizException;
-import com.fank243.study.ds.utils.BeanUtils;
 import com.fank243.study.system.dao.ISysRoleDao;
 import com.fank243.study.system.entity.SysRoleEntity;
 
