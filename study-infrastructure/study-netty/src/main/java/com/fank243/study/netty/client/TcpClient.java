@@ -1,7 +1,13 @@
 package com.fank243.study.netty.client;
 
+import java.net.InetSocketAddress;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
 import com.fank243.study.netty.client.handler.TcpClientHandler;
 import com.fank243.study.netty.protobuf.MessageProto;
+
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -15,11 +21,6 @@ import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.IdleStateHandler;
 import lombok.extern.slf4j.Slf4j;
-
-import java.net.InetSocketAddress;
-import java.util.concurrent.SynchronousQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 /**
  * TCP 客户端
@@ -42,15 +43,15 @@ public class TcpClient {
             thread.setName("Netty-" + TcpClient.class.getSimpleName());
             return thread;
         }).execute(() -> init(ip, port));
-        init(ip,port);
+        init(ip, port);
     }
 
     private void init(String ip, int port) {
-        EventLoopGroup group  = new NioEventLoopGroup(1);
+        EventLoopGroup group = new NioEventLoopGroup(1);
 
         Bootstrap bootstrap = new Bootstrap();
         try {
-            bootstrap.group(group )
+            bootstrap.group(group)
             // @@formatter:off
                     .handler(new LoggingHandler(LogLevel.DEBUG))
                     .channel(NioSocketChannel.class)

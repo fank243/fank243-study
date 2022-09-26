@@ -11,6 +11,9 @@ public class InterceptorOrderConstant {
     /** traceId **/
     public static final int TRACE_ID = 0;
 
+    /** Security **/
+    public static final int SECURITY = 1;
+
     /** 防重复提交 **/
-    public static final int REPEAT_SUBMIT = 1;
+    public static final int REPEAT_SUBMIT = 2;
 }

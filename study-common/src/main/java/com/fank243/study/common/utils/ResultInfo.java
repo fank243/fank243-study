@@ -2,7 +2,7 @@ package com.fank243.study.common.utils;
 
 import java.io.Serializable;
 
-import com.fank243.study.common.enums.ResultCodeEnum;
+import com.fank243.study.common.domain.enums.ResultCodeEnum;
 
 import cn.hutool.json.JSONUtil;
 import lombok.Data;
@@ -124,6 +124,10 @@ public class ResultInfo<T> implements Serializable {
 
     public static <T> ResultInfo<T> fail() {
         return fail(ResultCodeEnum.R500.getMessage());
+    }
+
+    public static <T> ResultInfo<T> illegalParameter(String message) {
+        return builderFail(ResultCodeEnum.R600.getStatus(), message);
     }
 
     public static <T> ResultInfo<T> err401(String message, String error) {

@@ -21,8 +21,8 @@
     <modules>
         <module>server-gateway</module>
         <module>server-system</module>
-        <module>server-stream</module>
         <module>server-oauth2</module>
+        <module>server-support</module>
     </modules>
 
     <build>

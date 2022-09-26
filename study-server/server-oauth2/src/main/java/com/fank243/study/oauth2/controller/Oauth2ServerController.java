@@ -1,9 +1,6 @@
 package com.fank243.study.oauth2.controller;
 
-import java.nio.charset.StandardCharsets;
-
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,17 +8,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fank243.study.api.system.client.ISysUserLoginFeignClient;
+import com.fank243.study.api.system.domain.dto.SysUserLoginReq;
 import com.fank243.study.common.utils.ResultInfo;
-import com.fank243.study.core.exception.AuthException;
-import com.fank243.study.core.utils.ServletUtils;
-import com.fank243.study.oauth2.service.OauthClientService;
+import com.fank243.study.core.domain.enums.LoginType;
 
 import cn.dev33.satoken.oauth2.config.SaOAuth2Config;
 import cn.dev33.satoken.oauth2.logic.SaOAuth2Handle;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
-import cn.hutool.extra.servlet.ServletUtil;
-import cn.hutool.http.Header;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -35,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 public class Oauth2ServerController {
 
     @Resource
-    private OauthClientService oauthClientService;
+    private ISysUserLoginFeignClient sysUserLoginFeignClient;
 
     /** 请求统一入口 **/
     @RequestMapping("/oauth2/*")
@@ -59,14 +54,18 @@ public class Oauth2ServerController {
         cfg.setDoLoginHandle((name, pwd) -> {
             String userId;
             try {
-                HttpServletRequest request = ServletUtils.getRequest();
-                assert request != null;
-                String clientIp = ServletUtil.getClientIP(request);
-                String userAgent = ServletUtil.getHeader(request, Header.USER_AGENT.getValue(), StandardCharsets.UTF_8);
-                userId = oauthClientService.login(name, pwd, clientIp, userAgent);
-            } catch (AuthException e) {
-                log.error(e.getMessage(), e);
-                return SaResult.error(e.getMessage());
+                SysUserLoginReq loginReq = new SysUserLoginReq();
+                loginReq.setLoginType(LoginType.USERNAME.name());
+                loginReq.setUsername(name);
+                loginReq.setPassword(pwd);
+                ResultInfo<String> result = sysUserLoginFeignClient.login(loginReq);
+                if (!result.isSuccess()) {
+                    return SaResult.error(result.getMessage()).setData(result);
+                }
+                userId = String.valueOf(result.getPayload());
+            } catch (Exception e) {
+                log.error("登录异常：{}", e.getMessage());
+                return SaResult.error(e.getMessage()).setData(e);
             }
             StpUtil.login(userId, "PC");
             return SaResult.ok();

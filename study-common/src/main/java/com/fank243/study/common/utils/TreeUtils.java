@@ -1,7 +1,7 @@
 package com.fank243.study.common.utils;
 
 import cn.hutool.core.collection.CollUtil;
-import com.fank243.study.common.model.ITreeNode;
+import com.fank243.study.common.domain.model.ITreeNode;
 
 import java.util.ArrayList;
 import java.util.Iterator;

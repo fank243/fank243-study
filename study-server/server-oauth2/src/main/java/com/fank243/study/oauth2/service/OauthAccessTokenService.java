@@ -7,9 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.fank243.study.core.exception.BizException;
+import com.fank243.study.core.web.exception.BizException;
 import com.fank243.study.oauth2.dao.IOauthAccessTokenDao;
-import com.fank243.study.oauth2.domain.OauthAccessTokenEntity;
+import com.fank243.study.oauth2.domain.entity.OauthAccessTokenEntity;
 
 import cn.dev33.satoken.util.SaFoxUtil;
 import cn.hutool.core.util.RandomUtil;

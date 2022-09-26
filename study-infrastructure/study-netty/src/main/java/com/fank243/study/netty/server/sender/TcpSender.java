@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.fank243.study.netty.model.NettyModel;
+import com.fank243.study.netty.domain.model.NettyModel;
 import com.fank243.study.netty.utils.NettyUtils;
 
 import cn.hutool.core.util.StrUtil;

@@ -5,8 +5,8 @@ import java.util.concurrent.ExecutorService;
 import com.fank243.study.netty.constants.MessageReceiveEnum;
 import com.fank243.study.netty.constants.NettyConstants;
 import com.fank243.study.netty.factory.MessageFactory;
-import com.fank243.study.netty.model.MsgTypeEnum;
-import com.fank243.study.netty.model.NettyModel;
+import com.fank243.study.netty.domain.model.MsgTypeEnum;
+import com.fank243.study.netty.domain.model.NettyModel;
 import com.fank243.study.netty.server.sender.WsSender;
 
 import cn.hutool.core.thread.ThreadUtil;

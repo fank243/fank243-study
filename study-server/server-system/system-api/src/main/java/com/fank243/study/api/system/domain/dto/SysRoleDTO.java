@@ -1,0 +1,33 @@
+package com.fank243.study.api.system.domain.dto;
+
+import com.fank243.study.common.domain.base.BaseDTO;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+/**
+ * 系统角色表
+ *
+ * @author FanWeiJie
+ * @since 2022-06-27
+ */
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class SysRoleDTO extends BaseDTO {
+
+    /*** 角色ID */
+    private Long roleId;
+
+    /*** 角色代码 */
+    private String roleCode;
+
+    /*** 角色名称 */
+    private String roleName;
+
+    /*** 角色描述 */
+    private String roleDesc;
+
+    /*** 状态(0：正常，1：禁用) */
+    private Integer status;
+
+}

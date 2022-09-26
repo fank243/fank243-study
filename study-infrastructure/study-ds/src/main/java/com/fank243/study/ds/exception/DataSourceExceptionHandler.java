@@ -1,5 +1,6 @@
 package com.fank243.study.ds.exception;
 
+import java.sql.SQLException;
 import java.sql.SQLSyntaxErrorException;
 import java.util.Objects;
 
@@ -28,14 +29,14 @@ public class DataSourceExceptionHandler {
     @ExceptionHandler(DataAccessException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public String handlerDataAccessException(DataAccessException e) {
-        log.error("数据源异常拦截[INTERNAL_SERVER_ERROR]：{}", e.getMessage(), e);
+        log.error("数据源异常拦截[DataAccessException]：{}", e.getMessage(), e);
         return renderJSON(e.getMessage(), Objects.requireNonNull(e.getRootCause()).getMessage());
     }
 
-    @ExceptionHandler(SQLSyntaxErrorException.class)
+    @ExceptionHandler(SQLException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public String handlerSqlSyntaxErrorException(SQLSyntaxErrorException e) {
-        log.error("数据源异常拦截[SQLSyntaxErrorException]：{}", e.getMessage(), e);
+    public String handlerSqlSyntaxErrorException(SQLException e) {
+        log.error("数据源异常拦截[SQLException]：{}", e.getMessage(), e);
         return renderJSON(e.getMessage(), e.toString());
     }
 

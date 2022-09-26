@@ -5,8 +5,8 @@ import javax.annotation.Resource;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
-import com.fank243.study.oauth2.domain.OauthAccessTokenEntity;
-import com.fank243.study.oauth2.domain.OauthClientEntity;
+import com.fank243.study.oauth2.domain.entity.OauthAccessTokenEntity;
+import com.fank243.study.oauth2.domain.entity.OauthClientEntity;
 import com.fank243.study.oauth2.service.OauthAccessTokenService;
 import com.fank243.study.oauth2.service.OauthClientService;
 

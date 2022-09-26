@@ -1,7 +1,7 @@
 package com.fank243.study.netty.server.sender;
 
 import cn.hutool.core.util.StrUtil;
-import com.fank243.study.netty.model.NettyModel;
+import com.fank243.study.netty.domain.model.NettyModel;
 import com.fank243.study.netty.utils.NettyUtils;
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;

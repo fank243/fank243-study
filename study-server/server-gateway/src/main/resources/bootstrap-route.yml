@@ -2,10 +2,17 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: server-system
+        - id: server-oauth2
           uri: lb://server-oauth2
           predicates:
             - Path=/oauth2/**
+
+        - id: server-support
+          uri: lb://server-support
+          predicates:
+            - Path=/api/support/**
+          filters:
+            - StripPrefix=1
 
         - id: server-system
           uri: lb://server-system

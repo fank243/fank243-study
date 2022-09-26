@@ -22,12 +22,26 @@
     <dependencies>
         <dependency>
             <groupId>com.fank243.study</groupId>
+            <artifactId>study-common</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-web</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.fank243.study</groupId>
             <artifactId>study-core</artifactId>
         </dependency>
         <dependency>
             <groupId>com.fank243.study</groupId>
             <artifactId>study-ds</artifactId>
             <exclusions>
+                <exclusion>
+                    <groupId>cn.dev33</groupId>
+                    <artifactId>sa-token-spring-boot-starter</artifactId>
+                </exclusion>
                 <exclusion>
                     <groupId>redis.clients</groupId>
                     <artifactId>jedis</artifactId>
@@ -38,7 +52,14 @@
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
-            <version>${jedis.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fank243.study</groupId>
+            <artifactId>support-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fank243.study</groupId>
+            <artifactId>system-api</artifactId>
         </dependency>
 
         <dependency>

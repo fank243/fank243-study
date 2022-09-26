@@ -3,7 +3,7 @@ package com.fank243.study.common.utils;
 import java.util.Date;
 import java.util.List;
 
-import com.fank243.study.common.model.OverlapDate;
+import com.fank243.study.common.domain.model.OverlapDate;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;

@@ -3,7 +3,7 @@ package com.fank243.study.netty.utils;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
-import com.fank243.study.netty.model.NettyModel;
+import com.fank243.study.netty.domain.model.NettyModel;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
