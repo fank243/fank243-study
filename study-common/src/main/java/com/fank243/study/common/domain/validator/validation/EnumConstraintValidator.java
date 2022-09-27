@@ -6,7 +6,7 @@ import java.lang.reflect.Modifier;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import com.fank243.study.common.domain.validator.annotation.ValidEnum;
+import com.fank243.study.common.domain.validator.annotation.Enum;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.EnumUtil;
@@ -25,17 +25,17 @@ import cn.hutool.core.util.StrUtil;
  * @author FanWeiJie
  * @since 2022-05-26 09:38:50
  */
-public class EnumConstraintValidator implements ConstraintValidator<ValidEnum, String> {
+public class EnumConstraintValidator implements ConstraintValidator<Enum, String> {
 
     private boolean empty;
-    private Class<? extends Enum<?>> enumClass;
+    private Class<? extends java.lang.Enum<?>> enumClass;
     private String methodName;
 
     @Override
-    public void initialize(ValidEnum validEnum) {
-        empty = validEnum.empty();
-        enumClass = validEnum.enumClass();
-        methodName = validEnum.methodName();
+    public void initialize(Enum anEnum) {
+        empty = anEnum.empty();
+        enumClass = anEnum.enumClass();
+        methodName = anEnum.methodName();
     }
 
     @Override

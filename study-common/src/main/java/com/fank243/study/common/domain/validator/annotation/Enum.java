@@ -10,7 +10,6 @@ import javax.validation.Payload;
 
 import com.fank243.study.common.domain.validator.validation.EnumConstraintValidator;
 
-
 /**
  * 枚举值校验
  * 
@@ -20,11 +19,11 @@ import com.fank243.study.common.domain.validator.validation.EnumConstraintValida
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = EnumConstraintValidator.class)
-public @interface ValidEnum {
+public @interface Enum {
 
     String message() default "枚举值验证失败";
 
-    Class<? extends Enum<?>> enumClass();
+    Class<? extends java.lang.Enum<?>> clazz();
 
     /** 验证方法 **/
     String methodName() default "valid";

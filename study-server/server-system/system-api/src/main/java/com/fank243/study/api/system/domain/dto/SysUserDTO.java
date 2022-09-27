@@ -25,18 +25,18 @@ public class SysUserDTO extends BaseDTO {
     private String userId;
 
     /** 用户名 */
-    @NotBlank(message = "请填写用户名", groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
     @Length(min = 3, max = 20, message = "用户名长度在3-20位之间",
-        groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
+            groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
+    @NotBlank(message = "请填写用户名", groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
     private String username;
 
     /*** 昵称 */
     private String nickname;
 
     /** 密码 **/
-    @NotBlank(message = "请填写密码", groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
     @Length(min = 3, max = 20, message = "密码长度在3-20位之间",
-        groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
+            groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
+    @NotBlank(message = "请填写密码", groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
     private String password;
 
 }

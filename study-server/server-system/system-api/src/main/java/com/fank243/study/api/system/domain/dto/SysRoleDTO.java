@@ -26,15 +26,15 @@ public class SysRoleDTO extends BaseDTO {
     private Long roleId;
 
     /*** 角色代码 */
-    @NotBlank(message = "请填写角色代码", groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
     @Length(min = 2, max = 10, message = "角色代码长度在3-20位之间",
-        groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
+            groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
+    @NotBlank(message = "请填写角色代码", groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
     private String roleCode;
 
     /*** 角色名称 */
-    @NotBlank(message = "请填写角色名称", groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
     @Length(min = 3, max = 20, message = "角色名称长度在3-20位之间",
-        groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
+            groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
+    @NotBlank(message = "请填写角色名称", groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
     private String roleName;
 
     /*** 角色描述 */

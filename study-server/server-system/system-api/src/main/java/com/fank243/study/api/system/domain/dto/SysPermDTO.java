@@ -1,10 +1,15 @@
 package com.fank243.study.api.system.domain.dto;
 
+import javax.validation.GroupSequence;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Length;
+
 import com.fank243.study.common.domain.base.BaseDTO;
+import com.fank243.study.common.domain.validator.annotation.Enum;
 import com.fank243.study.core.constants.ValidatorGroup;
+import com.fank243.study.core.domain.enums.PermTypeEnum;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -28,6 +33,8 @@ public class SysPermDTO extends BaseDTO {
     private Long pid;
 
     /*** 菜单代码 */
+    @Length(min = 2, max = 20, message = "菜单代码长度在2-20位之间",
+        groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
     @NotBlank(message = "菜单代码不能为空", groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
     private String permCode;
 
@@ -35,6 +42,8 @@ public class SysPermDTO extends BaseDTO {
     private String permUri;
 
     /*** 菜单名称 */
+    @Length(min = 2, max = 20, message = "菜单名称长度在2-20位之间",
+        groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
     @NotBlank(message = "菜单名称不能为空", groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
     private String permName;
 
@@ -42,6 +51,8 @@ public class SysPermDTO extends BaseDTO {
     private String permDesc;
 
     /** 菜单类型(0：目录，1：菜单，2：接口) */
+    @Enum(clazz = PermTypeEnum.class, message = "菜单类型不存在",
+        groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
     @NotBlank(message = "菜单类型不能为空", groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
     private Integer permType;
 

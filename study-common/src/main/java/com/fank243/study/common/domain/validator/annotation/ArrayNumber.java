@@ -8,30 +8,27 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import com.fank243.study.common.domain.validator.validation.ArrayStringConstraintValidator;
+import com.fank243.study.common.domain.validator.validation.ArrayNumberConstraintValidator;
 
 
 /**
  * 数组值校验
- * 
+ *
  * @author FanWeiJie
  * @since 2022-05-26 09:35:52
  */
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ArrayStringConstraintValidator.class)
-public @interface ValidArrayStr {
+@Constraint(validatedBy = ArrayNumberConstraintValidator.class)
+public @interface ArrayNumber {
 
     String message() default "数据验证失败";
 
     /** 允许的值 **/
-    String[] array();
+    int[] array();
 
-    /** 是否允许为空 **/
-    boolean empty() default false;
-
-    /** 是否忽略大小写 **/
-    boolean ignoreCase() default true;
+    /** 是否允许为null **/
+    boolean nullable() default false;
 
     Class<?>[] groups() default {};
 

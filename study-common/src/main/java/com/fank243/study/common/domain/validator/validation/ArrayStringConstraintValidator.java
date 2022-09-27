@@ -3,7 +3,7 @@ package com.fank243.study.common.domain.validator.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import com.fank243.study.common.domain.validator.annotation.ValidArrayStr;
+import com.fank243.study.common.domain.validator.annotation.ArrayString;
 
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
@@ -14,14 +14,14 @@ import cn.hutool.core.util.StrUtil;
  * @author FanWeiJie
  * @since 2022-05-26 09:38:50
  */
-public class ArrayStringConstraintValidator implements ConstraintValidator<ValidArrayStr, String> {
+public class ArrayStringConstraintValidator implements ConstraintValidator<ArrayString, String> {
 
     private boolean empty;
     private boolean ignoreCase;
     private String[] array;
 
     @Override
-    public void initialize(ValidArrayStr validArray) {
+    public void initialize(ArrayString validArray) {
         empty = validArray.empty();
         ignoreCase = validArray.ignoreCase();
         array = validArray.array();

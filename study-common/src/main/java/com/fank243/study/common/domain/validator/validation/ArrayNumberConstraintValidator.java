@@ -3,7 +3,7 @@ package com.fank243.study.common.domain.validator.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import com.fank243.study.common.domain.validator.annotation.ValidArrayInt;
+import com.fank243.study.common.domain.validator.annotation.ArrayNumber;
 
 import cn.hutool.core.util.ArrayUtil;
 
@@ -13,13 +13,13 @@ import cn.hutool.core.util.ArrayUtil;
  * @author FanWeiJie
  * @since 2022-05-26 09:38:50
  */
-public class ArrayNumberConstraintValidator implements ConstraintValidator<ValidArrayInt, Integer> {
+public class ArrayNumberConstraintValidator implements ConstraintValidator<ArrayNumber, Integer> {
 
     private boolean nullable;
     private int[] array;
 
     @Override
-    public void initialize(ValidArrayInt validArray) {
+    public void initialize(ArrayNumber validArray) {
         nullable = validArray.nullable();
         array = validArray.array();
     }
