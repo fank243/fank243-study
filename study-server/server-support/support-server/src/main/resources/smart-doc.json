@@ -1,0 +1,19 @@
+{
+  "serverUrl": "http://127.0.0.1/api",
+  "isStrict": false,
+  "allInOne": true,
+  "outPath": "src/main/resources/static/doc",
+  "projectName": "支撑服务",
+  "appToken": "d7f239176ff0487bb171bd4d929acf7e",
+  "requestHeaders": [
+    {
+      "name": "studyToken",
+      "type": "string",
+      "desc": "访问令牌",
+      "value": "Bearer 2ef1831d-a8c7-4346-acc6-2611a14c0df7",
+      "required": true,
+      "since": "-",
+      "pathPatterns": "/**"
+    }
+  ]
+}

@@ -2,7 +2,7 @@ package com.fank243.study.gateway.utils;
 
 import org.slf4j.MDC;
 
-import com.fank243.study.api.support.domain.dto.ReqRespLogDTO;
+import com.fank243.study.support.domain.dto.ReqRespLogDTO;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;

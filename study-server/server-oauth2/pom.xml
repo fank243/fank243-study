@@ -10,6 +10,15 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>server-oauth2</artifactId>
 
+    <properties>
+        <!--mvn install 不安装到本地仓库-->
+        <maven.install.skip>true</maven.install.skip>
+        <!--mvn 跳过单元测试-->
+        <maven.test.skip>true</maven.test.skip>
+        <boot-jar-output>${user.home}/devops/study</boot-jar-output>
+    </properties>
+
+
     <dependencies>
         <dependency>
             <groupId>com.fank243.study</groupId>
@@ -45,5 +54,11 @@
 
     <build>
         <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
     </build>
 </project>

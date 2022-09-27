@@ -1,6 +1,6 @@
 package com.fank243.study.system.dao;
 
-import com.fank243.study.api.system.domain.vo.SysPermVO;
+import com.fank243.study.system.domain.vo.SysPermVO;
 import com.fank243.study.system.domain.entity.SysPermEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
@@ -17,7 +17,6 @@ import java.util.List;
  */
 @Repository
 public interface ISysPermDao extends BaseMapper<SysPermEntity> {
-
 
     /**
      * 根据userId查询权限集合

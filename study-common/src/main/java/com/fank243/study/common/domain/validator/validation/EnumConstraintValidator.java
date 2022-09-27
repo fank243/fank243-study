@@ -34,7 +34,7 @@ public class EnumConstraintValidator implements ConstraintValidator<Enum, String
     @Override
     public void initialize(Enum anEnum) {
         empty = anEnum.empty();
-        enumClass = anEnum.enumClass();
+        enumClass = anEnum.clazz();
         methodName = anEnum.methodName();
     }
 

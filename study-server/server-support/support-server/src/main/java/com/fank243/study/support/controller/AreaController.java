@@ -7,16 +7,20 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.fank243.study.api.support.api.IAreaApi;
 import com.fank243.study.common.annotation.RepeatSubmit;
 import com.fank243.study.common.domain.base.BaseController;
 import com.fank243.study.common.domain.model.Area;
 import com.fank243.study.common.utils.AreaUtils;
 import com.fank243.study.common.utils.ResultInfo;
+import com.fank243.study.support.constants.SupportApiConstants;
 import com.fank243.study.support.service.AreaService;
 
 import cn.hutool.core.collection.CollUtil;
@@ -32,14 +36,21 @@ import lombok.extern.slf4j.Slf4j;
  * @since 2022-05-13
  */
 @Slf4j
+@RequestMapping(SupportApiConstants.BASE_URI_SUPPORT_AREA)
 @RestController
-public class AreaController extends BaseController implements IAreaApi {
+public class AreaController extends BaseController {
 
     @Resource
     private AreaService areaService;
 
+    /**
+     * 行政区划 > 导入
+     * 
+     * @param multipartFile 国家行政区划TXT文件
+     * @return 操作结果
+     */
     @RepeatSubmit
-    @Override
+    @PostMapping("/import")
     public ResultInfo<?> importArea(@RequestParam("file") MultipartFile multipartFile) {
         if (multipartFile == null || multipartFile.isEmpty()) {
             return ResultInfo.fail("请上传文件");
@@ -67,20 +78,37 @@ public class AreaController extends BaseController implements IAreaApi {
         return isOk ? ResultInfo.ok().message("导入成功") : ResultInfo.fail("导入失败");
     }
 
-    @Override
-    public ResultInfo<List<Area>> tree(Integer level) {
+    /**
+     * 行政区划 > 区划树
+     * 
+     * @param level 层级(0:省市，1：省市县)
+     * @return 区域树
+     */
+    @GetMapping(value = {"/tree", "/tree/{level}"})
+    public ResultInfo<List<Area>> tree(@PathVariable(value = "level", required = false) Integer level) {
         level = Convert.toInt(level, 0);
         level = level == 1 ? 1 : 0;
         return ResultInfo.ok(areaService.generatorTree(level));
     }
 
-    @Override
+    /**
+     * 行政区划 > 获取省级行政区划
+     * 
+     * @return 省级行政区划列表
+     */
+    @GetMapping("/getProvinces")
     public ResultInfo<List<Area>> getProvinces() {
         return ResultInfo.ok(areaService.findProvinces());
     }
 
-    @Override
-    public ResultInfo<List<Area>> getAreaByCode(String code) {
+    /**
+     * 行政区划 > 根据行政区划代码获取
+     * 
+     * @param code 行政区划代码
+     * @return 行政区划列表
+     */
+    @GetMapping("/getAreaByCode/{code}")
+    public ResultInfo<List<Area>> getAreaByCode(@PathVariable String code) {
         return ResultInfo.ok(areaService.findAreaByCode(code));
     }
 }

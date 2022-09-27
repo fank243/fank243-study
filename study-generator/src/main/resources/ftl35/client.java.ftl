@@ -1,6 +1,5 @@
 package ${package.Controller};
 
-import com.fank243.study.api.${package.ModuleName}.I${entity}Api;
 import org.springframework.cloud.openfeign.FeignClient;
 
 /**
@@ -9,8 +8,8 @@ import org.springframework.cloud.openfeign.FeignClient;
  * @author ${author}
  * @since ${date}
  */
-@FeignClient(value = "server-${package.ModuleName}")
-public interface I${entity}FeignClient extends I${entity}Api {
+@FeignClient(value = "server-${package.ModuleName}", path = )
+public interface I${entity}Service {
 
 }
 

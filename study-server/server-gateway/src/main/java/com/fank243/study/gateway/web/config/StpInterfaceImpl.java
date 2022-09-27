@@ -7,12 +7,12 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import com.fank243.study.system.service.ISysPermService;
+import com.fank243.study.system.service.ISysRoleService;
 import org.springframework.stereotype.Component;
 
-import com.fank243.study.api.system.api.ISysPermApi;
-import com.fank243.study.api.system.api.ISysRoleApi;
-import com.fank243.study.api.system.domain.vo.SysPermVO;
-import com.fank243.study.api.system.domain.vo.SysRoleVO;
+import com.fank243.study.system.domain.vo.SysPermVO;
+import com.fank243.study.system.domain.vo.SysRoleVO;
 
 import cn.dev33.satoken.stp.StpInterface;
 import cn.hutool.core.collection.CollUtil;
@@ -28,14 +28,14 @@ import cn.hutool.core.thread.ThreadUtil;
 public class StpInterfaceImpl implements StpInterface {
 
     @Resource
-    private ISysRoleApi sysRoleApi;
+    private ISysRoleService sysRoleService;
     @Resource
-    private ISysPermApi sysPermApi;
+    private ISysPermService sysPermService;
 
     @Override
     public List<String> getPermissionList(Object loginId, String loginType) {
         // 返回此 loginId 拥有的权限列表
-        Future<List<SysPermVO>> future = ThreadUtil.execAsync(() -> sysPermApi.getByUserId((String)loginId));
+        Future<List<SysPermVO>> future = ThreadUtil.execAsync(() -> sysPermService.getByUserId((String)loginId));
         List<SysPermVO> perms;
         try {
             perms = future.get();
@@ -51,7 +51,7 @@ public class StpInterfaceImpl implements StpInterface {
     @Override
     public List<String> getRoleList(Object loginId, String loginType) {
         // 返回此 loginId 拥有的角色列表
-        Future<List<SysRoleVO>> future = ThreadUtil.execAsync(() -> sysRoleApi.getByUserId((String)loginId));
+        Future<List<SysRoleVO>> future = ThreadUtil.execAsync(() -> sysRoleService.getByUserId((String)loginId));
         List<SysRoleVO> roles;
         try {
             roles = future.get();

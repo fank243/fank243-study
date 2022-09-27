@@ -18,6 +18,15 @@ import com.fank243.study.core.exception.BizException;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import com.fank243.study.common.annotation.RepeatSubmit;
 
 <#if superControllerClassPackage??>
 import ${superControllerClassPackage};
@@ -29,6 +38,7 @@ import ${superControllerClassPackage};
  * @author ${author}
  * @since ${date}
  */
+@RequestMapping()
 @RestController
 <#if superControllerClass??>
 public class ${table.controllerName} extends ${superControllerClass} implements I${entity}Api{

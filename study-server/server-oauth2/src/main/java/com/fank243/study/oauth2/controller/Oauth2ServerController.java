@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fank243.study.api.system.client.ISysUserLoginFeignClient;
-import com.fank243.study.api.system.domain.dto.SysUserLoginDTO;
 import com.fank243.study.common.utils.ResultInfo;
 import com.fank243.study.core.domain.enums.LoginType;
+import com.fank243.study.system.domain.dto.SysUserLoginDTO;
+import com.fank243.study.system.service.ISysUserLoginService;
 
 import cn.dev33.satoken.oauth2.config.SaOAuth2Config;
 import cn.dev33.satoken.oauth2.logic.SaOAuth2Handle;
@@ -30,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 public class Oauth2ServerController {
 
     @Resource
-    private ISysUserLoginFeignClient sysUserLoginFeignClient;
+    private ISysUserLoginService sysUserLoginFeignClient;
 
     /** 请求统一入口 **/
     @RequestMapping("/oauth2/*")

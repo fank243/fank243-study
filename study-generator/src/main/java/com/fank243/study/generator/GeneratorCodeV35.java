@@ -102,6 +102,7 @@ public class GeneratorCodeV35 {
                 .enableCapitalMode()
                 .addInclude(scanner("表名，多个使用英文逗号分割"))
                 .addTablePrefix("tb_")
+                .entityBuilder().disableSerialVersionUID()
                 .controllerBuilder().enableRestStyle().superClass("com.fank243.study.core.base.BaseController")
                 .serviceBuilder().formatServiceFileName("%sService")
                 .mapperBuilder().formatMapperFileName("%sDao")
@@ -115,12 +116,11 @@ public class GeneratorCodeV35 {
         Map<String, String> customFile = new HashMap<>(3);
         InjectionConfig injectionConfig = new InjectionConfig.Builder().beforeOutputFile((tableInfo, objectMap) -> {
             String name = tableInfo.getEntityName().replaceAll("Entity", "");
-            customFile.put("I" + name + "Api.java", "ftl35/api.java.ftl");
             customFile.put(name + "Controller.java", "ftl35/controller.java.ftl");
             customFile.put(name + "Service.java", "ftl35/service.java.ftl");
             customFile.put("I" + name + "Dao.java", "ftl35/mapper.java.ftl");
             customFile.put(name + "Entity.java", "ftl35/entity.java.ftl");
-            customFile.put("I" + name + "Client.java", "ftl35/client.java.ftl");
+            customFile.put("I" + name + "Service.java", "ftl35/client.java.ftl");
             customFile.put(name + "DTO.java", "ftl35/dto.java.ftl");
             customFile.put(name + "VO.java", "ftl35/vo.java.ftl");
         }).customFile(customFile).fileOverride().build();

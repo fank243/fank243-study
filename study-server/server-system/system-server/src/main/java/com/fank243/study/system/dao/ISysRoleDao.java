@@ -1,6 +1,6 @@
 package com.fank243.study.system.dao;
 
-import com.fank243.study.api.system.domain.vo.SysRoleVO;
+import com.fank243.study.system.domain.vo.SysRoleVO;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 

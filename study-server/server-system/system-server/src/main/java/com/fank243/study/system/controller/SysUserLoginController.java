@@ -1,27 +1,31 @@
 package com.fank243.study.system.controller;
 
+import java.nio.charset.StandardCharsets;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import cn.hutool.extra.servlet.ServletUtil;
-import cn.hutool.http.Header;
-import com.fank243.study.common.utils.ServletUtils;
-import com.fank243.study.common.web.exception.AuthException;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fank243.study.api.system.api.ISysUserLoginApi;
-import com.fank243.study.api.system.domain.dto.SysUserLoginDTO;
 import com.fank243.study.common.domain.base.BaseController;
 import com.fank243.study.common.utils.ResultInfo;
+import com.fank243.study.common.utils.ServletUtils;
 import com.fank243.study.common.utils.ValidationUtils;
+import com.fank243.study.common.web.exception.AuthException;
 import com.fank243.study.core.constants.ValidatorGroup;
 import com.fank243.study.core.domain.enums.LoginType;
+import com.fank243.study.system.constants.SystemApiConstants;
+import com.fank243.study.system.domain.dto.SysUserLoginDTO;
 import com.fank243.study.system.service.SysUserService;
 
 import cn.hutool.core.util.EnumUtil;
+import cn.hutool.extra.servlet.ServletUtil;
+import cn.hutool.http.Header;
 import lombok.extern.slf4j.Slf4j;
-
-import java.nio.charset.StandardCharsets;
 
 /**
  * 管理员登录 控制器
@@ -30,14 +34,23 @@ import java.nio.charset.StandardCharsets;
  * @since 2021-09-03
  */
 @Slf4j
+@RequestMapping(SystemApiConstants.BASE_URI_SYSTEM)
 @RestController
-public class SysUserLoginController extends BaseController implements ISysUserLoginApi {
+public class SysUserLoginController extends BaseController {
 
     @Resource
     private SysUserService sysUserService;
 
-    @Override
-    public ResultInfo<String> login(SysUserLoginDTO loginReq) throws AuthException {
+    /**
+     * 管理员登录
+     * 
+     * @param loginReq 请求参数
+     * @return 登录结果
+     * @throws AuthException 登录认证异常时抛出此异常
+     */
+    @PostMapping("/login")
+    public ResultInfo<String> login(@RequestBody @Validated(ValidatorGroup.Login.class) SysUserLoginDTO loginReq)
+        throws AuthException {
         Class<?> clazz = ValidatorGroup.LoginMobile.class;
         if (EnumUtil.equalsIgnoreCase(LoginType.USERNAME, loginReq.getLoginType())) {
             clazz = ValidatorGroup.LoginUsername.class;

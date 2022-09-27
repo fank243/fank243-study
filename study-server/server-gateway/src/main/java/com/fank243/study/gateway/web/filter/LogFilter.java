@@ -9,6 +9,7 @@ import java.util.Objects;
 
 import javax.annotation.Resource;
 
+import com.fank243.study.support.service.IReqRespLogService;
 import org.jetbrains.annotations.NotNull;
 import org.reactivestreams.Publisher;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -36,8 +37,7 @@ import org.springframework.web.reactive.function.server.HandlerStrategies;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.server.ServerWebExchange;
 
-import com.fank243.study.api.support.api.IReqRespLogApi;
-import com.fank243.study.api.support.domain.dto.ReqRespLogDTO;
+import com.fank243.study.support.domain.dto.ReqRespLogDTO;
 import com.fank243.study.core.web.exception.BizException;
 import com.fank243.study.gateway.constants.FilterOrderConstant;
 import com.fank243.study.gateway.utils.LogUtils;
@@ -65,7 +65,7 @@ public class LogFilter implements GlobalFilter, Ordered {
     @Resource
     private Tracer tracer;
     @Resource
-    private IReqRespLogApi reqRespLogApi;
+    private IReqRespLogService reqRespLogService;
     /**
      * default HttpMessageReader
      */
@@ -250,8 +250,8 @@ public class LogFilter implements GlobalFilter, Ordered {
     private void sendLog(ReqRespLogDTO reqRespLogDTO) {
         ThreadUtil.execAsync(() -> {
             try {
-                reqRespLogApi.add(reqRespLogDTO);
-            } catch (BizException e) {
+                reqRespLogService.saveLog(reqRespLogDTO);
+            } catch (Exception e) {
                 log.error("保存请求响应日志异常：{}", e.getMessage(), e);
                 throw new RuntimeException(e);
             }

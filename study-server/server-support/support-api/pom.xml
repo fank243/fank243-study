@@ -9,7 +9,6 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>support-api</artifactId>
 
     <dependencies>
@@ -22,6 +21,4 @@
             <artifactId>study-common</artifactId>
         </dependency>
     </dependencies>
-
-
 </project>
