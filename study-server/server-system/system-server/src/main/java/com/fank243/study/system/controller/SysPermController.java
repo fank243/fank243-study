@@ -39,7 +39,7 @@ public class SysPermController extends BaseController implements ISysPermApi {
     }
 
     @Override
-    public ResultInfo<PageBean<SysPermVO>> page(@RequestBody SysPermDTO sysPerm) {
+    public ResultInfo<PageBean<SysPermVO>> page( SysPermDTO sysPerm) {
         return ResultInfo.ok(sysPermService.page(sysPerm));
     }
 
@@ -59,7 +59,7 @@ public class SysPermController extends BaseController implements ISysPermApi {
 
     @RepeatSubmit
     @Override
-    public ResultInfo<?> delete(@RequestBody String[] ids) throws BizException {
+    public ResultInfo<?> delete( String[] ids) throws BizException {
         boolean isOk = sysPermService.removeByIds(List.of(ids));
         return isOk ? ResultInfo.ok().message("删除成功") : ResultInfo.fail("删除失败");
     }

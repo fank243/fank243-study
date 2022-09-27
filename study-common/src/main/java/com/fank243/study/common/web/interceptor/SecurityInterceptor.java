@@ -32,20 +32,20 @@ public class SecurityInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response,
         @NotNull Object handler) throws Exception {
-        String securityToken = request.getHeader(Constants.SECURITY_TOKEN);
-        String securityFeignValue = request.getHeader(Constants.SECURITY_FEIGN_KEY);
-        if (StrUtil.isBlank(securityToken) && StrUtil.isBlank(securityFeignValue)) {
-            ServletUtils.renderJson(response, ResultInfo.err401("请求未授权"));
-            return Boolean.FALSE;
-        }
-        String securityTokenWithRedis =
-                redisTemplate.opsForValue().get(RedisConstants.SECURITY_TOKEN + securityToken);
-        boolean isOkWithToken = StrUtil.isNotBlank(securityTokenWithRedis);
-        boolean isOkWithFeign = StrUtil.equalsIgnoreCase(securityFeignValue, Constants.SECURITY_FEIGN_VALUE);
-        if (!isOkWithToken && !isOkWithFeign) {
-            ServletUtils.renderJson(response, ResultInfo.err401("请求未授权"));
-            return Boolean.FALSE;
-        }
+//        String securityToken = request.getHeader(Constants.SECURITY_TOKEN);
+//        String securityFeignValue = request.getHeader(Constants.SECURITY_FEIGN_KEY);
+//        if (StrUtil.isBlank(securityToken) && StrUtil.isBlank(securityFeignValue)) {
+//            ServletUtils.renderJson(response, ResultInfo.err401("请求未授权"));
+//            return Boolean.FALSE;
+//        }
+//        String securityTokenWithRedis =
+//                redisTemplate.opsForValue().get(RedisConstants.SECURITY_TOKEN + securityToken);
+//        boolean isOkWithToken = StrUtil.isNotBlank(securityTokenWithRedis);
+//        boolean isOkWithFeign = StrUtil.equalsIgnoreCase(securityFeignValue, Constants.SECURITY_FEIGN_VALUE);
+//        if (!isOkWithToken && !isOkWithFeign) {
+//            ServletUtils.renderJson(response, ResultInfo.err401("请求未授权"));
+//            return Boolean.FALSE;
+//        }
 
         return HandlerInterceptor.super.preHandle(request, response, handler);
     }

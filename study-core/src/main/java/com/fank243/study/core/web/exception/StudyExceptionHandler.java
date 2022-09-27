@@ -26,14 +26,17 @@ public class StudyExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public String handlerBizException(BizException e) {
         log.error("全局异常拦截[BizException]:{}", e.getLocalizedMessage(), e);
+        return renderJSON(e.getMessage(), e.toString());
+    }
+
+    private String renderJSON(String message, String error) {
         JSONObject json = new JSONObject();
         json.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
         json.put("success", Boolean.FALSE);
         json.put("timestamp", System.currentTimeMillis());
         json.put("payload", "");
-        json.put("message", e.getMessage());
-        json.put("error", e.toString());
+        json.put("message", message);
+        json.put("error", error);
         return json.toString();
     }
-
 }

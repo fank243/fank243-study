@@ -5,10 +5,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.fank243.study.common.domain.validator.validation.EnumConstraintValidator;
+import javax.validation.Constraint;
+import javax.validation.Payload;
 
-import jakarta.validation.Constraint;
-import jakarta.validation.Payload;
+import com.fank243.study.common.domain.validator.validation.EnumConstraintValidator;
 
 
 /**

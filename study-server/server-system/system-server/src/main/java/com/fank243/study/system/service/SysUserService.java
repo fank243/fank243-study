@@ -4,21 +4,20 @@ import java.util.Date;
 
 import javax.annotation.Resource;
 
-import com.fank243.study.api.system.domain.vo.SysUserLoginResp;
-import com.fank243.study.common.utils.ResultInfo;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fank243.study.common.utils.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fank243.study.api.system.domain.dto.SysUserDTO;
-import com.fank243.study.api.system.domain.dto.SysUserLoginReq;
+import com.fank243.study.api.system.domain.dto.SysUserLoginDTO;
+import com.fank243.study.api.system.domain.vo.SysUserLoginResp;
 import com.fank243.study.api.system.domain.vo.SysUserVO;
 import com.fank243.study.common.domain.model.PageBean;
-import com.fank243.study.common.utils.BeanUtils;
 import com.fank243.study.common.web.exception.AuthException;
 import com.fank243.study.core.domain.enums.UserStatusEnum;
 import com.fank243.study.core.web.exception.BizException;
@@ -108,7 +107,7 @@ public class SysUserService extends ServiceImpl<ISysUserDao, SysUserEntity> {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public String login(SysUserLoginReq loginReq, String clientIp, String userAgent) throws AuthException {
+    public String login(SysUserLoginDTO loginReq, String clientIp, String userAgent) throws AuthException {
         SysUserEntity sysUser = sysUserDao.findSysUserByUsername(loginReq.getUsername());
         if (sysUser == null) {
             throw new AuthException("用户名或密码错误");

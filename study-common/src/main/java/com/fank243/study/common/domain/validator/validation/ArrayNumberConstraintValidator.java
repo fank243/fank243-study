@@ -1,10 +1,11 @@
 package com.fank243.study.common.domain.validator.validation;
 
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+
 import com.fank243.study.common.domain.validator.annotation.ValidArrayInt;
 
 import cn.hutool.core.util.ArrayUtil;
-import jakarta.validation.ConstraintValidator;
-import jakarta.validation.ConstraintValidatorContext;
 
 /**
  * 校验数组值是否合法，仅支持多选一

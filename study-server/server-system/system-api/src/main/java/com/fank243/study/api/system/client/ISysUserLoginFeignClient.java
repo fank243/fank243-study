@@ -1,9 +1,8 @@
 package com.fank243.study.api.system.client;
 
-import com.fank243.study.api.system.api.ISysUserLoginApi;
 import org.springframework.cloud.openfeign.FeignClient;
 
-import com.fank243.study.api.system.api.ISysUserApi;
+import com.fank243.study.api.system.api.ISysUserLoginApi;
 
 /**
  * 管理员登录 客户端

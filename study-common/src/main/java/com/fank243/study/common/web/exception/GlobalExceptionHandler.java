@@ -68,7 +68,7 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 系统异常
+     * Feign 异常
      */
     @ExceptionHandler(FeignException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)

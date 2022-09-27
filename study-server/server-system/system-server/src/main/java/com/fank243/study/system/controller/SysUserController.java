@@ -4,14 +4,12 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fank243.study.api.system.api.ISysUserApi;
 import com.fank243.study.api.system.domain.dto.SysUserDTO;
 import com.fank243.study.api.system.domain.vo.SysUserVO;
 import com.fank243.study.common.annotation.RepeatSubmit;
-import com.fank243.study.common.domain.base.BaseController;
 import com.fank243.study.common.domain.model.PageBean;
 import com.fank243.study.common.utils.ResultInfo;
 import com.fank243.study.core.web.exception.BizException;
@@ -29,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @RestController
-public class SysUserController extends BaseController implements ISysUserApi {
+public class SysUserController implements ISysUserApi {
 
     @Resource
     private SysUserService sysUserService;
@@ -41,7 +39,7 @@ public class SysUserController extends BaseController implements ISysUserApi {
     }
 
     @Override
-    public ResultInfo<PageBean<SysUserVO>> page(@RequestBody SysUserDTO sysUser) {
+    public ResultInfo<PageBean<SysUserVO>> page(SysUserDTO sysUser) {
         return ResultInfo.ok(sysUserService.page(sysUser));
     }
 
@@ -61,7 +59,7 @@ public class SysUserController extends BaseController implements ISysUserApi {
 
     @RepeatSubmit
     @Override
-    public ResultInfo<?> delete(@RequestBody String[] ids) {
+    public ResultInfo<?> delete(String[] ids) {
         boolean isOk = sysUserService.removeByIds(List.of(ids));
         return isOk ? ResultInfo.ok().message("删除成功") : ResultInfo.fail("删除失败");
     }

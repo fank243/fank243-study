@@ -10,8 +10,7 @@ import com.fank243.study.common.web.exception.AuthException;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fank243.study.api.system.api.ISysUserLoginApi;
-import com.fank243.study.api.system.domain.dto.SysUserLoginReq;
-import com.fank243.study.api.system.domain.vo.SysUserLoginResp;
+import com.fank243.study.api.system.domain.dto.SysUserLoginDTO;
 import com.fank243.study.common.domain.base.BaseController;
 import com.fank243.study.common.utils.ResultInfo;
 import com.fank243.study.common.utils.ValidationUtils;
@@ -38,7 +37,7 @@ public class SysUserLoginController extends BaseController implements ISysUserLo
     private SysUserService sysUserService;
 
     @Override
-    public ResultInfo<String> login(SysUserLoginReq loginReq) throws AuthException {
+    public ResultInfo<String> login(SysUserLoginDTO loginReq) throws AuthException {
         Class<?> clazz = ValidatorGroup.LoginMobile.class;
         if (EnumUtil.equalsIgnoreCase(LoginType.USERNAME, loginReq.getLoginType())) {
             clazz = ValidatorGroup.LoginUsername.class;

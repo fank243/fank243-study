@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fank243.study.api.system.client.ISysUserLoginFeignClient;
-import com.fank243.study.api.system.domain.dto.SysUserLoginReq;
+import com.fank243.study.api.system.domain.dto.SysUserLoginDTO;
 import com.fank243.study.common.utils.ResultInfo;
 import com.fank243.study.core.domain.enums.LoginType;
 
@@ -35,7 +35,13 @@ public class Oauth2ServerController {
     /** 请求统一入口 **/
     @RequestMapping("/oauth2/*")
     public Object request() {
-        SaResult saResult = (SaResult)SaOAuth2Handle.serverRequest();
+        SaResult saResult;
+        try {
+            saResult = (SaResult)SaOAuth2Handle.serverRequest();
+        } catch (Exception e) {
+            log.error("Oauth2认证异常：{}", e.getMessage(), e);
+            return ResultInfo.error(e.getMessage(), e.toString());
+        }
         if (saResult.getCode() != SaResult.CODE_SUCCESS) {
             return ResultInfo.fail(saResult.getMsg());
         }
@@ -54,7 +60,7 @@ public class Oauth2ServerController {
         cfg.setDoLoginHandle((name, pwd) -> {
             String userId;
             try {
-                SysUserLoginReq loginReq = new SysUserLoginReq();
+                SysUserLoginDTO loginReq = new SysUserLoginDTO();
                 loginReq.setLoginType(LoginType.USERNAME.name());
                 loginReq.setUsername(name);
                 loginReq.setPassword(pwd);
