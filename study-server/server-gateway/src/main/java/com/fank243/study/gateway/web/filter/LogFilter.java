@@ -9,7 +9,6 @@ import java.util.Objects;
 
 import javax.annotation.Resource;
 
-import com.fank243.study.support.service.IReqRespLogService;
 import org.jetbrains.annotations.NotNull;
 import org.reactivestreams.Publisher;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -37,16 +36,15 @@ import org.springframework.web.reactive.function.server.HandlerStrategies;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.server.ServerWebExchange;
 
-import com.fank243.study.support.domain.dto.ReqRespLogDTO;
-import com.fank243.study.core.web.exception.BizException;
 import com.fank243.study.gateway.constants.FilterOrderConstant;
 import com.fank243.study.gateway.utils.LogUtils;
+import com.fank243.study.support.domain.dto.ReqRespLogDTO;
+import com.fank243.study.support.service.IReqRespLogService;
 
 import brave.Span;
 import brave.Tracer;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.thread.ThreadUtil;
-import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
@@ -223,7 +221,8 @@ public class LogFilter implements GlobalFilter, Ordered {
                     String respContentType =
                         exchange.getAttribute(ServerWebExchangeUtils.ORIGINAL_RESPONSE_CONTENT_TYPE_ATTR);
 
-                    if (StrUtil.equals(respContentType, MediaType.APPLICATION_JSON_VALUE)) {
+                    if (respContentType != null && (respContentType.startsWith(MediaType.APPLICATION_JSON_VALUE)
+                        || respContentType.startsWith(MediaType.TEXT_PLAIN_VALUE))) {
                         Flux<? extends DataBuffer> fluxBody = Flux.from(body);
                         return super.writeWith(fluxBody.buffer().map(dataBuffers -> {
 

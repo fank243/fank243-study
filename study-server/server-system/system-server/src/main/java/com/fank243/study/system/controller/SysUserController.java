@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -86,7 +87,7 @@ public class SysUserController extends BaseController {
      * @return 操作结果
      */
     @RepeatSubmit
-    @PostMapping("/modify")
+    @PostMapping(value = "/modify")
     public ResultInfo<?> modify(@RequestBody @Validated({ValidatorGroup.Modify.class}) SysUserDTO sysUser)
         throws BizException {
         boolean isOk = sysUserService.modify(sysUser);

@@ -30,6 +30,7 @@ logs/
 
 target/
 
-static/doc/
-
 study-generator/src/main/resources/application.properties
+
+/study-server/server-support/support-server/src/main/resources/static/doc/
+/study-server/server-system/system-server/src/main/resources/static/doc/
