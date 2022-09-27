@@ -1,7 +1,6 @@
 package com.fank243.study.ds.exception;
 
 import java.sql.SQLException;
-import java.sql.SQLSyntaxErrorException;
 import java.util.Objects;
 
 import org.springframework.core.annotation.Order;
