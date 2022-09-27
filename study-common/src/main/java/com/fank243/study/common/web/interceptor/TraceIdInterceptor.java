@@ -1,4 +1,4 @@
-//package com.fank243.study.core.config;
+//package com.fank243.study.common.config;
 //
 //import javax.annotation.Resource;
 //import javax.servlet.http.HttpServletRequest;

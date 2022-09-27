@@ -4,7 +4,17 @@
   "allInOne": true,
   "outPath": "src/main/resources/static/doc",
   "projectName": "支撑服务",
-  "appToken": "d7f239176ff0487bb171bd4d929acf7e",
+  "errorCodeDictionaries": [
+    {
+      "title": "响应状态码",
+      "enumClassName": "com.fank243.study.common.domain.enums.ResultCodeEnum",
+      "codeField": "status",
+      "descField": "message"
+    }
+  ],
+  "responseBodyAdvice": {
+    "className": "com.fank243.study.common.utils.ResultInfo"
+  },
   "requestHeaders": [
     {
       "name": "studyToken",

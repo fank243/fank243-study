@@ -43,7 +43,7 @@
         <logback-gelf.version>4.0.2</logback-gelf.version>
 
         <!-- https://mvnrepository.com/artifact/cn.hutool/hutool-all -->
-        <hutool.version>5.8.7</hutool.version>
+        <hutool.version>5.8.8</hutool.version>
         <!-- https://mvnrepository.com/artifact/cn.hutool/hutool-extra -->
         <hutool-extra.version>5.7.22</hutool-extra.version>
         <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
@@ -56,7 +56,11 @@
         <!-- https://mvnrepository.com/artifact/redis.clients/jedis -->
         <jedis.version>4.2.3</jedis.version>
 
-        <smart-doc-maven-plugin.version>2.4.8</smart-doc-maven-plugin.version>
+        <!-- https://mvnrepository.com/artifact/com.github.shalousun/smart-doc-maven-plugin -->
+        <smart-doc-maven-plugin.version>2.5.3</smart-doc-maven-plugin.version>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-source-plugin -->
+        <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -135,11 +139,11 @@
                 <version>${mybatis-plus.version}</version>
             </dependency>
 
-            <dependency>
+           <!-- <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool.version}</version>
-            </dependency>
+            </dependency>-->
             <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-core</artifactId>
@@ -247,65 +251,38 @@
     </dependencyManagement>
 
     <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${maven-source-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${maven-source-plugin.version}</version>
+                </plugin>
                 <plugin>
                     <groupId>com.github.shalousun</groupId>
                     <artifactId>smart-doc-maven-plugin</artifactId>
                     <version>${smart-doc-maven-plugin.version}</version>
-                    <configuration>
-                        <!--指定生成文档的使用的配置文件,配置文件放在自己的项目中-->
-                        <configFile>./src/main/resources/smart-doc.json</configFile>
-                        <!--指定项目名称-->
-                        <projectName>系统服务</projectName>
-                        <!--smart-doc实现自动分析依赖树加载第三方依赖的源码，如果一些框架依赖库加载不到导致报错，这时请使用excludes排除掉-->
-                        <excludes>
-                            <!--格式为：groupId:artifactId;参考如下-->
-                            <!--1.0.7版本开始你还可以用正则匹配排除,如：poi.* -->
-                            <exclude>com.fank243.study:study-ds</exclude>
-                            <exclude>com.fank243.study:study-common</exclude>
-                            <exclude>com.fank243.study:study-core</exclude>
-                            <exclude>com.fank243.study:study-netty</exclude>
-                            <exclude>com.fank243.study:study-mq</exclude>
-                            <exclude>com.fank243.study:study-sentinel</exclude>
-                            <exclude>com.alibaba.*</exclude>
-                            <exclude>org.springframework.*</exclude>
-                            <exclude>cn.dev33.*</exclude>
-                            <exclude>cn.hutool.*</exclude>
-                            <exclude>io.*</exclude>
-                            <exclude>com.github.*</exclude>
-                        </excludes>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <!--如果不需要在执行编译时启动smart-doc，则将phase注释掉-->
-                            <phase>install</phase>
-                            <goals>
-                                <goal>html</goal>
-                            </goals>
-                        </execution>
-                    </executions>
                 </plugin>
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
                     <version>${spring-boot.version}</version>
-                    <configuration>
-                        <!--
-                            分层打包：主要用于docker部署时打包的镜像文件变得更小
-                            https://docs.spring.io/spring-boot/docs/2.6.1/maven-plugin/reference/htmlsingle/#packaging.layers
-                         -->
-                        <layers>
-                            <enabled>true</enabled>
-                        </layers>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>repackage</goal>
-                            </goals>
-                        </execution>
-                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
