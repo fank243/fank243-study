@@ -1,6 +1,6 @@
 package ${package.Entity};
 
-import com.fank243.study.core.base.BaseDTO;
+import com.fank243.study.common.domain.base.BaseDTO;
 <#if swagger>
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

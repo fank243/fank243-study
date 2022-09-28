@@ -5,10 +5,10 @@ import org.springframework.stereotype.Service;
 import com.fank243.study.api.${package.ModuleName}.dto.${entity}DTO;
 import com.fank243.study.api.${package.ModuleName}.vo.${entity}VO;
 import com.fank243.study.common.utils.ResultInfo;
-import com.fank243.study.common.model.PageBean;
+import com.fank243.study.common.domain.model.PageBean;
 import ${package.Mapper}.${table.mapperName};
-import com.fank243.study.ds.utils.BeanUtils;
-import com.fank243.study.core.exception.BizException;
+import com.fank243.study.common.utils.BeanUtils;
+import com.fank243.study.core.web.exception.BizException;
 import cn.hutool.core.bean.BeanUtil;
 import org.springframework.transaction.annotation.Transactional;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -28,7 +28,7 @@ import javax.annotation.Resource;
 public class ${table.serviceName} extends ServiceImpl<${table.mapperName}, ${entity}Entity> {
 
     @Resource
-    private ${table.mapperName} ${table.mapperName?uncap_first};
+    private I${table.mapperName} ${table.mapperName?uncap_first};
 
     /**
     * ${table.comment!}_分页

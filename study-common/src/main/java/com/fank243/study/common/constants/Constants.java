@@ -1,5 +1,8 @@
 package com.fank243.study.common.constants;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * 常量池
  * 
@@ -27,4 +30,23 @@ public class Constants {
     public static final String SECURITY_FEIGN_KEY = "SecurityFeign";
     /** 跨服务调用安全令牌 > FEIGN **/
     public static final String SECURITY_FEIGN_VALUE = "bb852ca6-add0-b355-545b-82566eda2a63";
+
+    /** 文件类型 **/
+    public static final List<String> FILE_TYPE =
+        Arrays.asList("txt", "xls", "xlsx", "png", "bmp", "gif", "jpg", "jpeg", "docx", "pdf");
+
+    /** 文件类型 > 图片文件 **/
+    public static final List<String> FILE_TYPE_IMG = Arrays.asList("png", "bmp", "gif", "jpg", "jpeg");
+
+    /** 文件类型 > 办公类文件 **/
+    public static final List<String> FILE_TYPE_OFFICE = Arrays.asList("xls", "xlsx", "docx", "pdf");
+
+    /** 文件大小(MB) **/
+    public static final int FILE_SIZE = 10;
+
+    /** 文件大小 > 图片文件大小(MB) **/
+    public static final int FILE_SIZE_IMG = 2;
+
+    /** 文件大小 > 办公类文件大小(MB) **/
+    public static final int FILE_SIZE_OFFICE = 10;
 }

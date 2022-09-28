@@ -14,6 +14,13 @@ spring:
           filters:
             - StripPrefix=1
 
+        - id: server-file
+          uri: lb://server-file
+          predicates:
+            - Path=/api/file/**
+          filters:
+            - StripPrefix=1
+
         - id: server-system
           uri: lb://server-system
           predicates:

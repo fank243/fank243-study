@@ -42,16 +42,7 @@
                     <groupId>cn.dev33</groupId>
                     <artifactId>sa-token-spring-boot-starter</artifactId>
                 </exclusion>
-                <exclusion>
-                    <groupId>redis.clients</groupId>
-                    <artifactId>jedis</artifactId>
-                </exclusion>
             </exclusions>
-        </dependency>
-        <!-- 解决jedis版本过低导致jetcahe无法正常启动 -->
-        <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
         </dependency>
         <dependency>
             <groupId>com.fank243.study</groupId>
@@ -112,11 +103,6 @@
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-datasource-nacos</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
         </dependency>
 
         <!-- Sa-Token 权限认证, 在线文档：http://sa-token.dev33.cn/ -->

@@ -13,4 +13,7 @@ public class RegexConstants {
 
     /** 六位数字 **/
     public static final String NUMBER_SIX = "/^\\d{6}$";
+
+    /** 换行符、空格符 **/
+    public static final String BLANK_CHAR = "\\s*|\t|\r|\n";
 }

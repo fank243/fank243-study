@@ -1,6 +1,6 @@
 package ${package.Mapper};
 
-import ${package.Entity}.${entity}Entity;
+import ${package.Entity}.domain.${entity}Entity;
 import ${superMapperClassPackage};
 import org.springframework.stereotype.Repository;
 
@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
  * @since ${date}
  */
 @Repository
-public interface ${table.mapperName} extends ${superMapperClass}<${entity}Entity> {
+public interface I${table.mapperName} extends ${superMapperClass}<${entity}Entity> {
 
 }

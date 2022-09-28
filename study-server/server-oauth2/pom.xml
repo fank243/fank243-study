@@ -26,17 +26,6 @@
         <dependency>
             <groupId>com.fank243.study</groupId>
             <artifactId>study-ds</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>redis.clients</groupId>
-                    <artifactId>jedis</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <!-- 解决jedis版本过低导致jetcahe无法正常启动 -->
-        <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
         </dependency>
 
         <!-- Sa-Token 整合 Redis （使用jackson序列化方式） -->

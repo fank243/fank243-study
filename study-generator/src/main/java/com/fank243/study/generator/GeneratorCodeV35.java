@@ -103,11 +103,11 @@ public class GeneratorCodeV35 {
                 .addInclude(scanner("表名，多个使用英文逗号分割"))
                 .addTablePrefix("tb_")
                 .entityBuilder().disableSerialVersionUID()
-                .controllerBuilder().enableRestStyle().superClass("com.fank243.study.core.base.BaseController")
+                .controllerBuilder().enableRestStyle().superClass("com.fank243.study.common.domain.base.BaseController")
                 .serviceBuilder().formatServiceFileName("%sService")
                 .mapperBuilder().formatMapperFileName("%sDao")
                 .entityBuilder().enableLombok().naming(NamingStrategy.underline_to_camel)
-                .superClass("com.fank243.study.core.base.BaseEntity")
+                .superClass("com.fank243.study.ds.domain.base.BaseEntity")
                 .addSuperEntityColumns("id","created_by","created_date","last_modified_by","last_modified_date")
                 .build();
         // @formatter:on

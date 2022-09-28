@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import com.alicp.jetcache.anno.config.EnableMethodCache;
 
 /**
- * 系统管理服务
+ * 系统服务
  * 
  * @author FanWeiJie
  * @since 2021-06-08 23:32:33

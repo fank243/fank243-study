@@ -1,0 +1,29 @@
+{
+  "serverUrl": "http://127.0.0.1/api",
+  "isStrict": false,
+  "allInOne": true,
+  "outPath": "src/main/resources/static/doc",
+  "projectName": "文件服务",
+  "errorCodeDictionaries": [
+    {
+      "title": "响应状态码",
+      "enumClassName": "com.fank243.study.common.domain.enums.ResultCodeEnum",
+      "codeField": "status",
+      "descField": "message"
+    }
+  ],
+  "responseBodyAdvice": {
+    "className": "com.fank243.study.common.utils.ResultInfo"
+  },
+  "requestHeaders": [
+    {
+      "name": "studyToken",
+      "type": "string",
+      "desc": "访问令牌",
+      "value": "Bearer 2ef1831d-a8c7-4346-acc6-2611a14c0df7",
+      "required": true,
+      "since": "-",
+      "pathPatterns": "/**"
+    }
+  ]
+}

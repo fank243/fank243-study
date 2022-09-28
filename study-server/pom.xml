@@ -16,6 +16,7 @@
         <module>server-system</module>
         <module>server-oauth2</module>
         <module>server-support</module>
+        <module>server-file</module>
     </modules>
 
     <build>
@@ -57,7 +58,6 @@
                     </execution>
                 </executions>
             </plugin>
-
         </plugins>
     </build>
 </project>

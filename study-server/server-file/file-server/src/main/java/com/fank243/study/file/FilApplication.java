@@ -1,7 +1,8 @@
-package com.fank243.study.support;
+package com.fank243.study.file;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -9,17 +10,19 @@ import com.alicp.jetcache.anno.config.EnableMethodCache;
 import com.fank243.study.common.constants.Constants;
 
 /**
- * 支撑服务
+ * 文件服务
  * 
  * @author FanWeiJie
- * @since 2022-09-26 15:09:37
+ * @since 2022-09-28 13:47:22
  */
 @EnableMethodCache(basePackages = {Constants.BASE_PACKAGE})
-@EnableTransactionManagement
 @ComponentScan(basePackages = {Constants.BASE_PACKAGE})
+@EnableTransactionManagement
+@EnableConfigurationProperties
 @SpringBootApplication
-public class SupportApplication {
+public class FilApplication {
+
     public static void main(String[] args) {
-        SpringApplication.run(SupportApplication.class, args);
+        SpringApplication.run(FilApplication.class, args);
     }
 }
