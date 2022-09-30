@@ -18,17 +18,17 @@ public class FilterOrderConstant {
      * @return 序号
      */
     public static int getOrder(String clsName) {
+        // 安全令牌拦截器
+        if (SecurityFilter.class.getName().equalsIgnoreCase(clsName)) {
+            return -100;
+        }
         // Skywalking 链路追踪ID拦截处理器
         // if (TraceIdFilter.class.getName().equalsIgnoreCase(clsName)) {
         // return -99;
         // }
         // 请求参数拦截处理器
-        if (LogFilter.class.getName().equalsIgnoreCase(clsName)) {
+        else if (LogFilter.class.getName().equalsIgnoreCase(clsName)) {
             return -98;
-        }
-        // 安全令牌拦截器
-        else if (SecurityFilter.class.getName().equalsIgnoreCase(clsName)) {
-            return -97;
         }
         return 0;
     }

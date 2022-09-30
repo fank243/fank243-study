@@ -5,13 +5,15 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-import com.fank243.study.common.annotation.Interceptor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import com.fank243.study.common.annotation.Interceptor;
 
 /**
  * Mvc Configuration
@@ -30,7 +32,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     }
 
     @Override
-    public void addInterceptors(InterceptorRegistry registry) {
+    public void addInterceptors(@NotNull InterceptorRegistry registry) {
         if (handlerInterceptors == null || handlerInterceptors.isEmpty()) {
             return;
         }
@@ -54,8 +56,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
             // 需要排除的资源以及静态资源
             List<String> excludeList = new ArrayList<>();
             excludeList.addAll(Arrays.asList(annotation.exclude()));
-            excludeList
-                .addAll(Arrays.asList("/style/**", "/js/**", "/layui/**", "*.js", "*.css", "*.icon", "*.png", "*.jpg"));
+            excludeList.addAll(List.of("/doc/**"));
             registration.excludePathPatterns(excludeList);
         }
     }

@@ -1,5 +1,5 @@
 server:
-  port: 8904
+  port: 8902
 
 spring:
   profiles.include: common

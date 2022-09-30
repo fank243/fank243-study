@@ -3,13 +3,13 @@ package com.fank243.study.common.utils;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.io.Writer;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Objects;
 
@@ -17,18 +17,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import cn.hutool.core.exceptions.UtilException;
-import cn.hutool.core.io.IoUtil;
-import cn.hutool.json.JSONUtil;
+import com.fank243.study.common.domain.enums.EnvEnum;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.fank243.study.common.constants.Constants;
+
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.exceptions.UtilException;
+import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.net.NetUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.servlet.ServletUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.http.ContentType;
 import cn.hutool.http.Header;
+import cn.hutool.json.JSONUtil;
 
 /**
  * 客户端工具类
@@ -38,6 +44,9 @@ import cn.hutool.http.Header;
  */
 @SuppressWarnings("unused")
 public class ServletUtils {
+
+    /** localhost **/
+    private static final String LOCALHOST = "localhost";
 
     /**
      * 获取String参数
@@ -135,7 +144,7 @@ public class ServletUtils {
      * @param obj 对象
      */
     public static void renderJson(HttpServletResponse response, Object obj) {
-        renderJson(response,JSONUtil.toJsonStr(obj));
+        renderJson(response, JSONUtil.toJsonStr(obj));
     }
 
     /**
@@ -219,5 +228,76 @@ public class ServletUtils {
      */
     public static String urlDecode(String str) {
         return URLDecoder.decode(str, StandardCharsets.UTF_8);
+    }
+
+    /**
+     * 验证请求域名是否本地地址
+     * 
+     * @param domain 域名或IP，如：localhost，127.0.0.1
+     * @return 是否本地地址
+     */
+    public static boolean isLocalhost(String domain) {
+        if (StrUtil.isEmpty(domain)) {
+            return Boolean.FALSE;
+        }
+        if (LOCALHOST.equalsIgnoreCase(domain)) {
+            return Boolean.TRUE;
+        }
+        LinkedHashSet<String> ipHashset = NetUtil.localIps();
+        if (CollUtil.isEmpty(ipHashset)) {
+            return Boolean.FALSE;
+        }
+        return ipHashset.contains(domain);
+    }
+
+    /**
+     * 获取访问域名
+     * 
+     * @param request HttpServletRequest
+     * @return 域名
+     */
+    public static String getDomain(HttpServletRequest request) {
+        String url = request.getRequestURL().toString();
+        StringBuilder tempUrl = new StringBuilder(url);
+        String baseUrl = tempUrl.delete(url.length() - request.getRequestURI().length(), url.length()).toString();
+        return StrUtil.subBetween(baseUrl + "/", "//", "/").replace(":" + request.getServerPort(), "");
+    }
+
+    /**
+     * 获取请求跳转地址并转换HTTPS
+     * 
+     * @param request HttpServletRequest
+     * @return BaseURL
+     */
+    public static String getBaseUrl(HttpServletRequest request) {
+        StringBuffer requestUrl = request.getRequestURL();
+        String url = requestUrl.toString();
+        if (!isLocalhost(getDomain(request))) {
+            if (SpringUtil.getActiveProfile().equalsIgnoreCase(EnvEnum.PROD.name())) {
+                url = url.replaceAll(request.getScheme(), "https");
+                requestUrl = new StringBuffer(url);
+            }
+        }
+        String baseUrl = requestUrl.delete(url.length() - request.getRequestURI().length(), url.length()).toString();
+        return baseUrl + request.getContextPath();
+    }
+    /**
+     * 获取请求跳转地址并转换HTTPS
+     *
+     * @return BaseURL
+     */
+    public static String getBaseUrl() {
+        HttpServletRequest request = getRequest();
+        assert request != null;
+        StringBuffer requestUrl = request.getRequestURL();
+        String url = requestUrl.toString();
+        if (!isLocalhost(getDomain(request))) {
+            if (SpringUtil.getActiveProfile().equalsIgnoreCase(EnvEnum.PROD.name())) {
+                url = url.replaceAll(request.getScheme(), "https");
+                requestUrl = new StringBuffer(url);
+            }
+        }
+        String baseUrl = requestUrl.delete(url.length() - request.getRequestURI().length(), url.length()).toString();
+        return baseUrl + request.getContextPath();
     }
 }

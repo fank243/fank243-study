@@ -23,7 +23,8 @@ import cn.hutool.core.util.StrUtil;
  * @author FanWeiJie
  * @since 2022-06-10 10:10:49
  */
-@Interceptor(value = "securityInterceptor", exclude = {"/oauth2/**"}, order = InterceptorOrderConstant.SECURITY)
+@Interceptor(value = "securityInterceptor", exclude = {"/oauth2/**", "/view/**"},
+    order = InterceptorOrderConstant.SECURITY)
 public class SecurityInterceptor implements HandlerInterceptor {
 
     @Resource

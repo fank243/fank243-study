@@ -20,11 +20,8 @@ public class FileDTO extends BaseDTO {
     /*** 文件ID */
     private String fileId;
 
-    /*** 文件名称 */
+    /*** 文件名称(原始文件名称) */
     private String fileName;
-
-    /** 文件名称(原始文件名称) */
-    private String fileOriginalName;
 
     /*** 文件类型 */
     private String fileType;

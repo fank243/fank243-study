@@ -1,5 +1,5 @@
 server:
-  port: 8905
+  port: 8903
 
 spring:
   profiles.include: common
@@ -19,3 +19,5 @@ spring:
           - study-shared-common.yml
           - study-shared-ds.yml
 
+# 文件上传根路径
+study.file.path: static/view

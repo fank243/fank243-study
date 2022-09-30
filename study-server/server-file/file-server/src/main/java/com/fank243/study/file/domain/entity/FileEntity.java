@@ -22,11 +22,8 @@ public class FileEntity extends BaseEntity {
     @TableId
     private String fileId;
 
-    /** 文件名称 */
-    private String fileName;
-
     /** 文件名称(原始文件名称) */
-    private String fileOriginalName;
+    private String fileName;
 
     /** 文件类型 */
     private String fileType;

@@ -2,6 +2,7 @@ package com.fank243.study.oauth2.config;
 
 import javax.annotation.Resource;
 
+import cn.dev33.satoken.stp.StpUtil;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
@@ -46,4 +47,10 @@ public class Oauth2TemplateImpl extends SaOAuth2Template {
         return entity.getOpenId();
     }
 
+    @Override
+    public String randomAccessToken(String clientId, Object loginId, String scope) {
+        // 重写 Access-Token 生成策略：复用登录会话的Token
+        // 打通客户端无法使用accessToken获取当前登录会话信息
+        return StpUtil.createLoginSession(loginId);
+    }
 }

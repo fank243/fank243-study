@@ -16,4 +16,7 @@ public class InterceptorOrderConstant {
 
     /** 防重复提交 **/
     public static final int REPEAT_SUBMIT = 2;
+
+    /** 文件访问 **/
+    public static final int FILE = 3;
 }

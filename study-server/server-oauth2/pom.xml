@@ -28,11 +28,6 @@
             <artifactId>study-ds</artifactId>
         </dependency>
 
-        <!-- Sa-Token 整合 Redis （使用jackson序列化方式） -->
-        <dependency>
-            <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-dao-redis-jackson</artifactId>
-        </dependency>
         <!-- Sa-Token-OAuth2.0 模块 -->
         <dependency>
             <groupId>cn.dev33</groupId>

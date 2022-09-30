@@ -5,6 +5,8 @@ import java.io.InputStream;
 
 import javax.annotation.Resource;
 
+import com.fank243.study.file.domain.entity.FileEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,7 +17,6 @@ import com.fank243.study.common.annotation.RepeatSubmit;
 import com.fank243.study.common.constants.Constants;
 import com.fank243.study.common.domain.base.BaseController;
 import com.fank243.study.common.utils.ResultInfo;
-import com.fank243.study.core.web.exception.BizException;
 import com.fank243.study.file.constants.FileApiConstants;
 import com.fank243.study.file.domain.dto.FileDTO;
 import com.fank243.study.file.service.FileService;
@@ -70,8 +71,7 @@ public class FileController extends BaseController {
         assert fileName != null;
         String fileSuffix = fileName.substring(fileName.lastIndexOf(".") + 1);
 
-        FileDTO fileDTO =
-            FileDTO.builder().fileOriginalName(fileName).fileType(fileType).fileSuffix(fileSuffix).build();
+        FileDTO fileDTO = FileDTO.builder().fileName(fileName).fileType(fileType).fileSuffix(fileSuffix).build();
 
         return fileService.saveFile(multipartFile.getInputStream(), fileDTO);
     }

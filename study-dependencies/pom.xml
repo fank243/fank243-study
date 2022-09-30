@@ -16,12 +16,11 @@
 
         <!-- https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-boot-starter -->
         <mybatis-plus.version>3.5.2</mybatis-plus.version>
+        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
         <mysql.version>8.0.30</mysql.version>
 
-        <!-- https://mvnrepository.com/artifact/com.alicp.jetcache/jetcache-starter-redis-springdata -->
-        <jetcache.version>2.7.0</jetcache.version>
-        <!-- https://mvnrepository.com/artifact/redis.clients/jedis -->
-        <jedis.version>4.2.3</jedis.version>
+        <!-- https://mvnrepository.com/artifact/com.alicp.jetcache/jetcache-starter-redisson -->
+        <jetcache.version>2.7.0.RC3</jetcache.version>
 
         <!-- https://mvnrepository.com/artifact/cn.dev33/sa-token-spring-boot-starter -->
         <sa-token.version>1.31.0</sa-token.version>
@@ -68,13 +67,8 @@
 
             <dependency>
                 <groupId>com.alicp.jetcache</groupId>
-                <artifactId>jetcache-starter-redis</artifactId>
+                <artifactId>jetcache-starter-redisson</artifactId>
                 <version>${jetcache.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>redis.clients</groupId>
-                <artifactId>jedis</artifactId>
-                <version>${jedis.version}</version>
             </dependency>
 
             <!-- Sa-Token 权限认证, 在线文档：http://sa-token.dev33.cn/ -->
