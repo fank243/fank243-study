@@ -3,24 +3,17 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
+        <artifactId>study-server</artifactId>
         <groupId>com.fank243.study</groupId>
-        <artifactId>fank243-study</artifactId>
         <version>1.0.1</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>study-common</artifactId>
+    <artifactId>study-file</artifactId>
     <packaging>pom</packaging>
 
-    <description>公共聚合模块</description>
-
     <modules>
-        <module>study-core</module>
-        <module>study-datasource</module>
-        <module>study-mq</module>
-        <module>study-netty</module>
-        <module>study-sentinel</module>
-        <module>study-feign</module>
-        <module>study-mybatis</module>
+        <module>file-api</module>
+        <module>file-server</module>
     </modules>
-
 </project>

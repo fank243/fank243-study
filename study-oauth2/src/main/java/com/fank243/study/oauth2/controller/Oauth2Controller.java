@@ -2,13 +2,11 @@ package com.fank243.study.oauth2.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.fank243.study.common.core.utils.ServletUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import cn.hutool.json.JSONUtil;
+import com.fank243.study.common.core.utils.ServletUtils;
 
 /**
  *
@@ -19,21 +17,14 @@ import cn.hutool.json.JSONUtil;
 @Controller
 public class Oauth2Controller {
 
-    @RequestMapping("/token")
-    public String token(HttpServletRequest request, String code, String state, ModelMap modelMap) {
-        modelMap.put("code", code);
-        modelMap.put("state", state);
-        modelMap.put("scopes", "openid,message.read,message.write");
-        modelMap.put("client_id", "messaging-client");
-        modelMap.put("client_secret", "123456");
-        modelMap.put("redirect_uri", ServletUtils.getBaseUrl(request) + "/callback");
-        modelMap.put("grant_type", "authorization_code");
-        return "token.html";
-    }
+    @RequestMapping
+    public String index(HttpServletRequest request, ModelMap modelMap) {
+        String baseUrl = ServletUtils.getBaseUrl(request);
 
-    @RequestMapping("/callback")
-    @ResponseBody
-    public String callback(HttpServletRequest request) {
-        return JSONUtil.toJsonStr(request.getParameterMap());
+        String params = "?response_type=code&client_id=client1&scope=all&state=some-state&redirect_uri="
+            + "http://127.0.0.1:8904/getToken";
+
+        modelMap.put("authorizeUrl", baseUrl + "/oauth2/authorize" + params);
+        return "index";
     }
 }

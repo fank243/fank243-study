@@ -3,12 +3,14 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>fank243-study</artifactId>
+        <artifactId>study-support</artifactId>
         <groupId>com.fank243.study</groupId>
         <version>1.0.1</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>study-oauth2</artifactId>
+
+    <artifactId>support-server</artifactId>
 
     <properties>
         <!--mvn install 不安装到本地仓库-->
@@ -29,21 +31,7 @@
         </dependency>
         <dependency>
             <groupId>com.fank243.study</groupId>
-            <artifactId>study-mybatis</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-oauth2-authorization-server</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-freemarker</artifactId>
+            <artifactId>support-api</artifactId>
         </dependency>
 
         <dependency>

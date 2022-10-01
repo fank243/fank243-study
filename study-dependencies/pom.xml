@@ -16,9 +16,6 @@
         <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-oauth2-authorization-server -->
         <spring-security-oauth2-authorization-server.version>0.3.1</spring-security-oauth2-authorization-server.version>
 
-        <!-- https://github.com/fank243?tab=packages&repo_name=mvn-repo -->
-        <fank243-dependencies.version>1.0.4.0</fank243-dependencies.version>
-
         <!-- https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-boot-starter -->
         <mybatis-plus.version>3.5.2</mybatis-plus.version>
         <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
@@ -54,7 +51,11 @@
         <protobuf.version>3.21.6</protobuf.version>
 
         <!--插件-->
+
+        <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-source-plugin -->
+        <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
         <!-- https://mvnrepository.com/artifact/com.github.shalousun/smart-doc-maven-plugin -->
         <smart-doc-maven-plugin.version>2.5.3</smart-doc-maven-plugin.version>
     </properties>
@@ -229,6 +230,11 @@
                     <version>${maven-compiler-plugin.version}</version>
                 </plugin>
                 <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${maven-source-plugin.version}</version>
+                </plugin>
+                <plugin>
                     <groupId>com.github.shalousun</groupId>
                     <artifactId>smart-doc-maven-plugin</artifactId>
                     <version>${smart-doc-maven-plugin.version}</version>
@@ -236,13 +242,4 @@
             </plugins>
         </pluginManagement>
     </build>
-
-    <!--自建仓库-->
-    <distributionManagement>
-        <repository>
-            <id>github</id>
-            <name>GitHub Maven Packages</name>
-            <url>https://maven.pkg.github.com/fank243/fank243-study</url>
-        </repository>
-    </distributionManagement>
 </project>

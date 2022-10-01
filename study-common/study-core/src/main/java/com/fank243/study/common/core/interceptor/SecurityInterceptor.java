@@ -1,12 +1,13 @@
 package com.fank243.study.common.core.interceptor;
 
+import static org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type.SERVLET;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -19,15 +20,14 @@ import com.fank243.study.common.core.utils.ServletUtils;
 
 import cn.hutool.core.util.StrUtil;
 
-import static org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type.SERVLET;
-
 /**
  * 安全请求拦截器
  * 
  * @author FanWeiJie
  * @since 2022-06-10 10:10:49
  */
-@Interceptor(value = "securityInterceptor", exclude = {"/login/**", "/oauth2/**", "/view/**"},
+@Interceptor(value = "securityInterceptor",
+    exclude = {"/login/**", "/oauth2/**", "/getToken/**", "/callback/**", "/view/**"},
     order = InterceptorOrderConstant.SECURITY)
 @ConditionalOnWebApplication(type = SERVLET)
 public class SecurityInterceptor implements HandlerInterceptor {

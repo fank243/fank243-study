@@ -12,9 +12,9 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>server-system</module>
-        <module>server-support</module>
-        <module>server-file</module>
+        <module>study-support</module>
+        <module>study-file</module>
+        <module>study-system</module>
     </modules>
 
     <build>
@@ -26,24 +26,13 @@
                     <!--指定生成文档的使用的配置文件,配置文件放在自己的项目中-->
                     <configFile>src/main/resources/smart-doc.json</configFile>
                     <!--smart-doc实现自动分析依赖树加载第三方依赖的源码，如果一些框架依赖库加载不到导致报错，这时请使用excludes排除掉-->
+                    <includes>
+                        <include>com.fank243.study.*</include>
+                    </includes>
                     <excludes>
                         <!--格式为：groupId:artifactId;参考如下-->
                         <!--1.0.7版本开始你还可以用正则匹配排除,如：poi.* -->
                         <exclude>com.fank243.study:study-datasource</exclude>
-                        <exclude>com.fank243.study:study-core</exclude>
-                        <exclude>com.fank243.study:study-netty</exclude>
-                        <exclude>com.fank243.study:study-mq</exclude>
-                        <exclude>com.fank243.study:study-sentinel</exclude>
-                        <exclude>com.fank243.study:study-gateway</exclude>
-                        <exclude>com.fank243.study:study-oauth2</exclude>
-                        <exclude>com.alibaba.*</exclude>
-                        <exclude>com.alicp.*</exclude>
-                        <exclude>org.springframework.*</exclude>
-                        <exclude>org.checkerframework.*</exclude>
-                        <exclude>cn.dev33.*</exclude>
-                        <exclude>cn.hutool.*</exclude>
-                        <exclude>io.*</exclude>
-                        <exclude>com.github.*</exclude>
                     </excludes>
                 </configuration>
                 <executions>

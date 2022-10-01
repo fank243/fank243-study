@@ -35,6 +35,7 @@ logging:
     org.springframework.cloud.openfeign: debug
     org.springframework.cloud.sleuth: info
     org.springframework.web.servlet: debug
+    org.springframework.security: debug
     org.thymeleaf: info
     org.apache: info
     org.mybatis: info
@@ -46,4 +47,5 @@ logging:
     com.zaxxer: info
     com.alibaba.cloud: info
     com.alibaba.nacos: warn
+    com.baomidou.dynamic: info
     reactor: info

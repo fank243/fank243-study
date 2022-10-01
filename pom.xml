@@ -29,14 +29,20 @@
         <!-- https://mvnrepository.com/artifact/com.alibaba.cloud/spring-cloud-alibaba-dependencies -->
         <spring-cloud-alibaba.version>2021.0.4.0</spring-cloud-alibaba.version>
 
+        <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
+        <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
+        <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-source-plugin -->
+        <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
+        <!-- https://mvnrepository.com/artifact/com.github.shalousun/smart-doc-maven-plugin -->
+        <smart-doc-maven-plugin.version>2.5.3</smart-doc-maven-plugin.version>
     </properties>
 
     <dependencies>
         <!--配置文件加解密-->
-<!--        <dependency>-->
-<!--            <groupId>com.github.ulisesbocchio</groupId>-->
-<!--            <artifactId>jasypt-spring-boot-starter</artifactId>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.github.ulisesbocchio</groupId>-->
+        <!--            <artifactId>jasypt-spring-boot-starter</artifactId>-->
+        <!--        </dependency>-->
         <!--监控-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -128,4 +134,37 @@
         </dependencies>
     </dependencyManagement>
 
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>com.github.shalousun</groupId>
+                    <artifactId>smart-doc-maven-plugin</artifactId>
+                    <version>${smart-doc-maven-plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <!--生成项目源码jar-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${maven-source-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

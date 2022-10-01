@@ -1,38 +1,21 @@
 package com.fank243.study.oauth2.config;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
-import java.util.UUID;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.oauth2.core.AuthorizationGrantType;
-import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
-import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationConsentService;
 import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsentService;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
-import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
-import org.springframework.security.oauth2.server.authorization.config.ClientSettings;
 import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
@@ -45,66 +28,51 @@ import com.nimbusds.jose.proc.SecurityContext;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 认证服务器配置
- *
- * @author huan.fu 2021/7/12 - 下午2:08
+ * Spring Security Oauth2 Sever Configuration
+ * 
+ * @author FanWeiJie
+ * @since 2022-10-01 14:56:56
  */
 @Slf4j
 @Configuration
 public class AuthorizationServerConfig {
+
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
-        // @formatter:off
         http
-                .exceptionHandling(exceptions ->
-                        exceptions.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
-                )
-                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
-        // @formatter:on
+            // 配置登录拦截跳转地址
+            .exceptionHandling(
+                exceptions -> exceptions.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login")))
+            // 配置资源服务器认证适配器：jwt
+            .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
         return http.build();
     }
 
-    @Bean
-    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests(authorizeRequests -> authorizeRequests.anyRequest().authenticated())
-            .formLogin(withDefaults());
-        return http.build();
-    }
-
-    @Bean
-    UserDetailsService users() {
-        UserDetails user = User.withUsername("user").password(passwordEncoder().encode("123456")).roles("USER").build();
-        return new InMemoryUserDetailsManager(user);
-    }
-
-    // @formatter:off
     @Bean
     public RegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate) {
-        RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
-                .clientId("messaging-client")
-                .clientSecret(passwordEncoder().encode("123456"))
-                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-                .redirectUri("http://127.0.0.1:8901/token")
-                .redirectUri("http://127.0.0.1:8901/authorized")
-                .scope(OidcScopes.OPENID)
-                .scope(OidcScopes.PROFILE)
-                .scope("message.read")
-                .scope("message.write")
-                .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
-                .build();
+        // 基于内存认证客户端配置
+        // @formatter:off
+//        RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
+//            .clientId("client1")
+//            .clientSecret("{bcrypt}$2a$10$NQoE/g0XNwJ/iO5rZe9HyOn0FWq.CTkbzq4RwDuSVG.NGcLhJOdSi")
+//            .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+//            .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
+//            .authorizationGrantType(AuthorizationGrantType.PASSWORD)
+//            .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+//            .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+//            .redirectUri("http://127.0.0.1:8901/authorize")
+//            .redirectUri("http://127.0.0.1:8904/getToken")
+//            .scope("all")
+//            .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
+//            .build();
+//        // @formatter:on
+        // return new InMemoryRegisteredClientRepository(registeredClient);
 
-        // Save registered client in db as if in-memory
-        JdbcRegisteredClientRepository registeredClientRepository = new JdbcRegisteredClientRepository(jdbcTemplate);
-        registeredClientRepository.save(registeredClient);
-
-        return registeredClientRepository;
+        // 基于数据库认证客户端配置
+        return new JdbcRegisteredClientRepository(jdbcTemplate);
     }
-    // @formatter:on
 
     @Bean
     public OAuth2AuthorizationService authorizationService(JdbcTemplate jdbcTemplate,
@@ -130,32 +98,8 @@ public class AuthorizationServerConfig {
         return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
     }
 
-    // @Bean
-    // public AuthorizationServerSettings authorizationServerSettings() {
-    // return AuthorizationServerSettings.builder().issuer("http://localhost:9000").build();
-    // }
-
-    @Bean
-    public EmbeddedDatabase embeddedDatabase() {
-        // @formatter:off
-        return new EmbeddedDatabaseBuilder()
-                .generateUniqueName(true)
-                .setType(EmbeddedDatabaseType.H2)
-                .setScriptEncoding("UTF-8")
-                .addScript("org/springframework/security/oauth2/server/authorization/oauth2-authorization-schema.sql")
-                .addScript("org/springframework/security/oauth2/server/authorization/oauth2-authorization-consent-schema.sql")
-                .addScript("org/springframework/security/oauth2/server/authorization/client/oauth2-registered-client-schema.sql")
-                .build();
-        // @formatter:on
-    }
-
     @Bean
     ProviderSettings providerSettings() {
-        return ProviderSettings.builder().build();
-    }
-
-    @Bean
-    BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return ProviderSettings.builder().issuer("http://127.0.0.1:8901").build();
     }
 }

@@ -1,8 +1,9 @@
 package com.fank243.study.gateway.controller;
 
-import com.fank243.study.common.core.utils.ResultInfo;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.fank243.study.common.core.utils.ResultInfo;
 
 /**
  * 首页控制器
@@ -18,4 +19,5 @@ public class IndexController {
     public ResultInfo<?> index() {
         return ResultInfo.err404();
     }
+
 }
