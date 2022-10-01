@@ -6,7 +6,7 @@
 #rm -rf study-server
 
 # shellcheck disable=SC2006
-project=("study-gateway" "study-oauth2" "server-system")
+project=("study-gateway" "study-oauth2" "system-server")
 # 端口号
 port=8800
 # 版本号 > 当前日期
@@ -40,7 +40,7 @@ case ${serve} in
 study-oauth2)
   port=8901
   ;;
-server-system)
+system-server)
   port=8903
   ;;
 esac

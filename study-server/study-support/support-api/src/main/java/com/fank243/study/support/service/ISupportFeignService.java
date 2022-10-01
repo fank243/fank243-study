@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @author FanWeiJie
  * @since 2022-05-13
  */
-@FeignClient(value = "server-support", path = SupportApiConstants.BASE_URI_SUPPORT)
+@FeignClient(value = "support-server", path = SupportApiConstants.BASE_URI_SUPPORT)
 public interface ISupportFeignService {
     /**
      * 添加请求响应日志

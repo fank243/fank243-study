@@ -57,7 +57,7 @@ import reactor.core.publisher.Mono;
  */
 @Slf4j
 @Component
-public class LogFilter implements GlobalFilter, Ordered {
+public class ApiLogFilter implements GlobalFilter, Ordered {
 
     @Resource
     private Tracer tracer;

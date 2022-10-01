@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles.include: common
-  application.name: server-system
+  application.name: system-server
   # 指定devtools端口
   devtools.livereload.port: 35733
   cloud:

@@ -31,16 +31,15 @@
             <groupId>com.fank243.study</groupId>
             <artifactId>study-mybatis</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.fank243.study</groupId>
+            <artifactId>study-security</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-oauth2-authorization-server</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-freemarker</artifactId>

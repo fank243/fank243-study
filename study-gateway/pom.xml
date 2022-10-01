@@ -35,6 +35,10 @@
         </dependency>
         <dependency>
             <groupId>com.fank243.study</groupId>
+            <artifactId>study-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fank243.study</groupId>
             <artifactId>study-feign</artifactId>
         </dependency>
         <dependency>

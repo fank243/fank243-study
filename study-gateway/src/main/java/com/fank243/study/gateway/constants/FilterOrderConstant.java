@@ -1,6 +1,6 @@
 package com.fank243.study.gateway.constants;
 
-import com.fank243.study.gateway.web.filter.LogFilter;
+import com.fank243.study.gateway.web.filter.ApiLogFilter;
 import com.fank243.study.gateway.web.filter.SecurityFilter;
 
 /**
@@ -27,7 +27,7 @@ public class FilterOrderConstant {
         // return -99;
         // }
         // 请求参数拦截处理器
-        else if (LogFilter.class.getName().equalsIgnoreCase(clsName)) {
+        else if (ApiLogFilter.class.getName().equalsIgnoreCase(clsName)) {
             return -98;
         }
         return 0;

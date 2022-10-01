@@ -15,7 +15,7 @@ import com.fank243.study.system.constants.SystemApiConstants;
  * @author FanWeiJie
  * @since 2022-05-13
  */
-@FeignClient(contextId = "iSysRoleService", value = "server-system", path = SystemApiConstants.BASE_URI_SYSTEM_ROLE)
+@FeignClient(contextId = "iSysRoleService", value = "system-server", path = SystemApiConstants.BASE_URI_SYSTEM_ROLE)
 public interface ISysRoleService {
 
     /**

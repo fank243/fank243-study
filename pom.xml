@@ -98,6 +98,11 @@
             </dependency>
             <dependency>
                 <groupId>com.fank243.study</groupId>
+                <artifactId>study-security</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fank243.study</groupId>
                 <artifactId>study-mq</artifactId>
                 <version>${project.version}</version>
             </dependency>

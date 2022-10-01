@@ -10,7 +10,7 @@
 // * @author FanWeiJie
 // * @since 2021-09-03
 // */
-//@FeignClient(value = "server-system", path = SystemApiConstants.BASE_URI_SYSTEM_ADMIN)
+//@FeignClient(value = "system-server", path = SystemApiConstants.BASE_URI_SYSTEM_ADMIN)
 //public interface ISysUserService {
 //
 //}

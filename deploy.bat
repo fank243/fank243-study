@@ -4,7 +4,7 @@ REM rm -rf server-*
 REM mv study-server .
 REM rm -rf study-server
 
-set project=study-gateway;study-oauth2;server-system
+set project=study-gateway;study-oauth2;system-server
 
 REM 端口号
 set port=8800

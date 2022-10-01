@@ -17,7 +17,7 @@
 // * @author FanWeiJie
 // * @since 2022-05-13
 // */
-//@FeignClient(value = "server-system", path = SystemApiConstants.BASE_URI_SYSTEM_PERM)
+//@FeignClient(value = "system-server", path = SystemApiConstants.BASE_URI_SYSTEM_PERM)
 //public interface ISystemFeignService {
 //
 //    /**
