@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.fank243.study</groupId>
+        <artifactId>fank243-study</artifactId>
+        <version>1.0.1</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>study-gateway</artifactId>
+
+    <properties>
+        <!--mvn install 不安装到本地仓库-->
+        <maven.install.skip>true</maven.install.skip>
+        <!--mvn 跳过单元测试-->
+        <maven.test.skip>true</maven.test.skip>
+        <boot-jar-output>${user.home}/devops/study</boot-jar-output>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.fank243.study</groupId>
+            <artifactId>study-core</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-web</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.fank243.study</groupId>
+            <artifactId>study-datasource</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fank243.study</groupId>
+            <artifactId>study-feign</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fank243.study</groupId>
+            <artifactId>support-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fank243.study</groupId>
+            <artifactId>system-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-gateway</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-alibaba-sentinel-gateway</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-datasource-nacos</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <!--
+                        分层打包：主要用于docker部署时打包的镜像文件变得更小
+                        https://docs.spring.io/spring-boot/docs/2.6.1/maven-plugin/reference/htmlsingle/#packaging.layers
+                     -->
+                    <layers>
+                        <enabled>true</enabled>
+                    </layers>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

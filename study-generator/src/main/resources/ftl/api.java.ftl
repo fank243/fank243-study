@@ -5,7 +5,7 @@ import com.fank243.study.api.constants.ApiConstants;
 import com.fank243.study.api.constants.ValidatorGroup;
 import com.fank243.study.api.${package.ModuleName}.dto.${entity}DTO;
 import com.fank243.study.api.${package.ModuleName}.vo.${entity}VO;
-import com.fank243.study.common.utils.ResultInfo;
+import com.fank243.study.common.core.utils.ResultInfo;
 import com.fank243.study.common.model.PageBean;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

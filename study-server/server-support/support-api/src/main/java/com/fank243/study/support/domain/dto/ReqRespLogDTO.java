@@ -1,6 +1,6 @@
 package com.fank243.study.support.domain.dto;
 
-import com.fank243.study.common.domain.base.BaseDTO;
+import com.fank243.study.common.core.base.BaseDTO;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

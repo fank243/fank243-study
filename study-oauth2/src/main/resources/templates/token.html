@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Oauth2 Test</title>
+</head>
+<body>
+<div>
+    <h1>Oauth2 Token</h1>
+    <div>
+        <form method="post" action="http://localhost:8901/oauth2/token">
+            <p>grant_type
+                <input type="text" name="grant_type" th:value="${grant_type}">
+            </p>
+            <p>code
+                <input type="text" name="code"  th:value="${code}">
+            </p>
+            <p>state
+                <input type="text" name="state" th:value="${state}">
+            </p>
+            <p>client_id
+                <input type="text" name="client_id" th:value="${client_id}">
+            </p>
+            <p>client_secret
+                <input type="text" name="client_secret" th:value="${client_secret}">
+            </p>
+            <p>redirect_uri
+                <input type="text" name="redirect_uri" th:value="${redirect_uri}">
+            </p>
+            <p>scopes
+                <input type="text" name="scope" th:value="${scopes}">
+                <input type="text" name="scopes" th:value="${scopes}">
+            </p>
+            <p>
+                <input type="submit" value="提交">
+            </p>
+        </form>
+    </div>
+</div>
+</body>
+</html>

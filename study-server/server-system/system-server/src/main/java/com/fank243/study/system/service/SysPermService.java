@@ -4,8 +4,8 @@ import javax.annotation.Resource;
 
 import com.alicp.jetcache.anno.CacheRefresh;
 import com.alicp.jetcache.anno.Cached;
-import com.fank243.study.common.constants.TimeConstant;
-import com.fank243.study.system.dao.ISysPermDao;
+import com.fank243.study.common.core.constants.TimeConstant;
+import com.fank243.study.system.mapper.ISysPermMapper;
 import com.fank243.study.system.domain.entity.SysPermEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,9 +17,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fank243.study.system.domain.dto.SysPermDTO;
 import com.fank243.study.system.domain.vo.SysPermVO;
-import com.fank243.study.common.domain.model.PageBean;
-import com.fank243.study.common.utils.BeanUtils;
-import com.fank243.study.core.web.exception.BizException;
+import com.fank243.study.common.core.domain.model.PageBean;
+import com.fank243.study.common.core.utils.BeanUtils;
+import com.fank243.study.common.core.exception.BizException;
 
 import cn.hutool.core.bean.BeanUtil;
 
@@ -32,10 +32,10 @@ import java.util.List;
  * @since 2021-11-24
  */
 @Service
-public class SysPermService extends ServiceImpl<ISysPermDao, SysPermEntity> {
+public class SysPermService extends ServiceImpl<ISysPermMapper, SysPermEntity> {
 
     @Resource
-    private ISysPermDao sysPermDao;
+    private ISysPermMapper sysPermDao;
 
     /**
      * 系统权限表_分页

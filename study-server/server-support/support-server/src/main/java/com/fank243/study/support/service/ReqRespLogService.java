@@ -11,10 +11,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fank243.study.support.domain.dto.ReqRespLogDTO;
 import com.fank243.study.support.domain.vo.ReqRespLogVO;
-import com.fank243.study.common.domain.model.PageBean;
-import com.fank243.study.common.utils.BeanUtils;
-import com.fank243.study.core.web.exception.BizException;
-import com.fank243.study.support.dao.IReqRespLogDao;
+import com.fank243.study.common.core.domain.model.PageBean;
+import com.fank243.study.common.core.utils.BeanUtils;
+import com.fank243.study.common.core.exception.BizException;
+import com.fank243.study.support.mapper.IReqRespLogMapper;
 import com.fank243.study.support.domain.entity.ReqRespLogEntity;
 
 import cn.hutool.core.bean.BeanUtil;
@@ -26,10 +26,10 @@ import cn.hutool.core.bean.BeanUtil;
  * @since 2022-09-26 15:14:51
  */
 @Service
-public class ReqRespLogService extends ServiceImpl<IReqRespLogDao, ReqRespLogEntity> {
+public class ReqRespLogService extends ServiceImpl<IReqRespLogMapper, ReqRespLogEntity> {
 
     @Resource
-    private IReqRespLogDao reqRespLogDao;
+    private IReqRespLogMapper reqRespLogDao;
 
     /**
      * 请求响应日志表_分页

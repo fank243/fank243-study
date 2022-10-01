@@ -5,8 +5,8 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
-import com.fank243.study.common.domain.base.BaseDTO;
-import com.fank243.study.core.constants.ValidatorGroup;
+import com.fank243.study.common.core.base.BaseDTO;
+import com.fank243.study.common.core.constants.ValidatorGroup;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

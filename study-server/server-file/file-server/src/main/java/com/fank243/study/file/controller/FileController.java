@@ -5,18 +5,16 @@ import java.io.InputStream;
 
 import javax.annotation.Resource;
 
-import com.fank243.study.file.domain.entity.FileEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.fank243.study.common.annotation.RepeatSubmit;
-import com.fank243.study.common.constants.Constants;
-import com.fank243.study.common.domain.base.BaseController;
-import com.fank243.study.common.utils.ResultInfo;
+import com.fank243.study.common.core.annotation.RepeatSubmit;
+import com.fank243.study.common.core.constants.Constants;
+import com.fank243.study.common.core.base.BaseController;
+import com.fank243.study.common.core.utils.ResultInfo;
 import com.fank243.study.file.constants.FileApiConstants;
 import com.fank243.study.file.domain.dto.FileDTO;
 import com.fank243.study.file.service.FileService;

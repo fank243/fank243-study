@@ -6,7 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.alicp.jetcache.anno.config.EnableMethodCache;
-import com.fank243.study.common.constants.Constants;
+import com.fank243.study.common.core.constants.Constants;
 
 /**
  * 支撑服务
@@ -14,9 +14,8 @@ import com.fank243.study.common.constants.Constants;
  * @author FanWeiJie
  * @since 2022-09-26 15:09:37
  */
-@EnableMethodCache(basePackages = {Constants.BASE_PACKAGE})
-@EnableTransactionManagement
 @ComponentScan(basePackages = {Constants.BASE_PACKAGE})
+@EnableTransactionManagement
 @SpringBootApplication
 public class SupportApplication {
     public static void main(String[] args) {

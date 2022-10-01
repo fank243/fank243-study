@@ -16,11 +16,11 @@ import com.alicp.jetcache.anno.CacheRefresh;
 import com.alicp.jetcache.anno.Cached;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.fank243.study.common.constants.AreaConstants;
-import com.fank243.study.common.constants.TimeConstant;
-import com.fank243.study.common.domain.model.Area;
-import com.fank243.study.common.utils.AreaUtils;
-import com.fank243.study.support.dao.IAreaDao;
+import com.fank243.study.common.core.constants.AreaConstants;
+import com.fank243.study.common.core.constants.TimeConstant;
+import com.fank243.study.common.core.domain.model.Area;
+import com.fank243.study.common.core.utils.AreaUtils;
+import com.fank243.study.support.mapper.IAreaMapper;
 import com.fank243.study.support.domain.entity.AreaEntity;
 
 import cn.hutool.core.util.StrUtil;
@@ -34,10 +34,10 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Service
-public class AreaService extends ServiceImpl<IAreaDao, AreaEntity> {
+public class AreaService extends ServiceImpl<IAreaMapper, AreaEntity> {
 
     @Resource
-    private IAreaDao areaDao;
+    private IAreaMapper areaDao;
 
     /** 生成区域树 **/
     @Cached(name = "support:area:tree:", key = "#level", expire = TimeConstant.DAY_1)

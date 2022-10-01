@@ -1,0 +1,28 @@
+server:
+  port: 8901
+
+spring:
+  profiles.include: common
+  application.name: study-oauth2
+  # 多个模块启用时，必须指定端口
+  devtools.livereload.port: 35731
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${study.remote-ip}:8848
+        namespace: study
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        namespace: ${spring.cloud.nacos.discovery.namespace}
+        # 是否自动刷新配置，默认：true
+        refresh-enabled: true
+        # 获取配置失败时重试次数
+        config-retry-time: 3
+        # 连接服务器失败时最大重连次数
+        max-retry: 10
+        # 指定配置文件后缀，默认：yml
+        file-extension: yml
+        # 共享配置文件
+        shared-configs:
+          - study-shared-common.yml
+          - study-shared-ds.yml

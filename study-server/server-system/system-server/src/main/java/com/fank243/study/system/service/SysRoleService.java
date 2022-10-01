@@ -4,7 +4,7 @@ import javax.annotation.Resource;
 
 import com.alicp.jetcache.anno.CacheRefresh;
 import com.alicp.jetcache.anno.Cached;
-import com.fank243.study.common.constants.TimeConstant;
+import com.fank243.study.common.core.constants.TimeConstant;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,10 +15,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fank243.study.system.domain.dto.SysRoleDTO;
 import com.fank243.study.system.domain.vo.SysRoleVO;
-import com.fank243.study.common.domain.model.PageBean;
-import com.fank243.study.common.utils.BeanUtils;
-import com.fank243.study.core.web.exception.BizException;
-import com.fank243.study.system.dao.ISysRoleDao;
+import com.fank243.study.common.core.domain.model.PageBean;
+import com.fank243.study.common.core.utils.BeanUtils;
+import com.fank243.study.common.core.exception.BizException;
+import com.fank243.study.system.mapper.ISysRoleMapper;
 import com.fank243.study.system.domain.entity.SysRoleEntity;
 
 import cn.hutool.core.bean.BeanUtil;
@@ -34,10 +34,10 @@ import java.util.List;
  * @since 2021-11-24
  */
 @Service
-public class SysRoleService extends ServiceImpl<ISysRoleDao, SysRoleEntity> {
+public class SysRoleService extends ServiceImpl<ISysRoleMapper, SysRoleEntity> {
 
     @Resource
-    private ISysRoleDao sysRoleDao;
+    private ISysRoleMapper sysRoleDao;
 
     /**
      * 系统角色表_分页

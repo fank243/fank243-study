@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.fank243.study.common.annotation.RepeatSubmit;
-import com.fank243.study.common.domain.base.BaseController;
-import com.fank243.study.common.domain.model.Area;
-import com.fank243.study.common.utils.AreaUtils;
-import com.fank243.study.common.utils.ResultInfo;
+import com.fank243.study.common.core.annotation.RepeatSubmit;
+import com.fank243.study.common.core.base.BaseController;
+import com.fank243.study.common.core.domain.model.Area;
+import com.fank243.study.common.core.utils.AreaUtils;
+import com.fank243.study.common.core.utils.ResultInfo;
 import com.fank243.study.support.constants.SupportApiConstants;
 import com.fank243.study.support.service.AreaService;
 

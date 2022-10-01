@@ -6,10 +6,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import com.fank243.study.common.annotation.Interceptor;
-import com.fank243.study.common.constants.InterceptorOrderConstant;
-import com.fank243.study.common.utils.ResultInfo;
-import com.fank243.study.common.utils.ServletUtils;
+import com.fank243.study.common.core.annotation.Interceptor;
+import com.fank243.study.common.core.constants.InterceptorOrderConstant;
+import com.fank243.study.common.core.utils.ResultInfo;
+import com.fank243.study.common.core.utils.ServletUtils;
 
 import cn.hutool.core.util.StrUtil;
 

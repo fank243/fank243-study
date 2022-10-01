@@ -22,15 +22,20 @@
     <dependencies>
         <dependency>
             <groupId>com.fank243.study</groupId>
+            <artifactId>study-datasource</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fank243.study</groupId>
             <artifactId>file-api</artifactId>
         </dependency>
+
         <dependency>
-            <groupId>com.fank243.study</groupId>
-            <artifactId>study-netty</artifactId>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.fank243.study</groupId>
-            <artifactId>study-ds</artifactId>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
         </dependency>
     </dependencies>
 

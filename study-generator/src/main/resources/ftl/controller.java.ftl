@@ -8,8 +8,8 @@ import com.fank243.study.api.${package.ModuleName}.dto.${entity}DTO;
 import com.fank243.study.api.${package.ModuleName}.vo.${entity}VO;
 import ${package.Service}.${table.serviceName};
 import ${package.Entity}.${table.entityName}Entity;
-import com.fank243.study.common.utils.ResultInfo;
-import com.fank243.study.common.model.PageBean;
+import com.fank243.study.common.core.utils.ResultInfo;
+import com.fank243.study.common.core.model.PageBean;
 import com.fank243.study.api.constants.ValidatorGroup;
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.fank243.study.common.annotation.RepeatSubmit;
+import com.fank243.study.common.core.annotation.RepeatSubmit;
 
 <#if superControllerClassPackage??>
 import ${superControllerClassPackage};

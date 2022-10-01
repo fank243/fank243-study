@@ -1,0 +1,41 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: study-oauth2
+          uri: lb://study-oauth2
+          predicates:
+            - Path=/oauth2/**
+
+        - id: server-support
+          uri: lb://server-support
+          predicates:
+            - Path=/api/support/**
+          filters:
+            - StripPrefix=1
+
+        - id: server-file
+          uri: lb://server-file
+          predicates:
+            - Path=/api/file/**
+          filters:
+            - StripPrefix=1
+
+        - id: server-file2
+          uri: lb://server-file
+          predicates:
+            - Path=/view/**
+
+        - id: server-system
+          uri: lb://server-system
+          predicates:
+            - Path=/api/system/**
+          filters:
+            - StripPrefix=1
+
+        - id: server-system2
+          uri: lb://server-system
+          predicates:
+            - Path=/doc/**
+
+# 获取路由地址：/actuator/gateway/routes

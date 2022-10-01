@@ -5,10 +5,10 @@ import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
-import com.fank243.study.common.constants.RegexConstants;
-import com.fank243.study.common.domain.validator.annotation.Enum;
-import com.fank243.study.core.constants.ValidatorGroup;
-import com.fank243.study.core.domain.enums.LoginType;
+import com.fank243.study.common.core.constants.RegexConstants;
+import com.fank243.study.common.core.domain.validator.annotation.Enum;
+import com.fank243.study.common.core.constants.ValidatorGroup;
+import com.fank243.study.common.core.domain.enums.LoginType;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

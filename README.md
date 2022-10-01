@@ -6,13 +6,13 @@
 # gateway
 -Dstudy.remote-ip=127.0.0.1
 -javaagent:E:/devops/local/apache-skywalking-apm-bin/agent/skywalking-agent.jar
--Dskywalking.agent.service_name=server-gateway
+-Dskywalking.agent.service_name=study-gateway
 -Dskywalking.collector.backend_service=127.0.0.1:11800
 
 # other
 -Dstudy.nacos-addr=127.0.0.1
 -javaagent:E:/devops/local/apache-skywalking-apm-bin/agent/skywalking-agent.jar
--Dskywalking.agent.service_name=server-oauth2
+-Dskywalking.agent.service_name=study-oauth2
 -Dskywalking.collector.backend_service=127.0.0.1:11800
 ```
 
@@ -37,7 +37,7 @@ idea VM options
 # Environment variables
 SW_AGENT_NAME=${appName};SW_AGENT_COLLECTOR_BACKEND_SERVICES=${SkyWorking Server Addr:127.0.0.1:11800}
 # eg:
--Dskywalking.agent.service_name=server-gateway -Dskywalking.collector.backend_service=127.0.0.1:11800
+-Dskywalking.agent.service_name=study-gateway -Dskywalking.collector.backend_service=127.0.0.1:11800
 ```
 
 ## Upgrade Maven Version

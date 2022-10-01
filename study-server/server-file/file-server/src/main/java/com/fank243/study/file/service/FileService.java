@@ -8,22 +8,21 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.fank243.study.common.core.service.RedissonService;
 import org.springframework.boot.system.ApplicationHome;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.fank243.study.common.constants.DateConstant;
-import com.fank243.study.common.utils.ResultInfo;
-import com.fank243.study.common.utils.ServletUtils;
-import com.fank243.study.ds.service.RedissonService;
+import com.fank243.study.common.core.constants.DateConstant;
+import com.fank243.study.common.core.utils.ResultInfo;
+import com.fank243.study.common.core.utils.ServletUtils;
 import com.fank243.study.file.constants.FileConstants;
-import com.fank243.study.file.dao.IFileDao;
+import com.fank243.study.file.mapper.IFileMapper;
 import com.fank243.study.file.domain.dto.FileDTO;
 import com.fank243.study.file.domain.entity.FileEntity;
 import com.fank243.study.file.web.config.FileProperties;
 
-import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
@@ -38,10 +37,10 @@ import cn.hutool.crypto.SecureUtil;
  * @since 2022-09-28 14:23:01
  */
 @Service
-public class FileService extends ServiceImpl<IFileDao, FileEntity> {
+public class FileService extends ServiceImpl<IFileMapper, FileEntity> {
 
     @Resource
-    private IFileDao fileDao;
+    private IFileMapper fileDao;
     @Resource
     private FileProperties fileProperties;
     @Resource
@@ -68,11 +67,11 @@ public class FileService extends ServiceImpl<IFileDao, FileEntity> {
             }
         }
 
-        String loginId = StpUtil.getLoginIdAsString();
+//        String loginId = StpUtil.getLoginIdAsString();
         String baseUrl = ServletUtils.getBaseUrl();
         FileEntity fileEntity;
         try {
-            redissonService.lock(FileConstants.LOCK_KEY_UPLOAD + loginId);
+            redissonService.lock(FileConstants.LOCK_KEY_UPLOAD + "loginId");
 
             String fileName = UUID.fastUUID() + "." + fileDTO.getFileSuffix();
             File file = FileUtil.writeFromStream(inputStream, fileDir.getAbsolutePath() + File.separator + fileName);
@@ -103,7 +102,7 @@ public class FileService extends ServiceImpl<IFileDao, FileEntity> {
 
             save(fileEntity);
         } finally {
-            redissonService.unlock(FileConstants.LOCK_KEY_UPLOAD + loginId);
+            redissonService.unlock(FileConstants.LOCK_KEY_UPLOAD + "loginId");
         }
 
         Map<String, String> map = new HashMap<>(2);

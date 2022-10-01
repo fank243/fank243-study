@@ -6,7 +6,7 @@ import javax.annotation.Resource;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fank243.study.common.utils.BeanUtils;
+import com.fank243.study.common.core.utils.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,11 +17,11 @@ import com.fank243.study.system.domain.dto.SysUserDTO;
 import com.fank243.study.system.domain.dto.SysUserLoginDTO;
 import com.fank243.study.system.domain.vo.SysUserLoginResp;
 import com.fank243.study.system.domain.vo.SysUserVO;
-import com.fank243.study.common.domain.model.PageBean;
-import com.fank243.study.common.web.exception.AuthException;
-import com.fank243.study.core.domain.enums.UserStatusEnum;
-import com.fank243.study.core.web.exception.BizException;
-import com.fank243.study.system.dao.ISysUserDao;
+import com.fank243.study.common.core.domain.model.PageBean;
+import com.fank243.study.common.core.exception.AuthException;
+import com.fank243.study.common.core.domain.enums.UserStatusEnum;
+import com.fank243.study.common.core.exception.BizException;
+import com.fank243.study.system.mapper.ISysUserMapper;
 import com.fank243.study.system.domain.entity.SysUserEntity;
 import com.fank243.study.system.domain.entity.SysUserLoginLogEntity;
 
@@ -36,10 +36,10 @@ import cn.hutool.crypto.SecureUtil;
  * @since 2021-09-03
  */
 @Service
-public class SysUserService extends ServiceImpl<ISysUserDao, SysUserEntity> {
+public class SysUserService extends ServiceImpl<ISysUserMapper, SysUserEntity> {
 
     @Resource
-    private ISysUserDao sysUserDao;
+    private ISysUserMapper sysUserDao;
     @Resource
     private SysUserLoginLogService sysUserLoginLogService;
 

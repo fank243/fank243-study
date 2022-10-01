@@ -7,13 +7,10 @@
     <artifactId>fank243-study</artifactId>
     <version>1.0.1</version>
     <modules>
-        <module>study-infrastructure</module>
-        <module>study-core</module>
         <module>study-server</module>
         <module>study-common</module>
-        <module>study-server/server-file</module>
-        <module>study-server/server-file/file-api</module>
-        <module>study-server/server-file/file-server</module>
+        <module>study-oauth2</module>
+        <module>study-gateway</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -31,7 +28,21 @@
         <!-- https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E -->
         <!-- https://mvnrepository.com/artifact/com.alibaba.cloud/spring-cloud-alibaba-dependencies -->
         <spring-cloud-alibaba.version>2021.0.4.0</spring-cloud-alibaba.version>
+
     </properties>
+
+    <dependencies>
+        <!--配置文件加解密-->
+<!--        <dependency>-->
+<!--            <groupId>com.github.ulisesbocchio</groupId>-->
+<!--            <artifactId>jasypt-spring-boot-starter</artifactId>-->
+<!--        </dependency>-->
+        <!--监控-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+    </dependencies>
 
     <dependencyManagement>
         <dependencies>
@@ -71,12 +82,12 @@
             </dependency>
             <dependency>
                 <groupId>com.fank243.study</groupId>
-                <artifactId>study-common</artifactId>
+                <artifactId>study-mybatis</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fank243.study</groupId>
-                <artifactId>study-ds</artifactId>
+                <artifactId>study-datasource</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -92,6 +103,11 @@
             <dependency>
                 <groupId>com.fank243.study</groupId>
                 <artifactId>study-sentinel</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fank243.study</groupId>
+                <artifactId>study-feign</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -112,16 +128,4 @@
         </dependencies>
     </dependencyManagement>
 
-    <!--自建仓库-->
-    <repositories>
-        <repository>
-            <id>github</id>
-            <name>GitHub Maven Packages</name>
-            <url>https://maven.pkg.github.com/fank243/mvn-repo</url>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </releases>
-        </repository>
-    </repositories>
 </project>

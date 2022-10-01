@@ -92,7 +92,7 @@
             </dependency>
             <dependency>
                 <groupId>com.fank243.study</groupId>
-                <artifactId>study-ds</artifactId>
+                <artifactId>study-datasource</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

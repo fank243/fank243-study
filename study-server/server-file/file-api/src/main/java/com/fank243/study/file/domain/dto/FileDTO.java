@@ -1,10 +1,7 @@
 package com.fank243.study.file.domain.dto;
 
-import com.fank243.study.common.domain.base.BaseDTO;
-
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * 文件表
@@ -14,8 +11,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @Builder
-@EqualsAndHashCode(callSuper = true)
-public class FileDTO extends BaseDTO {
+public class FileDTO {
 
     /*** 文件ID */
     private String fileId;

@@ -1,6 +1,6 @@
 package com.fank243.study.system;
 
-import com.fank243.study.common.constants.Constants;
+import com.fank243.study.common.core.constants.Constants;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;

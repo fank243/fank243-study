@@ -7,13 +7,13 @@
   "errorCodeDictionaries": [
     {
       "title": "响应状态码",
-      "enumClassName": "com.fank243.study.common.domain.enums.ResultCodeEnum",
+      "enumClassName": "com.fank243.study.common.core.constants.enums.ResultCodeEnum",
       "codeField": "status",
       "descField": "message"
     }
   ],
   "responseBodyAdvice": {
-    "className": "com.fank243.study.common.utils.ResultInfo"
+    "className": "com.fank243.study.common.core.utils.ResultInfo"
   },
   "requestHeaders": [
     {

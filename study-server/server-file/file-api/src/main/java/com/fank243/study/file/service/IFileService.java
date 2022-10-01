@@ -10,7 +10,7 @@ import com.fank243.study.file.constants.FileApiConstants;
  * @author FanWeiJie
  * @since 2022-09-28 14:23:01
  */
-@FeignClient(value = "server-system", path = FileApiConstants.BASE_URI_FILE)
+@FeignClient(contextId = "iFileService", value = "server-file", path = FileApiConstants.BASE_URI_FILE)
 public interface IFileService {
 
 }

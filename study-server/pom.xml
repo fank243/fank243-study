@@ -12,9 +12,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>server-gateway</module>
         <module>server-system</module>
-        <module>server-oauth2</module>
         <module>server-support</module>
         <module>server-file</module>
     </modules>
@@ -31,13 +29,13 @@
                     <excludes>
                         <!--格式为：groupId:artifactId;参考如下-->
                         <!--1.0.7版本开始你还可以用正则匹配排除,如：poi.* -->
-                        <exclude>com.fank243.study:study-ds</exclude>
+                        <exclude>com.fank243.study:study-datasource</exclude>
                         <exclude>com.fank243.study:study-core</exclude>
                         <exclude>com.fank243.study:study-netty</exclude>
                         <exclude>com.fank243.study:study-mq</exclude>
                         <exclude>com.fank243.study:study-sentinel</exclude>
-                        <exclude>com.fank243.study:server-gateway</exclude>
-                        <exclude>com.fank243.study:server-oauth2</exclude>
+                        <exclude>com.fank243.study:study-gateway</exclude>
+                        <exclude>com.fank243.study:study-oauth2</exclude>
                         <exclude>com.alibaba.*</exclude>
                         <exclude>com.alicp.*</exclude>
                         <exclude>org.springframework.*</exclude>

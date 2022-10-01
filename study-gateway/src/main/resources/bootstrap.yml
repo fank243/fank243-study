@@ -1,0 +1,45 @@
+server:
+  port: 8800
+
+spring:
+#  main.web-application-type: reactive
+  sleuth.traceId128: true
+  # 采样比例
+  sleuth.sampler.probability: 1.0
+  profiles.include: route,sentinel,common
+  application.name: study-gateway
+  # 多个模块启用时，必须指定端口
+  devtools.livereload.port: 35730
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${study.remote-ip}:8848
+        namespace: study
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        namespace: ${spring.cloud.nacos.discovery.namespace}
+        file-extension: yml
+        # 共享配置文件
+        shared-configs:
+          - study-shared-common.yml
+          - study-shared-ds.yml
+
+logging:
+  config: classpath:logback-spring.xml
+  level:
+    org:
+      apache: info
+      springframework: info
+      mybatis: info
+      hibernate: info
+      jboss: info
+    io:
+      netty: info
+      lettuce: info
+      micrometer: info
+    com:
+      zaxxer: info
+      alibaba.cloud: info
+      alibaba.nacos: warn
+    reactor: info
+
