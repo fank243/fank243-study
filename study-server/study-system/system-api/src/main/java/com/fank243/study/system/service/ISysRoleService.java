@@ -2,12 +2,12 @@ package com.fank243.study.system.service;
 
 import java.util.List;
 
-import com.fank243.study.system.domain.vo.SysRoleVO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import com.fank243.study.system.constants.SystemApiConstants;
+import com.fank243.study.common.core.constants.ServerConstants;
+import com.fank243.study.system.domain.vo.SysRoleVO;
 
 /**
  * 系统角色表 客户端
@@ -15,7 +15,7 @@ import com.fank243.study.system.constants.SystemApiConstants;
  * @author FanWeiJie
  * @since 2022-05-13
  */
-@FeignClient(contextId = "iSysRoleService", value = "system-server", path = SystemApiConstants.BASE_URI_SYSTEM_ROLE)
+@FeignClient(contextId = "iSysRoleService", value = ServerConstants.SERVER_SYSTEM, path = ServerConstants.BASE_URI_SYSTEM_ROLE)
 public interface ISysRoleService {
 
     /**

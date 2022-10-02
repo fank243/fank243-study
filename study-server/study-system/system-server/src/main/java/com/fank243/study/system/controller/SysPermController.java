@@ -13,16 +13,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fank243.study.system.constants.SystemApiConstants;
-import com.fank243.study.system.domain.dto.SysPermDTO;
-import com.fank243.study.system.domain.vo.SysPermVO;
 import com.fank243.study.common.core.annotation.RepeatSubmit;
 import com.fank243.study.common.core.base.BaseController;
-import com.fank243.study.common.core.domain.model.PageBean;
-import com.fank243.study.common.core.utils.ResultInfo;
+import com.fank243.study.common.core.constants.ServerConstants;
 import com.fank243.study.common.core.constants.ValidatorGroup;
+import com.fank243.study.common.core.domain.model.PageBean;
 import com.fank243.study.common.core.exception.BizException;
+import com.fank243.study.common.core.utils.ResultInfo;
+import com.fank243.study.system.domain.dto.SysPermDTO;
 import com.fank243.study.system.domain.entity.SysPermEntity;
+import com.fank243.study.system.domain.vo.SysPermVO;
 import com.fank243.study.system.service.SysPermService;
 
 import cn.hutool.core.bean.BeanUtil;
@@ -33,7 +33,7 @@ import cn.hutool.core.bean.BeanUtil;
  * @author FanWeiJie
  * @since 2022-05-13
  */
-@RequestMapping(SystemApiConstants.BASE_URI_SYSTEM_PERM)
+@RequestMapping(ServerConstants.BASE_URI_SYSTEM_PERM)
 @RestController
 public class SysPermController extends BaseController {
 

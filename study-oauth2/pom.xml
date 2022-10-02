@@ -5,79 +5,15 @@
     <parent>
         <artifactId>fank243-study</artifactId>
         <groupId>com.fank243.study</groupId>
-        <version>1.0.1</version>
+        <version>1.1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>study-oauth2</artifactId>
+    <packaging>pom</packaging>
 
-    <properties>
-        <!--mvn install 不安装到本地仓库-->
-        <maven.install.skip>true</maven.install.skip>
-        <!--mvn 跳过单元测试-->
-        <maven.test.skip>true</maven.test.skip>
-        <boot-jar-output>${user.home}/devops/study</boot-jar-output>
-    </properties>
+    <modules>
+        <module>oauth2-api</module>
+        <module>oauth2-server</module>
+    </modules>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.fank243.study</groupId>
-            <artifactId>study-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fank243.study</groupId>
-            <artifactId>study-datasource</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fank243.study</groupId>
-            <artifactId>study-mybatis</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fank243.study</groupId>
-            <artifactId>study-security</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-freemarker</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-    </dependencies>
-
-    <build>
-        <finalName>${project.artifactId}</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <!--
-                        分层打包：主要用于docker部署时打包的镜像文件变得更小
-                        https://docs.spring.io/spring-boot/docs/2.6.1/maven-plugin/reference/htmlsingle/#packaging.layers
-                     -->
-                    <layers>
-                        <enabled>true</enabled>
-                    </layers>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 </project>

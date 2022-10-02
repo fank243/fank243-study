@@ -16,7 +16,6 @@ import com.alicp.jetcache.anno.config.EnableMethodCache;
  * @since 2021-06-08 23:32:33
  */
 @EnableRetry
-@EnableMethodCache(basePackages = {Constants.BASE_PACKAGE})
 @EnableTransactionManagement
 @ComponentScan(basePackages = {Constants.BASE_PACKAGE})
 @SpringBootApplication

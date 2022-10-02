@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fank243.study.common.core.base.BaseController;
-import com.fank243.study.common.core.domain.model.PageBean;
-import com.fank243.study.common.core.utils.ResultInfo;
+import com.fank243.study.common.core.constants.ServerConstants;
 import com.fank243.study.common.core.constants.ValidatorGroup;
+import com.fank243.study.common.core.domain.model.PageBean;
 import com.fank243.study.common.core.exception.BizException;
-import com.fank243.study.support.constants.SupportApiConstants;
+import com.fank243.study.common.core.utils.ResultInfo;
 import com.fank243.study.support.domain.dto.ReqRespLogDTO;
 import com.fank243.study.support.domain.entity.ReqRespLogEntity;
 import com.fank243.study.support.domain.vo.ReqRespLogVO;
@@ -29,7 +29,7 @@ import cn.hutool.core.bean.BeanUtil;
  * @author FanWeiJie
  * @since 2022-09-26 15:14:51
  */
-@RequestMapping(SupportApiConstants.BASE_URI_SUPPORT_LOG)
+@RequestMapping(ServerConstants.BASE_URI_SUPPORT_LOG)
 @RestController
 public class ReqRespLogController extends BaseController {
 

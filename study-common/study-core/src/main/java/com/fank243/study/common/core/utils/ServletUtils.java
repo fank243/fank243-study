@@ -195,7 +195,7 @@ public class ServletUtils {
             return true;
         }
 
-        String xRequestedWith = request.getHeader("X-Requested-With");
+        String xRequestedWith = request.getHeader("x-requested-with");
         if (xRequestedWith != null && xRequestedWith.contains("XMLHttpRequest")) {
             return true;
         }

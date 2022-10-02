@@ -17,10 +17,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fank243.study.common.core.annotation.RepeatSubmit;
 import com.fank243.study.common.core.base.BaseController;
+import com.fank243.study.common.core.constants.ServerConstants;
 import com.fank243.study.common.core.domain.model.Area;
 import com.fank243.study.common.core.utils.AreaUtils;
 import com.fank243.study.common.core.utils.ResultInfo;
-import com.fank243.study.support.constants.SupportApiConstants;
 import com.fank243.study.support.service.AreaService;
 
 import cn.hutool.core.collection.CollUtil;
@@ -36,7 +36,7 @@ import lombok.extern.slf4j.Slf4j;
  * @since 2022-05-13
  */
 @Slf4j
-@RequestMapping(SupportApiConstants.BASE_URI_SUPPORT_AREA)
+@RequestMapping(ServerConstants.BASE_URI_SUPPORT_AREA)
 @RestController
 public class AreaController extends BaseController {
 

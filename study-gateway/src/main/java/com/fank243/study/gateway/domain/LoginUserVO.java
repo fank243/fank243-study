@@ -2,6 +2,7 @@ package com.fank243.study.gateway.domain;
 
 import java.io.Serializable;
 
+import cn.dev33.satoken.stp.SaTokenInfo;
 import lombok.Builder;
 import lombok.Data;
 
@@ -19,7 +20,7 @@ public class LoginUserVO implements Serializable {
     private String username;
 
     /** Token 信息 **/
-    // private SaTokenInfo tokenInfo;
+    private SaTokenInfo tokenInfo;
 
     /** Access Token 信息 **/
     private AccessTokenVO accessTokenInfo;

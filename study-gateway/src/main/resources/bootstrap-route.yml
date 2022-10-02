@@ -2,44 +2,44 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: study-oauth2-login
-          uri: lb://study-oauth2
-          predicates:
-            - Path=/login/**
-
         - id: study-oauth2
           uri: lb://study-oauth2
           predicates:
             - Path=/oauth2/**
 
-        - id: support-server
-          uri: lb://support-server
+        - id: study-support
+          uri: lb://study-support
           predicates:
             - Path=/api/support/**
           filters:
             - StripPrefix=1
 
-        - id: file-server
-          uri: lb://file-server
+        - id: study-file
+          uri: lb://study-file
           predicates:
             - Path=/api/file/**
           filters:
             - StripPrefix=1
 
-        - id: file-server2
-          uri: lb://file-server
+        - id: study-file2
+          uri: lb://study-file
           predicates:
             - Path=/view/**
 
-        - id: system-server
-          uri: lb://system-server
+        - id: study-system-login
+          uri: lb://study-system
+          predicates:
+            - Path=/system/login/**
+
+        - id: study-system
+          uri: lb://study-system
           predicates:
             - Path=/api/system/**
           filters:
             - StripPrefix=1
 
-        - id: system-server2
-          uri: lb://system-server
+        - id: study-system-doc
+          uri: lb://study-system
           predicates:
             - Path=/doc/**
 

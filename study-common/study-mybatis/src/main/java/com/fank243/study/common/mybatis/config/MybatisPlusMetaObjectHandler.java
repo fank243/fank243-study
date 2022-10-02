@@ -2,19 +2,15 @@ package com.fank243.study.common.mybatis.config;
 
 import java.nio.charset.Charset;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.Optional;
 
-import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 import org.springframework.util.ClassUtils;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.StrUtil;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 自定义填充事件，新增或者插入SQL更新相关日期字段
@@ -29,19 +25,21 @@ public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
     public void insertFill(MetaObject metaObject) {
         log.debug("mybatis plus start insert fill ....");
         LocalDateTime now = LocalDateTime.now();
+        String userId = StpUtil.getLoginIdAsString();
 
         fillValIfNullByName("createdDate", now, metaObject, false);
         fillValIfNullByName("lastModifiedDate", now, metaObject, false);
-        fillValIfNullByName("createdBy", getUserName(), metaObject, false);
-        fillValIfNullByName("lastModifiedBy", getUserName(), metaObject, false);
+        fillValIfNullByName("createdBy", userId, metaObject, false);
+        fillValIfNullByName("lastModifiedBy", userId, metaObject, false);
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
         log.debug("mybatis plus start update fill ....");
+        String userId = StpUtil.getLoginIdAsString();
 
         fillValIfNullByName("lastModifiedDate", LocalDateTime.now(), metaObject, true);
-        fillValIfNullByName("lastModifiedBy", getUserName(), metaObject, true);
+        fillValIfNullByName("lastModifiedBy", userId, metaObject, true);
     }
 
     /**
@@ -70,16 +68,4 @@ public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
         }
     }
 
-    /**
-     * 获取 spring security 当前的用户名
-     * 
-     * @return 当前用户名
-     */
-    private String getUserName() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (Optional.ofNullable(authentication).isPresent()) {
-            return authentication.getName();
-        }
-        return "";
-    }
 }

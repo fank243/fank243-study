@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles.include: common
-  application.name: system-server
+  application.name: study-system
   # 指定devtools端口
   devtools.livereload.port: 35733
   cloud:
@@ -18,3 +18,8 @@ spring:
         shared-configs:
           - study-shared-common.yml
           - study-shared-ds.yml
+
+study:
+  oauth2:
+    client_id: 1000
+    client_secret: qRDt8Gx0Bzj1M5Sel6h2JYHXZP7sKbadF9iLAyEpOUurCgfm4nNIk3vcoWQVTwRkMn5522T5s1WIXnii2qJwagZdFf6605XedTvGbVj9IeKuU8Uw5H355rmWqf36EOdV

@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.fank243.study</groupId>
         <artifactId>fank243-study</artifactId>
-        <version>1.0.1</version>
+        <version>1.1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>study-gateway</artifactId>
@@ -32,10 +32,6 @@
         <dependency>
             <groupId>com.fank243.study</groupId>
             <artifactId>study-datasource</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fank243.study</groupId>
-            <artifactId>study-security</artifactId>
         </dependency>
         <dependency>
             <groupId>com.fank243.study</groupId>
@@ -74,6 +70,15 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-reactor-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-dao-redis-jackson</artifactId>
         </dependency>
     </dependencies>
 

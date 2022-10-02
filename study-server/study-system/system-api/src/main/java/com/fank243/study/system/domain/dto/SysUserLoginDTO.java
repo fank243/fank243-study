@@ -5,14 +5,15 @@ import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
+import org.hibernate.validator.constraints.Length;
+
 import com.fank243.study.common.core.constants.RegexConstants;
-import com.fank243.study.common.core.domain.validator.annotation.Enum;
 import com.fank243.study.common.core.constants.ValidatorGroup;
 import com.fank243.study.common.core.domain.enums.LoginType;
+import com.fank243.study.common.core.domain.validator.annotation.Enum;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.hibernate.validator.constraints.Length;
 
 /**
  * 管理登录请求参数

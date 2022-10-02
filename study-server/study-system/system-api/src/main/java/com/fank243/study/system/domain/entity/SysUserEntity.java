@@ -31,17 +31,8 @@ public class SysUserEntity extends BaseEntity {
     /** 昵称 */
     private String nickname;
 
-    /** 登录密码 */
-    private String password;
-
     /** 状态(0：正常，1：禁用，2：登录锁定) */
     private Integer status;
-
-    /** 登录累计错误次数 */
-    private Integer loginErrCount;
-
-    /** 登录锁定时间 */
-    private Date loginLockTime;
 
     /** 最近登录时间 */
     private Date lastLoginTime;

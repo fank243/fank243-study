@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.fank243.study.system.constants.SystemApiConstants;
+import com.fank243.study.common.core.constants.ServerConstants;
 import com.fank243.study.system.domain.vo.SysPermVO;
 
 /**
@@ -17,7 +17,7 @@ import com.fank243.study.system.domain.vo.SysPermVO;
  * @author FanWeiJie
  * @since 2022-05-13
  */
-@FeignClient(contextId = "iSysPermService", value = "system-server", path = SystemApiConstants.BASE_URI_SYSTEM_PERM)
+@FeignClient(contextId = "iSysPermService", value = ServerConstants.SERVER_SYSTEM, path = ServerConstants.BASE_URI_SYSTEM_PERM)
 public interface ISysPermService {
 
     /**

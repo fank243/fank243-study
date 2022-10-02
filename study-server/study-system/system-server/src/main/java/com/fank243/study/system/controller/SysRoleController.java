@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fank243.study.common.core.annotation.RepeatSubmit;
 import com.fank243.study.common.core.base.BaseController;
-import com.fank243.study.common.core.domain.model.PageBean;
-import com.fank243.study.common.core.utils.ResultInfo;
+import com.fank243.study.common.core.constants.ServerConstants;
 import com.fank243.study.common.core.constants.ValidatorGroup;
+import com.fank243.study.common.core.domain.model.PageBean;
 import com.fank243.study.common.core.exception.BizException;
-import com.fank243.study.system.constants.SystemApiConstants;
+import com.fank243.study.common.core.utils.ResultInfo;
 import com.fank243.study.system.domain.dto.SysRoleDTO;
 import com.fank243.study.system.domain.entity.SysRoleEntity;
 import com.fank243.study.system.domain.vo.SysRoleVO;
@@ -33,7 +33,7 @@ import cn.hutool.core.bean.BeanUtil;
  * @author FanWeiJie
  * @since 2022-05-13
  */
-@RequestMapping(SystemApiConstants.BASE_URI_SYSTEM_ROLE)
+@RequestMapping(ServerConstants.BASE_URI_SYSTEM_ROLE)
 @RestController
 public class SysRoleController extends BaseController {
 

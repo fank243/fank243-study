@@ -1,47 +1,67 @@
-//package com.fank243.study.gateway.config;
+//package com.fank243.study.gateway.web.config;
 //
-//import com.alibaba.csp.sentinel.adapter.gateway.sc.SentinelGatewayFilter;
-//import com.alibaba.csp.sentinel.adapter.gateway.sc.exception.SentinelGatewayBlockExceptionHandler;
-//import org.springframework.beans.factory.ObjectProvider;
-//import org.springframework.cloud.gateway.filter.GlobalFilter;
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
-//import org.springframework.core.Ordered;
-//import org.springframework.core.annotation.Order;
-//import org.springframework.http.codec.ServerCodecConfigurer;
-//import org.springframework.web.reactive.result.view.ViewResolver;
-//
-//import java.util.Collections;
 //import java.util.List;
+//import java.util.concurrent.ExecutionException;
+//import java.util.concurrent.Future;
+//import java.util.stream.Collectors;
+//
+//import javax.annotation.Resource;
+//
+//import com.fank243.study.system.service.ISysPermService;
+//import com.fank243.study.system.service.ISysRoleService;
+//import org.springframework.stereotype.Component;
+//
+//import com.fank243.study.system.domain.vo.SysPermVO;
+//import com.fank243.study.system.domain.vo.SysRoleVO;
+//
+//import cn.dev33.satoken.stp.StpInterface;
+//import cn.hutool.core.collection.CollUtil;
+//import cn.hutool.core.thread.ThreadUtil;
 //
 ///**
-// * sentinel configuration
+// * saToken注册统一鉴权
 // *
 // * @author FanWeiJie
-// * @since 2021-06-12 13:56:21
+// * @since 2022-05-11 10:46:17
 // */
-//@Configuration
-//public class GatewayConfiguration {
+//@Component
+//public class StpInterfaceImpl implements StpInterface {
 //
-//    private final List<ViewResolver> viewResolvers;
-//    private final ServerCodecConfigurer serverCodecConfigurer;
+//    @Resource
+//    private ISysRoleService sysRoleService;
+//    @Resource
+//    private ISysPermService sysPermService;
 //
-//    public GatewayConfiguration(ObjectProvider<List<ViewResolver>> viewResolversProvider,
-//        ServerCodecConfigurer serverCodecConfigurer) {
-//        this.viewResolvers = viewResolversProvider.getIfAvailable(Collections::emptyList);
-//        this.serverCodecConfigurer = serverCodecConfigurer;
+//    @Override
+//    public List<String> getPermissionList(Object loginId, String loginType) {
+//        // 返回此 loginId 拥有的权限列表
+//        Future<List<SysPermVO>> future = ThreadUtil.execAsync(() -> sysPermService.getByUserId((String)loginId));
+//        List<SysPermVO> perms;
+//        try {
+//            perms = future.get();
+//        } catch (InterruptedException | ExecutionException e) {
+//            throw new RuntimeException(e);
+//        }
+//        if (CollUtil.isEmpty(perms)) {
+//            return null;
+//        }
+//        return perms.stream().map(SysPermVO::getPermCode).collect(Collectors.toList());
 //    }
 //
-//    @Bean
-//    @Order(Ordered.HIGHEST_PRECEDENCE)
-//    public SentinelGatewayBlockExceptionHandler sentinelGatewayBlockExceptionHandler() {
-//        // Register the block exception handler for Spring Cloud Gateway.
-//        return new SentinelGatewayBlockExceptionHandler(viewResolvers, serverCodecConfigurer);
+//    @Override
+//    public List<String> getRoleList(Object loginId, String loginType) {
+//        // 返回此 loginId 拥有的角色列表
+//        Future<List<SysRoleVO>> future = ThreadUtil.execAsync(() -> sysRoleService.getByUserId((String)loginId));
+//        List<SysRoleVO> roles;
+//        try {
+//            roles = future.get();
+//        } catch (InterruptedException | ExecutionException e) {
+//            throw new RuntimeException(e);
+//        }
+//        if (CollUtil.isEmpty(roles)) {
+//            return null;
+//        }
+//        return roles.stream().map(SysRoleVO::getRoleCode).collect(Collectors.toList());
 //    }
 //
-//    @Bean
-//    @Order(Ordered.HIGHEST_PRECEDENCE)
-//    public GlobalFilter sentinelGatewayFilter() {
-//        return new SentinelGatewayFilter();
-//    }
 //}

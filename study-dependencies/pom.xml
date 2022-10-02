@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.fank243.study</groupId>
     <artifactId>study-dependencies</artifactId>
-    <version>1.0.1</version>
+    <version>1.1.0</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -22,7 +22,7 @@
         <mysql.version>8.0.30</mysql.version>
 
         <!-- https://mvnrepository.com/artifact/com.alicp.jetcache/jetcache-starter-redisson -->
-        <jetcache.version>2.7.0.RC3</jetcache.version>
+        <jetcache.version>2.7.0.M2</jetcache.version>
 
         <jasypt.version>3.0.4</jasypt.version>
 
@@ -135,6 +135,12 @@
             <dependency>
                 <groupId>cn.dev33</groupId>
                 <artifactId>sa-token-oauth2</artifactId>
+                <version>${sa-token.version}</version>
+            </dependency>
+            <!-- Sa-Token-Quick-Login 插件 -->
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-quick-login</artifactId>
                 <version>${sa-token.version}</version>
             </dependency>
             <dependency>

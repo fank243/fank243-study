@@ -246,14 +246,14 @@ public class ApiLogFilter implements GlobalFilter, Ordered {
     }
 
     private void sendLog(ReqRespLogDTO reqRespLogDTO) {
-        ThreadUtil.execAsync(() -> {
-            try {
-                supportFeignService.saveLog(reqRespLogDTO);
-            } catch (Exception e) {
-                log.error("保存请求响应日志异常：{}", e.getMessage(), e);
-                throw new RuntimeException(e);
-            }
-        });
+//        ThreadUtil.execAsync(() -> {
+//            try {
+//                supportFeignService.saveLog(reqRespLogDTO);
+//            } catch (Exception e) {
+//                log.error("保存请求响应日志异常：{}", e.getMessage(), e);
+//                throw new RuntimeException(e);
+//            }
+//        });
     }
 
     @Override

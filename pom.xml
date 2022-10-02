@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.fank243.study</groupId>
     <artifactId>fank243-study</artifactId>
-    <version>1.0.1</version>
+    <version>1.1.0</version>
     <modules>
         <module>study-server</module>
         <module>study-common</module>
@@ -98,11 +98,6 @@
             </dependency>
             <dependency>
                 <groupId>com.fank243.study</groupId>
-                <artifactId>study-security</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fank243.study</groupId>
                 <artifactId>study-mq</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -119,6 +114,11 @@
             <dependency>
                 <groupId>com.fank243.study</groupId>
                 <artifactId>study-feign</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fank243.study</groupId>
+                <artifactId>oauth2-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

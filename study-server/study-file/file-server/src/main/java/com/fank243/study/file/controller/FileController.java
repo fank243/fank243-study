@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fank243.study.common.core.annotation.RepeatSubmit;
-import com.fank243.study.common.core.constants.Constants;
 import com.fank243.study.common.core.base.BaseController;
+import com.fank243.study.common.core.constants.Constants;
+import com.fank243.study.common.core.constants.ServerConstants;
 import com.fank243.study.common.core.utils.ResultInfo;
-import com.fank243.study.file.constants.FileApiConstants;
 import com.fank243.study.file.domain.dto.FileDTO;
 import com.fank243.study.file.service.FileService;
 
@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
  * @since 2022-09-28 14:23:01
  */
 @Slf4j
-@RequestMapping(FileApiConstants.BASE_URI_FILE)
+@RequestMapping(ServerConstants.BASE_URI_FILE)
 @RestController
 public class FileController extends BaseController {
 

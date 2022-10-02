@@ -10,11 +10,15 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
 
 import com.fank243.study.common.core.constants.enums.ResultCodeEnum;
-import com.fank243.study.common.core.utils.ResultInfo;
 import com.fank243.study.common.core.exception.AuthException;
 import com.fank243.study.common.core.exception.BizException;
+import com.fank243.study.common.core.utils.ResultInfo;
 import com.fank243.study.gateway.utils.ReactiveUtils;
 
+import cn.dev33.satoken.exception.NotLoginException;
+import cn.dev33.satoken.exception.NotPermissionException;
+import cn.dev33.satoken.exception.NotRoleException;
+import cn.dev33.satoken.exception.SaTokenException;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
@@ -53,17 +57,17 @@ public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
         } else if (ex instanceof AuthException) {
             status = HttpStatus.UNAUTHORIZED;
             result = ResultInfo.err401(ex.getMessage());
-//        } else if (ex instanceof SaTokenException) {
-//            if (ex.getCause() instanceof NotLoginException) {
-//                status = HttpStatus.UNAUTHORIZED;
-//                result = ResultInfo.err401(ResultCodeEnum.R401.getMessage(), ex.getCause().getMessage());
-//            } else if (ex.getCause() instanceof NotRoleException || ex instanceof NotPermissionException) {
-//                status = HttpStatus.FORBIDDEN;
-//                result = ResultInfo.err403(ResultCodeEnum.R403.getMessage(), ex.getCause().getMessage());
-//            } else {
-//                status = HttpStatus.FORBIDDEN;
-//                result = ResultInfo.err403(ResultCodeEnum.R403.getMessage(), ex.getCause().getMessage());
-//            }
+        } else if (ex instanceof SaTokenException) {
+            if (ex.getCause() instanceof NotLoginException) {
+                status = HttpStatus.UNAUTHORIZED;
+                result = ResultInfo.err401(ResultCodeEnum.R401.getMessage(), ex.getCause().getMessage());
+            } else if (ex.getCause() instanceof NotRoleException || ex instanceof NotPermissionException) {
+                status = HttpStatus.FORBIDDEN;
+                result = ResultInfo.err403(ResultCodeEnum.R403.getMessage(), ex.getCause().getMessage());
+            } else {
+                status = HttpStatus.FORBIDDEN;
+                result = ResultInfo.err403(ResultCodeEnum.R403.getMessage(), ex.getCause().getMessage());
+            }
         } else if (ex instanceof BizException) {
             result = ResultInfo.fail(ex.getMessage());
         } else {

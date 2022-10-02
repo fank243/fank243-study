@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.alicp.jetcache.anno.config.EnableMethodCache;
 import com.fank243.study.common.core.constants.Constants;
 
 /**

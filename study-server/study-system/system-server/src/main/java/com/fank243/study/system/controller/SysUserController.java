@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fank243.study.common.core.annotation.RepeatSubmit;
 import com.fank243.study.common.core.base.BaseController;
-import com.fank243.study.common.core.domain.model.PageBean;
-import com.fank243.study.common.core.utils.ResultInfo;
+import com.fank243.study.common.core.constants.ServerConstants;
 import com.fank243.study.common.core.constants.ValidatorGroup;
+import com.fank243.study.common.core.domain.model.PageBean;
 import com.fank243.study.common.core.exception.BizException;
-import com.fank243.study.system.constants.SystemApiConstants;
+import com.fank243.study.common.core.utils.ResultInfo;
 import com.fank243.study.system.domain.dto.SysUserDTO;
 import com.fank243.study.system.domain.entity.SysUserEntity;
 import com.fank243.study.system.domain.vo.SysUserVO;
@@ -35,7 +35,7 @@ import lombok.extern.slf4j.Slf4j;
  * @since 2021-09-03
  */
 @Slf4j
-@RequestMapping(SystemApiConstants.BASE_URI_SYSTEM_ADMIN)
+@RequestMapping(ServerConstants.BASE_URI_SYSTEM_ADMIN)
 @RestController
 public class SysUserController extends BaseController {
 
