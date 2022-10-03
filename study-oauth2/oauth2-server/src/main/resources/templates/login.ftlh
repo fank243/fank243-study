@@ -382,7 +382,7 @@
                         layer.msg(resp.message, {icon: 2});
                         return false;
                     }
-                    layer.msg('登陆成功',{icon:1,time:1000},function (){
+                    layer.msg('登录成功',{icon:1,time:1000},function (){
                         window.location = '${basePath}';
                     });
                 }

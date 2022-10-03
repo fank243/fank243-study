@@ -7,8 +7,10 @@ import java.util.concurrent.Future;
 
 import javax.annotation.Resource;
 
+import com.alibaba.fastjson.JSON;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ServerWebExchange;
 
 import com.fank243.study.common.core.base.BaseController;
+import com.fank243.study.common.core.constants.RedisConstants;
+import com.fank243.study.common.core.constants.TimeConstant;
 import com.fank243.study.common.core.constants.ValidatorGroup;
+import com.fank243.study.common.core.service.RedisService;
 import com.fank243.study.common.core.utils.ResultInfo;
 import com.fank243.study.gateway.config.Oauth2Properties;
 import com.fank243.study.gateway.service.SysUserService;
@@ -35,6 +40,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.net.URLDecoder;
 import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -52,6 +58,8 @@ public class SysUserLoginController extends BaseController {
     private SysUserService sysUserService;
     @Resource
     private Oauth2Properties oauth2Properties;
+    @Resource
+    private RedisService redisService;
 
     /**
      * Oauth2 > 密码模式
@@ -76,7 +84,7 @@ public class SysUserLoginController extends BaseController {
         Future<ResultInfo<OauthAccessTokenVO>> future = ThreadUtil
             .execAsync(() -> oauth2Service.getAccessToken(Oauth2Constants.GrantType.PASSWORD.name().toLowerCase(),
                 sysUserLoginDTO.getUsername(), sysUserLoginDTO.getPassword(),
-                Oauth2Constants.Scope.USERINFO.name().toLowerCase(), oauth2Properties.getClientId(),
+                String.join(",", Oauth2Constants.Scope.SCOPE_ALL), oauth2Properties.getClientId(),
                 oauth2Properties.getClientSecret()));
         ResultInfo<OauthAccessTokenVO> result = future.get();
         if (!result.isSuccess()) {
@@ -141,6 +149,18 @@ public class SysUserLoginController extends BaseController {
         sysUserLoginVO.setTokenSessionTimeout(tokenInfo.getTokenSessionTimeout());
         sysUserLoginVO.setTokenActivityTimeout(tokenInfo.getTokenActivityTimeout());
 
+        // 写入redis
+        String key = RedisConstants.OAUTH2_TOKEN + sysUserLoginVO.getUserId();
+        redisService.setObj(key, oauthAccessTokenVO, TimeConstant.MINUTE_30);
+
         return ResultInfo.ok(sysUserLoginVO);
     }
+
+    /** 登出 **/
+    @GetMapping("/logout")
+    public ResultInfo<?> logout() {
+        StpUtil.logout();
+        return ResultInfo.ok().message("登出成功");
+    }
+
 }

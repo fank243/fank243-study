@@ -1,5 +1,8 @@
 package com.fank243.study.oauth2.api.constants;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Oauth2 常量池
  * 
@@ -17,6 +20,14 @@ public class Oauth2Constants {
     /** 权限范围 **/
     public enum Scope {
         /** 用户基本信息 **/
-        USERINFO
+        USER_INFO,
+
+        /** 添加用户 **/
+        USER_MODIFY,
+
+        ;
+
+        public static final List<String> SCOPE_ALL =
+            Arrays.asList(USER_INFO.name().toLowerCase(), USER_MODIFY.name().toLowerCase());
     }
 }

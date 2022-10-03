@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import cn.dev33.satoken.util.SaFoxUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -101,38 +102,6 @@ public class Oauth2ServerController {
         return null;
     }
 
-    @GetMapping({"/oauth2/userInfo"})
-    @ResponseBody
-    public ResultInfo<?> userInfo(String accessToken, String openId) {
-        if (StrUtil.isBlank(accessToken)) {
-            return ResultInfo.err403("invalid accessToken");
-        }
-        if (StrUtil.isBlank(openId)) {
-            return ResultInfo.err403("invalid openid");
-        }
-        AccessTokenModel accessTokenModel = SaOAuth2Util.getAccessToken(accessToken);
-        if (accessTokenModel == null) {
-            return ResultInfo.err403("");
-        }
-        if (!openId.equalsIgnoreCase(accessTokenModel.openid)) {
-            return ResultInfo.err403("invalid openid");
-        }
-
-        OauthUserEntity oauthUserEntity = oauthUserService.findByUserId(String.valueOf(accessTokenModel.loginId));
-        OauthUserVO oauthUserVO = BeanUtil.copyProperties(oauthUserEntity, OauthUserVO.class);
-        oauthUserVO.setOpenId(openId);
-
-        return ResultInfo.ok(oauthUserVO);
-    }
-
-    /** 登出 **/
-    @GetMapping("/oauth2/logout")
-    @ResponseBody
-    public ResultInfo<?> logout() {
-        StpUtil.logout();
-        return ResultInfo.ok().message("登出成功");
-    }
-
     @Autowired
     public void oauth2Config(SaOAuth2Config cfg, HttpServletRequest request) {
         cfg
@@ -172,5 +141,4 @@ public class Oauth2ServerController {
         }
         return null;
     }
-
 }

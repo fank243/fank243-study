@@ -43,8 +43,8 @@ public class RedisTemplateConfiguration {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setKeySerializer(RedisSerializer.string());
         redisTemplate.setHashKeySerializer(RedisSerializer.string());
-        redisTemplate.setValueSerializer(RedisSerializer.java());
-        redisTemplate.setHashValueSerializer(RedisSerializer.java());
+        redisTemplate.setValueSerializer(RedisSerializer.json());
+        redisTemplate.setHashValueSerializer(RedisSerializer.json());
         redisTemplate.setConnectionFactory(factory);
         return redisTemplate;
     }

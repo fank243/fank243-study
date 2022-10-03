@@ -10,4 +10,7 @@ public class RedisConstants {
     /** 跨服务调用安全令牌 **/
     public static final String SECURITY_TOKEN = "security:token:";
 
+    /** Oauth2 授权令牌 **/
+    public static final String OAUTH2_TOKEN = "studyToken:login:oauth2:";
+
 }

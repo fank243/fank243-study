@@ -42,8 +42,7 @@ public class Oauth2TemplateImpl extends SaOAuth2Template {
     @SneakyThrows
     @Override
     public String getOpenid(String clientId, Object userId) {
-        OauthAccessTokenEntity entity = oauthAccessTokenService.findByUserId(userId);
+        OauthAccessTokenEntity entity = oauthAccessTokenService.findByUserId(String.valueOf(userId));
         return entity.getOpenId();
     }
-
 }

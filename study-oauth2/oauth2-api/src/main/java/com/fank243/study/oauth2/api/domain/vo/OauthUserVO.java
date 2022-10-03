@@ -2,6 +2,8 @@ package com.fank243.study.oauth2.api.domain.vo;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * 系统管理员表
  *
@@ -9,7 +11,7 @@ import lombok.Data;
  * @since 2022-06-27
  */
 @Data
-public class OauthUserVO {
+public class OauthUserVO implements Serializable {
 
     /** OpenID **/
     private String openId;
