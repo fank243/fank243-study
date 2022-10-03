@@ -44,4 +44,6 @@ public class SysUserEntity extends BaseEntity {
     @TableLogic
     private Integer isDeleted;
 
+    /** OpenID **/
+    private String openId;
 }

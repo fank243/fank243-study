@@ -7,6 +7,11 @@ spring:
           predicates:
             - Path=/oauth2/**
 
+        - id: study-oauth2-static
+          uri: lb://study-oauth2
+          predicates:
+            - Path=/auth/**
+
         - id: study-support
           uri: lb://study-support
           predicates:
@@ -25,11 +30,6 @@ spring:
           uri: lb://study-file
           predicates:
             - Path=/view/**
-
-        - id: study-system-login
-          uri: lb://study-system
-          predicates:
-            - Path=/system/login/**
 
         - id: study-system
           uri: lb://study-system

@@ -9,8 +9,8 @@
 <link rel="stylesheet" href="//www.layuicdn.com/layui/css/layui.css" media="all">
 <script src="//www.layuicdn.com/layui/layui.js" charset="UTF-8"></script>
 <script src="//unpkg.com/validator@13.7.0/validator.min.js" charset="UTF-8"></script>
-<script src="${basePath}/javascript/request.js" charset="UTF-8"></script>
-<script src="${basePath}/javascript/utils.js" charset="UTF-8"></script>
+<script src="${basePath}/auth/javascript/request.js" charset="UTF-8"></script>
+<script src="${basePath}/auth/javascript/utils.js" charset="UTF-8"></script>
 <!--[if lt IE 9]>
 <script src="//cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
 <script src="//cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>

@@ -30,30 +30,30 @@
         }
 
         .login-main .login-bottom .center .item .icon-1 {
-            background: url(${basePath}/images/icon-login.png) no-repeat 1px 0;
+            background: url(${basePath}/auth/images/icon-login.png) no-repeat 1px 0;
         }
 
         .login-main .login-bottom .center .item .icon-2 {
-            background: url(${basePath}/images/icon-login.png) no-repeat -54px 0;
+            background: url(${basePath}/auth/images/icon-login.png) no-repeat -54px 0;
         }
 
         .login-main .login-bottom .center .item .icon-3 {
-            background: url(${basePath}/images/icon-login.png) no-repeat -106px 0;
+            background: url(${basePath}/auth/images/icon-login.png) no-repeat -106px 0;
         }
 
         .login-main .login-bottom .center .item .icon-4 {
-            background: url(${basePath}/images/icon-login.png) no-repeat 0 -43px;
+            background: url(${basePath}/auth/images/icon-login.png) no-repeat 0 -43px;
             position: absolute;
             right: -10px;
             cursor: pointer;
         }
 
         .login-main .login-bottom .center .item .icon-5 {
-            background: url(${basePath}/images/icon-login.png) no-repeat -55px -43px;
+            background: url(${basePath}/auth/images/icon-login.png) no-repeat -55px -43px;
         }
 
         .login-main .login-bottom .center .item .icon-6 {
-            background: url(${basePath}/images/icon-login.png) no-repeat 0 -93px;
+            background: url(${basePath}/auth/images/icon-login.png) no-repeat 0 -93px;
             position: absolute;
             right: -10px;
             margin-top: 8px;
@@ -77,7 +77,7 @@
             width: 14px;
             height: 14px;
             border: none;
-            background: url(${basePath}/images/icon-login.png) no-repeat -111px -48px;
+            background: url(${basePath}/auth/images/icon-login.png) no-repeat -111px -48px;
         }
 
         .login-main .login-bottom .center .item .icon {
@@ -167,7 +167,7 @@
         }
 
         body {
-            background: url(${basePath}/images/loginbg.png) 0% 0% / cover no-repeat;
+            background: url(${basePath}/auth/images/loginbg.png) 0% 0% / cover no-repeat;
             position: static;
             font-size: 12px;
         }
@@ -290,7 +290,7 @@
             <span class="bg1"></span>
             <span class="bg2"></span>
         </div>
-        <form class="layui-form login-bottom" action="/oauth2/doConfirm">
+        <form class="layui-form login-bottom">
             <input type="hidden" name="client_id" value="${clientId!}">
             <input type="hidden" name="scope" value="${scope!}">
             <div class="center">
@@ -315,9 +315,32 @@
     layui.use(['layer', 'form', 'jquery'], function () {
         const $ = layui.jquery, form = layui.form, layer = layui.layer;
 
+        // 确认授权
+        form.on("submit(confirm)", function (data) {
+            $.ajax({
+                url: "/oauth2/doConfirm",
+                type: "POST",
+                data: data.field,
+                success: function (resp) {
+                    if (!resp.success) {
+                        layer.msg(resp.message, {icon: 2});
+                        return false;
+                    }
+                    layer.msg('授权成功', {icon: 1, time: 1000}, function () {
+                        location.reload();
+                    });
+                }
+            })
+            return false;
+        });
+
         // 取消授权
         form.on("submit(cancel)", function (data) {
-            layer.alert("取消授权");
+            layer.msg('您已拒绝授权', {icon: 7, time: 1000}, function () {
+                let redirectUri = getQueryUriVariable(window.location.search);
+                redirectUri = getQueryVariable4UriStr(redirectUri, "redirect_uri");
+                window.location.href = redirectUri + "?code=&message=" + encodeURIComponent("用户拒绝授权");
+            });
             return false;
         });
     });

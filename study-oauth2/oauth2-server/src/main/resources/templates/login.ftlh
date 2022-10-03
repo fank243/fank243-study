@@ -30,30 +30,30 @@
         }
 
         .login-main .login-bottom .center .item .icon-1 {
-            background: url(${basePath}/images/icon-login.png) no-repeat 1px 0;
+            background: url(${basePath}/auth/images/icon-login.png) no-repeat 1px 0;
         }
 
         .login-main .login-bottom .center .item .icon-2 {
-            background: url(${basePath}/images/icon-login.png) no-repeat -54px 0;
+            background: url(${basePath}/auth/images/icon-login.png) no-repeat -54px 0;
         }
 
         .login-main .login-bottom .center .item .icon-3 {
-            background: url(${basePath}/images/icon-login.png) no-repeat -106px 0;
+            background: url(${basePath}/auth/images/icon-login.png) no-repeat -106px 0;
         }
 
         .login-main .login-bottom .center .item .icon-4 {
-            background: url(${basePath}/images/icon-login.png) no-repeat 0 -43px;
+            background: url(${basePath}/auth/images/icon-login.png) no-repeat 0 -43px;
             position: absolute;
             right: -10px;
             cursor: pointer;
         }
 
         .login-main .login-bottom .center .item .icon-5 {
-            background: url(${basePath}/images/icon-login.png) no-repeat -55px -43px;
+            background: url(${basePath}/auth/images/icon-login.png) no-repeat -55px -43px;
         }
 
         .login-main .login-bottom .center .item .icon-6 {
-            background: url(${basePath}/images/icon-login.png) no-repeat 0 -93px;
+            background: url(${basePath}/auth/images/icon-login.png) no-repeat 0 -93px;
             position: absolute;
             right: -10px;
             margin-top: 8px;
@@ -77,7 +77,7 @@
             width: 14px;
             height: 14px;
             border: none;
-            background: url(${basePath}/images/icon-login.png) no-repeat -111px -48px;
+            background: url(${basePath}/auth/images/icon-login.png) no-repeat -111px -48px;
         }
 
         .login-main .login-bottom .center .item .icon {
@@ -167,7 +167,7 @@
         }
 
         body {
-            background: url(${basePath}/images/loginbg.png) 0% 0% / cover no-repeat;
+            background: url(${basePath}/auth/images/loginbg.png) 0% 0% / cover no-repeat;
             position: static;
             font-size: 12px;
         }
@@ -382,7 +382,9 @@
                         layer.msg(resp.message, {icon: 2});
                         return false;
                     }
-                    window.location = '${basePath}';
+                    layer.msg('登陆成功',{icon:1,time:1000},function (){
+                        window.location = '${basePath}';
+                    });
                 }
             })
             return false;
