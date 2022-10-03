@@ -8,9 +8,13 @@ import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
+import org.springframework.web.server.ResponseStatusException;
 
+import com.fank243.study.common.core.exception.AuthException;
 import com.fank243.study.common.core.utils.ResultInfo;
 
+import cn.dev33.satoken.exception.NotLoginException;
+import cn.dev33.satoken.exception.SaTokenException;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.net.NetUtil;
 import cn.hutool.core.util.ArrayUtil;
@@ -32,8 +36,8 @@ public class ReactiveUtils {
      * @param result {@link ResultInfo}
      * @return void
      */
-    public static Mono<Void> renderJson(ServerHttpResponse response, HttpStatus httpStatus, ResultInfo<?> result) {
-        response.setStatusCode(httpStatus);
+    public static Mono<Void> renderJson(ServerHttpResponse response, ResultInfo<?> result) {
+        response.setRawStatusCode(result.getStatus());
         response.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
         DataBuffer buffer = response.bufferFactory().wrap(result.toString().getBytes(StandardCharsets.UTF_8));
         return response.writeWith(Mono.just(buffer));
@@ -101,4 +105,52 @@ public class ReactiveUtils {
         return NetUtil.getMultistageReverseProxyIp(ip);
     }
 
+    @SuppressWarnings("AlibabaSwitchStatement")
+    public static ResultInfo<?> handlerException(ServerHttpResponse response, Throwable ex) {
+        HttpStatus httpStatus = response.getStatusCode();
+
+        ResultInfo<?> result;
+        switch (Objects.requireNonNull(httpStatus)) {
+            // 200
+            case OK -> {
+                if (ex instanceof ResponseStatusException responseStatusException) {
+                    switch (responseStatusException.getRawStatusCode()) {
+                        case 401 -> result = ResultInfo.err401();
+                        case 403 -> result = ResultInfo.err403();
+                        case 404 -> result = ResultInfo.err404();
+                        case 405 -> result = ResultInfo.err405();
+                        case 503 -> result = ResultInfo.err503();
+                        default -> result = ResultInfo.error(ex.getMessage(), ex.toString());
+                    }
+                } else {
+                    result = ResultInfo.error(ex.getMessage(), ex.toString());
+                }
+            }
+
+            // 401
+            case UNAUTHORIZED -> {
+                if (ex instanceof AuthException || ex.getCause() instanceof NotLoginException) {
+                    result = ResultInfo.err401(ex.getMessage());
+                } else {
+                    result = ResultInfo.err401();
+                }
+            }
+            // 403
+            case FORBIDDEN -> {
+                if (ex instanceof SaTokenException && !(ex.getCause() instanceof NotLoginException)) {
+                    result = ResultInfo.err403(ex.getMessage());
+                } else {
+                    result = ResultInfo.err403();
+                }
+            }
+            // 404
+            case NOT_FOUND -> result = ResultInfo.err404();
+            // 503
+            case SERVICE_UNAVAILABLE -> result = ResultInfo.err503();
+            // 500
+            default -> result = ResultInfo.error(ex.getMessage(), ex.toString());
+        }
+
+        return result;
+    }
 }

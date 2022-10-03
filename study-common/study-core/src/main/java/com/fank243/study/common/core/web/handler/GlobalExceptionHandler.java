@@ -10,6 +10,7 @@ import org.springframework.validation.BindException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.fank243.study.common.core.constants.enums.ResultCodeEnum;
@@ -72,6 +73,7 @@ public class GlobalExceptionHandler {
      * 401
      */
     @ExceptionHandler(AuthException.class)
+    @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
     public ResultInfo<?> handlerAuthException(AuthException e) {
         log.error("全局异常拦截[AuthException]：{}", e.getMessage(), e);
         return ResultInfo.error(HttpStatus.BAD_REQUEST.value(), e.getMessage(), e.toString());

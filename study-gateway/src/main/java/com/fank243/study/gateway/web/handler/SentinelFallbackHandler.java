@@ -31,6 +31,7 @@ public class SentinelFallbackHandler implements WebExceptionHandler {
         if (!BlockException.isBlockException(ex)) {
             return Mono.error(ex);
         }
-        return ReactiveUtils.renderJson(response, HttpStatus.TOO_MANY_REQUESTS, ResultInfo.fail("请求过于频繁，请稍后再试"));
+        return ReactiveUtils.renderJson(response,
+            ResultInfo.fail(HttpStatus.TOO_MANY_REQUESTS.value(), "请求过于频繁，请稍后再试"));
     }
 }

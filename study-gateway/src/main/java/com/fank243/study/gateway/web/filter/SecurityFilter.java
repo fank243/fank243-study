@@ -1,12 +1,12 @@
 package com.fank243.study.gateway.web.filter;
 
+import java.util.Objects;
+
 import javax.annotation.Resource;
 
-import com.fank243.study.common.core.service.RedisService;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
@@ -16,6 +16,7 @@ import com.fank243.study.common.core.constants.Constants;
 import com.fank243.study.common.core.constants.RedisConstants;
 import com.fank243.study.common.core.constants.RegexConstants;
 import com.fank243.study.common.core.constants.TimeConstant;
+import com.fank243.study.common.core.service.RedisService;
 import com.fank243.study.common.core.utils.ResultInfo;
 import com.fank243.study.gateway.constants.FilterOrderConstant;
 import com.fank243.study.gateway.utils.ReactiveUtils;
@@ -23,8 +24,6 @@ import com.fank243.study.gateway.utils.ReactiveUtils;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
-
-import java.util.Objects;
 
 /**
  * Request Params Filter
@@ -46,7 +45,7 @@ public class SecurityFilter implements GlobalFilter, Ordered {
 
         String userAgent = Objects.requireNonNull(request.getHeaders().get("user-agent")).get(0);
         if (userAgent.matches(RegexConstants.USER_AGENT)) {
-            return ReactiveUtils.renderJson(response, HttpStatus.UNAUTHORIZED, ResultInfo.err401("请求未授权"));
+            return ReactiveUtils.renderJson(response, ResultInfo.err401("请求未授权"));
         }
 
         String uuid = StrUtil.uuid();
