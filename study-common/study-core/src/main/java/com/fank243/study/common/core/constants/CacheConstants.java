@@ -19,4 +19,7 @@ public class CacheConstants {
     /** 短信验证码 **/
     public static final String SMS_CODE_KEY = "security:code:sms:";
 
+    /** 手机号码发送短信锁定 **/
+    public static final String SMS_MOBILE_LOCK = "security:mobile:";
+
 }

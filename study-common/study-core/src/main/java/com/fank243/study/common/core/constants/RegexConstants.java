@@ -1,7 +1,5 @@
 package com.fank243.study.common.core.constants;
 
-import javax.swing.plaf.synth.SynthScrollBarUI;
-
 /**
  * 正则表达式常量池
  * 
@@ -11,10 +9,10 @@ import javax.swing.plaf.synth.SynthScrollBarUI;
 public class RegexConstants {
 
     /** 手机号码 **/
-    public static final String MOBILE = "/^1[3-9]\\d{9}$";
+    public static final String MOBILE = "^1[3-9]\\d{9}$";
 
     /** 六位数字 **/
-    public static final String NUMBER_SIX = "/^\\d{6}$";
+    public static final String NUMBER_SIX = "^\\d{6}$";
 
     /** 换行符、空格符 **/
     public static final String BLANK_CHAR = "\\s*|\t|\r|\n";

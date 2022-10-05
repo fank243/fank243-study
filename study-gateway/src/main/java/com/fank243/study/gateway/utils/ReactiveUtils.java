@@ -148,6 +148,8 @@ public class ReactiveUtils {
                 } else if (ex instanceof SaTokenException) {
                     if (ex.getCause() instanceof NotLoginException) {
                         result = ResultInfo.err401(ResultCodeEnum.R401.getMessage()).error(ex.getMessage());
+                    } else if (ex.getCause() instanceof RuntimeException) {
+                        result = ResultInfo.err500(ex.getMessage()).error(ex.getMessage());
                     } else {
                         result = ResultInfo.err403(ResultCodeEnum.R403.getMessage()).error(ex.getMessage());
                     }

@@ -1,9 +1,9 @@
 package com.fank243.study.common.core.domain.enums;
 
-import lombok.Getter;
-
 import java.util.Arrays;
 import java.util.List;
+
+import lombok.Getter;
 
 /**
  * 权限类型
@@ -21,6 +21,9 @@ public enum PermTypeEnum {
 
     BUTTON(2, "接口");
 
+    /** 访问鉴权 **/
+    public static final List<Integer> PERMS = Arrays.asList(MENU.code, BUTTON.code);
+
     PermTypeEnum(int code, String desc) {
         this.code = code;
         this.desc = desc;
@@ -30,6 +33,17 @@ public enum PermTypeEnum {
 
     private final String desc;
 
-    /** 访问鉴权 **/
-    public static final List<Integer> PERMS = Arrays.asList(MENU.code, BUTTON.code);
+    public static PermTypeEnum getEnum(String code) {
+        PermTypeEnum[] values = PermTypeEnum.values();
+        for (PermTypeEnum value : values) {
+            if (code.equalsIgnoreCase(value.name())) {
+                return value;
+            }
+        }
+        return null;
+    }
+
+    public static boolean valid(String code) {
+        return getEnum(code) != null;
+    }
 }

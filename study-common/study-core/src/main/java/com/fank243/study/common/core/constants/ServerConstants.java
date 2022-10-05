@@ -24,6 +24,8 @@ public class ServerConstants {
 
     public static final String BASE_URI_SUPPORT_AREA = "/support/area";
 
+    public static final String BASE_URI_SUPPORT_SMS = "/support/sms";
+
     public static final String BASE_URI_FILE = "/file";
 
     public static final String BASE_URI_SYSTEM = "/system";

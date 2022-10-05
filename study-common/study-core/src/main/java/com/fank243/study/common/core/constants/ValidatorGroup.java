@@ -18,8 +18,8 @@ public interface ValidatorGroup {
     interface Login {}
 
     /** 登录 > 手机号码 **/
-    interface LoginMobile extends Login {}
+    interface LoginMobile  {}
 
     /** 登录 > 用户名 **/
-    interface LoginUsername extends Login {}
+    interface LoginUsername  {}
 }

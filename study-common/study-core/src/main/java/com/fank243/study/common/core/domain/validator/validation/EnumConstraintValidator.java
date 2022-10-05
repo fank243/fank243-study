@@ -10,7 +10,6 @@ import com.fank243.study.common.core.domain.validator.annotation.Enum;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.EnumUtil;
-import cn.hutool.core.util.StrUtil;
 
 /**
  * 校验枚举值是否合法，枚举类需提供静态方法.
@@ -25,7 +24,7 @@ import cn.hutool.core.util.StrUtil;
  * @author FanWeiJie
  * @since 2022-05-26 09:38:50
  */
-public class EnumConstraintValidator implements ConstraintValidator<Enum, String> {
+public class EnumConstraintValidator implements ConstraintValidator<Enum, Object> {
 
     private boolean empty;
     private Class<? extends java.lang.Enum<?>> enumClass;
@@ -39,10 +38,10 @@ public class EnumConstraintValidator implements ConstraintValidator<Enum, String
     }
 
     @Override
-    public boolean isValid(String value, ConstraintValidatorContext context) {
-        if (empty && StrUtil.isBlank(value)) {
+    public boolean isValid(Object value, ConstraintValidatorContext context) {
+        if (empty && value == null) {
             return Boolean.TRUE;
-        } else if (StrUtil.isBlank(value)) {
+        } else if (value == null) {
             return Boolean.FALSE;
         }
 
