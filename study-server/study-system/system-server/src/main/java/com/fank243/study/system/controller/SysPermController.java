@@ -3,7 +3,6 @@ package com.fank243.study.system.controller;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,6 +20,7 @@ import com.fank243.study.common.core.constants.ValidatorGroup;
 import com.fank243.study.common.core.domain.model.PageBean;
 import com.fank243.study.common.core.exception.BizException;
 import com.fank243.study.common.core.utils.ResultInfo;
+import com.fank243.study.log.annotation.ApiLog;
 import com.fank243.study.system.domain.dto.SysPermDTO;
 import com.fank243.study.system.domain.entity.SysPermEntity;
 import com.fank243.study.system.domain.vo.SysPermVO;
@@ -70,6 +70,7 @@ public class SysPermController extends BaseController {
      * @param sysPerm 请求参数
      * @return 操作结果
      */
+    @ApiLog("新增菜单")
     @RepeatSubmit
     @PostMapping("/add")
     public ResultInfo<?> add(@RequestBody @Validated({ValidatorGroup.Create.class}) SysPermDTO sysPerm)
@@ -84,6 +85,7 @@ public class SysPermController extends BaseController {
      * @param sysPerm 请求参数
      * @return 操作结果
      */
+    @ApiLog("修改菜单")
     @RepeatSubmit
     @PostMapping("/modify")
     public ResultInfo<?> modify(@RequestBody @Validated({ValidatorGroup.Modify.class}) SysPermDTO sysPerm)
@@ -98,6 +100,7 @@ public class SysPermController extends BaseController {
      * @param ids 权限ID数组
      * @return 操作结果
      */
+    @ApiLog("删除菜单")
     @RepeatSubmit
     @DeleteMapping("/delete")
     public ResultInfo<?> delete(@RequestBody String[] ids) throws BizException {

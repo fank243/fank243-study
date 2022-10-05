@@ -14,11 +14,14 @@ import lombok.Data;
  * @since 2022-09-26 15:14:51
  */
 @Data
-@TableName("tb_req_resp_log")
-public class ReqRespLogEntity {
+@TableName("tb_support_log")
+public class LogEntity {
 
     @TableId
-    private String id;
+    private String logId;
+
+    /*** 日志类型 */
+    private String logType;
 
     /** 操作人ID */
     private String userId;

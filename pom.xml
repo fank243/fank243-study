@@ -118,6 +118,11 @@
             </dependency>
             <dependency>
                 <groupId>com.fank243.study</groupId>
+                <artifactId>study-log</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fank243.study</groupId>
                 <artifactId>oauth2-api</artifactId>
                 <version>${project.version}</version>
             </dependency>

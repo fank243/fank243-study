@@ -1,22 +1,18 @@
-package com.fank243.study.support.domain.dto;
+package com.fank243.study.support.domain.vo;
 
-import com.fank243.study.common.core.base.BaseDTO;
-
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
+import java.io.Serializable;
 import java.util.Date;
 
-/**
-* 请求响应日志表
-*
-* @author FanWeiJie
-* @since 2022-09-26 15:14:51
-*/
-@Data
-@EqualsAndHashCode(callSuper = true)
-public class ReqRespLogDTO extends BaseDTO {
+import lombok.Data;
 
+/**
+ * 请求响应日志表
+ *
+ * @author FanWeiJie
+ * @since 2022-09-26 15:14:51
+ */
+@Data
+public class LogVO implements Serializable {
 
     /*** 操作人ID */
     private String userId;
@@ -56,6 +52,5 @@ public class ReqRespLogDTO extends BaseDTO {
 
     /*** spanId */
     private String spanId;
-
 
 }

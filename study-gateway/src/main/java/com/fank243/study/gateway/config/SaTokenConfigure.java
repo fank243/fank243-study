@@ -6,7 +6,6 @@ import java.util.concurrent.Future;
 
 import javax.annotation.Resource;
 
-import com.fank243.study.system.domain.vo.SysPermVO;
 import org.springframework.boot.autoconfigure.cache.CacheProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +15,7 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
 
 import com.fank243.study.common.core.domain.enums.PermTypeEnum;
 import com.fank243.study.gateway.service.SysPermService;
+import com.fank243.study.system.domain.vo.SysPermVO;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -112,7 +112,7 @@ public class SaTokenConfigure {
             // .setError((e) -> {
             // log.error("认证异常：{}", e.getMessage(), e);
             // if (e instanceof NotLoginException) {
-            // return ResultInfo.err401();
+            // return ResultInfo.err401(e.getMessage());
             // }
             // return ResultInfo.err403(e.getMessage());
             // })

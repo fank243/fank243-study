@@ -25,16 +25,4 @@ spring:
         # 共享配置文件
         shared-configs:
           - study-shared-ds.yml
-
-  freemarker:
-    allow-request-override: false
-    cache: false         # 关闭缓存，及时刷新，上线生产环境需要修改为true
-    check-template-location: true
-    charset: UTF-8
-    content-type: text/html
-    expose-request-attributes: true
-    expose-session-attributes: true
-    # 页面用于获取request对象
-    request-context-attribute: request
-    expose-spring-macro-helpers: false
-    preferFileSystemAccess: false
+          - study-shared-common.yml

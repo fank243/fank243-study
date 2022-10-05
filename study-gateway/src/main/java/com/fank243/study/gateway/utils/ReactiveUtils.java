@@ -8,9 +8,10 @@ import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
+import org.springframework.web.bind.support.WebExchangeBindException;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.fank243.study.common.core.exception.AuthException;
+import com.fank243.study.common.core.constants.enums.ResultCodeEnum;
 import com.fank243.study.common.core.utils.ResultInfo;
 
 import cn.dev33.satoken.exception.NotLoginException;
@@ -32,7 +33,6 @@ public class ReactiveUtils {
      * 响应 JSON
      * 
      * @param response {@link ServerHttpResponse}
-     * @param httpStatus {@link HttpStatus}
      * @param result {@link ResultInfo}
      * @return void
      */
@@ -115,12 +115,27 @@ public class ReactiveUtils {
             case OK -> {
                 if (ex instanceof ResponseStatusException responseStatusException) {
                     switch (responseStatusException.getRawStatusCode()) {
+                        case 400 -> {
+                            // Spring Validate 参数验证异常
+                            if (ex instanceof WebExchangeBindException webExchangeBindException) {
+                                String message = webExchangeBindException.getAllErrors().get(0).getDefaultMessage();
+                                result = ResultInfo.err400(message);
+                            } else {
+                                result = ResultInfo.err400(ex.getMessage(), ex.toString());
+                            }
+                        }
                         case 401 -> result = ResultInfo.err401();
                         case 403 -> result = ResultInfo.err403();
                         case 404 -> result = ResultInfo.err404();
                         case 405 -> result = ResultInfo.err405();
                         case 503 -> result = ResultInfo.err503();
                         default -> result = ResultInfo.error(ex.getMessage(), ex.toString());
+                    }
+                } else if (ex instanceof SaTokenException) {
+                    if (ex.getCause() instanceof NotLoginException) {
+                        result = ResultInfo.err401(ResultCodeEnum.R401.getMessage(), ex.getMessage());
+                    } else {
+                        result = ResultInfo.err403(ResultCodeEnum.R403.getMessage(), ex.getMessage());
                     }
                 } else {
                     result = ResultInfo.error(ex.getMessage(), ex.toString());
@@ -129,8 +144,8 @@ public class ReactiveUtils {
 
             // 401
             case UNAUTHORIZED -> {
-                if (ex instanceof AuthException || ex.getCause() instanceof NotLoginException) {
-                    result = ResultInfo.err401(ex.getMessage());
+                if (ex.getCause() instanceof NotLoginException) {
+                    result = ResultInfo.err401(ResultCodeEnum.R401.getMessage(), ex.getMessage());
                 } else {
                     result = ResultInfo.err401();
                 }

@@ -2,6 +2,7 @@ package com.fank243.study.system.service;
 
 import javax.annotation.Resource;
 
+import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -92,8 +93,10 @@ public class SysUserService extends ServiceImpl<ISysUserMapper, SysUserEntity> {
         if (!result.isSuccess()) {
             throw new BizException(result.getMessage());
         }
+        String openId = (String) result.getPayload();
 
         sysUserEntity = BeanUtil.toBean(sysUser, SysUserEntity.class);
+        sysUserEntity.setOpenId(openId);
         return save(sysUserEntity);
     }
 

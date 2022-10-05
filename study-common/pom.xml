@@ -21,6 +21,7 @@
         <module>study-sentinel</module>
         <module>study-feign</module>
         <module>study-mybatis</module>
+        <module>study-log</module>
     </modules>
 
 </project>

@@ -16,10 +16,10 @@ import com.fank243.study.common.core.constants.ValidatorGroup;
 import com.fank243.study.common.core.domain.model.PageBean;
 import com.fank243.study.common.core.exception.BizException;
 import com.fank243.study.common.core.utils.ResultInfo;
-import com.fank243.study.support.domain.dto.ReqRespLogDTO;
-import com.fank243.study.support.domain.entity.ReqRespLogEntity;
-import com.fank243.study.support.domain.vo.ReqRespLogVO;
-import com.fank243.study.support.service.ReqRespLogService;
+import com.fank243.study.support.domain.dto.LogDTO;
+import com.fank243.study.support.domain.entity.LogEntity;
+import com.fank243.study.support.domain.vo.LogVO;
+import com.fank243.study.support.service.LogService;
 
 import cn.hutool.core.bean.BeanUtil;
 
@@ -31,10 +31,10 @@ import cn.hutool.core.bean.BeanUtil;
  */
 @RequestMapping(ServerConstants.BASE_URI_SUPPORT_LOG)
 @RestController
-public class ReqRespLogController extends BaseController {
+public class LogController extends BaseController {
 
     @Resource
-    private ReqRespLogService reqRespLogService;
+    private LogService logService;
 
     /**
      * 请求响应日志 > 根据日志ID获取
@@ -43,9 +43,9 @@ public class ReqRespLogController extends BaseController {
      * @return 日志列表
      */
     @GetMapping("/get/{id}")
-    public ResultInfo<ReqRespLogVO> getById(@PathVariable String id) {
-        ReqRespLogEntity reqRespLog = reqRespLogService.getById(id);
-        return ResultInfo.ok(BeanUtil.toBean(reqRespLog, ReqRespLogVO.class));
+    public ResultInfo<LogVO> getById(@PathVariable String id) {
+        LogEntity reqRespLog = logService.getById(id);
+        return ResultInfo.ok(BeanUtil.toBean(reqRespLog, LogVO.class));
     }
 
     /**
@@ -55,8 +55,8 @@ public class ReqRespLogController extends BaseController {
      * @return 日志列表
      */
     @PostMapping("/page")
-    public ResultInfo<PageBean<ReqRespLogVO>> page(@RequestBody ReqRespLogDTO reqRespLog) {
-        return ResultInfo.ok(reqRespLogService.page(reqRespLog));
+    public ResultInfo<PageBean<LogVO>> page(@RequestBody LogDTO reqRespLog) {
+        return ResultInfo.ok(logService.page(reqRespLog));
     }
 
     /**
@@ -66,9 +66,9 @@ public class ReqRespLogController extends BaseController {
      * @return 操作结果
      */
     @PostMapping("/add")
-    public ResultInfo<?> add(@RequestBody @Validated({ValidatorGroup.Create.class}) ReqRespLogDTO reqRespLog)
+    public ResultInfo<?> add(@RequestBody @Validated({ValidatorGroup.Create.class}) LogDTO reqRespLog)
         throws BizException {
-        boolean isOk = reqRespLogService.add(reqRespLog);
+        boolean isOk = logService.add(reqRespLog);
         return isOk ? ResultInfo.ok().message("添加成功") : ResultInfo.fail("添加失败");
     }
 }

@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.fank243.study.common.core.exception.AuthException;
 import com.fank243.study.common.core.utils.ResultInfo;
 import com.fank243.study.oauth2.api.domain.dto.OauthUserDTO;
 import com.fank243.study.oauth2.api.domain.entity.OauthClientEntity;
@@ -37,15 +36,15 @@ public class OauthUserService extends ServiceImpl<IOauthUserDao, OauthUserEntity
     private OauthAccessTokenService oauthAccessTokenService;
 
     @Transactional(rollbackFor = Exception.class)
-    public String login(String name, String pwd) throws AuthException {
+    public ResultInfo<String> login(String name, String pwd) {
         OauthUserEntity oauthUserEntity = oauthUserDao.findSysUserByUsername(name);
         if (oauthUserEntity == null) {
-            throw new AuthException("用户名或密码错误");
+            return ResultInfo.fail("用户名或密码错误");
         }
         if (!oauthUserEntity.getPassword().equalsIgnoreCase(SecureUtil.md5(pwd))) {
-            throw new AuthException("用户名或密码错误");
+            return ResultInfo.fail("用户名或密码错误");
         }
-        return oauthUserEntity.getUserId();
+        return ResultInfo.ok(oauthUserEntity.getUserId());
     }
 
     public OauthUserEntity findByUserId(String userId) {

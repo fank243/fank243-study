@@ -23,11 +23,11 @@
     <dependencies>
         <dependency>
             <groupId>com.fank243.study</groupId>
-            <artifactId>study-core</artifactId>
+            <artifactId>study-datasource</artifactId>
         </dependency>
         <dependency>
             <groupId>com.fank243.study</groupId>
-            <artifactId>study-datasource</artifactId>
+            <artifactId>study-feign</artifactId>
         </dependency>
         <dependency>
             <groupId>com.fank243.study</groupId>

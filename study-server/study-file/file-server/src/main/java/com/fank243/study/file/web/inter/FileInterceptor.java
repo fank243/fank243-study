@@ -9,7 +9,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import com.fank243.study.common.core.annotation.Interceptor;
 import com.fank243.study.common.core.constants.InterceptorOrderConstant;
 import com.fank243.study.common.core.utils.ResultInfo;
-import com.fank243.study.common.core.utils.ServletUtils;
+import com.fank243.study.common.core.utils.WebUtils;
 
 import cn.hutool.core.util.StrUtil;
 
@@ -27,9 +27,9 @@ public class FileInterceptor implements HandlerInterceptor {
         @NotNull Object handler) throws Exception {
         // referer 拦截
         String referer = request.getHeader("referer");
-        String domain = ServletUtils.getDomain(request);
+        String domain = WebUtils.getDomain(request);
         if (StrUtil.isBlank(referer) || !referer.startsWith(domain)) {
-            ServletUtils.renderJson(response, ResultInfo.err401("请求未授权"));
+            WebUtils.renderJson(response, ResultInfo.err401("请求未授权"));
             return Boolean.FALSE;
         }
         // TODO FWJ 22/09/29 黑白名单拦截

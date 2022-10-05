@@ -1,7 +1,7 @@
 package com.fank243.study.common.mybatis.config;
 
 import java.nio.charset.Charset;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.util.ClassUtils;
@@ -23,9 +23,10 @@ public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void insertFill(MetaObject metaObject) {
-        log.debug("mybatis plus start insert fill ....");
-        LocalDateTime now = LocalDateTime.now();
-        String userId = StpUtil.getLoginIdAsString();
+        String userId = StpUtil.isLogin() ? StpUtil.getLoginIdAsString() : "";
+        log.debug("mybatis plus start insert fill，当前登录用户ID：{}", userId);
+
+        Date now = new Date();
 
         fillValIfNullByName("createdDate", now, metaObject, false);
         fillValIfNullByName("lastModifiedDate", now, metaObject, false);
@@ -35,10 +36,10 @@ public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        log.debug("mybatis plus start update fill ....");
-        String userId = StpUtil.getLoginIdAsString();
+        String userId = StpUtil.isLogin() ? StpUtil.getLoginIdAsString() : "";
+        log.debug("mybatis plus start update fill，当前登录用户ID：{}", userId);
 
-        fillValIfNullByName("lastModifiedDate", LocalDateTime.now(), metaObject, true);
+        fillValIfNullByName("lastModifiedDate", new Date(), metaObject, true);
         fillValIfNullByName("lastModifiedBy", userId, metaObject, true);
     }
 

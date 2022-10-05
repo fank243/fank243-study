@@ -2,6 +2,7 @@ package com.fank243.study.system.domain.dto;
 
 import javax.validation.constraints.NotBlank;
 
+import cn.hutool.core.util.StrUtil;
 import org.hibernate.validator.constraints.Length;
 
 import com.fank243.study.common.core.base.BaseDTO;
@@ -26,7 +27,7 @@ public class SysUserDTO extends BaseDTO {
 
     /** 用户名 */
     @Length(min = 3, max = 20, message = "用户名长度在3-20位之间",
-            groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
+        groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
     @NotBlank(message = "请填写用户名", groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
     private String username;
 
@@ -35,8 +36,14 @@ public class SysUserDTO extends BaseDTO {
 
     /** 密码 **/
     @Length(min = 3, max = 20, message = "密码长度在3-20位之间",
-            groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
+        groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
     @NotBlank(message = "请填写密码", groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
     private String password;
 
+    public String getUsername() {
+        return StrUtil.trimToEmpty(this.username);
+    }
+    public String getNickname() {
+        return StrUtil.trimToEmpty(this.nickname);
+    }
 }

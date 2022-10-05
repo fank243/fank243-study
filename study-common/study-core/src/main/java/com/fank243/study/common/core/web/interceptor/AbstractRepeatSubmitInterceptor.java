@@ -1,5 +1,7 @@
 package com.fank243.study.common.core.web.interceptor;
 
+import static org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type.SERVLET;
+
 import java.lang.reflect.Method;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,9 +15,7 @@ import com.fank243.study.common.core.annotation.Interceptor;
 import com.fank243.study.common.core.annotation.RepeatSubmit;
 import com.fank243.study.common.core.constants.InterceptorOrderConstant;
 import com.fank243.study.common.core.utils.ResultInfo;
-import com.fank243.study.common.core.utils.ServletUtils;
-
-import static org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type.SERVLET;
+import com.fank243.study.common.core.utils.WebUtils;
 
 /**
  * 防重复提交拦截器抽象父类
@@ -40,7 +40,7 @@ public abstract class AbstractRepeatSubmitInterceptor implements HandlerIntercep
 
             // 根据不同的验证规则执行相应的验证逻辑
             if (this.isRepeatSubmit(request, annotation)) {
-                ServletUtils.renderJson(response, ResultInfo.fail(annotation.message()));
+                WebUtils.renderJson(response, ResultInfo.err429(annotation.message()));
                 return Boolean.FALSE;
             }
         }

@@ -20,6 +20,7 @@ import com.fank243.study.common.core.constants.ValidatorGroup;
 import com.fank243.study.common.core.domain.model.PageBean;
 import com.fank243.study.common.core.exception.BizException;
 import com.fank243.study.common.core.utils.ResultInfo;
+import com.fank243.study.log.annotation.ApiLog;
 import com.fank243.study.system.domain.dto.SysUserDTO;
 import com.fank243.study.system.domain.entity.SysUserEntity;
 import com.fank243.study.system.domain.vo.SysUserVO;
@@ -71,6 +72,7 @@ public class SysUserController extends BaseController {
      * @param sysUser 请求参数
      * @return 操作结果
      */
+    @ApiLog("新增管理员")
     @RepeatSubmit
     @PostMapping("/add")
     public ResultInfo<?> add(@RequestBody @Validated({ValidatorGroup.Create.class}) SysUserDTO sysUser)
@@ -85,6 +87,7 @@ public class SysUserController extends BaseController {
      * @param sysUser 请求参数
      * @return 操作结果
      */
+    @ApiLog("修改管理员")
     @RepeatSubmit
     @PostMapping(value = "/modify")
     public ResultInfo<?> modify(@RequestBody @Validated({ValidatorGroup.Modify.class}) SysUserDTO sysUser)
@@ -99,6 +102,7 @@ public class SysUserController extends BaseController {
      * @param ids 用户ID数组
      * @return 操作结果
      */
+    @ApiLog("删除管理员")
     @RepeatSubmit
     @DeleteMapping("/delete")
     public ResultInfo<?> delete(@RequestBody String[] ids) {

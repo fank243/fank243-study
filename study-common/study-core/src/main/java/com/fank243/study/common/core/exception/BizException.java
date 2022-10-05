@@ -15,10 +15,9 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class BizException extends Exception implements Serializable {
+public class BizException extends BaseException implements Serializable {
 
-    private Integer status = HttpStatus.INTERNAL_SERVER_ERROR.value();
-
+    private int status = HttpStatus.BAD_REQUEST.value();
     private final String message;
 
     public BizException(String message) {
@@ -30,13 +29,9 @@ public class BizException extends Exception implements Serializable {
         this.message = message;
     }
 
-    public BizException(String message, Throwable e) {
-        super(message, e);
-        this.message = message;
-    }
-
     @Override
     public String getMessage() {
         return message;
     }
+
 }

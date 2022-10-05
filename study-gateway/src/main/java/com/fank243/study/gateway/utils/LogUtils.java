@@ -2,7 +2,7 @@ package com.fank243.study.gateway.utils;
 
 import org.slf4j.MDC;
 
-import com.fank243.study.support.domain.dto.ReqRespLogDTO;
+import com.fank243.study.support.domain.dto.LogDTO;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
@@ -22,7 +22,7 @@ public class LogUtils {
      *
      * @param logDTO 请求参数
      */
-    public static void printLog(ReqRespLogDTO logDTO) {
+    public static void printLog(LogDTO logDTO) {
         // 异步线程需要手动注入
         if (StrUtil.isNotBlank(logDTO.getTraceId())) {
             MDC.put("traceId", logDTO.getTraceId());

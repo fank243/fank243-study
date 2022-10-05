@@ -14,11 +14,11 @@
     <dependencies>
         <dependency>
             <groupId>com.fank243.study</groupId>
-            <artifactId>study-core</artifactId>
+            <artifactId>study-mybatis</artifactId>
         </dependency>
         <dependency>
             <groupId>com.fank243.study</groupId>
-            <artifactId>study-mybatis</artifactId>
+            <artifactId>study-log</artifactId>
         </dependency>
 
         <dependency>

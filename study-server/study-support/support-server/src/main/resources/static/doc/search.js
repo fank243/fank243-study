@@ -37,7 +37,7 @@ api[0].list[0].list.push({
     desc: '行政区划 &gt; 根据行政区划代码获取',
 });
 api[0].list.push({
-    alias: 'ReqRespLogController',
+    alias: 'LogController',
     order: '2',
     link: '请求响应日志表_控制器',
     desc: '请求响应日志表 控制器',

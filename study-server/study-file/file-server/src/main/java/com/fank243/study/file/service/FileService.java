@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fank243.study.common.core.constants.DateConstant;
 import com.fank243.study.common.core.utils.ResultInfo;
-import com.fank243.study.common.core.utils.ServletUtils;
+import com.fank243.study.common.core.utils.WebUtils;
 import com.fank243.study.file.constants.FileConstants;
 import com.fank243.study.file.mapper.IFileMapper;
 import com.fank243.study.file.domain.dto.FileDTO;
@@ -68,7 +68,7 @@ public class FileService extends ServiceImpl<IFileMapper, FileEntity> {
         }
 
 //        String loginId = StpUtil.getLoginIdAsString();
-        String baseUrl = ServletUtils.getBaseUrl();
+        String baseUrl = WebUtils.getBaseUrl();
         FileEntity fileEntity;
         try {
             redissonService.lock(FileConstants.LOCK_KEY_UPLOAD + "loginId");

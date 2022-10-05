@@ -7,7 +7,6 @@ import java.util.concurrent.Future;
 
 import javax.annotation.Resource;
 
-import com.alibaba.fastjson.JSON;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +39,6 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.net.URLDecoder;
 import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -143,7 +141,8 @@ public class SysUserLoginController extends BaseController {
         SysUserLoginVO sysUserLoginVO = BeanUtil.copyProperties(sysUserEntity, SysUserLoginVO.class);
         // 获取登录Token
         SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
-        sysUserLoginVO.setAccessToken(tokenInfo.getTokenValue());
+        sysUserLoginVO.setTokenName(tokenInfo.getTokenName());
+        sysUserLoginVO.setTokenValue(tokenInfo.getTokenValue());
         sysUserLoginVO.setTokenTimeout(tokenInfo.getTokenTimeout());
         sysUserLoginVO.setSessionTimeout(tokenInfo.getSessionTimeout());
         sysUserLoginVO.setTokenSessionTimeout(tokenInfo.getTokenSessionTimeout());

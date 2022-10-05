@@ -9,13 +9,13 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.fank243.study.support.domain.dto.ReqRespLogDTO;
-import com.fank243.study.support.domain.vo.ReqRespLogVO;
+import com.fank243.study.support.domain.dto.LogDTO;
+import com.fank243.study.support.domain.vo.LogVO;
 import com.fank243.study.common.core.domain.model.PageBean;
 import com.fank243.study.common.core.utils.BeanUtils;
 import com.fank243.study.common.core.exception.BizException;
-import com.fank243.study.support.mapper.IReqRespLogMapper;
-import com.fank243.study.support.domain.entity.ReqRespLogEntity;
+import com.fank243.study.support.mapper.ILogMapper;
+import com.fank243.study.support.domain.entity.LogEntity;
 
 import cn.hutool.core.bean.BeanUtil;
 
@@ -26,10 +26,10 @@ import cn.hutool.core.bean.BeanUtil;
  * @since 2022-09-26 15:14:51
  */
 @Service
-public class ReqRespLogService extends ServiceImpl<IReqRespLogMapper, ReqRespLogEntity> {
+public class LogService extends ServiceImpl<ILogMapper, LogEntity> {
 
     @Resource
-    private IReqRespLogMapper reqRespLogDao;
+    private ILogMapper reqRespLogDao;
 
     /**
      * 请求响应日志表_分页
@@ -37,12 +37,12 @@ public class ReqRespLogService extends ServiceImpl<IReqRespLogMapper, ReqRespLog
      * @param reqRespLog 查询条件
      * @return 列表
      */
-    public PageBean<ReqRespLogVO> page(ReqRespLogDTO reqRespLog) {
+    public PageBean<LogVO> page(LogDTO reqRespLog) {
         // TODO FanWeiJie 添加查询条件
-        QueryWrapper<ReqRespLogEntity> wrapper = new QueryWrapper<>();
-        IPage<ReqRespLogEntity> page =
+        QueryWrapper<LogEntity> wrapper = new QueryWrapper<>();
+        IPage<LogEntity> page =
                 reqRespLogDao.selectPage(new Page<>(reqRespLog.getCurrPage(), reqRespLog.getPageSize()), wrapper);
-        return BeanUtils.convert(page, ReqRespLogVO.class);
+        return BeanUtils.convert(page, LogVO.class);
     }
 
     /**
@@ -52,9 +52,9 @@ public class ReqRespLogService extends ServiceImpl<IReqRespLogMapper, ReqRespLog
      * @return 操作结果
      */
     @Transactional(rollbackFor = Exception.class)
-    public boolean add(ReqRespLogDTO reqRespLog) throws BizException {
-        ReqRespLogEntity reqRespLogEntity = BeanUtil.toBean(reqRespLog, ReqRespLogEntity.class);
-        return save(reqRespLogEntity);
+    public boolean add(LogDTO reqRespLog) throws BizException {
+        LogEntity logEntity = BeanUtil.toBean(reqRespLog, LogEntity.class);
+        return save(logEntity);
     }
 
 }

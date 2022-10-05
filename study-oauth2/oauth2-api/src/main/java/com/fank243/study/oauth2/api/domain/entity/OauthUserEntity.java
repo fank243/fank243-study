@@ -2,10 +2,13 @@ package com.fank243.study.oauth2.api.domain.entity;
 
 import java.util.Date;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fank243.study.common.mybatis.base.BaseEntity;
+import com.fank243.study.common.core.constants.DateConstant;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
 
@@ -17,14 +20,11 @@ import lombok.Data;
  */
 @Data
 @TableName("tb_oauth_user")
-public class OauthUserEntity extends BaseEntity {
+public class OauthUserEntity {
 
     /** 用户ID */
     @TableId
     private String userId;
-
-    /** OpenID **/
-    private String openId;
 
     /** 用户名 */
     private String username;
@@ -54,4 +54,13 @@ public class OauthUserEntity extends BaseEntity {
     @TableLogic
     private Integer isDeleted;
 
+    /** 创建时间 **/
+    @JsonFormat(pattern = DateConstant.YY_MM_DD_HH_MM_SS)
+    @TableField(fill = FieldFill.INSERT)
+    private Date createdDate;
+
+    /** 最近修改时间 **/
+    @JsonFormat(pattern = DateConstant.YY_MM_DD_HH_MM_SS)
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private Date lastModifiedDate;
 }

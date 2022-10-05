@@ -17,11 +17,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.fank243.study.common.core.constants.enums.EnvEnum;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.fank243.study.common.core.constants.enums.EnvEnum;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
@@ -42,7 +42,7 @@ import cn.hutool.json.JSONUtil;
  * @since 2021-04-05 23:41:10
  */
 @SuppressWarnings("unused")
-public class ServletUtils {
+public class WebUtils {
 
     /** localhost **/
     private static final String LOCALHOST = "localhost";
@@ -113,17 +113,30 @@ public class ServletUtils {
         }
     }
 
-    public static Map<String, String> getHeaders(HttpServletRequest request) {
-        Map<String, String> map = new LinkedHashMap<>();
+    public static Map<String, String> getHeader(HttpServletRequest request) {
         Enumeration<String> enumeration = request.getHeaderNames();
+        Map<String, String> headerMap = new LinkedHashMap<>(0);
         if (enumeration != null) {
             while (enumeration.hasMoreElements()) {
                 String key = enumeration.nextElement();
                 String value = request.getHeader(key);
-                map.put(key, value);
+                headerMap.put(key, value);
             }
         }
-        return map;
+        return headerMap;
+    }
+
+    public static Map<String, String> getParams(HttpServletRequest request) {
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        Map<String, String> bodyMap = new LinkedHashMap<>(parameterMap.size());
+        for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
+            bodyMap.put(entry.getKey(), entry.getValue()[0]);
+        }
+        return bodyMap;
+    }
+
+    public static Map<String, String> getParams() {
+        return getParams(Objects.requireNonNull(getRequest()));
     }
 
     /**
@@ -280,6 +293,7 @@ public class ServletUtils {
         String baseUrl = requestUrl.delete(url.length() - request.getRequestURI().length(), url.length()).toString();
         return baseUrl + request.getContextPath();
     }
+
     /**
      * 获取请求跳转地址并转换HTTPS
      *
@@ -299,4 +313,5 @@ public class ServletUtils {
         String baseUrl = requestUrl.delete(url.length() - request.getRequestURI().length(), url.length()).toString();
         return baseUrl + request.getContextPath();
     }
+
 }

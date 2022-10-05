@@ -7,31 +7,21 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import cn.dev33.satoken.util.SaFoxUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.fank243.study.common.core.exception.AuthException;
 import com.fank243.study.common.core.utils.ResultInfo;
-import com.fank243.study.common.core.utils.ServletUtils;
-import com.fank243.study.oauth2.api.domain.entity.OauthUserEntity;
+import com.fank243.study.common.core.utils.WebUtils;
 import com.fank243.study.oauth2.api.domain.vo.OauthAccessTokenVO;
-import com.fank243.study.oauth2.api.domain.vo.OauthUserVO;
 import com.fank243.study.oauth2.service.OauthUserService;
 
 import cn.dev33.satoken.oauth2.config.SaOAuth2Config;
-import cn.dev33.satoken.oauth2.logic.SaOAuth2Consts;
 import cn.dev33.satoken.oauth2.logic.SaOAuth2Handle;
-import cn.dev33.satoken.oauth2.logic.SaOAuth2Util;
-import cn.dev33.satoken.oauth2.model.AccessTokenModel;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.net.URLEncodeUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -63,7 +53,7 @@ public class Oauth2ServerController {
         Object obj = SaOAuth2Handle.serverRequest();
         if (obj instanceof SaResult saResult) {
             if (saResult.getCode() != SaResult.CODE_SUCCESS) {
-                ServletUtils.renderJson(response, ResultInfo.fail(saResult.getMsg()));
+                WebUtils.renderJson(response, ResultInfo.fail(saResult.getMsg()));
                 return null;
             }
             if (saResult.getData() != null) {
@@ -74,10 +64,10 @@ public class Oauth2ServerController {
                     .refreshToken(String.valueOf(data.get("refresh_token")))
                     .expiresIn(String.valueOf(data.get("expires_in")))
                     .refreshExpiresIn(String.valueOf(data.get("refresh_expires_in"))).build();
-                ServletUtils.renderJson(response, ResultInfo.ok(saResult.getMsg(), oauthAccessTokenVO));
+                WebUtils.renderJson(response, ResultInfo.ok(saResult.getMsg(), oauthAccessTokenVO));
                 return null;
             }
-            ServletUtils.renderJson(response, ResultInfo.ok().message(saResult.getMsg()));
+            WebUtils.renderJson(response, ResultInfo.ok().message(saResult.getMsg()));
             return null;
         }
 
@@ -98,7 +88,7 @@ public class Oauth2ServerController {
             return "confirm";
         }
 
-        ServletUtils.renderJson(response, ResultInfo.fail(String.valueOf(obj)));
+        WebUtils.renderJson(response, ResultInfo.fail(String.valueOf(obj)));
         return null;
     }
 
@@ -109,14 +99,11 @@ public class Oauth2ServerController {
             .setNotLoginView(() -> "login")
             // 配置：登录处理函数
             .setDoLoginHandle((name, pwd) -> {
-                String userId;
-                try {
-                    userId = oauthUserService.login(name, pwd);
-                } catch (AuthException e) {
-                    e.printStackTrace();
-                    return SaResult.error(e.getMessage());
+                ResultInfo<String> result = oauthUserService.login(name, pwd);
+                if (!result.isSuccess()) {
+                    return SaResult.error(result.getMessage());
                 }
-                StpUtil.login(userId, "PC");
+                StpUtil.login(result.getPayload(), "PC");
                 return SaResult.ok();
             })
             // 配置：确认授权时返回的View
@@ -131,14 +118,12 @@ public class Oauth2ServerController {
 
     @ExceptionHandler
     public String handlerException(Exception e, HttpServletRequest request, HttpServletResponse response)
-        throws IOException {
+        throws Exception {
         String accept = request.getHeader("accept");
-        log.error("统一认证异常：{}", e.getMessage(), e);
+        log.error("统一认证异常，MediaType：{}，异常信息：{}", accept, e.getMessage(), e);
         if (StrUtil.contains(accept, "text/html")) {
             response.sendRedirect("/error/500?message=" + URLEncodeUtil.encode(e.getMessage()));
-        } else {
-            ServletUtils.renderJson(response, ResultInfo.error(e.getMessage(), e.toString()));
         }
-        return null;
+        throw e;
     }
 }

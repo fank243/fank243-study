@@ -24,7 +24,7 @@ public interface IAreaMapper extends BaseMapper<AreaEntity> {
      * 
      * @return 省级行政区划列表
      */
-    @Select("select province_code as areaCode,province_name as areaName from tb_area group by province_code order by province_code")
+    @Select("select province_code as areaCode,province_name as areaName from tb_support_area group by province_code order by province_code")
     List<Area> findProvinces();
 
     /**
@@ -33,7 +33,7 @@ public interface IAreaMapper extends BaseMapper<AreaEntity> {
      * @param provinceCode 省级行政区划代码
      * @return 市行政区划列表
      */
-    @Select("select city_code as areaCode,city_name as areaName from tb_area where province_code = #{provinceCode} group by city_code order by city_code")
+    @Select("select city_code as areaCode,city_name as areaName from tb_support_area where province_code = #{provinceCode} group by city_code order by city_code")
     List<Area> findCityByProvinceCode(@Param("provinceCode") String provinceCode);
 
     /**
@@ -42,7 +42,7 @@ public interface IAreaMapper extends BaseMapper<AreaEntity> {
      * @param cityCode 市级行政区划代码
      * @return 区县级行政区划列表
      */
-    @Select("select area_code as areaCode,area_name as areaName from tb_area where city_code = #{cityCode} group by area_code order by area_code")
+    @Select("select area_code as areaCode,area_name as areaName from tb_support_area where city_code = #{cityCode} group by area_code order by area_code")
     List<Area> findAreaByCityCode(@Param("cityCode") String cityCode);
 
 }

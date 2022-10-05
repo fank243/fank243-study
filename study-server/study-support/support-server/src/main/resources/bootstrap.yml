@@ -18,3 +18,4 @@ spring:
         shared-configs:
           - study-shared-common.yml
           - study-shared-ds.yml
+          - study-shared-satoken.yml

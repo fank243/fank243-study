@@ -10,7 +10,6 @@ import java.util.Objects;
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
 
-import com.fank243.study.support.service.ISupportFeignService;
 import org.reactivestreams.Publisher;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -39,11 +38,11 @@ import org.springframework.web.server.ServerWebExchange;
 
 import com.fank243.study.gateway.constants.FilterOrderConstant;
 import com.fank243.study.gateway.utils.LogUtils;
-import com.fank243.study.support.domain.dto.ReqRespLogDTO;
+import com.fank243.study.support.domain.dto.LogDTO;
 
 import brave.Span;
 import brave.Tracer;
-import cn.hutool.core.thread.ThreadUtil;
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
@@ -61,8 +60,6 @@ public class ApiLogFilter implements GlobalFilter, Ordered {
 
     @Resource
     private Tracer tracer;
-    @Resource
-    private ISupportFeignService supportFeignService;
     /**
      * default HttpMessageReader
      */
@@ -81,8 +78,8 @@ public class ApiLogFilter implements GlobalFilter, Ordered {
 
         MediaType contentType = request.getHeaders().getContentType();
 
-        ReqRespLogDTO logDTO = new ReqRespLogDTO();
-        // logDTO.setUserId(StpUtil.isLogin() ? StpUtil.getLoginIdAsString() : null);
+        LogDTO logDTO = new LogDTO();
+        logDTO.setUserId(StpUtil.isLogin() ? StpUtil.getLoginIdAsString() : "");
         logDTO.setClientIp(Objects.requireNonNull(request.getRemoteAddress()).getHostString());
         logDTO.setReqUri(request.getPath().toString());
         logDTO.setReqMethod(request.getMethodValue());
@@ -106,7 +103,7 @@ public class ApiLogFilter implements GlobalFilter, Ordered {
         return writeBasicLog(exchange, chain, logDTO);
     }
 
-    private Mono<Void> writeBasicLog(ServerWebExchange exchange, GatewayFilterChain chain, ReqRespLogDTO logDTO) {
+    private Mono<Void> writeBasicLog(ServerWebExchange exchange, GatewayFilterChain chain, LogDTO logDTO) {
         Map<String, String> params = exchange.getRequest().getQueryParams().toSingleValueMap();
         if (!params.isEmpty()) {
             logDTO.setReqBody(JSONUtil.toJsonStr(params));
@@ -115,7 +112,6 @@ public class ApiLogFilter implements GlobalFilter, Ordered {
         ServerHttpResponseDecorator decoratedResponse = recordResponseLog(exchange, logDTO);
         return chain.filter(exchange.mutate().response(decoratedResponse).build()).then(Mono.fromRunnable(() -> {
             LogUtils.printLog(logDTO);
-            ThreadUtil.execAsync(() -> sendLog(logDTO));
         }));
     }
 
@@ -126,7 +122,7 @@ public class ApiLogFilter implements GlobalFilter, Ordered {
      * @param chain GatewayFilterChain
      * @param logDTO 请求响应信息
      */
-    private Mono<Void> writeBodyLog(ServerWebExchange exchange, GatewayFilterChain chain, ReqRespLogDTO logDTO) {
+    private Mono<Void> writeBodyLog(ServerWebExchange exchange, GatewayFilterChain chain, LogDTO logDTO) {
         ServerRequest serverRequest = ServerRequest.create(exchange, MESSAGE_READERS);
         Mono<String> modifiedBody = serverRequest.bodyToMono(String.class).flatMap(body -> {
             if (JSONUtil.isTypeJSON(body)) {
@@ -161,7 +157,6 @@ public class ApiLogFilter implements GlobalFilter, Ordered {
             return chain.filter(exchange.mutate().request(decoratedRequest).response(decoratedResponse).build())
                 .then(Mono.fromRunnable(() -> {
                     LogUtils.printLog(logDTO);
-                    ThreadUtil.execAsync(() -> sendLog(logDTO));
                 }));
         }));
     }
@@ -206,7 +201,7 @@ public class ApiLogFilter implements GlobalFilter, Ordered {
      * @param logDTO 请求响应信息
      * @return ServerHttpResponseDecorator
      */
-    private ServerHttpResponseDecorator recordResponseLog(ServerWebExchange exchange, ReqRespLogDTO logDTO) {
+    private ServerHttpResponseDecorator recordResponseLog(ServerWebExchange exchange, LogDTO logDTO) {
         ServerHttpResponse response = exchange.getResponse();
         DataBufferFactory bufferFactory = response.bufferFactory();
 
@@ -243,17 +238,6 @@ public class ApiLogFilter implements GlobalFilter, Ordered {
                 return super.writeWith(body);
             }
         };
-    }
-
-    private void sendLog(ReqRespLogDTO reqRespLogDTO) {
-//        ThreadUtil.execAsync(() -> {
-//            try {
-//                supportFeignService.saveLog(reqRespLogDTO);
-//            } catch (Exception e) {
-//                log.error("保存请求响应日志异常：{}", e.getMessage(), e);
-//                throw new RuntimeException(e);
-//            }
-//        });
     }
 
     @Override

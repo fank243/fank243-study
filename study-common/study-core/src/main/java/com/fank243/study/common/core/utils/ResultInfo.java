@@ -2,9 +2,9 @@ package com.fank243.study.common.core.utils;
 
 import java.io.Serializable;
 
+import com.fank243.study.common.core.constants.enums.ResultCodeEnum;
 
 import cn.hutool.json.JSONUtil;
-import com.fank243.study.common.core.constants.enums.ResultCodeEnum;
 import lombok.Data;
 
 /**
@@ -126,8 +126,12 @@ public class ResultInfo<T> implements Serializable {
         return fail(ResultCodeEnum.R500.getMessage());
     }
 
-    public static <T> ResultInfo<T> illegalParameter(String message) {
-        return builderFail(ResultCodeEnum.R600.getStatus(), message);
+    public static <T> ResultInfo<T> err400(String message, String error) {
+        return builderError(ResultCodeEnum.R400.getStatus(), message, error);
+    }
+
+    public static <T> ResultInfo<T> err400(String message) {
+        return builderFail(ResultCodeEnum.R400.getStatus(), message);
     }
 
     public static <T> ResultInfo<T> err401(String message, String error) {
@@ -160,6 +164,10 @@ public class ResultInfo<T> implements Serializable {
 
     public static <T> ResultInfo<T> err405() {
         return builderFail(ResultCodeEnum.R405);
+    }
+
+    public static <T> ResultInfo<T> err429(String message) {
+        return builderFail(ResultCodeEnum.R429.getStatus(), message);
     }
 
     public static <T> ResultInfo<T> error(int status, String message, String error) {

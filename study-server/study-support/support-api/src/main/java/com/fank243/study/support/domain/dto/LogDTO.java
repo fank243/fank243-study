@@ -1,9 +1,11 @@
-package com.fank243.study.support.domain.vo;
+package com.fank243.study.support.domain.dto;
 
-import java.io.Serializable;
 import java.util.Date;
 
+import com.fank243.study.common.core.base.BaseDTO;
+
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 请求响应日志表
@@ -12,10 +14,14 @@ import lombok.Data;
  * @since 2022-09-26 15:14:51
  */
 @Data
-public class ReqRespLogVO implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+public class LogDTO extends BaseDTO {
 
     /*** 操作人ID */
     private String userId;
+
+    /*** 日志类型 */
+    private String logType;
 
     /*** 客户端ID */
     private String clientIp;
@@ -53,4 +59,6 @@ public class ReqRespLogVO implements Serializable {
     /*** spanId */
     private String spanId;
 
+    /** 异常信息 **/
+    private String error;
 }

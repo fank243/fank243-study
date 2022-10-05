@@ -9,7 +9,7 @@ import org.hibernate.validator.constraints.Length;
 
 import com.fank243.study.common.core.constants.RegexConstants;
 import com.fank243.study.common.core.constants.ValidatorGroup;
-import com.fank243.study.common.core.domain.enums.LoginType;
+import com.fank243.study.common.core.domain.enums.LoginTypeEnum;
 import com.fank243.study.common.core.domain.validator.annotation.Enum;
 
 import lombok.Data;
@@ -26,7 +26,7 @@ import lombok.EqualsAndHashCode;
 public class SysUserLoginDTO implements Serializable {
 
     /** 用户ID */
-    @Enum(clazz = LoginType.class, message = "登录方式参数有误", groups = {ValidatorGroup.Login.class})
+    @Enum(clazz = LoginTypeEnum.class, message = "登录方式参数有误", groups = {ValidatorGroup.Login.class})
     @NotBlank(message = "登录方式参数必传", groups = {ValidatorGroup.Login.class})
     private String loginType;
 

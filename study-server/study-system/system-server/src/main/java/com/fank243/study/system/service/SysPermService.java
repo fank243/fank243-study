@@ -1,29 +1,29 @@
 package com.fank243.study.system.service;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
-import com.alicp.jetcache.anno.CacheRefresh;
-import com.alicp.jetcache.anno.Cached;
-import com.fank243.study.common.core.constants.TimeConstant;
-import com.fank243.study.system.mapper.ISysPermMapper;
-import com.fank243.study.system.domain.entity.SysPermEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alicp.jetcache.anno.CacheRefresh;
+import com.alicp.jetcache.anno.Cached;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.fank243.study.system.domain.dto.SysPermDTO;
-import com.fank243.study.system.domain.vo.SysPermVO;
+import com.fank243.study.common.core.constants.TimeConstant;
 import com.fank243.study.common.core.domain.model.PageBean;
-import com.fank243.study.common.core.utils.BeanUtils;
 import com.fank243.study.common.core.exception.BizException;
+import com.fank243.study.common.core.utils.BeanUtils;
+import com.fank243.study.system.domain.dto.SysPermDTO;
+import com.fank243.study.system.domain.entity.SysPermEntity;
+import com.fank243.study.system.domain.vo.SysPermVO;
+import com.fank243.study.system.mapper.ISysPermMapper;
 
 import cn.hutool.core.bean.BeanUtil;
-
-import java.util.List;
 
 /**
  * 系统权限表 服务类
@@ -85,7 +85,6 @@ public class SysPermService extends ServiceImpl<ISysPermMapper, SysPermEntity> {
         sysPermEntity = BeanUtil.toBean(sysPerm, SysPermEntity.class);
         return sysPermDao.updateById(sysPermEntity) > 0;
     }
-
 
     @Cached(name = "system:perm:user:", key = "#userId", expire = TimeConstant.HOUR_1)
     @CacheRefresh(refresh = TimeConstant.MINUTE_5, stopRefreshAfterLastAccess = TimeConstant.HOUR_1)

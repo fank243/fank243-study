@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("tb_area")
+@TableName("tb_support_area")
 public class AreaEntity extends BaseEntity {
 
     /** 主键ID */

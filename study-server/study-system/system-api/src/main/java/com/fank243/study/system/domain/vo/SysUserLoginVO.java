@@ -29,8 +29,11 @@ public class SysUserLoginVO implements Serializable {
     /*** 最近登录IP */
     private String lastLoginIp;
 
+    /** 令牌名称 */
+    private String tokenName;
+
     /** 登陆令牌 */
-    private String accessToken;
+    private String tokenValue;
 
     /** token剩余有效期 (单位: 秒) */
     public long tokenTimeout;

@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class FeignException extends RuntimeException implements Serializable {
+public class FeignException extends BaseException implements Serializable {
 
     private int status = HttpStatus.INTERNAL_SERVER_ERROR.value();
 

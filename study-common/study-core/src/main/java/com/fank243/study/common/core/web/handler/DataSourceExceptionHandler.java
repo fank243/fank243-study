@@ -27,16 +27,18 @@ import lombok.extern.slf4j.Slf4j;
 @ConditionalOnWebApplication(type = SERVLET)
 public class DataSourceExceptionHandler {
 
+    /** 数据库异常 **/
     @ExceptionHandler(DataAccessException.class)
     public ResultInfo<?> handlerDataAccessException(DataAccessException e) {
         log.error("数据源异常拦截[DataAccessException]：{}", e.getMessage(), e);
         return ResultInfo.error("数据库连接异常，请稍后再试", Objects.requireNonNull(e.getRootCause()).getMessage());
     }
 
+    /** SQL语法错误异常 **/
     @ExceptionHandler(SQLException.class)
-    public ResultInfo<?> handlerSqlSyntaxErrorException(SQLException e) {
+    public ResultInfo<?> handlerSqlException(SQLException e) {
         log.error("数据源异常拦截[SQLException]：{}", e.getMessage(), e);
-        return ResultInfo.error("SQL执行异常，请联系管理员", e.toString());
+        return ResultInfo.error("SQL执行异常，请联系管理员", e.getMessage());
     }
 
 }

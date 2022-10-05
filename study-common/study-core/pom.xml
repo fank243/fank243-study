@@ -82,6 +82,11 @@
         </dependency>
 
         <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-core</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
@@ -117,6 +122,5 @@
             <groupId>de.siegmar</groupId>
             <artifactId>logback-gelf</artifactId>
         </dependency>
-
     </dependencies>
 </project>

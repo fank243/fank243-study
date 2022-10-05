@@ -23,6 +23,7 @@ spring:
         shared-configs:
           - study-shared-common.yml
           - study-shared-ds.yml
+          - study-shared-satoken.yml
 
 logging:
   config: classpath:logback-spring.xml
@@ -42,9 +43,4 @@ logging:
       alibaba.cloud: info
       alibaba.nacos: warn
     reactor: info
-
-study:
-  oauth2:
-    client_id: 1000
-    client_secret: qRDt8Gx0Bzj1M5Sel6h2JYHXZP7sKbadF9iLAyEpOUurCgfm4nNIk3vcoWQVTwRkMn5522T5s1WIXnii2qJwagZdFf6605XedTvGbVj9IeKuU8Uw5H355rmWqf36EOdV
 

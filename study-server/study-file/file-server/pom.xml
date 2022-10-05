@@ -26,6 +26,14 @@
         </dependency>
         <dependency>
             <groupId>com.fank243.study</groupId>
+            <artifactId>study-feign</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fank243.study</groupId>
+            <artifactId>study-log</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fank243.study</groupId>
             <artifactId>file-api</artifactId>
         </dependency>
 
@@ -46,6 +54,7 @@
             <groupId>cn.dev33</groupId>
             <artifactId>sa-token-dao-redis-jackson</artifactId>
         </dependency>
+
     </dependencies>
 
     <build>

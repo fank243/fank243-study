@@ -16,7 +16,7 @@ import com.fank243.study.common.core.constants.Constants;
 import com.fank243.study.common.core.constants.InterceptorOrderConstant;
 import com.fank243.study.common.core.constants.RedisConstants;
 import com.fank243.study.common.core.utils.ResultInfo;
-import com.fank243.study.common.core.utils.ServletUtils;
+import com.fank243.study.common.core.utils.WebUtils;
 
 import cn.hutool.core.util.StrUtil;
 
@@ -41,14 +41,14 @@ public class SecurityInterceptor implements HandlerInterceptor {
         String securityToken = request.getHeader(Constants.SECURITY_TOKEN);
         String securityFeignValue = request.getHeader(Constants.SECURITY_FEIGN_KEY);
         if (StrUtil.isBlank(securityToken) && StrUtil.isBlank(securityFeignValue)) {
-            ServletUtils.renderJson(response, ResultInfo.err401("请求未授权"));
+            WebUtils.renderJson(response, ResultInfo.err401("请求未授权"));
             return Boolean.FALSE;
         }
         String securityTokenWithRedis = redisTemplate.opsForValue().get(RedisConstants.SECURITY_TOKEN + securityToken);
         boolean isOkWithToken = StrUtil.isNotBlank(securityTokenWithRedis);
         boolean isOkWithFeign = StrUtil.equalsIgnoreCase(securityFeignValue, Constants.SECURITY_FEIGN_VALUE);
         if (!isOkWithToken && !isOkWithFeign) {
-            ServletUtils.renderJson(response, ResultInfo.err401("请求未授权"));
+            WebUtils.renderJson(response, ResultInfo.err401("请求未授权"));
             return Boolean.FALSE;
         }
 
