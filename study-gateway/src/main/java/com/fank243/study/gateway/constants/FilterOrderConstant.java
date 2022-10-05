@@ -2,7 +2,7 @@ package com.fank243.study.gateway.constants;
 
 import com.fank243.study.gateway.web.filter.ApiLogFilter;
 import com.fank243.study.gateway.web.filter.SecurityFilter;
-import com.fank243.study.gateway.web.filter.TokenRefreshFilter;
+import com.fank243.study.gateway.web.filter.ValidateImageCodeFilter;
 
 /**
  * 拦截器拦截顺序
@@ -32,7 +32,7 @@ public class FilterOrderConstant {
             return -98;
         }
         // 请求参数拦截处理器
-        else if (TokenRefreshFilter.class.getName().equalsIgnoreCase(clsName)) {
+        else if (ValidateImageCodeFilter.class.getName().equalsIgnoreCase(clsName)) {
             return -97;
         }
         return 0;

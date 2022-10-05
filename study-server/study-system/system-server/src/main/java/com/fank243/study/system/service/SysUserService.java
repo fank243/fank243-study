@@ -1,8 +1,9 @@
 package com.fank243.study.system.service;
 
+import java.util.Date;
+
 import javax.annotation.Resource;
 
-import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,7 +12,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.fank243.study.common.core.constants.RedisConstants;
+import com.fank243.study.common.core.constants.CacheConstants;
+import com.fank243.study.common.core.domain.enums.UserStatusEnum;
 import com.fank243.study.common.core.domain.model.PageBean;
 import com.fank243.study.common.core.exception.BizException;
 import com.fank243.study.common.core.service.RedisService;
@@ -22,6 +24,7 @@ import com.fank243.study.oauth2.api.domain.vo.OauthAccessTokenVO;
 import com.fank243.study.oauth2.api.service.IOauth2Service;
 import com.fank243.study.system.domain.dto.SysUserDTO;
 import com.fank243.study.system.domain.entity.SysUserEntity;
+import com.fank243.study.system.domain.entity.SysUserLoginLogEntity;
 import com.fank243.study.system.domain.vo.SysUserVO;
 import com.fank243.study.system.mapper.ISysUserMapper;
 
@@ -44,6 +47,8 @@ public class SysUserService extends ServiceImpl<ISysUserMapper, SysUserEntity> {
     private IOauth2Service oauth2Service;
     @Resource
     private RedisService redisService;
+    @Resource
+    private SysUserLoginLogService sysUserLoginLogService;
 
     /**
      * 系统管理员表_分页
@@ -75,7 +80,7 @@ public class SysUserService extends ServiceImpl<ISysUserMapper, SysUserEntity> {
 
         String userId = StpUtil.getLoginIdAsString();
 
-        Object obj = redisService.getObj(RedisConstants.OAUTH2_TOKEN + userId);
+        Object obj = redisService.getObj(CacheConstants.OAUTH2_TOKEN + userId);
         if (obj == null) {
             throw new SaTokenException("令牌已过期失效，请重新登录");
         }
@@ -93,7 +98,7 @@ public class SysUserService extends ServiceImpl<ISysUserMapper, SysUserEntity> {
         if (!result.isSuccess()) {
             throw new BizException(result.getMessage());
         }
-        String openId = (String) result.getPayload();
+        String openId = (String)result.getPayload();
 
         sysUserEntity = BeanUtil.toBean(sysUser, SysUserEntity.class);
         sysUserEntity.setOpenId(openId);
@@ -129,4 +134,31 @@ public class SysUserService extends ServiceImpl<ISysUserMapper, SysUserEntity> {
         return sysUserDao.selectOne(wrapper);
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    public ResultInfo<?> login(String openId, String clientIp, String userAgent) {
+        SysUserEntity sysUser = sysUserDao.findByOpenId(openId);
+        if (sysUser == null) {
+            return ResultInfo.err400("账号不存在");
+        }
+        if (UserStatusEnum.DISABLED.getCode() == sysUser.getStatus()) {
+            return ResultInfo.err400("账户已被禁用，请联系客服处理");
+        }
+
+        // 执行登录流程
+        StpUtil.login(sysUser.getUserId(), "PC");
+
+        Date now = new Date();
+
+        // 更新登录信息
+        sysUser.setLastLoginTime(now);
+        sysUser.setLastLoginIp(clientIp);
+        sysUserDao.updateLoginInfoByUserId(sysUser);
+
+        // 登录日志
+        SysUserLoginLogEntity sysUserLoginLog = SysUserLoginLogEntity.builder().userId(sysUser.getUserId())
+            .loginTime(now).loginIp(clientIp).loginDevice(userAgent).build();
+        sysUserLoginLogService.add(sysUserLoginLog);
+
+        return ResultInfo.ok(sysUser);
+    }
 }

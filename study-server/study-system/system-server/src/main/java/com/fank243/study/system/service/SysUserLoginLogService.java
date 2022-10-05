@@ -1,12 +1,12 @@
-package com.fank243.study.gateway.service;
+package com.fank243.study.system.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.fank243.study.gateway.mapper.ISysUserLoginLogMapper;
 import com.fank243.study.system.domain.entity.SysUserLoginLogEntity;
+import com.fank243.study.system.mapper.ISysUserLoginLogMapper;
 
 /**
  * 系统管理员登录日志表 服务类
@@ -14,7 +14,6 @@ import com.fank243.study.system.domain.entity.SysUserLoginLogEntity;
  * @author FanWeiJie
  * @since 2022-06-27
  */
-@DS("system")
 @Service
 public class SysUserLoginLogService extends ServiceImpl<ISysUserLoginLogMapper, SysUserLoginLogEntity> {
 

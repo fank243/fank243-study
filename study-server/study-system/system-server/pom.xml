@@ -23,6 +23,14 @@
     <dependencies>
         <dependency>
             <groupId>com.fank243.study</groupId>
+            <artifactId>system-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fank243.study</groupId>
+            <artifactId>oauth2-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fank243.study</groupId>
             <artifactId>study-datasource</artifactId>
         </dependency>
         <dependency>
@@ -35,11 +43,7 @@
         </dependency>
         <dependency>
             <groupId>com.fank243.study</groupId>
-            <artifactId>system-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fank243.study</groupId>
-            <artifactId>oauth2-api</artifactId>
+            <artifactId>study-log</artifactId>
         </dependency>
 
         <dependency>

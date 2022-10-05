@@ -33,7 +33,7 @@ public class ValidationUtils {
             return ResultInfo.ok();
         }
 
-        return ResultInfo.fail(errorMessages.get(0).getMessage());
+        return ResultInfo.err400(errorMessages.get(0).getMessage());
     }
 
     /**

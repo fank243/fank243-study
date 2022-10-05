@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
 
 import org.reactivestreams.Publisher;
@@ -29,7 +28,6 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpRequestDecorator;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.http.server.reactive.ServerHttpResponseDecorator;
-import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.HandlerStrategies;
@@ -44,6 +42,7 @@ import brave.Span;
 import brave.Tracer;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.json.JSONUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -55,11 +54,10 @@ import reactor.core.publisher.Mono;
  * @since 2021-07-24 15:45:46
  */
 @Slf4j
-@Component
+@RequiredArgsConstructor
 public class ApiLogFilter implements GlobalFilter, Ordered {
 
-    @Resource
-    private Tracer tracer;
+    private final Tracer tracer;
     /**
      * default HttpMessageReader
      */

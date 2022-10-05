@@ -53,29 +53,29 @@ public class AreaController extends BaseController {
     @PostMapping("/import")
     public ResultInfo<?> importArea(@RequestParam("file") MultipartFile multipartFile) {
         if (multipartFile == null || multipartFile.isEmpty()) {
-            return ResultInfo.fail("请上传文件");
+            return ResultInfo.err400("请上传文件");
         }
 
         List<Area> areaList;
         try {
             String fileType = FileTypeUtil.getType(multipartFile.getInputStream(), multipartFile.getOriginalFilename());
             if (!"txt".equalsIgnoreCase(fileType)) {
-                return ResultInfo.fail("请上传TXT文件");
+                return ResultInfo.err400("请上传TXT文件");
             }
             List<String> list = new ArrayList<>(4000);
             IoUtil.readLines(multipartFile.getInputStream(), StandardCharsets.UTF_8, list);
             if (CollUtil.isEmpty(list)) {
-                return ResultInfo.fail("文件内容不能为空");
+                return ResultInfo.err400("文件内容不能为空");
             }
             areaList = AreaUtils.parse(list);
         } catch (IOException e) {
             log.error("导入异常：{}", e.getMessage(), e);
-            return ResultInfo.error("导入失败", e.toString());
+            return ResultInfo.err500("导入失败").error(e.toString());
         }
 
         boolean isOk = areaService.importArea(areaList);
 
-        return isOk ? ResultInfo.ok().message("导入成功") : ResultInfo.fail("导入失败");
+        return isOk ? ResultInfo.ok().message("导入成功") : ResultInfo.err500("导入失败");
     }
 
     /**

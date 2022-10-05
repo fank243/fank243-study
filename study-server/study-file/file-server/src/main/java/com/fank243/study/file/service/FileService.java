@@ -63,7 +63,7 @@ public class FileService extends ServiceImpl<IFileMapper, FileEntity> {
         if (!FileUtil.exist(fileDir)) {
             boolean isOk = fileDir.mkdirs();
             if (!isOk) {
-                return ResultInfo.fail("创建上传文件目录失败");
+                return ResultInfo.err500("创建上传文件目录失败");
             }
         }
 

@@ -38,6 +38,11 @@ spring:
           filters:
             - StripPrefix=1
 
+        - id: study-system2
+          uri: lb://study-system
+          predicates:
+            - Path=/system/**
+
         - id: study-system-doc
           uri: lb://study-system
           predicates:

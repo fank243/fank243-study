@@ -28,6 +28,8 @@ public class ServerConstants {
 
     public static final String BASE_URI_SYSTEM = "/system";
 
+    public static final String BASE_URI_SYSTEM_LOGIN = "/system/login";
+
     public static final String BASE_URI_SYSTEM_ADMIN = "/system/admin";
 
     public static final String BASE_URI_SYSTEM_ROLE = "/system/role";

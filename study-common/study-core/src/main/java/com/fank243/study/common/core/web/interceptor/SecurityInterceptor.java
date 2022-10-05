@@ -14,7 +14,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import com.fank243.study.common.core.annotation.Interceptor;
 import com.fank243.study.common.core.constants.Constants;
 import com.fank243.study.common.core.constants.InterceptorOrderConstant;
-import com.fank243.study.common.core.constants.RedisConstants;
+import com.fank243.study.common.core.constants.CacheConstants;
 import com.fank243.study.common.core.utils.ResultInfo;
 import com.fank243.study.common.core.utils.WebUtils;
 
@@ -44,7 +44,7 @@ public class SecurityInterceptor implements HandlerInterceptor {
             WebUtils.renderJson(response, ResultInfo.err401("请求未授权"));
             return Boolean.FALSE;
         }
-        String securityTokenWithRedis = redisTemplate.opsForValue().get(RedisConstants.SECURITY_TOKEN + securityToken);
+        String securityTokenWithRedis = redisTemplate.opsForValue().get(CacheConstants.SECURITY_TOKEN + securityToken);
         boolean isOkWithToken = StrUtil.isNotBlank(securityTokenWithRedis);
         boolean isOkWithFeign = StrUtil.equalsIgnoreCase(securityFeignValue, Constants.SECURITY_FEIGN_VALUE);
         if (!isOkWithToken && !isOkWithFeign) {

@@ -78,7 +78,7 @@ public class SysUserController extends BaseController {
     public ResultInfo<?> add(@RequestBody @Validated({ValidatorGroup.Create.class}) SysUserDTO sysUser)
         throws BizException {
         boolean isOk = sysUserService.add(sysUser);
-        return isOk ? ResultInfo.ok().message("添加成功") : ResultInfo.fail("添加失败");
+        return isOk ? ResultInfo.ok().message("添加成功") : ResultInfo.err500("添加失败");
     }
 
     /**
@@ -93,7 +93,7 @@ public class SysUserController extends BaseController {
     public ResultInfo<?> modify(@RequestBody @Validated({ValidatorGroup.Modify.class}) SysUserDTO sysUser)
         throws BizException {
         boolean isOk = sysUserService.modify(sysUser);
-        return isOk ? ResultInfo.ok().message("修改成功") : ResultInfo.fail("修改失败");
+        return isOk ? ResultInfo.ok().message("修改成功") : ResultInfo.err500("修改失败");
     }
 
     /**
@@ -107,6 +107,6 @@ public class SysUserController extends BaseController {
     @DeleteMapping("/delete")
     public ResultInfo<?> delete(@RequestBody String[] ids) {
         boolean isOk = sysUserService.removeByIds(List.of(ids));
-        return isOk ? ResultInfo.ok().message("删除成功") : ResultInfo.fail("删除失败");
+        return isOk ? ResultInfo.ok().message("删除成功") : ResultInfo.err500("删除失败");
     }
 }

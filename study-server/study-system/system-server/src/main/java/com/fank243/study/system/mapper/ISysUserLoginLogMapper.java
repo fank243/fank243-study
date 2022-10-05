@@ -1,4 +1,4 @@
-package com.fank243.study.gateway.mapper;
+package com.fank243.study.system.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 

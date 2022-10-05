@@ -1,7 +1,5 @@
 package com.fank243.study.gateway.web.handler;
 
-import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebExceptionHandler;
@@ -19,7 +17,6 @@ import reactor.core.publisher.Mono;
  * @author FanWeiJie
  * @since 2021-04-05 23:41:10
  */
-@Configuration
 public class SentinelFallbackHandler implements WebExceptionHandler {
 
     @Override
@@ -31,7 +28,6 @@ public class SentinelFallbackHandler implements WebExceptionHandler {
         if (!BlockException.isBlockException(ex)) {
             return Mono.error(ex);
         }
-        return ReactiveUtils.renderJson(response,
-            ResultInfo.fail(HttpStatus.TOO_MANY_REQUESTS.value(), "请求过于频繁，请稍后再试"));
+        return ReactiveUtils.renderJson(response, ResultInfo.err429("请求过于频繁，请稍后再试"));
     }
 }

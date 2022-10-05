@@ -42,6 +42,6 @@ public class OauthAccessTokenService extends ServiceImpl<IOauthAccessTokenDao, O
         oauthAccessTokenEntity.setOpenId(openId);
         boolean isOk = save(oauthAccessTokenEntity);
 
-        return isOk ? ResultInfo.ok(openId) : ResultInfo.fail("分配OpenID失败");
+        return isOk ? ResultInfo.ok(openId) : ResultInfo.err500("分配OpenID失败");
     }
 }

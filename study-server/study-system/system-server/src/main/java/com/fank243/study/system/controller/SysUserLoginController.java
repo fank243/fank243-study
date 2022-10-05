@@ -1,30 +1,27 @@
-package com.fank243.study.gateway.controller;
+package com.fank243.study.system.controller;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ServerWebExchange;
 
 import com.fank243.study.common.core.base.BaseController;
-import com.fank243.study.common.core.constants.RedisConstants;
+import com.fank243.study.common.core.constants.CacheConstants;
+import com.fank243.study.common.core.constants.ServerConstants;
 import com.fank243.study.common.core.constants.TimeConstant;
 import com.fank243.study.common.core.constants.ValidatorGroup;
 import com.fank243.study.common.core.service.RedisService;
 import com.fank243.study.common.core.utils.ResultInfo;
-import com.fank243.study.gateway.config.Oauth2Properties;
-import com.fank243.study.gateway.service.SysUserService;
-import com.fank243.study.gateway.utils.ReactiveUtils;
 import com.fank243.study.oauth2.api.constants.Oauth2Constants;
 import com.fank243.study.oauth2.api.domain.vo.OauthAccessTokenVO;
 import com.fank243.study.oauth2.api.domain.vo.OauthUserVO;
@@ -32,6 +29,8 @@ import com.fank243.study.oauth2.api.service.IOauth2Service;
 import com.fank243.study.system.domain.dto.SysUserLoginDTO;
 import com.fank243.study.system.domain.entity.SysUserEntity;
 import com.fank243.study.system.domain.vo.SysUserLoginVO;
+import com.fank243.study.system.properties.SystemProperties;
+import com.fank243.study.system.service.SysUserService;
 
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
@@ -39,6 +38,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.net.URLDecoder;
 import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.servlet.ServletUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -48,6 +48,7 @@ import lombok.extern.slf4j.Slf4j;
  * @since 2021-09-03
  */
 @Slf4j
+@RequestMapping(value = ServerConstants.BASE_URI_SYSTEM)
 @RestController
 public class SysUserLoginController extends BaseController {
     @Resource
@@ -55,7 +56,7 @@ public class SysUserLoginController extends BaseController {
     @Resource
     private SysUserService sysUserService;
     @Resource
-    private Oauth2Properties oauth2Properties;
+    private SystemProperties systemProperties;
     @Resource
     private RedisService redisService;
 
@@ -66,7 +67,7 @@ public class SysUserLoginController extends BaseController {
      * @return 登录用户信息
      */
     @PostMapping("/login")
-    public ResultInfo<?> login(ServerWebExchange serverWebExchange,
+    public ResultInfo<?> login(HttpServletRequest request,
         @RequestBody @Validated({ValidatorGroup.Login.class}) SysUserLoginDTO sysUserLoginDTO)
         throws ExecutionException, InterruptedException {
         Class<?> clazz = ValidatorGroup.LoginUsername.class;
@@ -82,13 +83,13 @@ public class SysUserLoginController extends BaseController {
         Future<ResultInfo<OauthAccessTokenVO>> future = ThreadUtil
             .execAsync(() -> oauth2Service.getAccessToken(Oauth2Constants.GrantType.PASSWORD.name().toLowerCase(),
                 sysUserLoginDTO.getUsername(), sysUserLoginDTO.getPassword(),
-                String.join(",", Oauth2Constants.Scope.SCOPE_ALL), oauth2Properties.getClientId(),
-                oauth2Properties.getClientSecret()));
+                String.join(",", Oauth2Constants.Scope.SCOPE_ALL), systemProperties.getClientId(),
+                systemProperties.getClientSecret()));
         ResultInfo<OauthAccessTokenVO> result = future.get();
         if (!result.isSuccess()) {
             return result;
         }
-        return doLogin(serverWebExchange.getRequest(), result.getPayload());
+        return doLogin(request, result.getPayload());
     }
 
     /**
@@ -98,27 +99,27 @@ public class SysUserLoginController extends BaseController {
      * @return 登录用户信息
      */
     @RequestMapping("/login")
-    public ResultInfo<?> login(ServerWebExchange serverWebExchange, String code, String message)
+    public ResultInfo<?> login(HttpServletRequest request, String code, String message)
         throws ExecutionException, InterruptedException {
         // 用户拒绝授权
         if (StrUtil.isNotBlank(message)) {
-            return ResultInfo.fail(URLDecoder.decode(message, StandardCharsets.UTF_8));
+            return ResultInfo.err500(URLDecoder.decode(message, StandardCharsets.UTF_8));
         }
         if (StrUtil.isBlank(code)) {
-            return ResultInfo.fail("code不能为空");
+            return ResultInfo.err400("code不能为空");
         }
         // 获取令牌
         Future<ResultInfo<OauthAccessTokenVO>> future = ThreadUtil.execAsync(
             () -> oauth2Service.getAccessToken(Oauth2Constants.GrantType.AUTHORIZATION_CODE.name().toLowerCase(), code,
-                oauth2Properties.getClientId(), oauth2Properties.getClientSecret()));
+                systemProperties.getClientId(), systemProperties.getClientSecret()));
         ResultInfo<OauthAccessTokenVO> result = future.get();
         if (!result.isSuccess()) {
             return result;
         }
-        return doLogin(serverWebExchange.getRequest(), result.getPayload());
+        return doLogin(request, result.getPayload());
     }
 
-    private ResultInfo<?> doLogin(ServerHttpRequest request, OauthAccessTokenVO oauthAccessTokenVO)
+    private ResultInfo<?> doLogin(HttpServletRequest request, OauthAccessTokenVO oauthAccessTokenVO)
         throws ExecutionException, InterruptedException {
         // 获取用户信息
         Future<ResultInfo<OauthUserVO>> future = ThreadUtil.execAsync(
@@ -129,8 +130,8 @@ public class SysUserLoginController extends BaseController {
         }
         OauthUserVO oauthUserVO = result.getPayload();
 
-        String clientIp = ReactiveUtils.getClientIP(request);
-        String userAgent = Objects.requireNonNull(request.getHeaders().get("user-agent")).get(0);
+        String clientIp = ServletUtil.getClientIP(request);
+        String userAgent = request.getHeader(HttpHeaders.USER_AGENT);
 
         // 本地登录
         ResultInfo<?> loginResult = sysUserService.login(oauthUserVO.getOpenId(), clientIp, userAgent);
@@ -149,7 +150,7 @@ public class SysUserLoginController extends BaseController {
         sysUserLoginVO.setTokenActivityTimeout(tokenInfo.getTokenActivityTimeout());
 
         // 写入redis
-        String key = RedisConstants.OAUTH2_TOKEN + sysUserLoginVO.getUserId();
+        String key = CacheConstants.OAUTH2_TOKEN + sysUserLoginVO.getUserId();
         redisService.setObj(key, oauthAccessTokenVO, TimeConstant.MINUTE_30);
 
         return ResultInfo.ok(sysUserLoginVO);
@@ -161,5 +162,4 @@ public class SysUserLoginController extends BaseController {
         StpUtil.logout();
         return ResultInfo.ok().message("登出成功");
     }
-
 }

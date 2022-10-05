@@ -53,7 +53,7 @@ public class Oauth2ServerController {
         Object obj = SaOAuth2Handle.serverRequest();
         if (obj instanceof SaResult saResult) {
             if (saResult.getCode() != SaResult.CODE_SUCCESS) {
-                WebUtils.renderJson(response, ResultInfo.fail(saResult.getMsg()));
+                WebUtils.renderJson(response, ResultInfo.err500(saResult.getMsg()));
                 return null;
             }
             if (saResult.getData() != null) {
@@ -88,7 +88,7 @@ public class Oauth2ServerController {
             return "confirm";
         }
 
-        WebUtils.renderJson(response, ResultInfo.fail(String.valueOf(obj)));
+        WebUtils.renderJson(response, ResultInfo.err500(String.valueOf(obj)));
         return null;
     }
 

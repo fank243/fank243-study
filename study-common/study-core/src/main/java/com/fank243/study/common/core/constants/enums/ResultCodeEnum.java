@@ -33,8 +33,6 @@ public enum ResultCodeEnum {
 
     R503(503, "服务暂不可用，请稍后重试"),
 
-    R600(600, "请求参数非法"),
-
     ;
 
     ResultCodeEnum(int status, String message) {

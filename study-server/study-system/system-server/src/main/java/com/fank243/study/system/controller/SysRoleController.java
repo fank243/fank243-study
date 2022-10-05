@@ -76,7 +76,7 @@ public class SysRoleController extends BaseController {
     public ResultInfo<?> add(@RequestBody @Validated({ValidatorGroup.Create.class}) SysRoleDTO sysRole)
         throws BizException {
         boolean isOk = sysRoleService.add(sysRole);
-        return isOk ? ResultInfo.ok().message("添加成功") : ResultInfo.fail("添加失败");
+        return isOk ? ResultInfo.ok().message("添加成功") : ResultInfo.err500("添加失败");
     }
 
     /**
@@ -91,7 +91,7 @@ public class SysRoleController extends BaseController {
     public ResultInfo<?> modify(@RequestBody @Validated({ValidatorGroup.Modify.class}) SysRoleDTO sysRole)
         throws BizException {
         boolean isOk = sysRoleService.add(sysRole);
-        return isOk ? ResultInfo.ok().message("修改成功") : ResultInfo.fail("修改失败");
+        return isOk ? ResultInfo.ok().message("修改成功") : ResultInfo.err500("修改失败");
     }
 
     /**
@@ -105,7 +105,7 @@ public class SysRoleController extends BaseController {
     @DeleteMapping("/delete")
     public ResultInfo<?> delete(@RequestBody String[] ids) throws BizException {
         boolean isOk = sysRoleService.removeByIds(List.of(ids));
-        return isOk ? ResultInfo.ok().message("删除成功") : ResultInfo.fail("删除失败");
+        return isOk ? ResultInfo.ok().message("删除成功") : ResultInfo.err500("删除失败");
     }
 
     /**

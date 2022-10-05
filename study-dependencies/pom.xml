@@ -34,6 +34,9 @@
 
         <feign-okhttp.version>11.8</feign-okhttp.version>
 
+        <!-- https://mvnrepository.com/artifact/com.github.whvcse/easy-captcha -->
+        <easy-captcha.version>1.6.2</easy-captcha.version>
+
         <!-- https://mvnrepository.com/artifact/cn.hutool/hutool-all -->
         <hutool.version>5.8.8</hutool.version>
         <!-- https://mvnrepository.com/artifact/cn.hutool/hutool-extra -->
@@ -154,6 +157,13 @@
                 <groupId>io.github.openfeign</groupId>
                 <artifactId>feign-okhttp</artifactId>
                 <version>${feign-okhttp.version}</version>
+            </dependency>
+
+            <!-- 一款生成图形验证码的插件 -->
+            <dependency>
+                <groupId>com.github.whvcse</groupId>
+                <artifactId>easy-captcha</artifactId>
+                <version>${easy-captcha.version}</version>
             </dependency>
 
             <!-- <dependency>

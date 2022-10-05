@@ -69,6 +69,6 @@ public class LogController extends BaseController {
     public ResultInfo<?> add(@RequestBody @Validated({ValidatorGroup.Create.class}) LogDTO reqRespLog)
         throws BizException {
         boolean isOk = logService.add(reqRespLog);
-        return isOk ? ResultInfo.ok().message("添加成功") : ResultInfo.fail("添加失败");
+        return isOk ? ResultInfo.ok().message("添加成功") : ResultInfo.err500("添加失败");
     }
 }

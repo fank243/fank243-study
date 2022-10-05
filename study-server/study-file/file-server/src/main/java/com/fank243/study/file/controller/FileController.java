@@ -56,15 +56,15 @@ public class FileController extends BaseController {
         }
         String fileType = FileTypeUtil.getType(inputStream, multipartFile.getOriginalFilename());
         if (!Constants.FILE_TYPE.contains(fileType)) {
-            return ResultInfo.fail("不支持的文件类型");
+            return ResultInfo.err400("不支持的文件类型");
         }
         long fileSize = multipartFile.getSize() / 1024 / 1024;
         if (Constants.FILE_TYPE_IMG.contains(fileType) && fileSize > Constants.FILE_SIZE_IMG) {
-            return ResultInfo.fail("文件大小不能超过" + Constants.FILE_SIZE_IMG + "MB");
+            return ResultInfo.err400("文件大小不能超过" + Constants.FILE_SIZE_IMG + "MB");
         } else if (Constants.FILE_TYPE_OFFICE.contains(fileType) && fileSize > Constants.FILE_SIZE_OFFICE) {
-            return ResultInfo.fail("文件大小不能超过" + Constants.FILE_SIZE_OFFICE + "MB");
+            return ResultInfo.err400("文件大小不能超过" + Constants.FILE_SIZE_OFFICE + "MB");
         } else if (fileSize > Constants.FILE_SIZE) {
-            return ResultInfo.fail("文件大小不能超过" + Constants.FILE_SIZE + "MB");
+            return ResultInfo.err400("文件大小不能超过" + Constants.FILE_SIZE + "MB");
         }
         String fileName = multipartFile.getOriginalFilename();
 

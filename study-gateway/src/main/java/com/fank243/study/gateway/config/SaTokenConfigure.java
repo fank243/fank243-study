@@ -14,8 +14,8 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 
 import com.fank243.study.common.core.domain.enums.PermTypeEnum;
-import com.fank243.study.gateway.service.SysPermService;
 import com.fank243.study.system.domain.vo.SysPermVO;
+import com.fank243.study.system.service.ISysPermService;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -42,7 +42,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SaTokenConfigure {
 
     @Resource
-    private SysPermService sysPermService;
+    private ISysPermService sysPermService;
 
     @Bean
     public RedisCacheConfiguration redisCacheConfiguration(CacheProperties cacheProperties) {
@@ -90,7 +90,7 @@ public class SaTokenConfigure {
                 SaRouter.match("/api/**", StpUtil::checkLogin);
 
                 Future<List<SysPermVO>> future =
-                    ThreadUtil.execAsync(() -> sysPermService.findByPermTypes(PermTypeEnum.PERMS));
+                    ThreadUtil.execAsync(() -> sysPermService.getByPermTypes(PermTypeEnum.PERMS));
                 List<SysPermVO> perms;
                 try {
                     perms = future.get();

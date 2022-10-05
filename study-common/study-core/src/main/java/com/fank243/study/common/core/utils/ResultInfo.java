@@ -90,16 +90,12 @@ public class ResultInfo<T> implements Serializable {
         return builder(Boolean.TRUE, status, message, payload);
     }
 
-    private static <T> ResultInfo<T> builderFail(ResultCodeEnum resultCodeEnum) {
+    private static <T> ResultInfo<T> builderError(ResultCodeEnum resultCodeEnum) {
         return builder(Boolean.FALSE, resultCodeEnum.getStatus(), resultCodeEnum.getMessage(), null);
     }
 
-    private static <T> ResultInfo<T> builderFail(int status, String message) {
+    private static <T> ResultInfo<T> builderError(int status, String message) {
         return builder(Boolean.FALSE, status, message, null);
-    }
-
-    private static <T> ResultInfo<T> builderError(int status, String message, String error) {
-        return builder(Boolean.FALSE, status, message, error);
     }
 
     public static <T> ResultInfo<T> ok(String message, T payload) {
@@ -114,76 +110,68 @@ public class ResultInfo<T> implements Serializable {
         return ok(ResultCodeEnum.R200.getMessage(), null);
     }
 
-    public static <T> ResultInfo<T> fail(int status, String message) {
-        return builderFail(status, message);
-    }
-
-    public static <T> ResultInfo<T> fail(String message) {
-        return fail(ResultCodeEnum.R500.getStatus(), message);
-    }
-
-    public static <T> ResultInfo<T> fail() {
-        return fail(ResultCodeEnum.R500.getMessage());
-    }
-
-    public static <T> ResultInfo<T> err400(String message, String error) {
-        return builderError(ResultCodeEnum.R400.getStatus(), message, error);
+    public static <T> ResultInfo<T> error(int status, String message) {
+        return builderError(status, message);
     }
 
     public static <T> ResultInfo<T> err400(String message) {
-        return builderFail(ResultCodeEnum.R400.getStatus(), message);
+        return builderError(ResultCodeEnum.R400.getStatus(), message);
     }
 
-    public static <T> ResultInfo<T> err401(String message, String error) {
-        return builderError(ResultCodeEnum.R401.getStatus(), message, error);
+    public static <T> ResultInfo<T> err400() {
+        return err400(ResultCodeEnum.R400.getMessage());
     }
 
     public static <T> ResultInfo<T> err401(String message) {
-        return builderFail(ResultCodeEnum.R401.getStatus(), message);
+        return builderError(ResultCodeEnum.R401.getStatus(), message);
     }
 
     public static <T> ResultInfo<T> err401() {
         return err401(ResultCodeEnum.R401.getMessage());
     }
 
-    public static <T> ResultInfo<T> err403(String message, String error) {
-        return builderError(ResultCodeEnum.R403.getStatus(), message, error);
-    }
-
     public static <T> ResultInfo<T> err403(String message) {
-        return builderFail(ResultCodeEnum.R403.getStatus(), message);
+        return builderError(ResultCodeEnum.R403.getStatus(), message);
     }
 
     public static <T> ResultInfo<T> err403() {
         return err403(ResultCodeEnum.R403.getMessage());
     }
 
+    public static <T> ResultInfo<T> err404(String message) {
+        return builderError(ResultCodeEnum.R404.getStatus(), message);
+    }
+
     public static <T> ResultInfo<T> err404() {
-        return builderFail(ResultCodeEnum.R404);
+        return err404(ResultCodeEnum.R404.getMessage());
+    }
+
+    public static <T> ResultInfo<T> err405(String message) {
+        return builderError(ResultCodeEnum.R405.getStatus(), message);
     }
 
     public static <T> ResultInfo<T> err405() {
-        return builderFail(ResultCodeEnum.R405);
+        return err405(ResultCodeEnum.R405.getMessage());
     }
 
     public static <T> ResultInfo<T> err429(String message) {
-        return builderFail(ResultCodeEnum.R429.getStatus(), message);
+        return builderError(ResultCodeEnum.R429.getStatus(), message);
     }
 
-    public static <T> ResultInfo<T> error(int status, String message, String error) {
-        return builderError(status, message, error);
+    public static <T> ResultInfo<T> err429() {
+        return err429(ResultCodeEnum.R429.getMessage());
     }
 
-    public static <T> ResultInfo<T> error(ResultCodeEnum resultCodeEnum, String error) {
-        return error(resultCodeEnum.getStatus(), resultCodeEnum.getMessage(), error);
+    public static <T> ResultInfo<T> err500(String message) {
+        return builderError(ResultCodeEnum.R500.getStatus(), message);
     }
 
-    public static <T> ResultInfo<T> error(String message, String error) {
-        return error(ResultCodeEnum.R500.getStatus(), message, error);
+    public static <T> ResultInfo<T> err500() {
+        return err500(ResultCodeEnum.R500.getMessage());
     }
 
     public static <T> ResultInfo<T> err503() {
-        return builderFail(ResultCodeEnum.R503);
+        return builderError(ResultCodeEnum.R503);
     }
 
     @Override

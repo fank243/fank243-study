@@ -31,14 +31,14 @@ public class DataSourceExceptionHandler {
     @ExceptionHandler(DataAccessException.class)
     public ResultInfo<?> handlerDataAccessException(DataAccessException e) {
         log.error("数据源异常拦截[DataAccessException]：{}", e.getMessage(), e);
-        return ResultInfo.error("数据库连接异常，请稍后再试", Objects.requireNonNull(e.getRootCause()).getMessage());
+        return ResultInfo.err500("数据库连接异常，请稍后再试").error(Objects.requireNonNull(e.getRootCause()).getMessage());
     }
 
     /** SQL语法错误异常 **/
     @ExceptionHandler(SQLException.class)
     public ResultInfo<?> handlerSqlException(SQLException e) {
         log.error("数据源异常拦截[SQLException]：{}", e.getMessage(), e);
-        return ResultInfo.error("SQL执行异常，请联系管理员", e.getMessage());
+        return ResultInfo.err500("SQL执行异常，请联系管理员").error(e.getMessage());
     }
 
 }

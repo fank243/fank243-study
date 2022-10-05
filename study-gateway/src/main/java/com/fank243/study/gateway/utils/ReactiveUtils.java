@@ -44,6 +44,20 @@ public class ReactiveUtils {
     }
 
     /**
+     * 响应 JSON
+     * 
+     * @param response {@link ServerHttpResponse}
+     * @param result {@link ResultInfo}
+     * @return void
+     */
+    public static Mono<Void> renderJsonWithOK(ServerHttpResponse response, ResultInfo<?> result) {
+        response.setRawStatusCode(HttpStatus.OK.value());
+        response.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
+        DataBuffer buffer = response.bufferFactory().wrap(result.toString().getBytes(StandardCharsets.UTF_8));
+        return response.writeWith(Mono.just(buffer));
+    }
+
+    /**
      * 获取客户端IP
      *
      * <p>
@@ -121,7 +135,7 @@ public class ReactiveUtils {
                                 String message = webExchangeBindException.getAllErrors().get(0).getDefaultMessage();
                                 result = ResultInfo.err400(message);
                             } else {
-                                result = ResultInfo.err400(ex.getMessage(), ex.toString());
+                                result = ResultInfo.err400(ex.getMessage()).error(ex.toString());
                             }
                         }
                         case 401 -> result = ResultInfo.err401();
@@ -129,23 +143,23 @@ public class ReactiveUtils {
                         case 404 -> result = ResultInfo.err404();
                         case 405 -> result = ResultInfo.err405();
                         case 503 -> result = ResultInfo.err503();
-                        default -> result = ResultInfo.error(ex.getMessage(), ex.toString());
+                        default -> result = ResultInfo.err500(ex.getMessage()).error(ex.toString());
                     }
                 } else if (ex instanceof SaTokenException) {
                     if (ex.getCause() instanceof NotLoginException) {
-                        result = ResultInfo.err401(ResultCodeEnum.R401.getMessage(), ex.getMessage());
+                        result = ResultInfo.err401(ResultCodeEnum.R401.getMessage()).error(ex.getMessage());
                     } else {
-                        result = ResultInfo.err403(ResultCodeEnum.R403.getMessage(), ex.getMessage());
+                        result = ResultInfo.err403(ResultCodeEnum.R403.getMessage()).error(ex.getMessage());
                     }
                 } else {
-                    result = ResultInfo.error(ex.getMessage(), ex.toString());
+                    result = ResultInfo.err500(ex.getMessage()).error(ex.toString());
                 }
             }
 
             // 401
             case UNAUTHORIZED -> {
                 if (ex.getCause() instanceof NotLoginException) {
-                    result = ResultInfo.err401(ResultCodeEnum.R401.getMessage(), ex.getMessage());
+                    result = ResultInfo.err401(ResultCodeEnum.R401.getMessage()).error(ex.getMessage());
                 } else {
                     result = ResultInfo.err401();
                 }
@@ -163,7 +177,7 @@ public class ReactiveUtils {
             // 503
             case SERVICE_UNAVAILABLE -> result = ResultInfo.err503();
             // 500
-            default -> result = ResultInfo.error(ex.getMessage(), ex.toString());
+            default -> result = ResultInfo.err500(ex.getMessage()).error(ex.toString());
         }
 
         return result;

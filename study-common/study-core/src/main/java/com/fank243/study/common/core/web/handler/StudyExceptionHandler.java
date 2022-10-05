@@ -29,14 +29,14 @@ public class StudyExceptionHandler {
     @ExceptionHandler(FeignException.class)
     public ResultInfo<?> handleFeignException(FeignException e) {
         log.error("全局异常拦截[FeignException]：{}", e.getMessage(), e);
-        return ResultInfo.error(e.getStatus(), e.getLocalizedMessage(), e.getMessage());
+        return ResultInfo.error(e.getStatus(), e.getLocalizedMessage()).error(e.getMessage());
     }
 
     /** 业务异常 */
     @ExceptionHandler(BizException.class)
     public ResultInfo<?> handlerBizException(BizException e) {
         log.error("全局异常拦截[BizException]:{}", e.getLocalizedMessage(), e);
-        return ResultInfo.error(e.getStatus(), e.getLocalizedMessage(), e.getMessage());
+        return ResultInfo.error(e.getStatus(), e.getLocalizedMessage()).error(e.getMessage());
     }
 
 }

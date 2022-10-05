@@ -1,9 +1,11 @@
-package com.fank243.study.gateway.config;
+package com.fank243.study.system.properties;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 import lombok.Data;
+import org.springframework.stereotype.Component;
 
 /**
  * Oauth2 属性
@@ -12,14 +14,15 @@ import lombok.Data;
  * @since 2022-10-03 03:25:13
  */
 @Data
-@Configuration
-@ConfigurationProperties(prefix = "study.oauth2")
-public class Oauth2Properties {
+@Component
+public class SystemProperties {
 
     /** 客户端ID **/
+    @Value("${study.oauth2.client-id:}")
     private String clientId;
 
     /** 客户端秘钥 **/
+    @Value("${study.oauth2.client-secret:}")
     private String clientSecret;
 
 }

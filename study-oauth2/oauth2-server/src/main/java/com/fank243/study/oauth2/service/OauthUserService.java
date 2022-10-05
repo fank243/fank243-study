@@ -39,10 +39,10 @@ public class OauthUserService extends ServiceImpl<IOauthUserDao, OauthUserEntity
     public ResultInfo<String> login(String name, String pwd) {
         OauthUserEntity oauthUserEntity = oauthUserDao.findSysUserByUsername(name);
         if (oauthUserEntity == null) {
-            return ResultInfo.fail("用户名或密码错误");
+            return ResultInfo.err400("用户名或密码错误");
         }
         if (!oauthUserEntity.getPassword().equalsIgnoreCase(SecureUtil.md5(pwd))) {
-            return ResultInfo.fail("用户名或密码错误");
+            return ResultInfo.err400("用户名或密码错误");
         }
         return ResultInfo.ok(oauthUserEntity.getUserId());
     }
@@ -57,14 +57,14 @@ public class OauthUserService extends ServiceImpl<IOauthUserDao, OauthUserEntity
         wrapper.eq("username", oauthUserDTO.getUsername());
         Long count = oauthUserDao.selectCount(wrapper);
         if (Convert.toLong(count) > 0) {
-            return ResultInfo.fail("用户名已被占用");
+            return ResultInfo.err400("用户名已被占用");
         }
         // 创建用户
         OauthUserEntity oauthUserEntity = BeanUtil.copyProperties(oauthUserDTO, OauthUserEntity.class);
         oauthUserEntity.setPassword(SecureUtil.md5(oauthUserEntity.getPassword()));
         boolean isOk = save(oauthUserEntity);
         if (!isOk) {
-            return ResultInfo.fail("创建账号失败");
+            return ResultInfo.err400("创建账号失败");
         }
         OauthClientEntity oauthClientEntity = oauthClientService.findByClientId(clientId);
 
@@ -80,7 +80,7 @@ public class OauthUserService extends ServiceImpl<IOauthUserDao, OauthUserEntity
         wrapper.set("password", SecureUtil.md5(oauthUserDTO.getPassword()));
         boolean isOk = update(null, wrapper);
 
-        return isOk ? ResultInfo.ok() : ResultInfo.fail("修改密码失败");
+        return isOk ? ResultInfo.ok() : ResultInfo.err500("修改密码失败");
     }
 
 }
