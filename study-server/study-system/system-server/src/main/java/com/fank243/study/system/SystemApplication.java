@@ -1,13 +1,12 @@
 package com.fank243.study.system;
 
-import com.fank243.study.common.core.constants.Constants;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.alicp.jetcache.anno.config.EnableMethodCache;
+import com.fank243.study.common.core.constants.Constants;
 
 /**
  * 系统服务

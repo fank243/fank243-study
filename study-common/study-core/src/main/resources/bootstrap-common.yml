@@ -26,6 +26,9 @@ spring:
         # 指定配置文件后缀，默认：yml
         file-extension: yml
 
+log-record.diff-msg-format: 【${_fieldName}】从【${_oldValue}】变成了【${_newValue}】
+log-record.diff-msg-separator: "，"
+
 logging:
 #  config: file:study-core/src/main/resources/logback-spring.xml
   config: classpath:logback-spring.xml

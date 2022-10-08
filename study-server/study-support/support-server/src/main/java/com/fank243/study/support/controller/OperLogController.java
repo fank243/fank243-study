@@ -2,6 +2,7 @@ package com.fank243.study.support.controller;
 
 import javax.annotation.Resource;
 
+import com.fank243.study.support.domain.entity.OperLogEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,10 +17,9 @@ import com.fank243.study.common.core.constants.ValidatorGroup;
 import com.fank243.study.common.core.domain.model.PageBean;
 import com.fank243.study.common.core.exception.BizException;
 import com.fank243.study.common.core.utils.ResultInfo;
-import com.fank243.study.support.domain.dto.LogDTO;
-import com.fank243.study.support.domain.entity.LogEntity;
-import com.fank243.study.support.domain.vo.LogVO;
-import com.fank243.study.support.service.LogService;
+import com.fank243.study.support.domain.dto.OperLogDTO;
+import com.fank243.study.support.domain.vo.OperLogVO;
+import com.fank243.study.support.service.OperLogService;
 
 import cn.hutool.core.bean.BeanUtil;
 
@@ -31,10 +31,10 @@ import cn.hutool.core.bean.BeanUtil;
  */
 @RequestMapping(ServerConstants.BASE_URI_SUPPORT_LOG)
 @RestController
-public class LogController extends BaseController {
+public class OperLogController extends BaseController {
 
     @Resource
-    private LogService logService;
+    private OperLogService operLogService;
 
     /**
      * 请求响应日志 > 根据日志ID获取
@@ -43,9 +43,9 @@ public class LogController extends BaseController {
      * @return 日志列表
      */
     @GetMapping("/get/{id}")
-    public ResultInfo<LogVO> getById(@PathVariable String id) {
-        LogEntity reqRespLog = logService.getById(id);
-        return ResultInfo.ok(BeanUtil.toBean(reqRespLog, LogVO.class));
+    public ResultInfo<OperLogVO> getById(@PathVariable String id) {
+        OperLogEntity operLogEntity = operLogService.getById(id);
+        return ResultInfo.ok(BeanUtil.toBean(operLogEntity, OperLogVO.class));
     }
 
     /**
@@ -55,8 +55,8 @@ public class LogController extends BaseController {
      * @return 日志列表
      */
     @PostMapping("/page")
-    public ResultInfo<PageBean<LogVO>> page(@RequestBody LogDTO reqRespLog) {
-        return ResultInfo.ok(logService.page(reqRespLog));
+    public ResultInfo<PageBean<OperLogVO>> page(@RequestBody OperLogDTO reqRespLog) {
+        return ResultInfo.ok(operLogService.page(reqRespLog));
     }
 
     /**
@@ -66,9 +66,9 @@ public class LogController extends BaseController {
      * @return 操作结果
      */
     @PostMapping("/add")
-    public ResultInfo<?> add(@RequestBody @Validated({ValidatorGroup.Create.class}) LogDTO reqRespLog)
+    public ResultInfo<?> add(@RequestBody @Validated({ValidatorGroup.Create.class}) OperLogDTO reqRespLog)
         throws BizException {
-        boolean isOk = logService.add(reqRespLog);
+        boolean isOk = operLogService.add(reqRespLog);
         return isOk ? ResultInfo.ok().message("添加成功") : ResultInfo.err500("添加失败");
     }
 }

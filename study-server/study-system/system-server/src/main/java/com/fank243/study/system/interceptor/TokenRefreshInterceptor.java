@@ -39,7 +39,7 @@ public class TokenRefreshInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response,
         @NotNull Object handler) throws Exception {
-        if (!request.getRequestURI().startsWith("/api")) {
+        if (!request.getRequestURI().startsWith("/system")) {
             return HandlerInterceptor.super.preHandle(request, response, handler);
         }
         if (!StpUtil.isLogin()) {

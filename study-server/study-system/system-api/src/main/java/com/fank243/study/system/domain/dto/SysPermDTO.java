@@ -6,9 +6,10 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
 import com.fank243.study.common.core.base.BaseDTO;
-import com.fank243.study.common.core.domain.validator.annotation.Enum;
 import com.fank243.study.common.core.constants.ValidatorGroup;
 import com.fank243.study.common.core.domain.enums.PermTypeEnum;
+import com.fank243.study.common.core.domain.validator.annotation.Enum;
+import com.mzt.logapi.starter.annotation.DiffLogAllFields;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,17 +20,18 @@ import lombok.EqualsAndHashCode;
  * @author FanWeiJie
  * @since 2022-06-27
  */
+@DiffLogAllFields
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class SysPermDTO extends BaseDTO {
 
     /*** 菜单ID */
     @NotNull(message = "菜单ID必传", groups = {ValidatorGroup.Modify.class})
-    private Long permId;
+    private String permId;
 
     /** 父ID */
     @NotNull(message = "请选择父菜单", groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
-    private Long pid;
+    private String pid;
 
     /*** 菜单代码 */
     @Length(min = 2, max = 20, message = "菜单代码长度在2-20位之间",

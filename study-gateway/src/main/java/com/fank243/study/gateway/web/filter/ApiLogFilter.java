@@ -9,6 +9,7 @@ import java.util.Objects;
 
 import javax.validation.constraints.NotNull;
 
+import com.fank243.study.support.domain.dto.ReqRespLogDTO;
 import org.reactivestreams.Publisher;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -36,7 +37,7 @@ import org.springframework.web.server.ServerWebExchange;
 
 import com.fank243.study.gateway.constants.FilterOrderConstant;
 import com.fank243.study.gateway.utils.LogUtils;
-import com.fank243.study.support.domain.dto.LogDTO;
+import com.fank243.study.support.domain.dto.OperLogDTO;
 
 import brave.Span;
 import brave.Tracer;
@@ -76,40 +77,40 @@ public class ApiLogFilter implements GlobalFilter, Ordered {
 
         MediaType contentType = request.getHeaders().getContentType();
 
-        LogDTO logDTO = new LogDTO();
-        logDTO.setUserId(StpUtil.isLogin() ? StpUtil.getLoginIdAsString() : "");
-        logDTO.setClientIp(Objects.requireNonNull(request.getRemoteAddress()).getHostString());
-        logDTO.setReqUri(request.getPath().toString());
-        logDTO.setReqMethod(request.getMethodValue());
-        logDTO.setContentType(contentType != null ? contentType.toString() : null);
-        logDTO.setReqTime(new Date());
-        logDTO.setTraceId(traceId);
-        logDTO.setSpanId(spanId);
+        ReqRespLogDTO respLogDTO = new ReqRespLogDTO();
+        respLogDTO.setUserId(StpUtil.isLogin() ? StpUtil.getLoginIdAsString() : "");
+        respLogDTO.setClientIp(Objects.requireNonNull(request.getRemoteAddress()).getHostString());
+        respLogDTO.setReqUri(request.getPath().toString());
+        respLogDTO.setReqMethod(request.getMethodValue());
+        respLogDTO.setContentType(contentType != null ? contentType.toString() : null);
+        respLogDTO.setReqTime(new Date());
+        respLogDTO.setTraceId(traceId);
+        respLogDTO.setSpanId(spanId);
 
         Map<String, String> headerMap = new HashMap<>(request.getHeaders().entrySet().size());
         for (Map.Entry<String, List<String>> entry : request.getHeaders().entrySet()) {
             headerMap.put(entry.getKey(), entry.getValue().get(0));
         }
         String headers = JSONUtil.toJsonStr(headerMap);
-        logDTO.setReqHeader(headers);
+        respLogDTO.setReqHeader(headers);
 
         if (MediaType.APPLICATION_FORM_URLENCODED.isCompatibleWith(contentType)
             || MediaType.APPLICATION_JSON.isCompatibleWith(contentType)) {
-            return writeBodyLog(exchange, chain, logDTO);
+            return writeBodyLog(exchange, chain, respLogDTO);
         }
 
-        return writeBasicLog(exchange, chain, logDTO);
+        return writeBasicLog(exchange, chain, respLogDTO);
     }
 
-    private Mono<Void> writeBasicLog(ServerWebExchange exchange, GatewayFilterChain chain, LogDTO logDTO) {
+    private Mono<Void> writeBasicLog(ServerWebExchange exchange, GatewayFilterChain chain, ReqRespLogDTO operLogDTO) {
         Map<String, String> params = exchange.getRequest().getQueryParams().toSingleValueMap();
         if (!params.isEmpty()) {
-            logDTO.setReqBody(JSONUtil.toJsonStr(params));
+            operLogDTO.setReqBody(JSONUtil.toJsonStr(params));
         }
         // 获取响应体
-        ServerHttpResponseDecorator decoratedResponse = recordResponseLog(exchange, logDTO);
+        ServerHttpResponseDecorator decoratedResponse = recordResponseLog(exchange, operLogDTO);
         return chain.filter(exchange.mutate().response(decoratedResponse).build()).then(Mono.fromRunnable(() -> {
-            LogUtils.printLog(logDTO);
+            LogUtils.printLog(operLogDTO);
         }));
     }
 
@@ -118,19 +119,19 @@ public class ApiLogFilter implements GlobalFilter, Ordered {
      *
      * @param exchange ServerWebExchange
      * @param chain GatewayFilterChain
-     * @param logDTO 请求响应信息
+     * @param respLogDTO 请求响应信息
      */
-    private Mono<Void> writeBodyLog(ServerWebExchange exchange, GatewayFilterChain chain, LogDTO logDTO) {
+    private Mono<Void> writeBodyLog(ServerWebExchange exchange, GatewayFilterChain chain, ReqRespLogDTO respLogDTO) {
         ServerRequest serverRequest = ServerRequest.create(exchange, MESSAGE_READERS);
         Mono<String> modifiedBody = serverRequest.bodyToMono(String.class).flatMap(body -> {
             if (JSONUtil.isTypeJSON(body)) {
                 if (JSONUtil.isTypeJSONArray(body)) {
-                    logDTO.setReqBody(JSONUtil.parseArray(body).toJSONString(0));
+                    respLogDTO.setReqBody(JSONUtil.parseArray(body).toJSONString(0));
                 } else {
-                    logDTO.setReqBody(JSONUtil.parseObj(body).toJSONString(0));
+                    respLogDTO.setReqBody(JSONUtil.parseObj(body).toJSONString(0));
                 }
             } else {
-                logDTO.setReqBody(body);
+                respLogDTO.setReqBody(body);
             }
             return Mono.just(body);
         });
@@ -149,12 +150,12 @@ public class ApiLogFilter implements GlobalFilter, Ordered {
             ServerHttpRequest decoratedRequest = requestDecorate(exchange, headers, outputMessage);
 
             // 记录响应日志
-            ServerHttpResponseDecorator decoratedResponse = recordResponseLog(exchange, logDTO);
+            ServerHttpResponseDecorator decoratedResponse = recordResponseLog(exchange, respLogDTO);
 
             // 记录普通的
             return chain.filter(exchange.mutate().request(decoratedRequest).response(decoratedResponse).build())
                 .then(Mono.fromRunnable(() -> {
-                    LogUtils.printLog(logDTO);
+                    LogUtils.printLog(respLogDTO);
                 }));
         }));
     }
@@ -196,10 +197,10 @@ public class ApiLogFilter implements GlobalFilter, Ordered {
      * 记录响应日志
      *
      * @param exchange ServerWebExchange
-     * @param logDTO 请求响应信息
+     * @param respLogDTO 请求响应信息
      * @return ServerHttpResponseDecorator
      */
-    private ServerHttpResponseDecorator recordResponseLog(ServerWebExchange exchange, LogDTO logDTO) {
+    private ServerHttpResponseDecorator recordResponseLog(ServerWebExchange exchange, ReqRespLogDTO respLogDTO) {
         ServerHttpResponse response = exchange.getResponse();
         DataBufferFactory bufferFactory = response.bufferFactory();
 
@@ -207,7 +208,7 @@ public class ApiLogFilter implements GlobalFilter, Ordered {
             @Override
             public Mono<Void> writeWith(Publisher<? extends DataBuffer> body) {
                 if (body instanceof Flux) {
-                    logDTO.setRespTime(new Date());
+                    respLogDTO.setRespTime(new Date());
 
                     // 获取响应类型，如果是 json 就打印
                     String respContentType =
@@ -227,7 +228,7 @@ public class ApiLogFilter implements GlobalFilter, Ordered {
                             // 释放掉内存
                             DataBufferUtils.release(join);
                             String responseResult = new String(content, StandardCharsets.UTF_8);
-                            logDTO.setRespBody(responseResult);
+                            respLogDTO.setRespBody(responseResult);
 
                             return bufferFactory.wrap(content);
                         }));

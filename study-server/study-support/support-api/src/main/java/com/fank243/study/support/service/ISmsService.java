@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.fank243.study.common.core.constants.ServerConstants;
 import com.fank243.study.common.core.utils.ResultInfo;
-import com.fank243.study.support.domain.dto.LogDTO;
+import com.fank243.study.support.domain.dto.OperLogDTO;
 
 /**
  * 国家行政区划表 客户端
@@ -19,9 +19,9 @@ public interface ISmsService {
     /**
      * 发送短信验证码
      *
-     * @param logDTO 请求响应信息
+     * @param operLogDTO 请求响应信息
      * @return 添加结果
      */
     @PostMapping("/send")
-    ResultInfo<?> send(@RequestBody LogDTO logDTO);
+    ResultInfo<?> send(@RequestBody OperLogDTO operLogDTO);
 }

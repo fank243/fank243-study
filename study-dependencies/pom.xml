@@ -13,6 +13,8 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
 
+        <fank243-sms.version>1.0.0</fank243-sms.version>
+
         <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-oauth2-authorization-server -->
         <spring-security-oauth2-authorization-server.version>0.3.1</spring-security-oauth2-authorization-server.version>
 
@@ -37,6 +39,17 @@
         <!-- https://mvnrepository.com/artifact/com.github.whvcse/easy-captcha -->
         <easy-captcha.version>1.6.2</easy-captcha.version>
 
+        <!-- https://mvnrepository.com/artifact/com.aliyun/aliyun-java-sdk-core -->
+        <aliyun-java-sdk-core.version>4.6.2</aliyun-java-sdk-core.version>
+        <!-- https://mvnrepository.com/search?q=aliyun-java-sdk-dysmsapi -->
+        <aliyun-java-sdk-dysmsapi.version>2.2.1</aliyun-java-sdk-dysmsapi.version>
+
+        <!-- https://mvnrepository.com/artifact/cn.monitor4all/log-record-starter -->
+        <log-record.version>1.2.3</log-record.version>
+
+        <!-- https://mvnrepository.com/artifact/io.github.mouzt/bizlog-sdk -->
+        <bizlog.version>3.0.1</bizlog.version>
+
         <!-- https://mvnrepository.com/artifact/cn.hutool/hutool-all -->
         <hutool.version>5.8.8</hutool.version>
         <!-- https://mvnrepository.com/artifact/cn.hutool/hutool-extra -->
@@ -54,7 +67,6 @@
         <protobuf.version>3.21.7</protobuf.version>
 
         <!--插件-->
-
         <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-source-plugin -->
@@ -65,6 +77,12 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.fank243.plugin</groupId>
+                <artifactId>fank243-sms</artifactId>
+                <version>${fank243-sms.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-oauth2-authorization-server</artifactId>
@@ -166,6 +184,30 @@
                 <version>${easy-captcha.version}</version>
             </dependency>
 
+            <!-- 阿里云短信 -->
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>aliyun-java-sdk-core</artifactId>
+                <version>${aliyun-java-sdk-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+                <version>${aliyun-java-sdk-dysmsapi.version}</version>
+            </dependency>
+
+            <!-- 一款基于注解记录系统操作日志的框架 -->
+            <dependency>
+                <groupId>io.github.mouzt</groupId>
+                <artifactId>bizlog-sdk</artifactId>
+                <version>${bizlog.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.monitor4all</groupId>
+                <artifactId>log-record-starter</artifactId>
+                <version>${log-record.version}</version>
+            </dependency>
+
             <!-- <dependency>
                  <groupId>cn.hutool</groupId>
                  <artifactId>hutool-all</artifactId>
@@ -258,4 +300,17 @@
             </plugins>
         </pluginManagement>
     </build>
+
+    <repositories>
+        <repository>
+            <id>rdc-releases</id>
+            <url>https://packages.aliyun.com/maven/repository/2086257-release-RSWMWn/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 </project>

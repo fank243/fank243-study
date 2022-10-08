@@ -20,5 +20,10 @@
             <groupId>com.fank243.study</groupId>
             <artifactId>support-api</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>io.github.mouzt</groupId>
+            <artifactId>bizlog-sdk</artifactId>
+        </dependency>
     </dependencies>
 </project>

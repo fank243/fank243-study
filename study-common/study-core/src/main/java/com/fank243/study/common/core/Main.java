@@ -1,10 +1,6 @@
 package com.fank243.study.common.core;
 
-import java.nio.charset.StandardCharsets;
-
-import cn.hutool.core.codec.Base64Encoder;
-import cn.hutool.crypto.SecureUtil;
-import cn.hutool.crypto.digest.MD5;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
 
 /**
  * 测试专用
@@ -15,13 +11,7 @@ import cn.hutool.crypto.digest.MD5;
 public class Main {
 
     public static void main(String[] args) {
-        for (int i = 0; i < 100; i++) {
-            String uid = "10001524311652144201729" + i;
-            String hashCode = uid.hashCode() + "";
-            String key = Base64Encoder.encode(hashCode);
-            System.out.println(hashCode + " ===> " + key);
-            uid = SecureUtil.des(key.getBytes(StandardCharsets.UTF_8)).encryptBase64(uid);
-            System.out.println(uid + " ===> " + uid.length());
-        }
+          SpelExpressionParser parser = new SpelExpressionParser();
+          parser.parseExpression("'删除了管理员【' + #findUsername(#ids) + '】'");
     }
 }

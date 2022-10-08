@@ -22,6 +22,8 @@ public class SysPermEntity extends BaseEntity {
     @TableId
     private String permId;
 
+    private String pid;
+
     /** 权限代码 */
     private String permCode;
 

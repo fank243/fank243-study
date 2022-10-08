@@ -33,6 +33,10 @@
             <groupId>com.fank243.study</groupId>
             <artifactId>support-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.fank243.plugin</groupId>
+            <artifactId>fank243-sms</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>com.baomidou</groupId>
@@ -50,6 +54,15 @@
         <dependency>
             <groupId>cn.dev33</groupId>
             <artifactId>sa-token-dao-redis-jackson</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
         </dependency>
     </dependencies>
 

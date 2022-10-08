@@ -1,9 +1,11 @@
 package com.fank243.study.system.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import cn.hutool.core.util.StrUtil;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,11 +22,13 @@ import com.fank243.study.common.core.constants.ValidatorGroup;
 import com.fank243.study.common.core.domain.model.PageBean;
 import com.fank243.study.common.core.exception.BizException;
 import com.fank243.study.common.core.utils.ResultInfo;
-import com.fank243.study.log.annotation.ApiLog;
+import com.fank243.study.log.constants.LogRecordType;
 import com.fank243.study.system.domain.dto.SysUserDTO;
 import com.fank243.study.system.domain.entity.SysUserEntity;
 import com.fank243.study.system.domain.vo.SysUserVO;
 import com.fank243.study.system.service.SysUserService;
+import com.mzt.logapi.context.LogRecordContext;
+import com.mzt.logapi.starter.annotation.LogRecord;
 
 import cn.hutool.core.bean.BeanUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -72,7 +76,6 @@ public class SysUserController extends BaseController {
      * @param sysUser 请求参数
      * @return 操作结果
      */
-    @ApiLog("新增管理员")
     @RepeatSubmit
     @PostMapping("/add")
     public ResultInfo<?> add(@RequestBody @Validated({ValidatorGroup.Create.class}) SysUserDTO sysUser)
@@ -87,7 +90,6 @@ public class SysUserController extends BaseController {
      * @param sysUser 请求参数
      * @return 操作结果
      */
-    @ApiLog("修改管理员")
     @RepeatSubmit
     @PostMapping(value = "/modify")
     public ResultInfo<?> modify(@RequestBody @Validated({ValidatorGroup.Modify.class}) SysUserDTO sysUser)
@@ -102,10 +104,17 @@ public class SysUserController extends BaseController {
      * @param ids 用户ID数组
      * @return 操作结果
      */
-    @ApiLog("删除管理员")
+    @LogRecord(type = LogRecordType.SYS_USER, bizNo = "{{#userId}}",
+        success = "删除管理员【{{#username}}】成功", successCondition = "{{#success == true}}")
     @RepeatSubmit
     @DeleteMapping("/delete")
     public ResultInfo<?> delete(@RequestBody String[] ids) {
+        List<SysUserVO> sysUserList = sysUserService.findByUserIdIn(List.of(ids));
+        String username = sysUserList.stream().map(SysUserVO::getUsername).collect(Collectors.joining("、"));
+        LogRecordContext.putVariable("userId", String.join(",", ids));
+        LogRecordContext.putVariable("username", username);
+        LogRecordContext.putVariable("success", StrUtil.isNotBlank(username));
+
         boolean isOk = sysUserService.removeByIds(List.of(ids));
         return isOk ? ResultInfo.ok().message("删除成功") : ResultInfo.err500("删除失败");
     }

@@ -3,6 +3,7 @@ package com.fank243.study.system.domain.dto;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.mzt.logapi.starter.annotation.DiffLogAllFields;
 import org.hibernate.validator.constraints.Length;
 
 import com.fank243.study.common.core.base.BaseDTO;
@@ -17,23 +18,24 @@ import lombok.EqualsAndHashCode;
  * @author FanWeiJie
  * @since 2022-06-27
  */
+@DiffLogAllFields
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class SysRoleDTO extends BaseDTO {
 
     /*** 角色ID */
     @NotBlank(message = "角色ID必传", groups = {ValidatorGroup.Modify.class})
-    private Long roleId;
+    private String roleId;
 
     /*** 角色代码 */
     @Length(min = 2, max = 10, message = "角色代码长度在3-20位之间",
-            groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
+        groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
     @NotBlank(message = "请填写角色代码", groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
     private String roleCode;
 
     /*** 角色名称 */
     @Length(min = 3, max = 20, message = "角色名称长度在3-20位之间",
-            groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
+        groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
     @NotBlank(message = "请填写角色名称", groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
     private String roleName;
 

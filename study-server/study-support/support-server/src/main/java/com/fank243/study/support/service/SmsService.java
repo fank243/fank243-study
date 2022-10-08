@@ -5,10 +5,15 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.aliyuncs.dysmsapi.model.v20170525.SendSmsRequest;
+import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fank243.plugin.sms.properties.AliyunSmsProperties;
+import com.fank243.plugin.sms.strategy.SmsStrategy;
+import com.fank243.plugin.sms.strategy.impl.AliyunSmsStrategy;
 import com.fank243.study.common.core.constants.CacheConstants;
 import com.fank243.study.common.core.constants.TimeConstant;
 import com.fank243.study.common.core.domain.model.PageBean;
@@ -16,12 +21,12 @@ import com.fank243.study.common.core.exception.BizException;
 import com.fank243.study.common.core.service.RedisService;
 import com.fank243.study.common.core.utils.BeanUtils;
 import com.fank243.study.common.core.utils.ResultInfo;
-import com.fank243.study.support.domain.dto.LogDTO;
+import com.fank243.study.support.domain.dto.OperLogDTO;
 import com.fank243.study.support.domain.dto.SmsCodeDTO;
 import com.fank243.study.support.domain.dto.SmsContentDTO;
 import com.fank243.study.support.domain.dto.SmsDTO;
 import com.fank243.study.support.domain.entity.SmsEntity;
-import com.fank243.study.support.domain.vo.LogVO;
+import com.fank243.study.support.domain.vo.OperLogVO;
 import com.fank243.study.support.domain.vo.SmsCodeVO;
 import com.fank243.study.support.domain.vo.SmsSendVO;
 import com.fank243.study.support.mapper.ISmsMapper;
@@ -30,6 +35,8 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 
 /**
  * 短信表 服务类
@@ -51,12 +58,12 @@ public class SmsService extends ServiceImpl<ISmsMapper, SmsEntity> {
      * @param reqRespLog 查询条件
      * @return 列表
      */
-    public PageBean<LogVO> page(LogDTO reqRespLog) {
+    public PageBean<OperLogVO> page(OperLogDTO reqRespLog) {
         // TODO FanWeiJie 添加查询条件
         QueryWrapper<SmsEntity> wrapper = new QueryWrapper<>();
         IPage<SmsEntity> page =
             smsMapper.selectPage(new Page<>(reqRespLog.getCurrPage(), reqRespLog.getPageSize()), wrapper);
-        return BeanUtils.convert(page, LogVO.class);
+        return BeanUtils.convert(page, OperLogVO.class);
     }
 
     /**
@@ -103,12 +110,28 @@ public class SmsService extends ServiceImpl<ISmsMapper, SmsEntity> {
 
     @Transactional(rollbackFor = Exception.class)
     public ResultInfo<?> sendSmsCode(SmsCodeDTO smsCodeDTO) {
-        ResultInfo<?> result = validateMobile(smsCodeDTO.getMobile());
-        if (!result.isSuccess()) {
-            return result;
+        ResultInfo<?> resultInfo = validateMobile(smsCodeDTO.getMobile());
+        if (!resultInfo.isSuccess()) {
+            return resultInfo;
         }
 
         String smsCode = RandomUtil.randomNumbers(6);
+
+        AliyunSmsProperties aliyunSmsProperties =
+            AliyunSmsProperties.builder().region("cn-hangzhou").accessKeyId("").accessKeySecret("").build();
+        SmsStrategy smsStrategy = new AliyunSmsStrategy(aliyunSmsProperties);
+        SendSmsRequest request = new SendSmsRequest();
+        request.setPhoneNumbers(smsCodeDTO.getMobile());
+        request.setSignName("阿里云");
+        request.setTemplateCode("A123456");
+        JSONObject templateParam = new JSONObject();
+        templateParam.set("name", "账号");
+        templateParam.set("amount", "100");
+        request.setTemplateParam(templateParam.toString());
+        String result = smsStrategy.sendSms(JSONUtil.toJsonStr(request));
+        System.out.println(result);
+        SendSmsResponse response = JSONUtil.toBean(result, SendSmsResponse.class);
+
         String msgId = IdUtil.simpleUUID();
         smsCodeDTO.setMsgId(msgId);
         smsCodeDTO.setSmsCode(smsCode);

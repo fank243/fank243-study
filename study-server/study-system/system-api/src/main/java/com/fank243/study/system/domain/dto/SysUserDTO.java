@@ -2,12 +2,15 @@ package com.fank243.study.system.domain.dto;
 
 import javax.validation.constraints.NotBlank;
 
-import cn.hutool.core.util.StrUtil;
+import com.mzt.logapi.starter.annotation.DIffLogIgnore;
+import com.mzt.logapi.starter.annotation.DiffLogAllFields;
+import com.mzt.logapi.starter.annotation.DiffLogField;
 import org.hibernate.validator.constraints.Length;
 
 import com.fank243.study.common.core.base.BaseDTO;
 import com.fank243.study.common.core.constants.ValidatorGroup;
 
+import cn.hutool.core.util.StrUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -17,6 +20,7 @@ import lombok.EqualsAndHashCode;
  * @author FanWeiJie
  * @since 2021-09-03
  */
+@DiffLogAllFields
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class SysUserDTO extends BaseDTO {
@@ -38,11 +42,13 @@ public class SysUserDTO extends BaseDTO {
     @Length(min = 3, max = 20, message = "密码长度在3-20位之间",
         groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
     @NotBlank(message = "请填写密码", groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
+    @DIffLogIgnore
     private String password;
 
     public String getUsername() {
         return StrUtil.trimToEmpty(this.username);
     }
+
     public String getNickname() {
         return StrUtil.trimToEmpty(this.nickname);
     }

@@ -1,10 +1,15 @@
 package com.fank243.study.system.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
-import com.fank243.study.log.annotation.ApiLog;
+import cn.hutool.core.util.StrUtil;
+import com.fank243.study.log.constants.LogRecordType;
+import com.fank243.study.system.domain.vo.SysUserVO;
+import com.mzt.logapi.context.LogRecordContext;
+import com.mzt.logapi.starter.annotation.LogRecord;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -70,7 +75,6 @@ public class SysRoleController extends BaseController {
      * @param sysRole 请求参数
      * @return 操作结果
      */
-    @ApiLog("新增角色")
     @RepeatSubmit
     @PostMapping("/add")
     public ResultInfo<?> add(@RequestBody @Validated({ValidatorGroup.Create.class}) SysRoleDTO sysRole)
@@ -85,7 +89,6 @@ public class SysRoleController extends BaseController {
      * @param sysRole 请求参数
      * @return 操作结果
      */
-    @ApiLog("修改角色")
     @RepeatSubmit
     @PostMapping("/modify")
     public ResultInfo<?> modify(@RequestBody @Validated({ValidatorGroup.Modify.class}) SysRoleDTO sysRole)
@@ -100,10 +103,17 @@ public class SysRoleController extends BaseController {
      * @param ids 角色ID数组
      * @return 操作结果
      */
-    @ApiLog("删除角色")
+    @LogRecord(type = LogRecordType.SYS_ROLE, bizNo = "{{#roleId}}",
+            success = "删除角色【{{#roleName}}】成功", successCondition = "{{#success == true}}")
     @RepeatSubmit
     @DeleteMapping("/delete")
     public ResultInfo<?> delete(@RequestBody String[] ids) throws BizException {
+        List<SysRoleVO> sysUserList = sysRoleService.findByRoleIn(List.of(ids));
+        String roleName = sysUserList.stream().map(SysRoleVO::getRoleName).collect(Collectors.joining("、"));
+        LogRecordContext.putVariable("roleId", String.join(",", ids));
+        LogRecordContext.putVariable("roleName", roleName);
+        LogRecordContext.putVariable("success", StrUtil.isNotBlank(roleName));
+
         boolean isOk = sysRoleService.removeByIds(List.of(ids));
         return isOk ? ResultInfo.ok().message("删除成功") : ResultInfo.err500("删除失败");
     }

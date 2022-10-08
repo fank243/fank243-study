@@ -1,12 +1,15 @@
 package com.fank243.study.system.service;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.mzt.logapi.context.LogRecordContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -19,6 +22,7 @@ import com.fank243.study.common.core.exception.BizException;
 import com.fank243.study.common.core.service.RedisService;
 import com.fank243.study.common.core.utils.BeanUtils;
 import com.fank243.study.common.core.utils.ResultInfo;
+import com.fank243.study.log.constants.LogRecordType;
 import com.fank243.study.oauth2.api.domain.dto.OauthUserDTO;
 import com.fank243.study.oauth2.api.domain.vo.OauthAccessTokenVO;
 import com.fank243.study.oauth2.api.service.IOauth2Service;
@@ -27,8 +31,8 @@ import com.fank243.study.system.domain.entity.SysUserEntity;
 import com.fank243.study.system.domain.entity.SysUserLoginLogEntity;
 import com.fank243.study.system.domain.vo.SysUserVO;
 import com.fank243.study.system.mapper.ISysUserMapper;
+import com.mzt.logapi.starter.annotation.LogRecord;
 
-import cn.dev33.satoken.exception.SaTokenException;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 
@@ -70,6 +74,8 @@ public class SysUserService extends ServiceImpl<ISysUserMapper, SysUserEntity> {
      * @param sysUser 请求参数
      * @return 操作结果
      */
+    @LogRecord(type = LogRecordType.SYS_USER, bizNo = "{{#sysUser.userId}}", success = "新增管理员【{{#sysUser.username}}】",
+        successCondition = "{{#sysUser.userId!=null}}")
     @Transactional(rollbackFor = Exception.class)
     public boolean add(SysUserDTO sysUser) throws BizException {
         SysUserEntity sysUserEntity = sysUserDao
@@ -82,7 +88,7 @@ public class SysUserService extends ServiceImpl<ISysUserMapper, SysUserEntity> {
 
         Object obj = redisService.getObj(CacheConstants.OAUTH2_TOKEN + userId);
         if (obj == null) {
-            throw new SaTokenException("令牌已过期失效，请重新登录");
+            throw new IllegalStateException("令牌已过期失效，请重新登录");
         }
         OauthAccessTokenVO oauthAccessTokenVO = (OauthAccessTokenVO)obj;
 
@@ -102,7 +108,13 @@ public class SysUserService extends ServiceImpl<ISysUserMapper, SysUserEntity> {
 
         sysUserEntity = BeanUtil.toBean(sysUser, SysUserEntity.class);
         sysUserEntity.setOpenId(openId);
-        return save(sysUserEntity);
+
+        if (!save(sysUserEntity)) {
+            return Boolean.FALSE;
+        }
+
+        sysUser.setUserId(sysUserEntity.getUserId());
+        return Boolean.TRUE;
     }
 
     /**
@@ -111,12 +123,15 @@ public class SysUserService extends ServiceImpl<ISysUserMapper, SysUserEntity> {
      * @param sysUser 请求参数
      * @return 操作结果
      */
+    @LogRecord(type = LogRecordType.SYS_USER, bizNo = "{{#sysUser.userId}}", successCondition = "#_ret==true",
+        success = "修改管理员信息：{_DIFF{#oldObject, #sysUser}}")
     @Transactional(rollbackFor = Exception.class)
     public boolean modify(SysUserDTO sysUser) throws BizException {
         SysUserEntity sysUserEntity = sysUserDao.selectById(sysUser.getUserId());
         if (sysUserEntity == null) {
             throw new BizException("用户不存在");
         }
+        LogRecordContext.putVariable("oldObject", BeanUtil.copyProperties(sysUserEntity, SysUserDTO.class));
 
         sysUserEntity = BeanUtil.toBean(sysUser, SysUserEntity.class);
         return sysUserDao.updateById(sysUserEntity) > 0;
@@ -160,5 +175,11 @@ public class SysUserService extends ServiceImpl<ISysUserMapper, SysUserEntity> {
         sysUserLoginLogService.add(sysUserLoginLog);
 
         return ResultInfo.ok(sysUser);
+    }
+
+    public List<SysUserVO> findByUserIdIn(List<String> ids) {
+        List<SysUserEntity> sysUserEntities =
+            sysUserDao.selectList(new LambdaQueryWrapper<SysUserEntity>().in(SysUserEntity::getUserId, ids));
+        return BeanUtil.copyToList(sysUserEntities, SysUserVO.class);
     }
 }

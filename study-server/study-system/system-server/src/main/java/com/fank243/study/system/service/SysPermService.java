@@ -4,11 +4,14 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.fank243.study.log.constants.LogRecordType;
+import com.mzt.logapi.starter.annotation.LogRecord;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alicp.jetcache.anno.CacheRefresh;
 import com.alicp.jetcache.anno.Cached;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -57,6 +60,8 @@ public class SysPermService extends ServiceImpl<ISysPermMapper, SysPermEntity> {
      * @param sysPerm 请求参数
      * @return 操作结果
      */
+    @LogRecord(type = LogRecordType.SYS_PERM, bizNo = "{{#sysPerm.permId}}", success = "新增角色【{{#sysPerm.permName}}】",
+            successCondition = "{{#sysPerm.permId!=null}}")
     @Transactional(rollbackFor = Exception.class)
     public boolean add(SysPermDTO sysPerm) throws BizException {
         SysPermEntity sysPermEntity = sysPermDao
@@ -66,7 +71,12 @@ public class SysPermService extends ServiceImpl<ISysPermMapper, SysPermEntity> {
         }
 
         sysPermEntity = BeanUtil.toBean(sysPerm, SysPermEntity.class);
-        return save(sysPermEntity);
+        if (!save(sysPermEntity)) {
+            return Boolean.FALSE;
+        }
+
+        sysPerm.setPermId(sysPermEntity.getPermId());
+        return Boolean.TRUE;
     }
 
     /**
@@ -75,10 +85,12 @@ public class SysPermService extends ServiceImpl<ISysPermMapper, SysPermEntity> {
      * @param sysPerm 请求参数
      * @return 操作结果
      */
+    @LogRecord(type = LogRecordType.SYS_PERM, bizNo = "{{#sysPerm.permId}}", successCondition = "#_ret==true",
+            success = "修改权限菜单：{_DIFF{#oldObject, #sysPerm}}")
     @Transactional(rollbackFor = Exception.class)
     public boolean modify(SysPermDTO sysPerm) throws BizException {
         SysPermEntity sysPermEntity = sysPermDao.selectById(sysPerm.getPermId());
-        if (sysPermEntity != null) {
+        if (sysPermEntity == null) {
             throw new BizException("权限不存在");
         }
 
@@ -96,5 +108,11 @@ public class SysPermService extends ServiceImpl<ISysPermMapper, SysPermEntity> {
     @CacheRefresh(refresh = TimeConstant.HOUR_1, stopRefreshAfterLastAccess = TimeConstant.DAY_1)
     public List<SysPermVO> findByPermTypes(List<Integer> permTypes) {
         return sysPermDao.findByPermTypes(permTypes);
+    }
+
+    public List<SysPermVO> findByPermIdIn(List<String> ids) {
+        List<SysPermEntity> sysPermEntities =
+            sysPermDao.selectList(new LambdaQueryWrapper<SysPermEntity>().in(SysPermEntity::getPermId, ids));
+        return BeanUtil.copyToList(sysPermEntities, SysPermVO.class);
     }
 }

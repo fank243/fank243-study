@@ -2,6 +2,8 @@ package com.fank243.study.common.core.base;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,9 +20,11 @@ import lombok.NoArgsConstructor;
 public class BaseDTO implements Serializable {
 
     /** 当前页码 **/
+    @JsonIgnore
     private Integer currPage;
 
     /** 页记录数 **/
+    @JsonIgnore
     private Integer pageSize;
 
     public long getCurrPage() {

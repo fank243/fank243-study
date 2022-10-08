@@ -6,31 +6,38 @@ api.push({
     list: []
 })
 api[0].list.push({
-    alias: 'AreaController',
+    alias: 'DefaultErrorController',
     order: '1',
+    link: '全局异常处理器',
+    desc: '全局异常处理器',
+    list: []
+})
+api[0].list.push({
+    alias: 'AreaController',
+    order: '2',
     link: '国家行政区划表_控制器',
     desc: '国家行政区划表 控制器',
     list: []
 })
-api[0].list[0].list.push({
+api[0].list[1].list.push({
     order: '1',
     deprecated: 'false',
     url: 'http://127.0.0.1/api/support/area/import',
     desc: '行政区划 &gt; 导入',
 });
-api[0].list[0].list.push({
+api[0].list[1].list.push({
     order: '2',
     deprecated: 'false',
     url: 'http://127.0.0.1/api/support/area/tree;	http:/127.0.0.1/api/support/area/tree/{level}',
     desc: '行政区划 &gt; 区划树',
 });
-api[0].list[0].list.push({
+api[0].list[1].list.push({
     order: '3',
     deprecated: 'false',
     url: 'http://127.0.0.1/api/support/area/getProvinces',
     desc: '行政区划 &gt; 获取省级行政区划',
 });
-api[0].list[0].list.push({
+api[0].list[1].list.push({
     order: '4',
     deprecated: 'false',
     url: 'http://127.0.0.1/api/support/area/getAreaByCode/{code}',
@@ -38,32 +45,57 @@ api[0].list[0].list.push({
 });
 api[0].list.push({
     alias: 'LogController',
-    order: '2',
+    order: '3',
     link: '请求响应日志表_控制器',
     desc: '请求响应日志表 控制器',
     list: []
 })
-api[0].list[1].list.push({
+api[0].list[2].list.push({
     order: '1',
     deprecated: 'false',
     url: 'http://127.0.0.1/api/support/log/get/{id}',
     desc: '请求响应日志 &gt; 根据日志ID获取',
 });
-api[0].list[1].list.push({
+api[0].list[2].list.push({
     order: '2',
     deprecated: 'false',
     url: 'http://127.0.0.1/api/support/log/page',
     desc: '请求响应日志 &gt; 分页',
 });
-api[0].list[1].list.push({
+api[0].list[2].list.push({
     order: '3',
     deprecated: 'false',
     url: 'http://127.0.0.1/api/support/log/add',
     desc: '请求响应日志 &gt; 新增',
 });
 api[0].list.push({
-    alias: 'error',
+    alias: 'SmsController',
+    order: '4',
+    link: '短信表_控制器',
+    desc: '短信表 控制器',
+    list: []
+})
+api[0].list[3].list.push({
+    order: '1',
+    deprecated: 'false',
+    url: 'http://127.0.0.1/api/support/sms/send',
+    desc: '短信 &gt; 发送',
+});
+api[0].list[3].list.push({
+    order: '2',
+    deprecated: 'false',
+    url: 'http://127.0.0.1/api/support/sms/sendSmsCode',
+    desc: '短信 &gt; 发送验证码',
+});
+api[0].list[3].list.push({
     order: '3',
+    deprecated: 'false',
+    url: 'http://127.0.0.1/api/support/sms/validateSmsCode',
+    desc: '短信 &gt; 校验',
+});
+api[0].list.push({
+    alias: 'error',
+    order: '5',
     link: 'error_code_list',
     desc: '错误码列表',
     list: []
