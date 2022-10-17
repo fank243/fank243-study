@@ -1,15 +1,9 @@
 package com.fank243.study.system.controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
-import cn.hutool.core.util.StrUtil;
-import com.fank243.study.log.constants.LogRecordType;
-import com.fank243.study.system.domain.vo.SysRoleVO;
-import com.mzt.logapi.context.LogRecordContext;
-import com.mzt.logapi.starter.annotation.LogRecord;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,10 +20,13 @@ import com.fank243.study.common.core.constants.ValidatorGroup;
 import com.fank243.study.common.core.domain.model.PageBean;
 import com.fank243.study.common.core.exception.BizException;
 import com.fank243.study.common.core.utils.ResultInfo;
+import com.fank243.study.log.constants.LogRecordType;
 import com.fank243.study.system.domain.dto.SysPermDTO;
 import com.fank243.study.system.domain.entity.SysPermEntity;
 import com.fank243.study.system.domain.vo.SysPermVO;
 import com.fank243.study.system.service.SysPermService;
+import com.mzt.logapi.context.LogRecordContext;
+import com.mzt.logapi.starter.annotation.LogRecord;
 
 import cn.hutool.core.bean.BeanUtil;
 
@@ -52,9 +49,9 @@ public class SysPermController extends BaseController {
      * @param id 权限ID
      * @return 权限信息
      */
-    @GetMapping("/get/{id}")
-    public ResultInfo<SysPermVO> getById(@PathVariable("id") String id) {
-        SysPermEntity sysPerm = sysPermService.getById(id);
+    @GetMapping("/{permId}")
+    public ResultInfo<SysPermVO> getById(@PathVariable("permId") String permId) {
+        SysPermEntity sysPerm = sysPermService.getById(permId);
         return ResultInfo.ok(BeanUtil.toBean(sysPerm, SysPermVO.class));
     }
 
@@ -100,21 +97,21 @@ public class SysPermController extends BaseController {
     /**
      * 菜单权限 > 删除
      *
-     * @param ids 权限ID数组
+     * @param permId 权限ID
      * @return 操作结果
      */
-    @LogRecord(type = LogRecordType.SYS_PERM, bizNo = "{{#permId}}",
-            success = "删除管理员【{{#permName}}】成功", successCondition = "{{#success == true}}")
+    @LogRecord(type = LogRecordType.SYS_PERM, bizNo = "{{#permId}}", success = "删除管理员【{{#permName}}】成功",
+        successCondition = "{{#_ret.success == true}}")
     @RepeatSubmit
-    @DeleteMapping("/delete")
-    public ResultInfo<?> delete(@RequestBody String[] ids) throws BizException {
-        List<SysPermVO> sysUserList = sysPermService.findByPermIdIn(List.of(ids));
-        String permName = sysUserList.stream().map(SysPermVO::getPermName).collect(Collectors.joining("、"));
-        LogRecordContext.putVariable("permId", String.join(",", ids));
-        LogRecordContext.putVariable("permName", permName);
-        LogRecordContext.putVariable("success", StrUtil.isNotBlank(permName));
+    @DeleteMapping("/{permId}")
+    public ResultInfo<?> delete(@PathVariable("permId") String permId) throws BizException {
+        SysPermVO sysPermVO = sysPermService.findByPermId(permId);
+        if (sysPermVO == null) {
+            return ResultInfo.err404("权限菜单不存在");
+        }
+        LogRecordContext.putVariable("permName", sysPermVO.getPermName());
 
-        boolean isOk = sysPermService.removeByIds(List.of(ids));
+        boolean isOk = sysPermService.removeById(permId);
         return isOk ? ResultInfo.ok().message("删除成功") : ResultInfo.err500("删除失败");
     }
 
@@ -124,7 +121,7 @@ public class SysPermController extends BaseController {
      * @param perms 权限类型列表
      * @return 操作结果
      */
-    @PostMapping("/getByPermTypes")
+    @PostMapping("/types")
     public List<SysPermVO> getByPermTypes(@RequestBody List<Integer> perms) {
         return sysPermService.findByPermTypes(perms);
     }
@@ -135,7 +132,7 @@ public class SysPermController extends BaseController {
      * @param userId 用户ID
      * @return 用户权限列表
      */
-    @GetMapping("/getByUserId/{userId}")
+    @GetMapping("/user/{userId}")
     public List<SysPermVO> getByUserId(@PathVariable String userId) {
         return sysPermService.findByUserId(userId);
     }

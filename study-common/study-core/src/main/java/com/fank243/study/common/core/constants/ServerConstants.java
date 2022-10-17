@@ -20,13 +20,13 @@ public class ServerConstants {
 
     public static final String BASE_URI_SUPPORT = "/support";
 
-    public static final String BASE_URI_SUPPORT_LOG = "/support/log";
+    public static final String BASE_URI_SUPPORT_LOG = "/support/logs";
 
-    public static final String BASE_URI_SUPPORT_AREA = "/support/area";
+    public static final String BASE_URI_SUPPORT_AREA = "/support/areas";
 
     public static final String BASE_URI_SUPPORT_SMS = "/support/sms";
 
-    public static final String BASE_URI_FILE = "/file";
+    public static final String BASE_URI_FILE = "/files";
 
     public static final String BASE_URI_SYSTEM = "/system";
 
@@ -34,7 +34,7 @@ public class ServerConstants {
 
     public static final String BASE_URI_SYSTEM_ADMIN = "/system/admin";
 
-    public static final String BASE_URI_SYSTEM_ROLE = "/system/role";
+    public static final String BASE_URI_SYSTEM_ROLE = "/system/roles";
 
-    public static final String BASE_URI_SYSTEM_PERM = "/system/perm";
+    public static final String BASE_URI_SYSTEM_PERM = "/system/perms";
 }

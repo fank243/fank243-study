@@ -27,7 +27,7 @@ public interface ISysPermService {
      * @param userId 用户ID
      * @return 用户权限
      */
-    @GetMapping("/getByUserId/{userId}")
+    @GetMapping("/user/{userId}")
     List<SysPermVO> getByUserId(@PathVariable("userId") String userId);
 
     /**
@@ -36,7 +36,7 @@ public interface ISysPermService {
      * @param perms 权限类型列表
      * @return 权限列表
      */
-    @PostMapping("/getByPermTypes")
+    @PostMapping("/types")
     List<SysPermVO> getByPermTypes(@RequestBody List<Integer> perms);
 
 }

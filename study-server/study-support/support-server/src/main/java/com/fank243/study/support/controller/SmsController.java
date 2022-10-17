@@ -52,7 +52,7 @@ public class SmsController extends BaseController {
      * @return 操作结果
      */
     @RepeatSubmit
-    @PostMapping("/sendSmsCode")
+    @PostMapping("/send/code")
     public ResultInfo<?> sendSmsCode(@RequestBody @Validated(SmsCodeDTO.Send.class) SmsCodeDTO smsCodeDTO) {
         return smsService.sendSmsCode(smsCodeDTO);
     }
@@ -63,7 +63,7 @@ public class SmsController extends BaseController {
      * @param smsCodeDTO 请求参数
      * @return 操作结果
      */
-    @PostMapping("/validateSmsCode")
+    @PostMapping("/validate")
     public ResultInfo<?> validateSmsCode(@RequestBody @Validated(SmsCodeDTO.Validate.class) SmsCodeDTO smsCodeDTO) {
         return smsService.validateSmsCode(smsCodeDTO);
     }

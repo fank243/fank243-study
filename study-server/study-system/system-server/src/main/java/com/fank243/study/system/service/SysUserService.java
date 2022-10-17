@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import com.mzt.logapi.context.LogRecordContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +30,7 @@ import com.fank243.study.system.domain.entity.SysUserEntity;
 import com.fank243.study.system.domain.entity.SysUserLoginLogEntity;
 import com.fank243.study.system.domain.vo.SysUserVO;
 import com.fank243.study.system.mapper.ISysUserMapper;
+import com.mzt.logapi.context.LogRecordContext;
 import com.mzt.logapi.starter.annotation.LogRecord;
 
 import cn.dev33.satoken.stp.StpUtil;
@@ -181,5 +181,10 @@ public class SysUserService extends ServiceImpl<ISysUserMapper, SysUserEntity> {
         List<SysUserEntity> sysUserEntities =
             sysUserDao.selectList(new LambdaQueryWrapper<SysUserEntity>().in(SysUserEntity::getUserId, ids));
         return BeanUtil.copyToList(sysUserEntities, SysUserVO.class);
+    }
+
+    public SysUserVO findByUserId(String userId) {
+        SysUserEntity sysUserEntity = getById(userId);
+        return BeanUtil.copyProperties(sysUserEntity, SysUserVO.class);
     }
 }

@@ -25,7 +25,7 @@ public interface ISysRoleService {
      * @param userId 用户ID
      * @return 用户角色
      */
-    @GetMapping("/getByUserId/{userId}")
+    @GetMapping("/user/{userId}")
     List<SysRoleVO> getByUserId(@PathVariable("userId") String userId);
 
 }

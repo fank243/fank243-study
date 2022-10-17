@@ -5,7 +5,6 @@ import java.io.InputStream;
 
 import javax.annotation.Resource;
 
-import com.fank243.study.log.annotation.ApiLog;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,7 +42,6 @@ public class FileController extends BaseController {
      * @param multipartFile 文件
      * @return 上传结果
      */
-    @ApiLog("上传文件")
     @RepeatSubmit
     @PostMapping("/upload")
     public ResultInfo<?> upload(@RequestParam("file") MultipartFile multipartFile) throws IOException {

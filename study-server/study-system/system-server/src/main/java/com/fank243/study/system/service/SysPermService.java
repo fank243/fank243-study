@@ -61,7 +61,7 @@ public class SysPermService extends ServiceImpl<ISysPermMapper, SysPermEntity> {
      * @return 操作结果
      */
     @LogRecord(type = LogRecordType.SYS_PERM, bizNo = "{{#sysPerm.permId}}", success = "新增角色【{{#sysPerm.permName}}】",
-            successCondition = "{{#sysPerm.permId!=null}}")
+        successCondition = "{{#sysPerm.permId!=null}}")
     @Transactional(rollbackFor = Exception.class)
     public boolean add(SysPermDTO sysPerm) throws BizException {
         SysPermEntity sysPermEntity = sysPermDao
@@ -86,7 +86,7 @@ public class SysPermService extends ServiceImpl<ISysPermMapper, SysPermEntity> {
      * @return 操作结果
      */
     @LogRecord(type = LogRecordType.SYS_PERM, bizNo = "{{#sysPerm.permId}}", successCondition = "#_ret==true",
-            success = "修改权限菜单：{_DIFF{#oldObject, #sysPerm}}")
+        success = "修改权限菜单：{_DIFF{#oldObject, #sysPerm}}")
     @Transactional(rollbackFor = Exception.class)
     public boolean modify(SysPermDTO sysPerm) throws BizException {
         SysPermEntity sysPermEntity = sysPermDao.selectById(sysPerm.getPermId());
@@ -114,5 +114,10 @@ public class SysPermService extends ServiceImpl<ISysPermMapper, SysPermEntity> {
         List<SysPermEntity> sysPermEntities =
             sysPermDao.selectList(new LambdaQueryWrapper<SysPermEntity>().in(SysPermEntity::getPermId, ids));
         return BeanUtil.copyToList(sysPermEntities, SysPermVO.class);
+    }
+
+    public SysPermVO findByPermId(String permId) {
+        SysPermEntity sysPermEntity = getById(permId);
+        return BeanUtil.copyProperties(sysPermEntity, SysPermVO.class);
     }
 }

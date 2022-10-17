@@ -96,7 +96,7 @@ public class AreaController extends BaseController {
      * 
      * @return 省级行政区划列表
      */
-    @GetMapping("/getProvinces")
+    @GetMapping("/provinces")
     public ResultInfo<List<Area>> getProvinces() {
         return ResultInfo.ok(areaService.findProvinces());
     }
@@ -107,7 +107,7 @@ public class AreaController extends BaseController {
      * @param code 行政区划代码
      * @return 行政区划列表
      */
-    @GetMapping("/getAreaByCode/{code}")
+    @GetMapping("/{code}")
     public ResultInfo<List<Area>> getAreaByCode(@PathVariable String code) {
         return ResultInfo.ok(areaService.findAreaByCode(code));
     }

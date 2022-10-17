@@ -1,11 +1,7 @@
 package com.fank243.study.system.controller;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import javax.annotation.Resource;
 
-import cn.hutool.core.util.StrUtil;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,7 +39,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping(ServerConstants.BASE_URI_SYSTEM_ADMIN)
 @RestController
 public class SysUserController extends BaseController {
-
     @Resource
     private SysUserService sysUserService;
 
@@ -53,7 +48,7 @@ public class SysUserController extends BaseController {
      * @param userId 用户ID
      * @return 用户信息
      */
-    @GetMapping("/get/{userId}")
+    @GetMapping("/{userId}")
     public ResultInfo<SysUserVO> getById(@PathVariable String userId) {
         SysUserEntity sysUser = sysUserService.getById(userId);
         return ResultInfo.ok(BeanUtil.toBean(sysUser, SysUserVO.class));
@@ -101,21 +96,21 @@ public class SysUserController extends BaseController {
     /**
      * 系统用户 > 删除
      *
-     * @param ids 用户ID数组
+     * @param userId 用户ID
      * @return 操作结果
      */
-    @LogRecord(type = LogRecordType.SYS_USER, bizNo = "{{#userId}}",
-        success = "删除管理员【{{#username}}】成功", successCondition = "{{#success == true}}")
+    @LogRecord(type = LogRecordType.SYS_USER, bizNo = "{{#userId}}", success = "删除管理员【{{#username}}】成功",
+        successCondition = "{{#_rest.success == true}}")
     @RepeatSubmit
-    @DeleteMapping("/delete")
-    public ResultInfo<?> delete(@RequestBody String[] ids) {
-        List<SysUserVO> sysUserList = sysUserService.findByUserIdIn(List.of(ids));
-        String username = sysUserList.stream().map(SysUserVO::getUsername).collect(Collectors.joining("、"));
-        LogRecordContext.putVariable("userId", String.join(",", ids));
-        LogRecordContext.putVariable("username", username);
-        LogRecordContext.putVariable("success", StrUtil.isNotBlank(username));
+    @DeleteMapping("/{userId}")
+    public ResultInfo<?> delete(@PathVariable("userId") String userId) {
+        SysUserVO sysUserVO = sysUserService.findByUserId(userId);
+        if (sysUserVO == null) {
+            return ResultInfo.err404("用户不存在");
+        }
+        LogRecordContext.putVariable("username", sysUserVO.getUsername());
 
-        boolean isOk = sysUserService.removeByIds(List.of(ids));
+        boolean isOk = sysUserService.removeById(userId);
         return isOk ? ResultInfo.ok().message("删除成功") : ResultInfo.err500("删除失败");
     }
 }

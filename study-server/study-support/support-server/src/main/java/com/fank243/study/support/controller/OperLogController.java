@@ -42,7 +42,7 @@ public class OperLogController extends BaseController {
      * @param id 日志ID
      * @return 日志列表
      */
-    @GetMapping("/get/{id}")
+    @GetMapping("/{id}")
     public ResultInfo<OperLogVO> getById(@PathVariable String id) {
         OperLogEntity operLogEntity = operLogService.getById(id);
         return ResultInfo.ok(BeanUtil.toBean(operLogEntity, OperLogVO.class));

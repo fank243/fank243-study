@@ -5,11 +5,6 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
-import cn.hutool.core.util.StrUtil;
-import com.fank243.study.log.constants.LogRecordType;
-import com.fank243.study.system.domain.vo.SysUserVO;
-import com.mzt.logapi.context.LogRecordContext;
-import com.mzt.logapi.starter.annotation.LogRecord;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,12 +21,16 @@ import com.fank243.study.common.core.constants.ValidatorGroup;
 import com.fank243.study.common.core.domain.model.PageBean;
 import com.fank243.study.common.core.exception.BizException;
 import com.fank243.study.common.core.utils.ResultInfo;
+import com.fank243.study.log.constants.LogRecordType;
 import com.fank243.study.system.domain.dto.SysRoleDTO;
 import com.fank243.study.system.domain.entity.SysRoleEntity;
 import com.fank243.study.system.domain.vo.SysRoleVO;
 import com.fank243.study.system.service.SysRoleService;
+import com.mzt.logapi.context.LogRecordContext;
+import com.mzt.logapi.starter.annotation.LogRecord;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
 
 /**
  * 系统角色表 控制器
@@ -52,9 +51,9 @@ public class SysRoleController extends BaseController {
      * @param id 角色ID
      * @return 角色信息
      */
-    @GetMapping("/get/{id}")
-    public ResultInfo<SysRoleVO> getById(@PathVariable String id) {
-        SysRoleEntity sysRole = sysRoleService.getById(id);
+    @GetMapping("/{roleId}")
+    public ResultInfo<SysRoleVO> getById(@PathVariable String roleId) {
+        SysRoleEntity sysRole = sysRoleService.getById(roleId);
         return ResultInfo.ok(BeanUtil.toBean(sysRole, SysRoleVO.class));
     }
 
@@ -76,7 +75,7 @@ public class SysRoleController extends BaseController {
      * @return 操作结果
      */
     @RepeatSubmit
-    @PostMapping("/add")
+    @PostMapping("/role/add")
     public ResultInfo<?> add(@RequestBody @Validated({ValidatorGroup.Create.class}) SysRoleDTO sysRole)
         throws BizException {
         boolean isOk = sysRoleService.add(sysRole);
@@ -124,7 +123,7 @@ public class SysRoleController extends BaseController {
      * @param userId 用户ID
      * @return 用户角色列表
      */
-    @GetMapping("/getByUserId/{userId}")
+    @GetMapping("/user/{userId}")
     public List<SysRoleVO> getByUserId(@PathVariable String userId) {
         return sysRoleService.findByUserId(userId);
     }
