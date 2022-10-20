@@ -5,11 +5,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import javax.validation.Constraint;
-import javax.validation.Payload;
-
 import com.fank243.study.common.core.domain.validator.validation.ArrayStringConstraintValidator;
 
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
 
 /**
  * 数组值校验

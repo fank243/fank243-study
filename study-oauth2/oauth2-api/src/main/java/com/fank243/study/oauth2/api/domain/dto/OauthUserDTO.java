@@ -2,10 +2,9 @@ package com.fank243.study.oauth2.api.domain.dto;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.NotBlank;
-
 import com.fank243.study.common.core.constants.ValidatorGroup;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

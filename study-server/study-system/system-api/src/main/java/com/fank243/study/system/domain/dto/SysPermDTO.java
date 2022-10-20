@@ -1,8 +1,5 @@
 package com.fank243.study.system.domain.dto;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
 import org.hibernate.validator.constraints.Length;
 
 import com.fank243.study.common.core.base.BaseDTO;
@@ -11,6 +8,8 @@ import com.fank243.study.common.core.domain.enums.PermTypeEnum;
 import com.fank243.study.common.core.domain.validator.annotation.Enum;
 import com.mzt.logapi.starter.annotation.DiffLogAllFields;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

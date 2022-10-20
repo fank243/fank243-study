@@ -2,11 +2,10 @@ package com.fank243.study.support.domain.dto;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-
 import com.fank243.study.common.core.constants.RegexConstants;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 /**

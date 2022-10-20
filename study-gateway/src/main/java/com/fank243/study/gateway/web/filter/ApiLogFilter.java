@@ -7,9 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import javax.validation.constraints.NotNull;
-
-import com.fank243.study.support.domain.dto.ReqRespLogDTO;
 import org.reactivestreams.Publisher;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -37,12 +34,13 @@ import org.springframework.web.server.ServerWebExchange;
 
 import com.fank243.study.gateway.constants.FilterOrderConstant;
 import com.fank243.study.gateway.utils.LogUtils;
-import com.fank243.study.support.domain.dto.OperLogDTO;
+import com.fank243.study.support.domain.dto.ReqRespLogDTO;
 
 import brave.Span;
 import brave.Tracer;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.json.JSONUtil;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;

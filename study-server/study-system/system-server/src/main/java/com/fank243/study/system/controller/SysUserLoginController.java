@@ -20,8 +20,10 @@ import com.fank243.study.common.core.constants.CacheConstants;
 import com.fank243.study.common.core.constants.ServerConstants;
 import com.fank243.study.common.core.constants.TimeConstant;
 import com.fank243.study.common.core.constants.ValidatorGroup;
+import com.fank243.study.common.core.domain.enums.LoginTypeEnum;
 import com.fank243.study.common.core.service.RedisService;
 import com.fank243.study.common.core.utils.ResultInfo;
+import com.fank243.study.common.core.utils.ValidationUtils;
 import com.fank243.study.oauth2.api.constants.Oauth2Constants;
 import com.fank243.study.oauth2.api.domain.vo.OauthAccessTokenVO;
 import com.fank243.study.oauth2.api.domain.vo.OauthUserVO;
@@ -71,13 +73,13 @@ public class SysUserLoginController extends BaseController {
         @RequestBody @Validated({ValidatorGroup.Login.class}) SysUserLoginDTO sysUserLoginDTO)
         throws ExecutionException, InterruptedException {
         Class<?> clazz = ValidatorGroup.LoginUsername.class;
-        // if (LoginType.MOBILE.name().equalsIgnoreCase(sysUserLoginDTO.getLoginType())) {
-        // clazz = ValidatorGroup.LoginMobile.class;
-        // }
-        // ResultInfo<?> validateResult = ValidationUtils.validate(sysUserLoginDTO, clazz);
-        // if (!validateResult.isSuccess()) {
-        // return validateResult;
-        // }
+        if (LoginTypeEnum.MOBILE.name().equalsIgnoreCase(sysUserLoginDTO.getLoginType())) {
+            clazz = ValidatorGroup.LoginMobile.class;
+        }
+        ResultInfo<?> validateResult = ValidationUtils.validate(sysUserLoginDTO, clazz);
+        if (!validateResult.isSuccess()) {
+            return validateResult;
+        }
 
         // 获取令牌
         Future<ResultInfo<OauthAccessTokenVO>> future = ThreadUtil

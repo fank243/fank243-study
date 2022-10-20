@@ -1,16 +1,14 @@
 package com.fank243.study.system.domain.dto;
 
-import javax.validation.constraints.NotBlank;
-
-import com.mzt.logapi.starter.annotation.DIffLogIgnore;
-import com.mzt.logapi.starter.annotation.DiffLogAllFields;
-import com.mzt.logapi.starter.annotation.DiffLogField;
 import org.hibernate.validator.constraints.Length;
 
 import com.fank243.study.common.core.base.BaseDTO;
 import com.fank243.study.common.core.constants.ValidatorGroup;
+import com.mzt.logapi.starter.annotation.DIffLogIgnore;
+import com.mzt.logapi.starter.annotation.DiffLogAllFields;
 
 import cn.hutool.core.util.StrUtil;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
