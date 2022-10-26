@@ -7,22 +7,11 @@ spring:
   # 多个模块启用时，必须指定端口
   devtools.livereload.port: 35731
   cloud:
-    nacos:
-      discovery:
-        server-addr: ${study.remote-ip}:8848
-        namespace: study
+    polaris:
       config:
-        server-addr: ${spring.cloud.nacos.discovery.server-addr}
-        namespace: ${spring.cloud.nacos.discovery.namespace}
-        # 是否自动刷新配置，默认：true
-        refresh-enabled: true
-        # 获取配置失败时重试次数
-        config-retry-time: 3
-        # 连接服务器失败时最大重连次数
-        max-retry: 10
-        # 指定配置文件后缀，默认：yml
-        file-extension: yml
-        # 共享配置文件
-        shared-configs:
-          - study-shared-ds.yml
-          - study-shared-common.yml
+        # 选填，注入自定义配置的配置分组
+        groups:
+          - name: study-common
+            # 注入自定义配置文件列表，当 key 冲突时，排在前面的配置文件优先级高于后面
+            files: [ "study-common.yml", "study-datasource.yml", "study-satoken.yml" ]
+

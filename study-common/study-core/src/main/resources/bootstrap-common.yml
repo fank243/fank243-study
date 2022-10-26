@@ -1,9 +1,5 @@
 study:
-  remote-ip: 127.0.0.1
-
-jasypt:
-  encryptor:
-    password: study #根密码
+  server-addr: ${ENV_SERVER_ADDR:127.0.0.1}
 
 spring:
   main.allow-bean-definition-overriding: true
@@ -15,19 +11,9 @@ spring:
   cloud:
     # 禁用缓存 https://www.hxstrive.com/subject/spring_cloud.htm?id=508
     loadbalancer.cache.enabled: false
-    nacos:
-      config:
-        # 是否自动刷新配置，默认：true
-        refresh-enabled: true
-        # 获取配置失败时重试次数
-        config-retry-time: 3
-        # 连接服务器失败时最大重连次数
-        max-retry: 10
-        # 指定配置文件后缀，默认：yml
-        file-extension: yml
-
-log-record.diff-msg-format: 【${_fieldName}】从【${_oldValue}】变成了【${_newValue}】
-log-record.diff-msg-separator: "，"
+    polaris:
+      address: grpc://${study.server-addr}:8091
+      namespace: default
 
 logging:
 #  config: file:study-core/src/main/resources/logback-spring.xml
@@ -45,10 +31,12 @@ logging:
     org.hibernate: info
     org.jboss: info
     io.netty: info
+    io.grpc: info
     io.lettuce: info
     io.micrometer: info
     com.zaxxer: info
     com.alibaba.cloud: info
     com.alibaba.nacos: warn
+    com.tencent: info
     com.baomidou.dynamic: info
     reactor: info

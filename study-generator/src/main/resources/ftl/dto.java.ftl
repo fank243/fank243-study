@@ -1,15 +1,15 @@
 package ${package.Entity};
 
-import com.fank243.study.core.base.BaseDTO;
-<#if swagger2>
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.github.fank243.study.common.domain.base.BaseDTO;
+<#if swagger>
+	import io.swagger.annotations.ApiModel;
+	import io.swagger.annotations.ApiModelProperty;
 </#if>
 <#if entityLombokModel>
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+	import lombok.Data;
+	import lombok.EqualsAndHashCode;
     <#if chainModel>
-import lombok.experimental.Accessors;
+		import lombok.experimental.Accessors;
     </#if>
 </#if>
 
@@ -21,8 +21,8 @@ import lombok.experimental.Accessors;
 */
 @Data
 @EqualsAndHashCode(callSuper = true)
-<#if swagger2>
-@ApiModel(value="${entity}对象", description="${table.comment!}")
+<#if swagger>
+	@ApiModel(value="${entity}对象", description="${table.comment!}")
 </#if>
 public class ${entity}DTO extends BaseDTO {
 
@@ -33,10 +33,10 @@ public class ${entity}DTO extends BaseDTO {
     </#if>
 
     <#if field.comment!?length gt 0>
-        <#if swagger2>
-            @ApiModelProperty(value = "${field.comment}")
+        <#if swagger>
+			@ApiModelProperty(value = "${field.comment}")
         <#else>
-    /*** ${field.comment} */
+			/*** ${field.comment} */
         </#if>
     </#if>
     <#if field.keyFlag>

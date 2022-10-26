@@ -1,29 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>com.fank243.study</groupId>
-    <artifactId>study-dependencies</artifactId>
-    <version>1.2.0</version>
-    <packaging>pom</packaging>
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.github.fank243.cloud</groupId>
+		<artifactId>study-cloud-dependencies-parent</artifactId>
+		<version>1.0.0</version>
+		<relativePath/>
+	</parent>
+	<groupId>com.github.fank243</groupId>
+	<artifactId>study-dependencies</artifactId>
+	<version>${revision}</version>
+	<packaging>pom</packaging>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
 
-        <fank243-sms.version>1.0.0</fank243-sms.version>
+		<revision>1.2.0</revision>
 
-        <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-oauth2-authorization-server -->
-        <spring-security-oauth2-authorization-server.version>0.3.1</spring-security-oauth2-authorization-server.version>
+		<fank243-common.version>1.0.0</fank243-common.version>
+		<fank243-sms.version>1.0.0</fank243-sms.version>
 
-        <!-- https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-boot-starter -->
-        <mybatis-plus.version>3.5.2</mybatis-plus.version>
-        <!-- https://mvnrepository.com/artifact/com.mysql/mysql-connector-j -->
-        <mysql.version>8.0.31</mysql.version>
+		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-oauth2-authorization-server -->
+		<spring-security-oauth2-authorization-server.version>0.3.1</spring-security-oauth2-authorization-server.version>
 
-        <!-- https://mvnrepository.com/artifact/com.alicp.jetcache/jetcache-starter-redisson -->
+		<!-- https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-boot-starter -->
+		<mybatis-plus.version>3.5.2</mybatis-plus.version>
+		<!-- https://mvnrepository.com/artifact/com.mysql/mysql-connector-j -->
+		<mysql.version>8.0.31</mysql.version>
+
+		<!-- https://mvnrepository.com/artifact/com.alicp.jetcache/jetcache-starter-redisson -->
         <jetcache.version>2.7.0.M2</jetcache.version>
 
         <jasypt.version>3.0.4</jasypt.version>
@@ -66,29 +75,30 @@
         <protobuf.version>3.21.7</protobuf.version>
 
         <!--插件-->
-        <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
-        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
-        <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-source-plugin -->
-        <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
         <!-- https://mvnrepository.com/artifact/com.github.shalousun/smart-doc-maven-plugin -->
         <smart-doc-maven-plugin.version>2.5.3</smart-doc-maven-plugin.version>
     </properties>
 
     <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>com.fank243.plugin</groupId>
-                <artifactId>fank243-sms</artifactId>
-                <version>${fank243-sms.version}</version>
-            </dependency>
+		<dependencies>
+			<dependency>
+				<groupId>com.github.fank243</groupId>
+				<artifactId>fank243-common</artifactId>
+				<version>${fank243-common.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.fank243</groupId>
+				<artifactId>fank243-sms</artifactId>
+				<version>${fank243-sms.version}</version>
+			</dependency>
 
-            <dependency>
-                <groupId>org.springframework.security</groupId>
-                <artifactId>spring-security-oauth2-authorization-server</artifactId>
-                <version>${spring-security-oauth2-authorization-server.version}</version>
-            </dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-oauth2-authorization-server</artifactId>
+				<version>${spring-security-oauth2-authorization-server.version}</version>
+			</dependency>
 
-            <dependency>
+			<dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${mybatis-plus.version}</version>
@@ -233,12 +243,6 @@
                 <artifactId>hutool-extra</artifactId>
                 <version>${hutool.version}</version>
             </dependency>
-
-            <dependency>
-                <groupId>com.alibaba.fastjson2</groupId>
-                <artifactId>fastjson2</artifactId>
-                <version>${fastjson.version}</version>
-            </dependency>
             <dependency>
                 <groupId>org.apache.poi</groupId>
                 <artifactId>poi-ooxml</artifactId>
@@ -265,38 +269,4 @@
         </dependencies>
     </dependencyManagement>
 
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>${maven-compiler-plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-source-plugin</artifactId>
-                    <version>${maven-source-plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>com.github.shalousun</groupId>
-                    <artifactId>smart-doc-maven-plugin</artifactId>
-                    <version>${smart-doc-maven-plugin.version}</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-    </build>
-
-    <repositories>
-        <repository>
-            <id>rdc-releases</id>
-            <url>https://packages.aliyun.com/maven/repository/2086257-release-RSWMWn/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
 </project>

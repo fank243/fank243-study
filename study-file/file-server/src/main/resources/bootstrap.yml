@@ -1,0 +1,19 @@
+server:
+  port: 8903
+
+spring:
+  profiles.include: common
+  application.name: study-file
+  # 指定devtools端口
+  devtools.livereload.port: 35735
+  cloud:
+    polaris:
+      config:
+        # 选填，注入自定义配置的配置分组
+        groups:
+          - name: study-common
+            # 注入自定义配置文件列表，当 key 冲突时，排在前面的配置文件优先级高于后面
+            files: [ "study-common.yml", "study-datasource.yml", "study-satoken.yml" ]
+
+# 文件上传根路径
+study.file.path: static/view

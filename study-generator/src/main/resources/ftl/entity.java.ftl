@@ -1,17 +1,17 @@
 package ${package.Entity};
 
 <#list table.importPackages as pkg>
-import ${pkg};
+	import ${pkg};
 </#list>
-<#if swagger2>
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+<#if swagger>
+	import io.swagger.annotations.ApiModel;
+	import io.swagger.annotations.ApiModelProperty;
 </#if>
 <#if entityLombokModel>
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+	import lombok.Data;
+	import lombok.EqualsAndHashCode;
     <#if chainModel>
-import lombok.experimental.Accessors;
+		import lombok.experimental.Accessors;
     </#if>
 </#if>
 
@@ -22,32 +22,32 @@ import lombok.experimental.Accessors;
 * @since ${date}
 */
 <#if entityLombokModel>
-@Data
+	@Data
     <#if superEntityClass??>
-@EqualsAndHashCode(callSuper = true)
+		@EqualsAndHashCode(callSuper = true)
     <#else>
-@EqualsAndHashCode(callSuper = false)
+		@EqualsAndHashCode(callSuper = false)
     </#if>
     <#if chainModel>
-@Accessors(chain = true)
+		@Accessors(chain = true)
     </#if>
 </#if>
 <#if table.convert>
-@TableName("${table.name}")
+	@TableName("${table.name}")
 </#if>
-<#if swagger2>
-@ApiModel(value="${entity}对象", description="${table.comment!}")
+<#if swagger>
+	@ApiModel(value="${entity}对象", description="${table.comment!}")
 </#if>
 <#if superEntityClass??>
-public class ${entity}Entity extends ${superEntityClass}<#if activeRecord><${entity}></#if> {
+	public class ${entity}Entity extends ${superEntityClass}<#if activeRecord><${entity}></#if> {
 <#elseif activeRecord>
-public class ${entity}Entity extends Model<${entity}> {
+	public class ${entity}Entity extends Model<${entity}> {
 <#else>
-public class ${entity}Entity implements Serializable {
+	public class ${entity}Entity implements Serializable {
 </#if>
 
 <#if entitySerialVersionUID>
-private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 </#if>
 <#-- ----------  BEGIN 字段循环遍历  ---------->
 <#list table.fields as field>
@@ -56,10 +56,10 @@ private static final long serialVersionUID = 1L;
     </#if>
 
     <#if field.comment!?length gt 0>
-        <#if swagger2>
-        @ApiModelProperty(value = "${field.comment}")
+        <#if swagger>
+			@ApiModelProperty(value = "${field.comment}")
         <#else>
-    /** ${field.comment} */
+			/** ${field.comment} */
         </#if>
     </#if>
     <#if field.keyFlag>

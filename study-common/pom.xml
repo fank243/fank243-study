@@ -3,9 +3,9 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>com.fank243.study</groupId>
+        <groupId>com.github.fank243</groupId>
         <artifactId>fank243-study</artifactId>
-        <version>1.2.0</version>
+		<version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>study-common</artifactId>
@@ -15,10 +15,6 @@
 
     <modules>
         <module>study-core</module>
-        <module>study-datasource</module>
-        <module>study-mq</module>
-        <module>study-netty</module>
-        <module>study-sentinel</module>
         <module>study-feign</module>
         <module>study-mybatis</module>
         <module>study-log</module>

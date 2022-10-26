@@ -30,9 +30,9 @@ logs/
 
 target/
 
-study-generator/src/main/resources/application.properties
+study-support/support-server/src/main/resources/static/doc
+study-system/system-server/src/main/resources/static/doc/
+study-file/file-server/src/main/resources/static/doc/
+study-file/file-server/src/main/resources/static/view/*
 
-study-server/study-support/support-server/src/main/resources/static/doc
-study-server/study-system/system-server/src/main/resources/static/doc/
-study-server/study-file/file-server/src/main/resources/static/doc/
-study-server/study-file/file-server/src/main/resources/static/view/*
+polaris/
