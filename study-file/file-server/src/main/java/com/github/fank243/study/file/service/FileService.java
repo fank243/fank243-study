@@ -23,6 +23,7 @@ import com.github.fank243.study.file.domain.entity.FileEntity;
 import com.github.fank243.study.file.mapper.IFileMapper;
 import com.github.fank243.study.file.web.config.FileProperties;
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
@@ -67,11 +68,11 @@ public class FileService extends ServiceImpl<IFileMapper, FileEntity> {
             }
         }
 
-//        String loginId = StpUtil.getLoginIdAsString();
+        String loginId = StpUtil.getLoginIdAsString();
         String baseUrl = WebUtils.getBaseUrl();
         FileEntity fileEntity;
         try {
-            redissonService.lock(FileConstants.LOCK_KEY_UPLOAD + "loginId");
+            redissonService.lock(FileConstants.LOCK_KEY_UPLOAD + loginId);
 
             String fileName = UUID.fastUUID() + "." + fileDTO.getFileSuffix();
             File file = FileUtil.writeFromStream(inputStream, fileDir.getAbsolutePath() + File.separator + fileName);
@@ -102,7 +103,7 @@ public class FileService extends ServiceImpl<IFileMapper, FileEntity> {
 
             save(fileEntity);
         } finally {
-            redissonService.unlock(FileConstants.LOCK_KEY_UPLOAD + "loginId");
+            redissonService.unlock(FileConstants.LOCK_KEY_UPLOAD + loginId);
         }
 
         Map<String, String> map = new HashMap<>(2);

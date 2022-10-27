@@ -26,11 +26,6 @@ public class Constants {
     /** 跨服务调用安全令牌 **/
     public static final String SECURITY_TOKEN = "SecurityToken";
 
-    /** 跨服务调用安全令牌 > FEIGN **/
-    public static final String SECURITY_FEIGN_KEY = "SecurityFeign";
-    /** 跨服务调用安全令牌 > FEIGN **/
-    public static final String SECURITY_FEIGN_VALUE = "bb852ca6-add0-b355-545b-82566eda2a63";
-
     /** 文件类型 **/
     public static final List<String> FILE_TYPE =
         Arrays.asList("txt", "xls", "xlsx", "png", "bmp", "gif", "jpg", "jpeg", "docx", "pdf");
@@ -49,6 +44,6 @@ public class Constants {
 
     /** 文件大小 > 办公类文件大小(MB) **/
     public static final int FILE_SIZE_OFFICE = 10;
-    
 
+    public static final String PUNCTUATION_POINT = ".";
 }

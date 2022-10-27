@@ -21,6 +21,7 @@ import com.github.fank243.common.result.ResultInfo;
 import com.github.fank243.study.core.annotation.RepeatSubmit;
 import com.github.fank243.study.core.base.BaseController;
 import com.github.fank243.study.core.constants.ServerConstants;
+import com.github.fank243.study.support.constants.SupportConstants;
 import com.github.fank243.study.support.service.AreaService;
 
 import cn.hutool.core.collection.CollUtil;
@@ -59,7 +60,7 @@ public class AreaController extends BaseController {
         List<Area> areaList;
         try {
             String fileType = FileTypeUtil.getType(multipartFile.getInputStream(), multipartFile.getOriginalFilename());
-            if (!"txt".equalsIgnoreCase(fileType)) {
+            if (!SupportConstants.TXT.equalsIgnoreCase(fileType)) {
                 return ResultInfo.err400("请上传TXT文件");
             }
             List<String> list = new ArrayList<>(4000);

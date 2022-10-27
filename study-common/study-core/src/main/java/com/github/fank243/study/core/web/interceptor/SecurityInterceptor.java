@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jetbrains.annotations.NotNull;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -35,18 +37,24 @@ public class SecurityInterceptor implements HandlerInterceptor {
     @Resource
     private RedisTemplate<String, String> redisTemplate;
 
+    @Value("${study.security.feign.header.name}")
+    private String securityFeignHeaderName;
+
+    @Value("${study.security.feign.header.value}")
+    private String securityFeignHeaderValue;
+
     @Override
     public boolean preHandle(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response,
         @NotNull Object handler) throws Exception {
         String securityToken = request.getHeader(Constants.SECURITY_TOKEN);
-        String securityFeignValue = request.getHeader(Constants.SECURITY_FEIGN_KEY);
+        String securityFeignValue = request.getHeader(securityFeignHeaderName);
         if (StrUtil.isBlank(securityToken) && StrUtil.isBlank(securityFeignValue)) {
             WebUtils.renderJson(response, ResultInfo.err401("请求未授权"));
             return Boolean.FALSE;
         }
         String securityTokenWithRedis = redisTemplate.opsForValue().get(CacheConstants.SECURITY_TOKEN + securityToken);
         boolean isOkWithToken = StrUtil.isNotBlank(securityTokenWithRedis);
-        boolean isOkWithFeign = StrUtil.equalsIgnoreCase(securityFeignValue, Constants.SECURITY_FEIGN_VALUE);
+        boolean isOkWithFeign = StrUtil.equalsIgnoreCase(securityFeignValue, securityFeignHeaderValue);
         if (!isOkWithToken && !isOkWithFeign) {
             WebUtils.renderJson(response, ResultInfo.err401("请求未授权"));
             return Boolean.FALSE;

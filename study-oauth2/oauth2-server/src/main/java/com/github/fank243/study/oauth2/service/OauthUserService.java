@@ -69,7 +69,7 @@ public class OauthUserService extends ServiceImpl<IOauthUserDao, OauthUserEntity
         OauthClientEntity oauthClientEntity = oauthClientService.findByClientId(clientId);
 
         // 创建OpenID
-        String openId = Oauth2Utils.generateOpenID(oauthClientEntity.getClientId(), oauthUserEntity.getUserId());
+        String openId = Oauth2Utils.generateOpenId(oauthClientEntity.getClientId(), oauthUserEntity.getUserId());
         return oauthAccessTokenService.addAccessToken(oauthUserEntity.getUserId(), openId);
     }
 

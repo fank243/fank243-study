@@ -64,7 +64,7 @@ public class OauthUserController {
     }
 
     /** 获取用户信息 **/
-    @GetMapping({"/user/info"})
+    @GetMapping({"/users/info"})
     public ResultInfo<?> userInfo(String accessToken, String openId) {
         ResultInfo<?> result = validate(accessToken, openId);
         if (!result.isSuccess()) {
@@ -80,7 +80,7 @@ public class OauthUserController {
     }
 
     /** 获取用户信息 **/
-    @PostMapping({"/user/add"})
+    @PostMapping({"/users/add"})
     public ResultInfo<?> addUser(@RequestBody @Validated(ValidatorGroup.Create.class) OauthUserDTO oauthUserDTO) {
         ResultInfo<?> result = validateUserModify(oauthUserDTO.getAccessToken(), oauthUserDTO.getOpenId());
         if (!result.isSuccess()) {
@@ -92,7 +92,7 @@ public class OauthUserController {
     }
 
     /** 修改用户密码 **/
-    @PostMapping({"/user/modify-password"})
+    @PostMapping({"/users/password"})
     public ResultInfo<?>
         modifyPassword(@RequestBody @Validated(ValidatorGroup.Modify.class) OauthUserDTO oauthUserDTO) {
         ResultInfo<?> result = validateUserModify(oauthUserDTO.getAccessToken(), oauthUserDTO.getOpenId());

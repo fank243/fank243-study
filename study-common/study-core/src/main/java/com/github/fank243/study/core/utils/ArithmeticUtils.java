@@ -3,6 +3,8 @@ package com.github.fank243.study.core.utils;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import com.github.fank243.study.core.constants.Constants;
+
 /**
  * 算术运算工具类
  * 
@@ -32,7 +34,7 @@ public class ArithmeticUtils {
     public static String format(String val, int scale) {
         BigDecimal bigDecimal = new BigDecimal(val);
         String str = bigDecimal.toPlainString();
-        if (str.contains(".")) {
+        if (str.contains(Constants.PUNCTUATION_POINT)) {
             String[] spilt = str.split("\\.");
             long num = Long.parseLong(spilt[1]);
             if (num == 0) {

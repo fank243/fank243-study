@@ -16,6 +16,13 @@ import com.github.fank243.study.file.domain.entity.FileEntity;
 @Mapper
 public interface IFileMapper extends BaseMapper<FileEntity> {
 
+    /**
+     * 根据文件MD5值查询
+     * 
+     * @param fileMd5 文件MD5值
+     * @return 文件
+     */
+
     @Select("select * from tb_file where file_md5 = #{fileMd5} limit 1")
     FileEntity findByFileMd5(@Param("fileMd5") String fileMd5);
 

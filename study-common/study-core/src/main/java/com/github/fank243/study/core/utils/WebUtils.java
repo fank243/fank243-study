@@ -21,6 +21,7 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.github.fank243.study.core.constants.HttpConstants;
 import com.github.fank243.study.core.constants.enums.EnvEnum;
 
 import cn.hutool.core.collection.CollUtil;
@@ -208,13 +209,13 @@ public class WebUtils {
             return true;
         }
 
-        String xRequestedWith = request.getHeader("x-requested-with");
-        if (xRequestedWith != null && xRequestedWith.contains("XMLHttpRequest")) {
+        String xRequestedWith = request.getHeader(HttpConstants.X_REQUESTED_WITH);
+        if (xRequestedWith != null && xRequestedWith.contains(HttpConstants.XML_HTTP_REQUEST)) {
             return true;
         }
 
         String uri = request.getRequestURI();
-        if (StrUtil.containsAny(uri, ".json", ".xml")) {
+        if (StrUtil.containsAny(uri, HttpConstants.JSON, HttpConstants.XML)) {
             return true;
         }
 

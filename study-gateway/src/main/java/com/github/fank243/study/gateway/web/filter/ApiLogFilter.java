@@ -213,24 +213,26 @@ public class ApiLogFilter implements GlobalFilter, Ordered {
                     String respContentType =
                         exchange.getAttribute(ServerWebExchangeUtils.ORIGINAL_RESPONSE_CONTENT_TYPE_ATTR);
 
-                    if (respContentType != null && (respContentType.startsWith(MediaType.APPLICATION_JSON_VALUE)
-                        || respContentType.startsWith(MediaType.TEXT_PLAIN_VALUE))) {
-                        Flux<? extends DataBuffer> fluxBody = Flux.from(body);
-                        return super.writeWith(fluxBody.buffer().map(dataBuffers -> {
+                    if (respContentType != null) {
+                        if (respContentType.startsWith(MediaType.APPLICATION_JSON_VALUE)
+                            || respContentType.startsWith(MediaType.TEXT_PLAIN_VALUE)) {
+                            Flux<? extends DataBuffer> fluxBody = Flux.from(body);
+                            return super.writeWith(fluxBody.buffer().map(dataBuffers -> {
 
-                            // 合并多个流集合，解决返回体分段传输
-                            DataBufferFactory dataBufferFactory = new DefaultDataBufferFactory();
-                            DataBuffer join = dataBufferFactory.join(dataBuffers);
-                            byte[] content = new byte[join.readableByteCount()];
-                            join.read(content);
+                                // 合并多个流集合，解决返回体分段传输
+                                DataBufferFactory dataBufferFactory = new DefaultDataBufferFactory();
+                                DataBuffer join = dataBufferFactory.join(dataBuffers);
+                                byte[] content = new byte[join.readableByteCount()];
+                                join.read(content);
 
-                            // 释放掉内存
-                            DataBufferUtils.release(join);
-                            String responseResult = new String(content, StandardCharsets.UTF_8);
-                            respLogDTO.setRespBody(responseResult);
+                                // 释放掉内存
+                                DataBufferUtils.release(join);
+                                String responseResult = new String(content, StandardCharsets.UTF_8);
+                                respLogDTO.setRespBody(responseResult);
 
-                            return bufferFactory.wrap(content);
-                        }));
+                                return bufferFactory.wrap(content);
+                            }));
+                        }
                     }
                 }
                 return super.writeWith(body);

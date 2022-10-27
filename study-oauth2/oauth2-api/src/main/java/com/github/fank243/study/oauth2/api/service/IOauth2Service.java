@@ -85,7 +85,7 @@ public interface IOauth2Service {
      * @param openId OpenID
      * @return 用户信息
      */
-    @GetMapping(value = "/user/info")
+    @GetMapping(value = "/users/info")
     ResultInfo<OauthUserVO> getUserInfo(@RequestParam("accessToken") String accessToken,
         @RequestParam("openId") String openId);
 
@@ -95,7 +95,7 @@ public interface IOauth2Service {
      * @param oauthUserDTO 账号信息
      * @return OpenID
      */
-    @PostMapping(value = "/user/add")
+    @PostMapping(value = "/users/add")
     ResultInfo<?> addUser(@RequestBody OauthUserDTO oauthUserDTO);
 
     /**
@@ -104,7 +104,7 @@ public interface IOauth2Service {
      * @param oauthUserDTO 账号信息
      * @return 操作结果
      */
-    @PostMapping(value = "/user/modify-password")
+    @PostMapping(value = "/users/password")
     ResultInfo<?> modifyPassword(@RequestBody OauthUserDTO oauthUserDTO);
 
 }
