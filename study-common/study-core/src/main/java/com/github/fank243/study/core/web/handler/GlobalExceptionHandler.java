@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.github.fank243.common.result.ResultInfo;
 import com.github.fank243.study.core.exception.BizException;
-import com.github.fank243.study.core.exception.FeignException;
 
 import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.exception.SaTokenException;
@@ -69,13 +68,6 @@ public class GlobalExceptionHandler {
             return ResultInfo.err401().error(e.getMessage());
         }
         return ResultInfo.err403().error(e.getMessage());
-    }
-
-    /** OpenFeign调用异常 */
-    @ExceptionHandler(FeignException.class)
-    public ResultInfo<?> handleFeignException(FeignException e) {
-        log.error("全局异常拦截[FeignException]：{}", e.getMessage(), e);
-        return ResultInfo.error(e.getStatus(), e.getLocalizedMessage()).error(e.getMessage());
     }
 
     /** 业务异常 */

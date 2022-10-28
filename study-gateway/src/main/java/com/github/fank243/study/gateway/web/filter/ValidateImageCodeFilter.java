@@ -50,11 +50,10 @@ public class ValidateImageCodeFilter implements GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
-        boolean isLogin =
-            CharSequenceUtil.containsAnyIgnoreCase(request.getURI().getPath(), ServerConstants.BASE_URI_SYSTEM_LOGIN);
+        boolean isLogin = CharSequenceUtil.equals(request.getURI().getPath(), ServerConstants.BASE_URI_SYSTEM_LOGIN);
 
         // 不是登录请求，直接向下执行
-        if (!isLogin) {
+        if (!isLogin || request.getQueryParams().containsKey("code")) {
             return chain.filter(exchange);
         }
 

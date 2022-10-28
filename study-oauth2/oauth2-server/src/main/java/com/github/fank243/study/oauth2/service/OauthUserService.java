@@ -5,8 +5,8 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.fank243.common.result.ResultInfo;
 import com.github.fank243.study.oauth2.api.domain.dto.OauthUserDTO;
@@ -37,7 +37,8 @@ public class OauthUserService extends ServiceImpl<IOauthUserDao, OauthUserEntity
 
     @Transactional(rollbackFor = Exception.class)
     public ResultInfo<String> login(String name, String pwd) {
-        OauthUserEntity oauthUserEntity = oauthUserDao.findSysUserByUsername(name);
+        OauthUserEntity oauthUserEntity =
+            oauthUserDao.selectOne(new LambdaQueryWrapper<OauthUserEntity>().eq(OauthUserEntity::getUsername, name));
         if (oauthUserEntity == null) {
             return ResultInfo.err400("用户名或密码错误");
         }
@@ -48,14 +49,13 @@ public class OauthUserService extends ServiceImpl<IOauthUserDao, OauthUserEntity
     }
 
     public OauthUserEntity findByUserId(String userId) {
-        return oauthUserDao.findByUserId(userId);
+        return oauthUserDao.selectOne(new LambdaQueryWrapper<OauthUserEntity>().eq(OauthUserEntity::getUserId, userId));
     }
 
     @Transactional(rollbackFor = Exception.class)
     public ResultInfo<?> addUser(String clientId, OauthUserDTO oauthUserDTO) {
-        QueryWrapper<OauthUserEntity> wrapper = new QueryWrapper<>();
-        wrapper.eq("username", oauthUserDTO.getUsername());
-        Long count = oauthUserDao.selectCount(wrapper);
+        Long count = oauthUserDao.selectCount(
+            new LambdaQueryWrapper<OauthUserEntity>().eq(OauthUserEntity::getUsername, oauthUserDTO.getUsername()));
         if (Convert.toLong(count) > 0) {
             return ResultInfo.err400("用户名已被占用");
         }
@@ -75,9 +75,10 @@ public class OauthUserService extends ServiceImpl<IOauthUserDao, OauthUserEntity
 
     @Transactional(rollbackFor = Exception.class)
     public ResultInfo<?> modifyPassword(String userId, OauthUserDTO oauthUserDTO) {
-        UpdateWrapper<OauthUserEntity> wrapper = new UpdateWrapper<>();
-        wrapper.eq("user_id", userId);
-        wrapper.set("password", SecureUtil.md5(oauthUserDTO.getPassword()));
+        LambdaUpdateWrapper<OauthUserEntity> wrapper = new LambdaUpdateWrapper<>();
+        wrapper.set(OauthUserEntity::getPassword, SecureUtil.md5(oauthUserDTO.getPassword()))
+            .eq(OauthUserEntity::getUserId, userId);
+
         boolean isOk = update(null, wrapper);
 
         return isOk ? ResultInfo.ok() : ResultInfo.err500("修改密码失败");

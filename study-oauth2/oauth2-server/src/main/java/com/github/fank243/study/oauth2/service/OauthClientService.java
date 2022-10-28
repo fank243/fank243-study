@@ -4,7 +4,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.fank243.study.oauth2.api.domain.entity.OauthClientEntity;
 import com.github.fank243.study.oauth2.mapper.IOauthClientDao;
@@ -22,9 +22,8 @@ public class OauthClientService extends ServiceImpl<IOauthClientDao, OauthClient
     private IOauthClientDao oauthClientDao;
 
     public OauthClientEntity findByClientId(String clientId) {
-        QueryWrapper<OauthClientEntity> wrapper = new QueryWrapper<>();
-        wrapper.eq("client_id", clientId);
-        return oauthClientDao.selectOne(wrapper);
+        return oauthClientDao
+            .selectOne(new LambdaQueryWrapper<OauthClientEntity>().eq(OauthClientEntity::getClientId, clientId));
     }
 
 }

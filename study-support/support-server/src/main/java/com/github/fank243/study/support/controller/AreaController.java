@@ -8,7 +8,6 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,7 +24,6 @@ import com.github.fank243.study.support.constants.SupportConstants;
 import com.github.fank243.study.support.service.AreaService;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.convert.Convert;
 import cn.hutool.core.io.FileTypeUtil;
 import cn.hutool.core.io.IoUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -68,7 +66,7 @@ public class AreaController extends BaseController {
             if (CollUtil.isEmpty(list)) {
                 return ResultInfo.err400("文件内容不能为空");
             }
-            areaList = AreaUtils.parse(list);
+            areaList = AreaUtils.parseArea(list);
         } catch (IOException e) {
             log.error("导入异常：{}", e.getMessage(), e);
             return ResultInfo.err500("导入失败").error(e.toString());
@@ -82,24 +80,11 @@ public class AreaController extends BaseController {
     /**
      * 行政区划 > 区划树
      * 
-     * @param level 层级(0:省市，1：省市县)
      * @return 区域树
      */
-    @GetMapping(value = {"/tree", "/tree/{level}"})
-    public ResultInfo<List<Area>> tree(@PathVariable(value = "level", required = false) Integer level) {
-        level = Convert.toInt(level, 0);
-        level = level == 1 ? 1 : 0;
-        return ResultInfo.ok(areaService.generatorTree(level));
-    }
-
-    /**
-     * 行政区划 > 获取省级行政区划
-     * 
-     * @return 省级行政区划列表
-     */
-    @GetMapping("/provinces")
-    public ResultInfo<List<Area>> getProvinces() {
-        return ResultInfo.ok(areaService.findProvinces());
+    @GetMapping(value = {"/tree"})
+    public ResultInfo<List<Area>> tree() {
+        return ResultInfo.ok(AreaUtils.generateTree());
     }
 
     /**
@@ -108,8 +93,8 @@ public class AreaController extends BaseController {
      * @param code 行政区划代码
      * @return 行政区划列表
      */
-    @GetMapping("/{code}")
-    public ResultInfo<List<Area>> getAreaByCode(@PathVariable String code) {
-        return ResultInfo.ok(areaService.findAreaByCode(code));
+    @GetMapping({"list"})
+    public ResultInfo<List<Area>> getAreaList(@RequestParam(required = false, defaultValue = "") String code) {
+        return ResultInfo.ok(AreaUtils.getAreaList(code));
     }
 }

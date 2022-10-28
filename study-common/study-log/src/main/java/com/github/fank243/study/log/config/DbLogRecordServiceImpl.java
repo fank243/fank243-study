@@ -32,11 +32,11 @@ public class DbLogRecordServiceImpl implements ILogRecordService {
 
     @Override
     public void record(LogRecord logRecord) {
-        ThreadUtil.execute(() -> {
-            if (log.isDebugEnabled()) {
-                log.debug("操作日志拦截入库：{}", JSONUtil.toJsonStr(logRecord));
-            }
+        if (log.isDebugEnabled()) {
+            log.debug("操作日志拦截入库：{}", JSONUtil.toJsonStr(logRecord));
+        }
 
+        ThreadUtil.execute(() -> {
             OperLogDTO operLogDTO = BeanUtil.copyProperties(logRecord, OperLogDTO.class);
             operLogDTO.setLogType(logRecord.getType());
             operLogDTO.setOperatorId(logRecord.getOperator());

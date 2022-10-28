@@ -4,7 +4,7 @@
 
 ```bash
 # gateway
--Dstudy.remote-ip=127.0.0.1
+-Dstudy.server-addr=127.0.0.1
 -javaagent:E:/devops/local/apache-skywalking-apm-bin/agent/skywalking-agent.jar
 -Dskywalking.agent.service_name=study-gateway
 -Dskywalking.collector.backend_service=127.0.0.1:11800
@@ -21,7 +21,7 @@
 idea VM options
 
 ```bash
--Dstudy.remote-ip=${remote addr} 
+-Dstudy.server-addr=${remote addr} 
 ```
 
 ## Apache SkyWorking

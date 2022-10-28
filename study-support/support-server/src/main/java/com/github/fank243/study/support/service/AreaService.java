@@ -154,7 +154,7 @@ public class AreaService extends ServiceImpl<IAreaMapper, AreaEntity> {
                 return;
             }
             if (StrUtil.isNotBlank(areaEntity.getCityCode())) {
-                String provinceCode = areaEntity.getCityCode().substring(0, 2) + "0000";
+                String provinceCode = areaEntity.getCityCode().substring(0, 2) + AreaConstants.AREA_SUFFIX_PROVINCE;
                 AreaEntity provinceArea =
                     areaEntityList.stream().filter(area -> area.getProvinceCode().equalsIgnoreCase(provinceCode))
                         .findFirst().orElse(new AreaEntity());
@@ -162,14 +162,14 @@ public class AreaService extends ServiceImpl<IAreaMapper, AreaEntity> {
                 areaEntity.setProvinceName(provinceArea.getProvinceName());
             }
             if (StrUtil.isNotBlank(areaEntity.getAreaCode())) {
-                String provinceCode = areaEntity.getAreaCode().substring(0, 2) + "0000";
+                String provinceCode = areaEntity.getAreaCode().substring(0, 2) + AreaConstants.AREA_SUFFIX_PROVINCE;
                 AreaEntity provinceArea =
                     areaEntityList.stream().filter(area -> area.getProvinceCode().equalsIgnoreCase(provinceCode))
                         .findFirst().orElse(new AreaEntity());
                 areaEntity.setProvinceCode(provinceArea.getProvinceCode());
                 areaEntity.setProvinceName(provinceArea.getProvinceName());
 
-                String cityCode = areaEntity.getAreaCode().substring(0, 4) + "00";
+                String cityCode = areaEntity.getAreaCode().substring(0, 4) + AreaConstants.AREA_SUFFIX_CITY;
                 AreaEntity cityArea = areaEntityList.stream()
                     .filter(
                         area -> StrUtil.isNotBlank(area.getCityCode()) && area.getCityCode().equalsIgnoreCase(cityCode))

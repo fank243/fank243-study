@@ -1,4 +1,4 @@
-package com.github.fank243.study.core.constants;
+package com.github.fank243.study.core.properties;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ import lombok.Data;
 @Data
 @Component
 @ConfigurationProperties("swagger")
-public class SwaggerConstants {
+public class SwaggerProperties {
     /**
      * 是否开启swagger
      */

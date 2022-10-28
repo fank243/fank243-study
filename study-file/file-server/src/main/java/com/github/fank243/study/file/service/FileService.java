@@ -41,7 +41,7 @@ import cn.hutool.crypto.SecureUtil;
 public class FileService extends ServiceImpl<IFileMapper, FileEntity> {
 
     @Resource
-    private IFileMapper fileDao;
+    private IFileMapper fileMapper;
     @Resource
     private FileProperties fileProperties;
     @Resource
@@ -78,7 +78,7 @@ public class FileService extends ServiceImpl<IFileMapper, FileEntity> {
             File file = FileUtil.writeFromStream(inputStream, fileDir.getAbsolutePath() + File.separator + fileName);
 
             String fileMd5 = SecureUtil.md5(file);
-            fileEntity = fileDao.findByFileMd5(fileMd5);
+            fileEntity = fileMapper.findByFileMd5(fileMd5);
             if (fileEntity != null) {
                 ThreadUtil.execute(() -> FileUtil.del(file));
                 // 如果文件不一样，新增一条记录

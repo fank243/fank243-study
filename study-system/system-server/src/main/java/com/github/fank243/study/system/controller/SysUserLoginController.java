@@ -94,7 +94,7 @@ public class SysUserLoginController extends BaseController {
      * @param code 授权码
      * @return 登录用户信息
      */
-    @RequestMapping("/login")
+    @GetMapping("/login")
     public ResultInfo<?> login(HttpServletRequest request, String code, String message) {
         // 用户拒绝授权
         if (StrUtil.isNotBlank(message)) {

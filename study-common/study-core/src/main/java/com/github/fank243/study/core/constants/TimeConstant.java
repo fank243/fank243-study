@@ -29,13 +29,13 @@ public class TimeConstant {
     /** 3h **/
     public static final int HOUR_3 = 3 * HOUR_1;
 
-    /** 1day **/
+    /** 1天 **/
     public static final int DAY_1 = 86400;
 
-    /** 7day **/
+    /** 7天 **/
     public static final int DAY_7 = 7 * DAY_1;
 
-    /** 3day **/
+    /** 30天 **/
     public static final int DAY_30 = 30 * DAY_1;
 
 }

@@ -5,7 +5,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.fank243.common.result.ResultInfo;
 import com.github.fank243.study.oauth2.api.domain.entity.OauthAccessTokenEntity;
@@ -24,15 +24,14 @@ public class OauthAccessTokenService extends ServiceImpl<IOauthAccessTokenDao, O
     private IOauthAccessTokenDao oauthAccessTokenDao;
 
     public OauthAccessTokenEntity findByUserId(String userId) {
-        QueryWrapper<OauthAccessTokenEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_id", userId);
-        return oauthAccessTokenDao.selectOne(queryWrapper);
+        return oauthAccessTokenDao
+            .selectOne(new LambdaQueryWrapper<OauthAccessTokenEntity>().eq(OauthAccessTokenEntity::getUserId, userId));
     }
 
     public OauthAccessTokenEntity findByOpenId(String openId) {
-        QueryWrapper<OauthAccessTokenEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("open_id", openId);
-        return oauthAccessTokenDao.selectOne(queryWrapper);
+        return oauthAccessTokenDao
+            .selectOne(new LambdaQueryWrapper<OauthAccessTokenEntity>().eq(OauthAccessTokenEntity::getOpenId, openId));
+
     }
 
     @Transactional(rollbackFor = Exception.class)
