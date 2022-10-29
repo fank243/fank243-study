@@ -1,5 +1,7 @@
 server:
   port: 8902
+  servlet:
+    context-path: /support
 
 spring:
   profiles.include: common

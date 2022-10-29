@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.github.fank243.common.area.Area;
-import com.github.fank243.common.area.AreaUtils;
+import com.github.fank243.common.area.AreaHelper;
 import com.github.fank243.common.result.ResultInfo;
 import com.github.fank243.study.core.annotation.RepeatSubmit;
 import com.github.fank243.study.core.base.BaseController;
@@ -66,7 +66,7 @@ public class AreaController extends BaseController {
             if (CollUtil.isEmpty(list)) {
                 return ResultInfo.err400("文件内容不能为空");
             }
-            areaList = AreaUtils.parseArea(list);
+            areaList = AreaHelper.parseArea(list);
         } catch (IOException e) {
             log.error("导入异常：{}", e.getMessage(), e);
             return ResultInfo.err500("导入失败").error(e.toString());
@@ -84,7 +84,7 @@ public class AreaController extends BaseController {
      */
     @GetMapping(value = {"/tree"})
     public ResultInfo<List<Area>> tree() {
-        return ResultInfo.ok(AreaUtils.generateTree());
+        return ResultInfo.ok(AreaHelper.generateTree());
     }
 
     /**
@@ -95,6 +95,6 @@ public class AreaController extends BaseController {
      */
     @GetMapping({"list"})
     public ResultInfo<List<Area>> getAreaList(@RequestParam(required = false, defaultValue = "") String code) {
-        return ResultInfo.ok(AreaUtils.getAreaList(code));
+        return ResultInfo.ok(AreaHelper.getAreaList(code));
     }
 }

@@ -19,12 +19,22 @@ spring:
           filters:
             - StripPrefix=1
 
+        - id: study-support-docs
+          uri: lb://study-support
+          predicates:
+            - Path=/support/**
+
         - id: study-file
           uri: lb://study-file
           predicates:
             - Path=/api/file/**
           filters:
             - StripPrefix=1
+
+        - id: study-file-docs
+          uri: lb://study-file
+          predicates:
+            - Path=/file/**
 
         - id: study-file2
           uri: lb://study-file
@@ -38,14 +48,10 @@ spring:
           filters:
             - StripPrefix=1
 
-        - id: study-system2
+        - id: study-system-docs
           uri: lb://study-system
           predicates:
             - Path=/system/**
 
-        - id: study-system-doc
-          uri: lb://study-system
-          predicates:
-            - Path=/doc/**
 
 # 获取路由地址：/actuator/gateway/routes

@@ -20,21 +20,21 @@ public class ServerConstants {
 
     public static final String BASE_URI_SUPPORT = "/support";
 
-    public static final String BASE_URI_SUPPORT_LOG = "/support/logs";
+    public static final String BASE_URI_SUPPORT_LOG = "/logs";
 
-    public static final String BASE_URI_SUPPORT_AREA = "/support/areas";
+    public static final String BASE_URI_SUPPORT_AREA = "/areas";
 
-    public static final String BASE_URI_SUPPORT_SMS = "/support/sms";
+    public static final String BASE_URI_SUPPORT_SMS = "/sms";
 
-    public static final String BASE_URI_FILE = "/files";
+    public static final String BASE_URI_FILE = "/file";
 
     public static final String BASE_URI_SYSTEM = "/system";
 
-    public static final String BASE_URI_SYSTEM_LOGIN = "/system/login";
+    public static final String BASE_URI_SYSTEM_LOGIN = "/login";
 
-    public static final String BASE_URI_SYSTEM_ADMIN = "/system/admin";
+    public static final String BASE_URI_SYSTEM_ADMIN = "/admin";
 
-    public static final String BASE_URI_SYSTEM_ROLE = "/system/roles";
+    public static final String BASE_URI_SYSTEM_ROLE = "/roles";
 
-    public static final String BASE_URI_SYSTEM_PERM = "/system/perms";
+    public static final String BASE_URI_SYSTEM_PERM = "/perms";
 }

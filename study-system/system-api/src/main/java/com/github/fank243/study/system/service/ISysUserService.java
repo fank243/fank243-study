@@ -11,7 +11,7 @@ import com.github.fank243.study.core.constants.ServerConstants;
  * @since 2021-09-03
  */
 @FeignClient(contextId = "iSysUserService", value = ServerConstants.SERVER_SYSTEM,
-    path = ServerConstants.BASE_URI_SYSTEM_ADMIN)
+    path = ServerConstants.BASE_URI_SYSTEM + ServerConstants.BASE_URI_SYSTEM_ADMIN)
 public interface ISysUserService {
 
 }

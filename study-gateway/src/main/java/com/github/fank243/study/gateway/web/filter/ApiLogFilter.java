@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import javax.validation.constraints.NotNull;
+
 import org.reactivestreams.Publisher;
 
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -41,7 +43,6 @@ import brave.Span;
 import brave.Tracer;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.json.JSONUtil;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;

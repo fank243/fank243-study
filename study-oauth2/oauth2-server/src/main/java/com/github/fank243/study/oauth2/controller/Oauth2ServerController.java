@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.github.fank243.common.result.ResultInfo;
@@ -22,7 +21,6 @@ import cn.dev33.satoken.oauth2.config.SaOAuth2Config;
 import cn.dev33.satoken.oauth2.logic.SaOAuth2Handle;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
-import cn.hutool.core.net.URLEncodeUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 
@@ -116,14 +114,4 @@ public class Oauth2ServerController {
         cfg.setIsPassword(true);
     }
 
-    @ExceptionHandler
-    public String handlerException(Exception e, HttpServletRequest request, HttpServletResponse response)
-        throws Exception {
-        String accept = request.getHeader("accept");
-        log.error("统一认证异常，MediaType：{}，异常信息：{}", accept, e.getMessage(), e);
-        if (StrUtil.contains(accept, "text/html")) {
-            response.sendRedirect("/error/500?message=" + URLEncodeUtil.encode(e.getMessage()));
-        }
-        throw e;
-    }
 }

@@ -14,7 +14,8 @@ import com.github.fank243.study.support.domain.dto.OperLogDTO;
  * @author FanWeiJie
  * @since 2022-05-13
  */
-@FeignClient(contextId = "iLogService", value = "study-support", path = ServerConstants.BASE_URI_SUPPORT_LOG)
+@FeignClient(contextId = "iLogService", value = ServerConstants.SERVER_SUPPORT,
+    path = ServerConstants.BASE_URI_SUPPORT + ServerConstants.BASE_URI_SUPPORT_LOG)
 public interface IOperLogService {
     /**
      * 添加请求响应日志

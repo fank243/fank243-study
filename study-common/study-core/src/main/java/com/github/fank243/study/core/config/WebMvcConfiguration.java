@@ -59,9 +59,8 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
             }
 
             // 需要排除的资源以及静态资源
-            List<String> excludeList = new ArrayList<>();
-            excludeList.addAll(Arrays.asList(annotation.exclude()));
-            excludeList.addAll(List.of("/doc/**"));
+            List<String> excludeList = new ArrayList<>(Arrays.asList(annotation.exclude()));
+            excludeList.add("/docs/**");
             registration.excludePathPatterns(excludeList);
         }
     }

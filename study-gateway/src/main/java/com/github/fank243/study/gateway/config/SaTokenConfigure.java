@@ -18,11 +18,16 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
+import com.github.fank243.common.result.ResultInfo;
 import com.github.fank243.study.core.domain.enums.PermTypeEnum;
 import com.github.fank243.study.system.domain.vo.SysPermVO;
 import com.github.fank243.study.system.service.ISysPermService;
 
 import cn.dev33.satoken.context.SaHolder;
+import cn.dev33.satoken.exception.IdTokenInvalidException;
+import cn.dev33.satoken.exception.NotLoginException;
+import cn.dev33.satoken.exception.NotPermissionException;
+import cn.dev33.satoken.exception.NotRoleException;
 import cn.dev33.satoken.exception.SaTokenException;
 import cn.dev33.satoken.reactor.filter.SaReactorFilter;
 import cn.dev33.satoken.router.SaHttpMethod;
@@ -112,13 +117,16 @@ public class SaTokenConfigure {
 
             })
             // 指定[异常处理函数]：每次[认证函数]发生异常时执行此函数
-            // .setError((e) -> {
-            // log.error("认证异常：{}", e.getMessage(), e);
-            // if (e instanceof NotLoginException) {
-            // return ResultInfo.err401(e.getMessage());
-            // }
-            // return ResultInfo.err403(e.getMessage());
-            // })
+            .setError((e) -> {
+                log.error("认证异常：{}", e.getMessage(), e);
+                if (e instanceof NotLoginException) {
+                    return ResultInfo.err401(e.getMessage());
+                } else if (e instanceof NotRoleException || e instanceof NotPermissionException
+                    || e instanceof IdTokenInvalidException) {
+                    return ResultInfo.err403().error(e.getMessage());
+                }
+                return ResultInfo.err500("oauth2认证异常").error(e.getMessage());
+            })
             // 前置函数：在每次认证函数之前执行
             .setBeforeAuth(r -> SaHolder.getResponse()
                 // 服务器名称

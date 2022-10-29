@@ -18,7 +18,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.fank243.common.area.Area;
 import com.github.fank243.common.area.AreaConstants;
-import com.github.fank243.common.area.AreaUtils;
+import com.github.fank243.common.area.AreaHelper;
 import com.github.fank243.study.core.constants.TimeConstant;
 import com.github.fank243.study.support.domain.entity.AreaEntity;
 import com.github.fank243.study.support.mapper.IAreaMapper;
@@ -114,7 +114,7 @@ public class AreaService extends ServiceImpl<IAreaMapper, AreaEntity> {
     @Cached(name = "support:area:code:", key = "#code", expire = TimeConstant.DAY_1)
     @CacheRefresh(refresh = TimeConstant.HOUR_1, stopRefreshAfterLastAccess = TimeConstant.HOUR_1)
     public List<Area> findAreaByCode(String code) {
-        AreaConstants.AreaCodeTypeEnum areaCodeType = AreaUtils.getAreaCodeType(code);
+        AreaConstants.AreaCodeTypeEnum areaCodeType = AreaHelper.getAreaCodeType(code);
         if (AreaConstants.AreaCodeTypeEnum.PROVINCE.name().equalsIgnoreCase(areaCodeType.name())) {
             return areaDao.findCityByProvinceCode(code);
         } else if (AreaConstants.AreaCodeTypeEnum.CITY.name().equalsIgnoreCase(areaCodeType.name())) {
@@ -133,7 +133,7 @@ public class AreaService extends ServiceImpl<IAreaMapper, AreaEntity> {
 
         List<AreaEntity> areaEntityList = new ArrayList<>();
         areaList.forEach(area -> {
-            AreaConstants.AreaCodeTypeEnum areaCodeType = AreaUtils.getAreaCodeType(area.getAreaCode());
+            AreaConstants.AreaCodeTypeEnum areaCodeType = AreaHelper.getAreaCodeType(area.getAreaCode());
             AreaEntity areaEntity = new AreaEntity();
             if (AreaConstants.AreaCodeTypeEnum.PROVINCE.name().equalsIgnoreCase(areaCodeType.name())) {
                 areaEntity.setProvinceCode(area.getAreaCode());

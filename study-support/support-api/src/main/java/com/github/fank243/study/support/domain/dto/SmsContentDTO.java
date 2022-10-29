@@ -2,9 +2,10 @@ package com.github.fank243.study.support.domain.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+
 import cn.hutool.core.lang.RegexPool;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 /**

@@ -16,7 +16,7 @@ import com.github.fank243.study.system.domain.vo.SysRoleVO;
  * @since 2022-05-13
  */
 @FeignClient(contextId = "iSysRoleService", value = ServerConstants.SERVER_SYSTEM,
-    path = ServerConstants.BASE_URI_SYSTEM_ROLE)
+    path = ServerConstants.BASE_URI_SYSTEM + ServerConstants.BASE_URI_SYSTEM_ROLE)
 public interface ISysRoleService {
 
     /**

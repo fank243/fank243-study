@@ -15,8 +15,16 @@ spring:
       address: grpc://${study.server-addr}:8091
       namespace: default
 
+# swagger-ui custom path
+springdoc:
+  show-actuator: true
+  swagger-ui:
+    path: /docs/swagger-ui
+  api-docs:
+    path: /docs/swagger
+
 logging:
-#  config: file:study-core/src/main/resources/logback-spring.xml
+  # config: file:study-core/src/main/resources/logback-spring.xml
   config: classpath:logback-spring.xml
   level:
     org.springframework: info

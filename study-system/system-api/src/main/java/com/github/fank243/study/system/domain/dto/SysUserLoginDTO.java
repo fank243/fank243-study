@@ -2,6 +2,9 @@ package com.github.fank243.study.system.domain.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+
 import org.hibernate.validator.constraints.Length;
 
 import com.github.fank243.common.pattern.RegexExtPool;
@@ -10,8 +13,6 @@ import com.github.fank243.study.core.domain.enums.LoginTypeEnum;
 import com.github.fank243.study.core.domain.validator.annotation.Enum;
 
 import cn.hutool.core.lang.RegexPool;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

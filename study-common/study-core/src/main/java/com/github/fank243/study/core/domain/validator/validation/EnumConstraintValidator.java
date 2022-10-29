@@ -3,12 +3,13 @@ package com.github.fank243.study.core.domain.validator.validation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+
 import com.github.fank243.study.core.domain.validator.annotation.Enum;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.EnumUtil;
-import jakarta.validation.ConstraintValidator;
-import jakarta.validation.ConstraintValidatorContext;
 
 /**
  * 校验枚举值是否合法，枚举类需提供静态方法.

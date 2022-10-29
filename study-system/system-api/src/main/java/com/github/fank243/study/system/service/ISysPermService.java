@@ -18,7 +18,7 @@ import com.github.fank243.study.system.domain.vo.SysPermVO;
  * @since 2022-05-13
  */
 @FeignClient(contextId = "iSysPermService", value = ServerConstants.SERVER_SYSTEM,
-    path = ServerConstants.BASE_URI_SYSTEM_PERM)
+    path = ServerConstants.BASE_URI_SYSTEM + ServerConstants.BASE_URI_SYSTEM_PERM)
 public interface ISysPermService {
 
     /**

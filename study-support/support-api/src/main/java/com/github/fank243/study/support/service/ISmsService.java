@@ -14,7 +14,8 @@ import com.github.fank243.study.support.domain.dto.OperLogDTO;
  * @author FanWeiJie
  * @since 2022-05-13
  */
-@FeignClient(contextId = "iSmsService", value = "study-support", path = ServerConstants.BASE_URI_SUPPORT_LOG)
+@FeignClient(contextId = "iSmsService", value = ServerConstants.SERVER_SUPPORT,
+    path = ServerConstants.BASE_URI_SUPPORT + ServerConstants.BASE_URI_SUPPORT_LOG)
 public interface ISmsService {
     /**
      * 发送短信验证码
