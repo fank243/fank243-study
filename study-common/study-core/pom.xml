@@ -83,9 +83,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-ui</artifactId>
+			<groupId>com.github.fank243</groupId>
+			<artifactId>study-springdoc-spring-boot-starter</artifactId>
 		</dependency>
-
 	</dependencies>
 </project>

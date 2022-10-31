@@ -74,8 +74,7 @@
 		<!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java-util -->
 		<protobuf.version>3.21.7</protobuf.version>
 
-		<!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-ui -->
-		<springdoc.version>1.6.12</springdoc.version>
+		<study-springdoc.version>1.0.0</study-springdoc.version>
 
 		<!--插件-->
 		<!-- https://mvnrepository.com/artifact/com.github.shalousun/smart-doc-maven-plugin -->
@@ -271,14 +270,9 @@
 
 			<!-- Api文档生成工具 -->
 			<dependency>
-				<groupId>org.springdoc</groupId>
-				<artifactId>springdoc-openapi-ui</artifactId>
-				<version>${springdoc.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springdoc</groupId>
-				<artifactId>springdoc-openapi-javadoc</artifactId>
-				<version>${springdoc.version}</version>
+				<groupId>com.github.fank243</groupId>
+				<artifactId>study-springdoc-spring-boot-starter</artifactId>
+				<version>${study-springdoc.version}</version>
 			</dependency>
 
 		</dependencies>
