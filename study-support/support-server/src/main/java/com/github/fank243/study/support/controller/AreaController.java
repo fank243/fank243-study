@@ -26,6 +26,9 @@ import com.github.fank243.study.support.service.AreaService;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.FileTypeUtil;
 import cn.hutool.core.io.IoUtil;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -34,6 +37,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author FanWeiJie
  * @since 2022-05-13
  */
+@Tag(name = "AreaController", description = "行政区划接口")
 @Slf4j
 @RequestMapping(ServerConstants.BASE_URI_SUPPORT_AREA)
 @RestController
@@ -48,6 +52,8 @@ public class AreaController extends BaseController {
      * @param multipartFile 国家行政区划TXT文件
      * @return 操作结果
      */
+    @Operation(summary = "行政区划-导入")
+    @Parameter(name = "file", description = "待上传的行政区划TXT文件", required = true)
     @RepeatSubmit
     @PostMapping("/import")
     public ResultInfo<?> importArea(@RequestParam("file") MultipartFile multipartFile) {
@@ -82,6 +88,7 @@ public class AreaController extends BaseController {
      * 
      * @return 区域树
      */
+    @Operation(summary = "行政区划-区划树")
     @GetMapping(value = {"/tree"})
     public ResultInfo<List<Area>> tree() {
         return ResultInfo.ok(AreaHelper.generateTree());
@@ -93,6 +100,8 @@ public class AreaController extends BaseController {
      * @param code 行政区划代码
      * @return 行政区划列表
      */
+    @Operation(summary = "行政区划-根据行政区划代码获取")
+    @Parameter(description = "六位行政区划代码", allowEmptyValue = true)
     @GetMapping({"list"})
     public ResultInfo<List<Area>> getAreaList(@RequestParam(required = false, defaultValue = "") String code) {
         return ResultInfo.ok(AreaHelper.getAreaList(code));

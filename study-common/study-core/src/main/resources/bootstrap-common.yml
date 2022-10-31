@@ -21,7 +21,10 @@ springdoc:
   swagger-ui:
     path: /docs/swagger-ui
   api-docs:
+    enabled: true
     path: /docs/swagger
+  # 扫描指定包
+  packages-to-scan: com.github.fank243.study
 
 logging:
   # config: file:study-core/src/main/resources/logback-spring.xml

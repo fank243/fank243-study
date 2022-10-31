@@ -17,5 +17,11 @@ spring:
             # 注入自定义配置文件列表，当 key 冲突时，排在前面的配置文件优先级高于后面
             files: [ "study-common.yml", "study-datasource.yml", "study-satoken.yml" ]
 
-# 文件上传根路径
-study.file.path: static/view
+study:
+  # 文件上传根路径
+  file.path: static/view
+  spring-doc:
+    api-info:
+      title: 文件管理接口文档
+      description: 文件管理接口文档
+      version: 1.0

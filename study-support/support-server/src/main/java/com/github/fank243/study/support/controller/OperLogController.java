@@ -22,6 +22,9 @@ import com.github.fank243.study.support.domain.vo.OperLogVO;
 import com.github.fank243.study.support.service.OperLogService;
 
 import cn.hutool.core.bean.BeanUtil;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * 请求响应日志表 控制器
@@ -29,6 +32,7 @@ import cn.hutool.core.bean.BeanUtil;
  * @author FanWeiJie
  * @since 2022-09-26 15:14:51
  */
+@Tag(name = "OperLogController", description = "操作日志接口")
 @RequestMapping(ServerConstants.BASE_URI_SUPPORT_LOG)
 @RestController
 public class OperLogController extends BaseController {
@@ -37,11 +41,13 @@ public class OperLogController extends BaseController {
     private OperLogService operLogService;
 
     /**
-     * 请求响应日志 > 根据日志ID获取
+     * 操作日志 > 根据日志ID获取
      * 
      * @param id 日志ID
      * @return 日志列表
      */
+    @Operation(summary = "操作日志-根据ID获取", description = "获取操作记录")
+    @Parameter(description = "操作日志记录ID")
     @GetMapping("/{id}")
     public ResultInfo<OperLogVO> getById(@PathVariable String id) {
         OperLogEntity operLogEntity = operLogService.getById(id);
@@ -49,22 +55,24 @@ public class OperLogController extends BaseController {
     }
 
     /**
-     * 请求响应日志 > 分页
+     * 操作日志 > 分页
      *
      * @param reqRespLog 分页参数
      * @return 日志列表
      */
+    @Operation(summary = "操作日志-分页")
     @PostMapping("/page")
     public ResultInfo<PageBean<OperLogVO>> page(@RequestBody OperLogDTO reqRespLog) {
         return ResultInfo.ok(operLogService.page(reqRespLog));
     }
 
     /**
-     * 请求响应日志 > 新增
+     * 操作日志 > 新增
      *
      * @param reqRespLog 请求参数
      * @return 操作结果
      */
+    @Operation(summary = "操作日志-新增")
     @PostMapping("/add")
     public ResultInfo<?> add(@RequestBody @Validated({ValidatorGroup.Create.class}) OperLogDTO reqRespLog)
         throws BizException {

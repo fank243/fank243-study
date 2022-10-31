@@ -16,6 +16,8 @@ import com.github.fank243.study.support.domain.dto.SmsCodeDTO;
 import com.github.fank243.study.support.domain.dto.SmsContentDTO;
 import com.github.fank243.study.support.service.SmsService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -24,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author FanWeiJie
  * @since 2022-05-13
  */
+@Tag(name = "SmsController", description = "短信接口")
 @Slf4j
 @RequestMapping(ServerConstants.BASE_URI_SUPPORT_SMS)
 @RestController
@@ -38,6 +41,7 @@ public class SmsController extends BaseController {
      * @param smsContentDTO 请求参数
      * @return 操作结果
      */
+    @Operation(summary = "短信-发送")
     @RepeatSubmit
     @PostMapping("/send")
     public ResultInfo<?> send(@RequestBody @Validated SmsContentDTO smsContentDTO) {
@@ -50,6 +54,7 @@ public class SmsController extends BaseController {
      * @param smsCodeDTO 请求参数
      * @return 操作结果
      */
+    @Operation(summary = "短信-发送验证码")
     @RepeatSubmit
     @PostMapping("/send/code")
     public ResultInfo<?> sendSmsCode(@RequestBody @Validated(SmsCodeDTO.Send.class) SmsCodeDTO smsCodeDTO) {
@@ -62,6 +67,7 @@ public class SmsController extends BaseController {
      * @param smsCodeDTO 请求参数
      * @return 操作结果
      */
+    @Operation(summary = "短信-校验短信验证码")
     @PostMapping("/validate")
     public ResultInfo<?> validateSmsCode(@RequestBody @Validated(SmsCodeDTO.Validate.class) SmsCodeDTO smsCodeDTO) {
         return smsService.validateSmsCode(smsCodeDTO);
