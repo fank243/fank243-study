@@ -22,23 +22,11 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.github.fank243</groupId>
-			<artifactId>study-mybatis</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.github.fank243</groupId>
 			<artifactId>system-api</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.github.fank243</groupId>
 			<artifactId>oauth2-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.github.fank243</groupId>
-			<artifactId>study-feign</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.github.fank243</groupId>
-			<artifactId>study-log</artifactId>
 		</dependency>
 
 		<dependency>
@@ -61,15 +49,15 @@
 			<artifactId>spring-cloud-starter-tencent-polaris-config</artifactId>
 		</dependency>
 		<!--分布式链路追踪器-->
-		<dependency>
+		<!--<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-sleuth</artifactId>
-		</dependency>
-		<!--分布式链路分析器-->
-		<dependency>
+		</dependency>-->
+		<!-- 分布式链路分析器 -->
+		<!--<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-sleuth-zipkin</artifactId>
-		</dependency>
+		</dependency>-->
 		<!-- bootstrap.yml 文件加载 -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
@@ -82,33 +70,16 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.baomidou</groupId>
-			<artifactId>dynamic-datasource-spring-boot-starter</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.baomidou</groupId>
-			<artifactId>mybatis-plus-boot-starter</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.mysql</groupId>
-			<artifactId>mysql-connector-j</artifactId>
-			<scope>runtime</scope>
+			<groupId>org.springframework.retry</groupId>
+			<artifactId>spring-retry</artifactId>
 		</dependency>
 
+		<!--Graylog 发送器-->
 		<dependency>
-            <groupId>org.springframework.retry</groupId>
-            <artifactId>spring-retry</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-dao-redis-jackson</artifactId>
-        </dependency>
-    </dependencies>
+			<groupId>de.siegmar</groupId>
+			<artifactId>logback-gelf</artifactId>
+		</dependency>
+	</dependencies>
 
     <build>
         <finalName>${project.artifactId}</finalName>

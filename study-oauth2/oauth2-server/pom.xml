@@ -21,14 +21,6 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.github.fank243</groupId>
-			<artifactId>study-feign</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.github.fank243</groupId>
-			<artifactId>study-mybatis</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.github.fank243</groupId>
 			<artifactId>oauth2-api</artifactId>
 		</dependency>
 
@@ -51,16 +43,6 @@
 			<groupId>com.tencent.cloud</groupId>
 			<artifactId>spring-cloud-starter-tencent-polaris-config</artifactId>
 		</dependency>
-		<!--分布式链路追踪器-->
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-sleuth</artifactId>
-		</dependency>
-		<!--分布式链路追踪器-->
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-sleuth-zipkin</artifactId>
-		</dependency>
 		<!-- bootstrap.yml 文件加载 -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
@@ -71,35 +53,18 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-freemarker</artifactId>
 		</dependency>
-		<!-- Sa-Token 权限认证, 在线文档：http://sa-token.dev33.cn/ -->
-		<dependency>
-			<groupId>cn.dev33</groupId>
-			<artifactId>sa-token-spring-boot-starter</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>cn.dev33</groupId>
-			<artifactId>sa-token-dao-redis-jackson</artifactId>
-		</dependency>
+
 		<!-- Sa-Token-OAuth2.0 模块 -->
 		<dependency>
 			<groupId>cn.dev33</groupId>
 			<artifactId>sa-token-oauth2</artifactId>
 		</dependency>
 
+		<!--Graylog 发送器-->
 		<dependency>
-			<groupId>com.baomidou</groupId>
-			<artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+			<groupId>de.siegmar</groupId>
+			<artifactId>logback-gelf</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.baomidou</groupId>
-			<artifactId>mybatis-plus-boot-starter</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.mysql</groupId>
-			<artifactId>mysql-connector-j</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-
 	</dependencies>
 
     <build>

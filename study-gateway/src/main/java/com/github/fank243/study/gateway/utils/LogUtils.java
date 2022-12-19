@@ -20,7 +20,7 @@ public class LogUtils {
     /**
      * 打印日志
      *
-     * @param operLogDTO 请求参数
+     * @param respLogDTO 请求参数
      */
     public static void printLog(ReqRespLogDTO respLogDTO) {
         // 异步线程需要手动注入

@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.bind.support.WebExchangeBindException;
@@ -121,14 +122,14 @@ public class ReactiveUtils {
 
     @SuppressWarnings("AlibabaSwitchStatement")
     public static ResultInfo<?> handlerException(ServerHttpResponse response, Throwable ex) {
-        HttpStatus httpStatus = response.getStatusCode();
+        HttpStatusCode statusCode = response.getStatusCode();
 
         ResultInfo<?> result;
-        switch (Objects.requireNonNull(httpStatus)) {
+        switch (Objects.requireNonNull(statusCode).value()) {
             // 200
-            case OK -> {
+            case 200 -> {
                 if (ex instanceof ResponseStatusException responseStatusException) {
-                    switch (responseStatusException.getRawStatusCode()) {
+                    switch (responseStatusException.getStatusCode().value()) {
                         case 400 -> {
                             // Spring Validate 参数验证异常
                             if (ex instanceof WebExchangeBindException webExchangeBindException) {
@@ -159,7 +160,7 @@ public class ReactiveUtils {
             }
 
             // 401
-            case UNAUTHORIZED -> {
+            case 401 -> {
                 if (ex.getCause() instanceof NotLoginException) {
                     result = ResultInfo.err401(ResultCodeEnum.R401.getMessage()).error(ex.getMessage());
                 } else {
@@ -167,7 +168,7 @@ public class ReactiveUtils {
                 }
             }
             // 403
-            case FORBIDDEN -> {
+            case 403 -> {
                 if (ex instanceof SaTokenException && !(ex.getCause() instanceof NotLoginException)) {
                     result = ResultInfo.err403(ex.getMessage());
                 } else {
@@ -175,9 +176,9 @@ public class ReactiveUtils {
                 }
             }
             // 404
-            case NOT_FOUND -> result = ResultInfo.err404();
+            case 404 -> result = ResultInfo.err404();
             // 503
-            case SERVICE_UNAVAILABLE -> result = ResultInfo.err503();
+            case 503 -> result = ResultInfo.err503();
             // 500
             default -> result = ResultInfo.err500(ex.getMessage()).error(ex.toString());
         }

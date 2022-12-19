@@ -1,8 +1,5 @@
 package com.github.fank243.study.oauth2.handler;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -15,6 +12,8 @@ import com.github.fank243.common.result.ResultInfo;
 import cn.dev33.satoken.oauth2.exception.SaOAuth2Exception;
 import cn.hutool.core.net.URLEncodeUtil;
 import cn.hutool.core.util.StrUtil;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
 /**

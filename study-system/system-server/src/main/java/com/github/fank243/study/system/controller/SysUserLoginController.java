@@ -3,7 +3,6 @@ package com.github.fank243.study.system.controller;
 import java.nio.charset.StandardCharsets;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.validation.annotation.Validated;
@@ -34,7 +33,8 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.net.URLDecoder;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.servlet.ServletUtil;
+import cn.hutool.extra.servlet.JakartaServletUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -119,7 +119,7 @@ public class SysUserLoginController extends BaseController {
         }
         OauthUserVO oauthUserVO = result.getPayload();
 
-        String clientIp = ServletUtil.getClientIP(request);
+        String clientIp = JakartaServletUtil.getClientIP(request);
         String userAgent = request.getHeader(HttpHeaders.USER_AGENT);
 
         // 本地登录

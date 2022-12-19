@@ -10,12 +10,6 @@
 	</parent>
 	<artifactId>study-springdoc-spring-boot-starter</artifactId>
 
-	<properties>
-		<maven.compiler.source>17</maven.compiler.source>
-		<maven.compiler.target>17</maven.compiler.target>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -26,7 +20,7 @@
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-ui</artifactId>
-			<version>1.6.12</version>
+			<version>1.6.13</version>
 		</dependency>
 
 		<dependency>

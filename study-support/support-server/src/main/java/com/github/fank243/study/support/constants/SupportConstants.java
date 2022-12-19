@@ -9,4 +9,6 @@ package com.github.fank243.study.support.constants;
 public class SupportConstants {
 
     public final static String TXT = "txt";
+
+    public final static String LOCK_KEY_UPLOAD = "file:upload:";
 }

@@ -6,6 +6,7 @@
 	<groupId>com.github.fank243</groupId>
 	<artifactId>study-spring-boot-starters</artifactId>
 	<version>1.0.0</version>
+
 	<packaging>pom</packaging>
 	<description>Spring Boot Starters for Study Services</description>
 	<modules>
@@ -18,7 +19,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<revision>1.0.0</revision>
-		<spring-boot.version>2.7.5</spring-boot.version>
+
+		<spring-boot.version>3.0.0</spring-boot.version>
 	</properties>
 
 	<dependencyManagement>

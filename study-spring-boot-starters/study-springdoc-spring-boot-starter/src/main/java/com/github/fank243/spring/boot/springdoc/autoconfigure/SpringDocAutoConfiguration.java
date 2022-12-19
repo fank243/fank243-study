@@ -1,7 +1,5 @@
 package com.github.fank243.spring.boot.springdoc.autoconfigure;
 
-import javax.annotation.Resource;
-
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,8 +21,11 @@ import io.swagger.v3.oas.models.info.License;
 @Configuration
 public class SpringDocAutoConfiguration {
 
-    @Resource
-    private SpringDocProperties springDocProperties;
+    private final SpringDocProperties springDocProperties;
+
+    public SpringDocAutoConfiguration(SpringDocProperties springDocProperties) {
+        this.springDocProperties = springDocProperties;
+    }
 
     @Bean
     public OpenAPI openApi() {

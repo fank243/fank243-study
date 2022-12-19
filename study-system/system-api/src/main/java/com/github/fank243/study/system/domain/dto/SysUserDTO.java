@@ -1,7 +1,5 @@
 package com.github.fank243.study.system.domain.dto;
 
-import javax.validation.constraints.NotBlank;
-
 import org.hibernate.validator.constraints.Length;
 
 import com.github.fank243.study.core.base.BaseDTO;
@@ -10,6 +8,7 @@ import com.mzt.logapi.starter.annotation.DIffLogIgnore;
 import com.mzt.logapi.starter.annotation.DiffLogAllFields;
 
 import cn.hutool.core.util.StrUtil;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

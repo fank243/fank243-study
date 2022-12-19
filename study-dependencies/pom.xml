@@ -3,12 +3,6 @@
 		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.github.fank243.cloud</groupId>
-		<artifactId>study-cloud-dependencies-parent</artifactId>
-		<version>1.0.0</version>
-		<relativePath/>
-	</parent>
 	<groupId>com.github.fank243</groupId>
 	<artifactId>study-dependencies</artifactId>
 	<version>${revision}</version>
@@ -24,28 +18,21 @@
 		<fank243-common.version>1.0.0</fank243-common.version>
 		<fank243-sms.version>1.0.0</fank243-sms.version>
 
-		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-oauth2-authorization-server -->
-		<spring-security-oauth2-authorization-server.version>0.3.1</spring-security-oauth2-authorization-server.version>
-
 		<!-- https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-boot-starter -->
-		<mybatis-plus.version>3.5.2</mybatis-plus.version>
+		<mybatis-plus.version>3.5.2.7-SNAPSHOT</mybatis-plus.version>
 		<!-- https://mvnrepository.com/artifact/com.mysql/mysql-connector-j -->
 		<mysql.version>8.0.31</mysql.version>
 
 		<!-- https://mvnrepository.com/artifact/com.alicp.jetcache/jetcache-starter-redisson -->
-		<jetcache.version>2.7.0.M2</jetcache.version>
+		<jetcache.version>2.7.1</jetcache.version>
 
 		<jasypt.version>3.0.4</jasypt.version>
 
 		<!-- https://mvnrepository.com/artifact/cn.dev33/sa-token-spring-boot-starter -->
-		<sa-token.version>1.31.0</sa-token.version>
+		<sa-token.version>1.33.0</sa-token.version>
 
 		<!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
 		<hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
-		<!-- https://mvnrepository.com/artifact/javax.validation/javax.validation-api -->
-		<javax.validation.version>3.0.2</javax.validation.version>
-		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
-		<javax.servlet.version>6.0.0</javax.servlet.version>
 
 		<feign-okhttp.version>11.8</feign-okhttp.version>
 
@@ -53,36 +40,147 @@
 		<easy-captcha.version>1.6.2</easy-captcha.version>
 
 		<!-- https://mvnrepository.com/artifact/com.aliyun/aliyun-java-sdk-core -->
-		<aliyun-java-sdk-core.version>4.6.2</aliyun-java-sdk-core.version>
-		<!-- https://mvnrepository.com/search?q=aliyun-java-sdk-dysmsapi -->
+		<aliyun-java-sdk-core.version>4.6.3</aliyun-java-sdk-core.version>
+		<!-- https://mvnrepository.com/artifact/com.aliyun/aliyun-java-sdk-dysmsapi -->
 		<aliyun-java-sdk-dysmsapi.version>2.2.1</aliyun-java-sdk-dysmsapi.version>
 
-        <!-- https://mvnrepository.com/artifact/io.github.mouzt/bizlog-sdk -->
-        <bizlog.version>3.0.1</bizlog.version>
+		<!-- https://mvnrepository.com/artifact/io.github.mouzt/bizlog-sdk -->
+		<bizlog.version>3.0.3</bizlog.version>
 
-        <!-- https://mvnrepository.com/artifact/cn.hutool/hutool-all -->
-        <hutool.version>5.8.8</hutool.version>
-        <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
-        <poi-ooxml.version>5.2.3</poi-ooxml.version>
+		<!-- https://mvnrepository.com/artifact/cn.hutool/hutool-all -->
+		<hutool.version>5.8.10</hutool.version>
+		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
+		<poi-ooxml.version>5.2.3</poi-ooxml.version>
 		<!-- https://mvnrepository.com/artifact/com.alibaba.fastjson2/fastjson2 -->
-		<fastjson.version>2.0.15</fastjson.version>
+		<fastjson.version>2.0.20</fastjson.version>
 
 		<!-- https://mvnrepository.com/artifact/de.siegmar/logback-gelf -->
 		<logback-gelf.version>4.0.2</logback-gelf.version>
 
-		<!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->
-		<!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java-util -->
-		<protobuf.version>3.21.7</protobuf.version>
-
 		<study-springdoc.version>1.0.0</study-springdoc.version>
 
 		<!--插件-->
-		<!-- https://mvnrepository.com/artifact/com.github.shalousun/smart-doc-maven-plugin -->
-		<smart-doc-maven-plugin.version>2.5.3</smart-doc-maven-plugin.version>
 	</properties>
 
-    <dependencyManagement>
+	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>mybatis-plus-boot-starter</artifactId>
+				<version>${mybatis-plus.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+				<version>3.5.2</version>
+			</dependency>
+			<dependency>
+				<groupId>com.mysql</groupId>
+				<artifactId>mysql-connector-j</artifactId>
+				<version>${mysql.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>com.alicp.jetcache</groupId>
+				<artifactId>jetcache-starter-redisson</artifactId>
+				<version>${jetcache.version}</version>
+			</dependency>
+
+			<!--配置文件加解密-->
+			<dependency>
+				<groupId>com.github.ulisesbocchio</groupId>
+				<artifactId>jasypt-spring-boot-starter</artifactId>
+				<version>${jasypt.version}</version>
+			</dependency>
+
+			<!-- Sa-Token 权限认证, 在线文档：http://sa-token.dev33.cn/ -->
+			<dependency>
+				<groupId>cn.dev33</groupId>
+				<artifactId>sa-token-spring-boot-starter</artifactId>
+				<version>${sa-token.version}</version>
+			</dependency>
+			<!-- Sa-Token 权限认证（Reactor响应式集成）, 在线文档：http://sa-token.dev33.cn/ -->
+			<dependency>
+				<groupId>cn.dev33</groupId>
+				<artifactId>sa-token-reactor-spring-boot-starter</artifactId>
+				<version>${sa-token.version}</version>
+			</dependency>
+			<!-- Sa-Token 整合 Redis （使用jackson序列化方式） -->
+			<dependency>
+				<groupId>cn.dev33</groupId>
+				<artifactId>sa-token-dao-redis-jackson</artifactId>
+				<version>${sa-token.version}</version>
+			</dependency>
+			<!-- Sa-Token-OAuth2.0 模块 -->
+			<dependency>
+				<groupId>cn.dev33</groupId>
+				<artifactId>sa-token-oauth2</artifactId>
+				<version>${sa-token.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.dev33</groupId>
+				<artifactId>sa-token-core</artifactId>
+				<version>${sa-token.version}</version>
+			</dependency>
+
+			<!-- okhttp 扩展 -->
+			<dependency>
+				<groupId>io.github.openfeign</groupId>
+				<artifactId>feign-okhttp</artifactId>
+				<version>${feign-okhttp.version}</version>
+			</dependency>
+
+			<!-- 一款生成图形验证码的插件 -->
+			<dependency>
+				<groupId>com.github.whvcse</groupId>
+				<artifactId>easy-captcha</artifactId>
+				<version>${easy-captcha.version}</version>
+			</dependency>
+
+			<!-- 阿里云短信 -->
+			<dependency>
+				<groupId>com.aliyun</groupId>
+				<artifactId>aliyun-java-sdk-core</artifactId>
+				<version>${aliyun-java-sdk-core.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.aliyun</groupId>
+				<artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+				<version>${aliyun-java-sdk-dysmsapi.version}</version>
+			</dependency>
+
+			<!-- 一款基于注解记录系统操作日志的框架 -->
+			<dependency>
+				<groupId>io.github.mouzt</groupId>
+				<artifactId>bizlog-sdk</artifactId>
+				<version>${bizlog.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>cn.hutool</groupId>
+				<artifactId>hutool-all</artifactId>
+				<version>${hutool.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi-ooxml</artifactId>
+				<version>${poi-ooxml.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>de.siegmar</groupId>
+				<artifactId>logback-gelf</artifactId>
+				<version>${logback-gelf.version}</version>
+			</dependency>
+
+			<!-- Api文档生成工具 -->
+			<dependency>
+				<groupId>com.github.fank243</groupId>
+				<artifactId>study-springdoc-spring-boot-starter</artifactId>
+				<version>${study-springdoc.version}</version>
+			</dependency>
+
 			<dependency>
 				<groupId>com.github.fank243</groupId>
 				<artifactId>fank243-common</artifactId>
@@ -94,188 +192,7 @@
 				<version>${fank243-sms.version}</version>
 			</dependency>
 
-			<dependency>
-				<groupId>org.springframework.security</groupId>
-				<artifactId>spring-security-oauth2-authorization-server</artifactId>
-				<version>${spring-security-oauth2-authorization-server.version}</version>
-			</dependency>
-
-			<dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-boot-starter</artifactId>
-                <version>${mybatis-plus.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
-                <version>${mybatis-plus.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-core</artifactId>
-                <version>${mybatis-plus.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-annotation</artifactId>
-                <version>${mybatis-plus.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-extension</artifactId>
-                <version>${mybatis-plus.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.mysql</groupId>
-                <artifactId>mysql-connector-j</artifactId>
-                <version>${mysql.version}</version>
-                <scope>runtime</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>com.alicp.jetcache</groupId>
-                <artifactId>jetcache-starter-redisson</artifactId>
-                <version>${jetcache.version}</version>
-            </dependency>
-
-            <!--配置文件加解密-->
-            <dependency>
-                <groupId>com.github.ulisesbocchio</groupId>
-                <artifactId>jasypt-spring-boot-starter</artifactId>
-                <version>${jasypt.version}</version>
-            </dependency>
-
-            <!-- Sa-Token 权限认证, 在线文档：http://sa-token.dev33.cn/ -->
-            <dependency>
-                <groupId>cn.dev33</groupId>
-                <artifactId>sa-token-spring-boot-starter</artifactId>
-                <version>${sa-token.version}</version>
-            </dependency>
-            <!-- Sa-Token 权限认证（Reactor响应式集成）, 在线文档：http://sa-token.dev33.cn/ -->
-            <dependency>
-                <groupId>cn.dev33</groupId>
-                <artifactId>sa-token-reactor-spring-boot-starter</artifactId>
-                <version>${sa-token.version}</version>
-            </dependency>
-            <!-- Sa-Token 整合 Redis （使用jackson序列化方式） -->
-            <dependency>
-                <groupId>cn.dev33</groupId>
-                <artifactId>sa-token-dao-redis-jackson</artifactId>
-                <version>${sa-token.version}</version>
-            </dependency>
-            <!-- Sa-Token-OAuth2.0 模块 -->
-            <dependency>
-                <groupId>cn.dev33</groupId>
-                <artifactId>sa-token-oauth2</artifactId>
-                <version>${sa-token.version}</version>
-            </dependency>
-            <!-- Sa-Token-Quick-Login 插件 -->
-            <dependency>
-                <groupId>cn.dev33</groupId>
-                <artifactId>sa-token-quick-login</artifactId>
-                <version>${sa-token.version}</version>
-            </dependency>
-			<dependency>
-				<groupId>cn.dev33</groupId>
-				<artifactId>sa-token-core</artifactId>
-				<version>${sa-token.version}</version>
-			</dependency>
-
-			<!--     <dependency>
-					 <groupId>org.hibernate.validator</groupId>
-					 <artifactId>hibernate-validator</artifactId>
-					 <version>${hibernate-validator.version}</version>
-				 </dependency>-->
-			<!--            <dependency>
-							<groupId>javax.validation</groupId>
-							<artifactId>javax.validation-api</artifactId>
-							<version>${javax.validation.version}</version>
-						</dependency>-->
-
-			<!-- okhttp 扩展 -->
-			<dependency>
-				<groupId>io.github.openfeign</groupId>
-				<artifactId>feign-okhttp</artifactId>
-				<version>${feign-okhttp.version}</version>
-			</dependency>
-
-			<!-- 一款生成图形验证码的插件 -->
-			<dependency>
-                <groupId>com.github.whvcse</groupId>
-                <artifactId>easy-captcha</artifactId>
-                <version>${easy-captcha.version}</version>
-            </dependency>
-
-            <!-- 阿里云短信 -->
-            <dependency>
-                <groupId>com.aliyun</groupId>
-                <artifactId>aliyun-java-sdk-core</artifactId>
-                <version>${aliyun-java-sdk-core.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.aliyun</groupId>
-                <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
-                <version>${aliyun-java-sdk-dysmsapi.version}</version>
-            </dependency>
-
-            <!-- 一款基于注解记录系统操作日志的框架 -->
-            <dependency>
-                <groupId>io.github.mouzt</groupId>
-                <artifactId>bizlog-sdk</artifactId>
-                <version>${bizlog.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>cn.hutool</groupId>
-                <artifactId>hutool-all</artifactId>
-                <version>${hutool.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.hutool</groupId>
-                <artifactId>hutool-core</artifactId>
-                <version>${hutool.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.hutool</groupId>
-                <artifactId>hutool-json</artifactId>
-                <version>${hutool.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.hutool</groupId>
-                <artifactId>hutool-extra</artifactId>
-                <version>${hutool.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.poi</groupId>
-                <artifactId>poi-ooxml</artifactId>
-                <version>${poi-ooxml.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>de.siegmar</groupId>
-                <artifactId>logback-gelf</artifactId>
-                <version>${logback-gelf.version}</version>
-            </dependency>
-
-			<dependency>
-				<groupId>com.google.protobuf</groupId>
-				<artifactId>protobuf-java</artifactId>
-				<version>${protobuf.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.google.protobuf</groupId>
-				<artifactId>protobuf-java-util</artifactId>
-				<version>${protobuf.version}</version>
-			</dependency>
-
-			<!-- Api文档生成工具 -->
-			<dependency>
-				<groupId>com.github.fank243</groupId>
-				<artifactId>study-springdoc-spring-boot-starter</artifactId>
-				<version>${study-springdoc.version}</version>
-			</dependency>
-
 		</dependencies>
-    </dependencyManagement>
+	</dependencyManagement>
 
 </project>

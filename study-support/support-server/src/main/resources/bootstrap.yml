@@ -24,3 +24,5 @@ study:
       description: 支撑服务接口文档
       version: 1.0
 
+  # 文件上传根路径
+  file.path: static/view

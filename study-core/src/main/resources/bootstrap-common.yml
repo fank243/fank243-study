@@ -1,0 +1,54 @@
+study:
+  server-addr: ${ENV_SERVER_ADDR:127.0.0.1}
+
+spring:
+  main.allow-bean-definition-overriding: true
+  # 日期对象转JSON时，定义日期参照上海时区转换成字符串
+  jackson.time-zone: Asia/Shanghai
+  # 日期对象转JSON时，定义全局格式，个别字段需要自定义，可使用注解：@JsonFormatter
+  jackson.date-format: yyyy-MM-dd HH:mm:ss
+
+  cloud:
+    # 禁用缓存 https://www.hxstrive.com/subject/spring_cloud.htm?id=508
+    loadbalancer.cache.enabled: false
+    polaris:
+      address: grpc://${study.server-addr}:8091
+      namespace: default
+
+# swagger-ui custom path
+springdoc:
+  show-actuator: true
+  swagger-ui:
+    path: /docs/swagger-ui
+  api-docs:
+    enabled: true
+    path: /docs/swagger
+  # 扫描指定包
+  packages-to-scan: com.github.fank243.study
+
+logging:
+  # config: file:study-core/src/main/resources/logback-spring.xml
+  config: classpath:logback-spring.xml
+  level:
+    org.springframework: info
+    org.springframework.oauth2: debug
+    org.springframework.cloud.openfeign: debug
+    org.springframework.cloud.sleuth: info
+    org.springframework.web.servlet: debug
+    org.springframework.security: debug
+    org.thymeleaf: info
+    org.apache: info
+    org.mybatis: info
+    org.hibernate: info
+    org.jboss: info
+    io.netty: info
+    io.grpc: info
+    io.lettuce: info
+    io.micrometer: info
+    com.zaxxer: info
+    com.alibaba.cloud: info
+    com.alibaba.nacos: warn
+    com.tencent: info
+    com.tencent.polaris.configuration: warn
+    com.baomidou.dynamic: info
+    reactor: info

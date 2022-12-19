@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.github.fank243.common.result.ResultInfo;
 import com.github.fank243.study.core.constants.ServerConstants;
-import com.github.fank243.study.support.domain.dto.OperLogDTO;
+import com.github.fank243.study.core.domain.dto.OperLogDTO;
 
 /**
  * 国家行政区划表 客户端

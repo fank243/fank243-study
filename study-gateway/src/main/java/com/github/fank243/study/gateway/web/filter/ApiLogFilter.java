@@ -7,8 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import javax.validation.constraints.NotNull;
-
+import org.jetbrains.annotations.NotNull;
 import org.reactivestreams.Publisher;
 
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -39,8 +38,6 @@ import com.github.fank243.study.gateway.constants.FilterOrderConstant;
 import com.github.fank243.study.gateway.utils.LogUtils;
 import com.github.fank243.study.support.domain.dto.ReqRespLogDTO;
 
-import brave.Span;
-import brave.Tracer;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.json.JSONUtil;
 import lombok.RequiredArgsConstructor;
@@ -58,7 +55,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class ApiLogFilter implements GlobalFilter, Ordered {
 
-    private final Tracer tracer;
+    // private final Tracer tracer;
     /**
      * default HttpMessageReader
      */
@@ -68,12 +65,12 @@ public class ApiLogFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
 
-        Span currentSpan = tracer.currentSpan();
+        // Span currentSpan = tracer.currentSpan();
         String traceId = "", spanId = "";
-        if (currentSpan != null) {
-            traceId = currentSpan.context().traceIdString();
-            spanId = currentSpan.context().spanIdString();
-        }
+        // if (currentSpan != null) {
+        // traceId = currentSpan.context().traceIdString();
+        // spanId = currentSpan.context().spanIdString();
+        // }
 
         MediaType contentType = request.getHeaders().getContentType();
 
@@ -81,7 +78,7 @@ public class ApiLogFilter implements GlobalFilter, Ordered {
         respLogDTO.setUserId(StpUtil.isLogin() ? StpUtil.getLoginIdAsString() : "");
         respLogDTO.setClientIp(Objects.requireNonNull(request.getRemoteAddress()).getHostString());
         respLogDTO.setReqUri(request.getPath().toString());
-        respLogDTO.setReqMethod(request.getMethodValue());
+        respLogDTO.setReqMethod(request.getMethod().name());
         respLogDTO.setContentType(contentType != null ? contentType.toString() : null);
         respLogDTO.setReqTime(new Date());
         respLogDTO.setTraceId(traceId);

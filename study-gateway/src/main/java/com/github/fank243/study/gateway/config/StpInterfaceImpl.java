@@ -24,7 +24,6 @@ import cn.hutool.core.thread.ThreadUtil;
  * @author FanWeiJie
  * @since 2022-05-11 10:46:17
  */
-@SuppressWarnings("DuplicatedCode")
 @Component
 public class StpInterfaceImpl implements StpInterface {
 

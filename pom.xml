@@ -3,22 +3,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.github.fank243.cloud</groupId>
-		<artifactId>study-cloud-build</artifactId>
-		<version>1.0.0</version>
-		<relativePath/>
-	</parent>
 	<groupId>com.github.fank243</groupId>
 	<artifactId>fank243-study</artifactId>
 	<version>${revision}</version>
 	<modules>
 		<module>study-dependencies</module>
-		<module>study-common</module>
+		<module>study-core</module>
 		<module>study-oauth2</module>
 		<module>study-gateway</module>
 		<module>study-support</module>
-		<module>study-file</module>
 		<module>study-system</module>
 	</modules>
 	<packaging>pom</packaging>
@@ -33,21 +26,19 @@
 		<revision>1.2.0</revision>
 
 		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies -->
-		<spring-boot.version>2.7.5</spring-boot.version>
+		<spring-boot.version>3.0.0</spring-boot.version>
 		<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-dependencies -->
-		<spring-cloud.version>2021.0.4</spring-cloud.version>
+		<spring-cloud.version>2022.0.0</spring-cloud.version>
 		<!-- https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E -->
 		<!-- https://mvnrepository.com/artifact/com.alibaba.cloud/spring-cloud-alibaba-dependencies -->
 		<spring-cloud-alibaba.version>2021.0.4.0</spring-cloud-alibaba.version>
 		<!-- https://mvnrepository.com/artifact/com.tencent.cloud/spring-cloud-tencent-dependencies -->
-		<spring-cloud-tencent.version>1.8.0-2021.0.3</spring-cloud-tencent.version>
+		<spring-cloud-tencent.version>1.8.2-2022.0.0-RC2</spring-cloud-tencent.version>
 
 		<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
 		<maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
 		<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-source-plugin -->
 		<maven-source-plugin.version>3.2.1</maven-source-plugin.version>
-		<!-- https://mvnrepository.com/artifact/com.github.shalousun/smart-doc-maven-plugin -->
-		<smart-doc-maven-plugin.version>2.5.3</smart-doc-maven-plugin.version>
 	</properties>
 
 	<dependencies>
@@ -66,6 +57,7 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+			<!-- Spring Boot -->
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-dependencies</artifactId>
@@ -73,6 +65,7 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+			<!-- Spring Cloud -->
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
@@ -80,6 +73,7 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+			<!-- Spring Cloud Alibaba -->
 			<dependency>
 				<groupId>com.alibaba.cloud</groupId>
 				<artifactId>spring-cloud-alibaba-dependencies</artifactId>
@@ -87,6 +81,7 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+			<!-- Spring Cloud Tencent -->
 			<dependency>
 				<groupId>com.tencent.cloud</groupId>
 				<artifactId>spring-cloud-tencent-dependencies</artifactId>
@@ -95,24 +90,10 @@
 				<scope>import</scope>
 			</dependency>
 
+			<!-- study dependency -->
 			<dependency>
 				<groupId>com.github.fank243</groupId>
 				<artifactId>study-core</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.github.fank243</groupId>
-				<artifactId>study-mybatis</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.github.fank243</groupId>
-				<artifactId>study-feign</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.github.fank243</groupId>
-				<artifactId>study-log</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -130,11 +111,6 @@
 				<artifactId>support-api</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>com.github.fank243</groupId>
-				<artifactId>file-api</artifactId>
-				<version>${project.version}</version>
-			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -150,4 +126,35 @@
 		</pluginManagement>
 	</build>
 
+	<repositories>
+		<repository>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<id>nexus-snapshots</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+		</repository>
+		<repository>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<id>spring-snapshots</id>
+			<name>Spring Snapshots</name>
+			<url>https://repo.spring.io/snapshot</url>
+		</repository>
+		<repository>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>https://repo.spring.io/milestone</url>
+		</repository>
+	</repositories>
 </project>

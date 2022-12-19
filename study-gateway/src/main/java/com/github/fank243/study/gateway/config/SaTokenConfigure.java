@@ -24,11 +24,11 @@ import com.github.fank243.study.system.domain.vo.SysPermVO;
 import com.github.fank243.study.system.service.ISysPermService;
 
 import cn.dev33.satoken.context.SaHolder;
-import cn.dev33.satoken.exception.IdTokenInvalidException;
 import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.exception.NotPermissionException;
 import cn.dev33.satoken.exception.NotRoleException;
 import cn.dev33.satoken.exception.SaTokenException;
+import cn.dev33.satoken.exception.SameTokenInvalidException;
 import cn.dev33.satoken.reactor.filter.SaReactorFilter;
 import cn.dev33.satoken.router.SaHttpMethod;
 import cn.dev33.satoken.router.SaRouter;
@@ -93,7 +93,7 @@ public class SaTokenConfigure {
             .setAuth(obj -> {
                 // HTTP METHOD
                 SaRouter.notMatch(SaHttpMethod.OPTIONS, SaHttpMethod.GET, SaHttpMethod.PUT, SaHttpMethod.POST,
-                    SaHttpMethod.DELETE).check(() -> SaTokenException.throwByNull(null, "请求方法非法"));
+                    SaHttpMethod.DELETE).check(() -> SaTokenException.throwByNull(null, "请求方法非法", 405));
 
                 SaRouter.match("/api/**", StpUtil::checkLogin);
 
@@ -122,7 +122,7 @@ public class SaTokenConfigure {
                 if (e instanceof NotLoginException) {
                     return ResultInfo.err401(e.getMessage());
                 } else if (e instanceof NotRoleException || e instanceof NotPermissionException
-                    || e instanceof IdTokenInvalidException) {
+                    || e instanceof SameTokenInvalidException) {
                     return ResultInfo.err403().error(e.getMessage());
                 }
                 return ResultInfo.err500("oauth2认证异常").error(e.getMessage());

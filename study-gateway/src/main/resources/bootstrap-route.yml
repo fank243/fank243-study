@@ -2,45 +2,36 @@ spring:
   cloud:
     gateway:
       routes:
+        # Oauth2 登录认证
         - id: study-oauth2
           uri: lb://study-oauth2
           predicates:
             - Path=/oauth2/**
 
-        - id: study-oauth2-static
-          uri: lb://study-oauth2
-          predicates:
-            - Path=/auth/**
-
+        # 支撑服务
         - id: study-support
           uri: lb://study-support
           predicates:
             - Path=/api/support/**
           filters:
             - StripPrefix=1
-
+        # 支撑服务 > 文件管理
+        - id: study-support-file
+          uri: lb://study-support
+          predicates:
+            - Path=/file/**
+        # 支撑服务 > 文件浏览
+        - id: study-support-view
+          uri: lb://study-support
+          predicates:
+            - Path=/view/**
+        # 支撑服务 > Api文档
         - id: study-support-docs
           uri: lb://study-support
           predicates:
             - Path=/support/**
 
-        - id: study-file
-          uri: lb://study-file
-          predicates:
-            - Path=/api/file/**
-          filters:
-            - StripPrefix=1
-
-        - id: study-file-docs
-          uri: lb://study-file
-          predicates:
-            - Path=/file/**
-
-        - id: study-file2
-          uri: lb://study-file
-          predicates:
-            - Path=/view/**
-
+        # 系统服务
         - id: study-system
           uri: lb://study-system
           predicates:
@@ -48,6 +39,7 @@ spring:
           filters:
             - StripPrefix=1
 
+        # 系统服务 > Api文档
         - id: study-system-docs
           uri: lb://study-system
           predicates:

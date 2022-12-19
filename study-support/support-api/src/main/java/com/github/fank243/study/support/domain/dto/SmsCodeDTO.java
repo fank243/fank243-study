@@ -2,15 +2,14 @@ package com.github.fank243.study.support.domain.dto;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-
 import com.github.fank243.common.pattern.RegexExtPool;
 import com.github.fank243.study.core.domain.validator.annotation.Enum;
 import com.github.fank243.study.support.constants.smsCodeTypeEnum;
 
 import cn.hutool.core.lang.RegexPool;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 /**

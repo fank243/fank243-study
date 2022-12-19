@@ -10,8 +10,6 @@ import com.github.fank243.study.gateway.web.filter.ValidateImageCodeFilter;
 import com.github.fank243.study.gateway.web.handler.GatewayExceptionHandler;
 import com.github.fank243.study.gateway.web.handler.ImageCodeHandler;
 
-import brave.Tracer;
-
 /**
  * saToken注册统一鉴权
  *
@@ -36,8 +34,8 @@ public class GatewayConfiguration {
     }
 
     @Bean
-    public ApiLogFilter apiLogFilter(Tracer tracer) {
-        return new ApiLogFilter(tracer);
+    public ApiLogFilter apiLogFilter() {
+        return new ApiLogFilter();
     }
 
     @Bean

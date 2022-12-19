@@ -37,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AreaService extends ServiceImpl<IAreaMapper, AreaEntity> {
 
     @Resource
-    private IAreaMapper areaDao;
+    private IAreaMapper areaMapper;
 
     /** 生成区域树 **/
     @Cached(name = "support:area:tree:", key = "#level", expire = TimeConstant.DAY_1)
@@ -46,7 +46,7 @@ public class AreaService extends ServiceImpl<IAreaMapper, AreaEntity> {
     public List<Area> generatorTree(int level) {
         QueryWrapper<AreaEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderByAsc("(IF(area_code = '', 1, 0)),area_code");
-        List<AreaEntity> areaEntities = areaDao.selectList(queryWrapper);
+        List<AreaEntity> areaEntities = areaMapper.selectList(queryWrapper);
 
         List<Area> areas = new ArrayList<>(34);
         // 省级
@@ -107,7 +107,7 @@ public class AreaService extends ServiceImpl<IAreaMapper, AreaEntity> {
     @Cached(name = "support:area:", key = "'province'", expire = TimeConstant.DAY_1)
     @CachePenetrationProtect
     public List<Area> findProvinces() {
-        return areaDao.findProvinces();
+        return areaMapper.findProvinces();
     }
 
     /** 根据行政区划代码查询所辖行政区划 **/
@@ -116,9 +116,9 @@ public class AreaService extends ServiceImpl<IAreaMapper, AreaEntity> {
     public List<Area> findAreaByCode(String code) {
         AreaConstants.AreaCodeTypeEnum areaCodeType = AreaHelper.getAreaCodeType(code);
         if (AreaConstants.AreaCodeTypeEnum.PROVINCE.name().equalsIgnoreCase(areaCodeType.name())) {
-            return areaDao.findCityByProvinceCode(code);
+            return areaMapper.findCityByProvinceCode(code);
         } else if (AreaConstants.AreaCodeTypeEnum.CITY.name().equalsIgnoreCase(areaCodeType.name())) {
-            return areaDao.findAreaByCityCode(code);
+            return areaMapper.findAreaByCityCode(code);
         }
         return new ArrayList<>(0);
     }
@@ -129,7 +129,7 @@ public class AreaService extends ServiceImpl<IAreaMapper, AreaEntity> {
         long startTime = System.currentTimeMillis();
 
         // 清理历史记录
-        areaDao.delete(new QueryWrapper<>());
+        areaMapper.delete(new QueryWrapper<>());
 
         List<AreaEntity> areaEntityList = new ArrayList<>();
         areaList.forEach(area -> {

@@ -20,12 +20,17 @@
 
     <dependencies>
 		<dependency>
-			<groupId>com.github.fank243</groupId>
-			<artifactId>study-feign</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>com.github.fank243</groupId>
 			<artifactId>support-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.fank243</groupId>
+			<artifactId>system-api</artifactId>
 			<exclusions>
 				<exclusion>
 					<groupId>org.springframework.boot</groupId>
@@ -35,21 +40,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.github.fank243</groupId>
-			<artifactId>system-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.github.fank243</groupId>
 			<artifactId>oauth2-api</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
 		</dependency>
 
 		<!--服务注册与发现组件-->
@@ -62,21 +53,6 @@
 			<groupId>com.tencent.cloud</groupId>
 			<artifactId>spring-cloud-starter-tencent-polaris-config</artifactId>
 		</dependency>
-		<!--分布式链路追踪器-->
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-sleuth</artifactId>
-		</dependency>
-		<!--分布式链路分析器-->
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-sleuth-zipkin</artifactId>
-		</dependency>
-		<!-- bootstrap.yml 文件加载 -->
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-bootstrap</artifactId>
-		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
@@ -86,17 +62,22 @@
         <dependency>
             <groupId>cn.dev33</groupId>
             <artifactId>sa-token-reactor-spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-dao-redis-jackson</artifactId>
-        </dependency>
+		</dependency>
+		<dependency>
+			<groupId>cn.dev33</groupId>
+			<artifactId>sa-token-dao-redis-jackson</artifactId>
+		</dependency>
 
-        <dependency>
-            <groupId>com.github.whvcse</groupId>
-            <artifactId>easy-captcha</artifactId>
-        </dependency>
-    </dependencies>
+		<dependency>
+			<groupId>com.github.whvcse</groupId>
+			<artifactId>easy-captcha</artifactId>
+		</dependency>
+		<!--Graylog 发送器-->
+		<dependency>
+			<groupId>de.siegmar</groupId>
+			<artifactId>logback-gelf</artifactId>
+		</dependency>
+	</dependencies>
 
     <build>
         <finalName>${project.artifactId}</finalName>
