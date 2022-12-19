@@ -12,10 +12,14 @@
     <artifactId>system-api</artifactId>
 
     <dependencies>
-        <dependency>
+		<dependency>
 			<groupId>com.github.fank243</groupId>
-            <artifactId>study-core</artifactId>
-        </dependency>
+			<artifactId>study-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.fank243</groupId>
+			<artifactId>study-log</artifactId>
+		</dependency>
 	</dependencies>
 
 </project>

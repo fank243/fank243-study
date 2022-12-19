@@ -8,6 +8,7 @@
 	<version>${revision}</version>
 	<modules>
 		<module>study-dependencies</module>
+		<module>study-log</module>
 		<module>study-core</module>
 		<module>study-oauth2</module>
 		<module>study-gateway</module>
@@ -94,6 +95,11 @@
 			<dependency>
 				<groupId>com.github.fank243</groupId>
 				<artifactId>study-core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.fank243</groupId>
+				<artifactId>study-log</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
