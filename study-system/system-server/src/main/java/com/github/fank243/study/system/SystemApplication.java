@@ -1,5 +1,7 @@
 package com.github.fank243.study.system;
 
+import org.mybatis.spring.annotation.MapperScan;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
@@ -16,6 +18,7 @@ import com.github.fank243.study.core.constants.Constants;
  */
 @EnableRetry
 @EnableTransactionManagement
+@MapperScan(basePackages = {Constants.BASE_PACKAGE_DAO})
 @ComponentScan(basePackages = {Constants.BASE_PACKAGE})
 @SpringBootApplication
 public class SystemApplication {

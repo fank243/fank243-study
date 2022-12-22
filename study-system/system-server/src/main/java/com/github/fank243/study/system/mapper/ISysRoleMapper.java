@@ -2,7 +2,6 @@ package com.github.fank243.study.system.mapper;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -15,7 +14,6 @@ import com.github.fank243.study.system.domain.vo.SysRoleVO;
  * @author FanWeiJie
  * @since 2021-11-24
  */
-@Mapper
 public interface ISysRoleMapper extends BaseMapper<SysRoleEntity> {
 
     /**

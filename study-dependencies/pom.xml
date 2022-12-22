@@ -20,6 +20,8 @@
 
 		<!-- https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-boot-starter -->
 		<mybatis-plus.version>3.5.2.7-SNAPSHOT</mybatis-plus.version>
+		<!-- https://mvnrepository.com/artifact/com.baomidou/dynamic-datasource-spring-boot-starter -->
+		<mybatis-plus-ds.version>3.6.1</mybatis-plus-ds.version>
 		<!-- https://mvnrepository.com/artifact/com.mysql/mysql-connector-j -->
 		<mysql.version>8.0.31</mysql.version>
 
@@ -72,7 +74,7 @@
 			<dependency>
 				<groupId>com.baomidou</groupId>
 				<artifactId>dynamic-datasource-spring-boot-starter</artifactId>
-				<version>3.5.2</version>
+				<version>${mybatis-plus-ds.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.mysql</groupId>

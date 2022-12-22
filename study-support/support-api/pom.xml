@@ -16,9 +16,10 @@
 			<groupId>com.github.fank243</groupId>
 			<artifactId>study-core</artifactId>
 		</dependency>
+		<!--日志记录器-->
 		<dependency>
-			<groupId>com.github.fank243</groupId>
-			<artifactId>study-log</artifactId>
+			<groupId>io.github.mouzt</groupId>
+			<artifactId>bizlog-sdk</artifactId>
 		</dependency>
 	</dependencies>
 

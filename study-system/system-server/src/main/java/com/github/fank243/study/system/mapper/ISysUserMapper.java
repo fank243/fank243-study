@@ -1,6 +1,5 @@
 package com.github.fank243.study.system.mapper;
 
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -13,7 +12,6 @@ import com.github.fank243.study.system.domain.entity.SysUserEntity;
  * @author FanWeiJie
  * @since 2021-11-24
  */
-@Mapper
 public interface ISysUserMapper extends BaseMapper<SysUserEntity> {
 
     /**

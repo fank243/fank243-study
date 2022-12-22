@@ -2,7 +2,6 @@ package com.github.fank243.study.system.mapper;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
@@ -16,7 +15,6 @@ import com.github.fank243.study.system.domain.vo.SysPermVO;
  * @author FanWeiJie
  * @since 2022-05-13
  */
-@Mapper
 public interface ISysPermMapper extends BaseMapper<SysPermEntity> {
 
     /**
