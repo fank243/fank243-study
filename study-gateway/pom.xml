@@ -15,7 +15,6 @@
         <maven.install.skip>true</maven.install.skip>
         <!--mvn 跳过单元测试-->
         <maven.test.skip>true</maven.test.skip>
-        <boot-jar-output>${user.home}/devops/study</boot-jar-output>
     </properties>
 
     <dependencies>

@@ -1,4 +1,4 @@
-package com.github.fank243.study.core.web.interceptor;
+package com.github.fank243.study.core.feign;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

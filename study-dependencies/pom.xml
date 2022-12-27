@@ -26,7 +26,7 @@
 		<mysql.version>8.0.31</mysql.version>
 
 		<!-- https://mvnrepository.com/artifact/com.alicp.jetcache/jetcache-starter-redisson -->
-		<jetcache.version>2.7.1</jetcache.version>
+		<jetcache.version>2.7.2</jetcache.version>
 
 		<jasypt.version>3.0.4</jasypt.version>
 
