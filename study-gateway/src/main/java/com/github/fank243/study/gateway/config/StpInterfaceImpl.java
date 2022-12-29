@@ -5,8 +5,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
-import javax.annotation.Resource;
-
 import org.springframework.stereotype.Component;
 
 import com.github.fank243.study.system.domain.vo.SysPermVO;
@@ -17,6 +15,7 @@ import com.github.fank243.study.system.service.ISysRoleService;
 import cn.dev33.satoken.stp.StpInterface;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.thread.ThreadUtil;
+import jakarta.annotation.Resource;
 
 /**
  * saToken注册统一鉴权

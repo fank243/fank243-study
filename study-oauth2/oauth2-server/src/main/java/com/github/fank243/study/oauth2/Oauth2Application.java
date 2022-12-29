@@ -14,7 +14,7 @@ import com.github.fank243.study.core.constants.Constants;
  * @author FanWeiJie
  * @since 2021-11-15 14:24:02
  */
-@MapperScan(basePackages = {Constants.BASE_PACKAGE_DAO})
+@MapperScan(basePackages = {Constants.BASE_PACKAGE_MAPPER})
 @ComponentScan(basePackages = {Constants.BASE_PACKAGE})
 @SpringBootApplication
 public class Oauth2Application {

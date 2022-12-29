@@ -18,8 +18,11 @@ public class Constants {
 
     public static final String BASE_PACKAGE_SUPPORT = "com.github.fank243.study.support";
 
-    /** 基包 > dao **/
-    public static final String BASE_PACKAGE_DAO = "com.github.fank243.study.**.mapper";
+    /** 基包 > service **/
+    public static final String BASE_PACKAGE_SERVICE = "com.github.fank243.study.**.service";
+
+    /** 基包 > mapper **/
+    public static final String BASE_PACKAGE_MAPPER = "com.github.fank243.study.**.mapper";
 
     /** 跨服务调用安全令牌 **/
     public static final String SECURITY_TOKEN = "SecurityToken";

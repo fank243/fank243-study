@@ -2,8 +2,6 @@ package com.github.fank243.study.system.controller;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +27,7 @@ import com.mzt.logapi.context.LogRecordContext;
 import com.mzt.logapi.starter.annotation.LogRecord;
 
 import cn.hutool.core.bean.BeanUtil;
+import jakarta.annotation.Resource;
 
 /**
  * 系统权限表 控制器

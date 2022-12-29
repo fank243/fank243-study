@@ -11,6 +11,6 @@ import com.github.fank243.study.core.constants.Constants;
  * @author FanWeiJie
  * @since 2022-09-30 23:26:02
  */
-@EnableMethodCache(basePackages = {Constants.BASE_PACKAGE})
+@EnableMethodCache(basePackages = {Constants.BASE_PACKAGE_SERVICE})
 @AutoConfiguration
 public class JetCacheConfiguration {}

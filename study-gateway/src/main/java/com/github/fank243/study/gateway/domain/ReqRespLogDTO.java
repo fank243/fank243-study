@@ -1,4 +1,4 @@
-package com.github.fank243.study.support.domain.dto;
+package com.github.fank243.study.gateway.domain;
 
 import java.io.Serializable;
 import java.util.Date;

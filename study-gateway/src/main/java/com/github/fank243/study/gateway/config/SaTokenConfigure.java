@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-import javax.annotation.Resource;
-
 import org.springframework.boot.autoconfigure.cache.CacheProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,6 +34,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.StrUtil;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -53,12 +52,11 @@ public class SaTokenConfigure {
 
     @Bean
     public RedisCacheConfiguration redisCacheConfiguration(CacheProperties cacheProperties) {
-        Jackson2JsonRedisSerializer<Object> serializer = new Jackson2JsonRedisSerializer<>(Object.class);
-        ObjectMapper om = new ObjectMapper();
-        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        om.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL,
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+        mapper.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL,
             JsonTypeInfo.As.WRAPPER_ARRAY);
-        serializer.setObjectMapper(om);
+        Jackson2JsonRedisSerializer<Object> serializer = new Jackson2JsonRedisSerializer<>(mapper, Object.class);
 
         CacheProperties.Redis redisProperties = cacheProperties.getRedis();
         RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig();
