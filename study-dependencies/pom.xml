@@ -17,6 +17,7 @@
 
 		<fank243-common.version>1.0.0</fank243-common.version>
 		<fank243-sms.version>1.0.0</fank243-sms.version>
+		<fank243-springdoc.version>1.0.0</fank243-springdoc.version>
 
 		<!-- https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-boot-starter -->
 		<mybatis.plus.version>3.5.3</mybatis.plus.version>
@@ -57,8 +58,6 @@
 
 		<!-- https://mvnrepository.com/artifact/de.siegmar/logback-gelf -->
 		<logback-gelf.version>4.0.2</logback-gelf.version>
-
-		<study-springdoc.version>1.0.0</study-springdoc.version>
 
 		<!--插件-->
 	</properties>
@@ -185,13 +184,6 @@
 				<version>${logback-gelf.version}</version>
 			</dependency>
 
-			<!-- Api文档生成工具 -->
-			<dependency>
-				<groupId>com.github.fank243</groupId>
-				<artifactId>study-springdoc-spring-boot-starter</artifactId>
-				<version>${study-springdoc.version}</version>
-			</dependency>
-
 			<dependency>
 				<groupId>com.github.fank243</groupId>
 				<artifactId>fank243-common</artifactId>
@@ -201,6 +193,12 @@
 				<groupId>com.github.fank243</groupId>
 				<artifactId>fank243-sms</artifactId>
 				<version>${fank243-sms.version}</version>
+			</dependency>
+			<!-- Api文档生成工具 -->
+			<dependency>
+				<groupId>com.github.fank243</groupId>
+				<artifactId>springdoc-spring-boot-starter</artifactId>
+				<version>${fank243-springdoc.version}</version>
 			</dependency>
 
 		</dependencies>

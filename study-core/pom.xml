@@ -85,10 +85,9 @@
 			<groupId>com.github.fank243</groupId>
 			<artifactId>fank243-common</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>com.github.fank243</groupId>
-			<artifactId>study-springdoc-spring-boot-starter</artifactId>
+			<artifactId>springdoc-spring-boot-starter</artifactId>
 		</dependency>
 
 		<dependency>

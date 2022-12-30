@@ -17,9 +17,8 @@ spring:
             # 注入自定义配置文件列表，当 key 冲突时，排在前面的配置文件优先级高于后面
             files: [ "study-common.yml", "study-datasource.yml", "study-satoken.yml" ]
 
-study:
-  spring-doc:
-    api-info:
-      title: 系统管理接口文档
-      description: 系统管理接口文档
-      version: 1.0
+springdoc:
+  api-info:
+    title: 系统服务接口文档
+    description: 系统服务接口文档
+    version: 1.0

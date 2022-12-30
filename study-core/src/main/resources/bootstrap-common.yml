@@ -15,10 +15,15 @@ spring:
       address: grpc://${study.server-addr}:8091
       namespace: default
 
-# swagger-ui custom path
+# springdoc 公共配置部分
 springdoc:
+  author:
+    name: FanWeiJie
+    email: fank243@163.com
+    url: https://github.com/fank243
   show-actuator: true
   swagger-ui:
+    enabled: true
     path: /docs/swagger-ui
   api-docs:
     enabled: true

@@ -16,13 +16,11 @@ spring:
           - name: study-common
             # 注入自定义配置文件列表，当 key 冲突时，排在前面的配置文件优先级高于后面
             files: [ "study-common.yml", "study-datasource.yml", "study-satoken.yml" ]
-
+springdoc:
+  api-info:
+    title: 支撑服务接口文档
+    description: 支撑服务接口文档
+    version: 1.0
 study:
-  spring-doc:
-    api-info:
-      title: 支撑服务接口文档
-      description: 支撑服务接口文档
-      version: 1.0
-
   # 文件上传根路径
   file.path: static/view
