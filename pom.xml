@@ -134,6 +134,26 @@
 
 	<repositories>
 		<repository>
+			<id>rdc-releases</id>
+			<url>https://packages.aliyun.com/maven/repository/2086257-release-RSWMWn/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>rdc-snapshots</id>
+			<url>https://packages.aliyun.com/maven/repository/2086257-snapshot-hn7DLd/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
 			<releases>
 				<enabled>false</enabled>
 			</releases>
