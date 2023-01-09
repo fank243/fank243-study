@@ -36,7 +36,8 @@
 		<!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
 		<hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
 
-		<feign-okhttp.version>11.8</feign-okhttp.version>
+		<!-- https://mvnrepository.com/artifact/io.github.openfeign/feign-okhttp -->
+		<feign-okhttp.version>12.1</feign-okhttp.version>
 
 		<!-- https://mvnrepository.com/artifact/com.github.whvcse/easy-captcha -->
 		<easy-captcha.version>1.6.2</easy-captcha.version>
