@@ -14,7 +14,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import com.github.fank243.common.result.ResultInfo;
 import com.github.fank243.study.core.annotation.Interceptor;
 import com.github.fank243.study.core.constants.CacheConstants;
-import com.github.fank243.study.core.constants.Constants;
 import com.github.fank243.study.core.constants.InterceptorOrderConstant;
 import com.github.fank243.study.core.utils.WebUtils;
 
@@ -37,18 +36,18 @@ public class SecurityInterceptor implements HandlerInterceptor {
     @Resource
     private RedisTemplate<String, String> redisTemplate;
 
-    @Value("${study.security.feign.header.name}")
+    @Value("${study.security.feign.header.name:SecurityToken}")
     private String securityFeignHeaderName;
 
-    @Value("${study.security.feign.header.value}")
+    @Value("${study.security.feign.header.value:}")
     private String securityFeignHeaderValue;
 
     @Override
     public boolean preHandle(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response,
         @NotNull Object handler) throws Exception {
-        String securityToken = request.getHeader(Constants.SECURITY_TOKEN);
+        String securityToken = request.getHeader(securityFeignHeaderName);
         String securityFeignValue = request.getHeader(securityFeignHeaderName);
-        if (StrUtil.isBlank(securityToken) && StrUtil.isBlank(securityFeignValue)) {
+        if (StrUtil.isBlank(securityToken) || StrUtil.isBlank(securityFeignValue)) {
             WebUtils.renderJson(response, ResultInfo.err401("请求未授权"));
             return Boolean.FALSE;
         }

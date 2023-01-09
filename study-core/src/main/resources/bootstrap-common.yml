@@ -13,7 +13,7 @@ spring:
     loadbalancer.cache.enabled: false
     polaris:
       address: grpc://${study.server-addr}:8091
-      namespace: default
+      namespace: Polaris
 
 # springdoc 公共配置部分
 springdoc:
@@ -57,3 +57,4 @@ logging:
     com.tencent.polaris.configuration: warn
     com.baomidou.dynamic: info
     reactor: info
+

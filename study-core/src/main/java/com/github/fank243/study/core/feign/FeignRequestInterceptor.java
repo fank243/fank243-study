@@ -15,10 +15,10 @@ import feign.RequestTemplate;
 @Configuration
 public class FeignRequestInterceptor implements RequestInterceptor {
 
-    @Value("${study.security.feign.header.name}")
+    @Value("${study.security.feign.header.name:SecurityToken}")
     private String securityFeignHeaderName;
 
-    @Value("${study.security.feign.header.value}")
+    @Value("${study.security.feign.header.value:}")
     private String securityFeignHeaderValue;
 
     @Override
