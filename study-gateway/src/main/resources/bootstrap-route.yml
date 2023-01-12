@@ -7,6 +7,11 @@ spring:
           uri: lb://study-oauth2
           predicates:
             - Path=/oauth2/**
+        # Oauth2 静态资源
+        - id: study-oauth2
+          uri: lb://study-oauth2
+          predicates:
+            - Path=/auth/**
 
         # 支撑服务
         - id: study-support
