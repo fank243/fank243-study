@@ -3,8 +3,6 @@ package com.github.fank243.study.system.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.annotation.Resource;
-
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +29,7 @@ import com.mzt.logapi.starter.annotation.LogRecord;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
+import jakarta.annotation.Resource;
 
 /**
  * 系统角色表 控制器
@@ -102,8 +101,8 @@ public class SysRoleController extends BaseController {
      * @param ids 角色ID数组
      * @return 操作结果
      */
-    @LogRecord(type = LogRecordType.SYS_ROLE, bizNo = "{{#roleId}}",
-            success = "删除角色【{{#roleName}}】成功", successCondition = "{{#success == true}}")
+    @LogRecord(type = LogRecordType.SYS_ROLE, bizNo = "{{#roleId}}", success = "删除角色【{{#roleName}}】成功",
+        successCondition = "{{#success == true}}")
     @RepeatSubmit
     @DeleteMapping("/delete")
     public ResultInfo<?> delete(@RequestBody String[] ids) throws BizException {

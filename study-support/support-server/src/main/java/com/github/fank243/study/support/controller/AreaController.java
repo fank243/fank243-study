@@ -5,8 +5,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +27,7 @@ import cn.hutool.core.io.IoUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -84,26 +83,18 @@ public class AreaController extends BaseController {
     }
 
     /**
-     * 行政区划 > 区划树
-     * 
-     * @return 区域树
-     */
-    @Operation(summary = "行政区划-区划树")
-    @GetMapping(value = {"/tree"})
-    public ResultInfo<List<Area>> tree() {
-        return ResultInfo.ok(AreaHelper.generateTree());
-    }
-
-    /**
-     * 行政区划 > 根据行政区划代码获取
+     * 行政区划 > 根据行政区划代码获取子节点(树结构)
      * 
      * @param code 行政区划代码
      * @return 行政区划列表
      */
     @Operation(summary = "行政区划-根据行政区划代码获取")
-    @Parameter(description = "六位行政区划代码", allowEmptyValue = true)
-    @GetMapping({"list"})
-    public ResultInfo<List<Area>> getAreaList(@RequestParam(required = false, defaultValue = "") String code) {
-        return ResultInfo.ok(AreaHelper.getAreaList(code));
+    @Parameter(name = "code", description = "六位行政区划代码", allowEmptyValue = true)
+    @Parameter(name = "isLoadArea", description = "是否加载区县子节点", allowEmptyValue = true)
+    @GetMapping("/list")
+    public ResultInfo<List<Area>> getAreaList(@RequestParam(required = false, defaultValue = "") String code,
+        @RequestParam(required = false, defaultValue = "true") Boolean isLoadArea) {
+        List<Area> areaList = AreaHelper.getAreaList(code, isLoadArea);
+        return ResultInfo.ok(areaList);
     }
 }

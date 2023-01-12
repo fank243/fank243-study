@@ -15,11 +15,6 @@ spring:
             - Path=/api/support/**
           filters:
             - StripPrefix=1
-        # 支撑服务 > 文件管理
-        - id: study-support-file
-          uri: lb://study-support
-          predicates:
-            - Path=/file/**
         # 支撑服务 > 文件浏览
         - id: study-support-view
           uri: lb://study-support
@@ -38,7 +33,6 @@ spring:
             - Path=/api/system/**
           filters:
             - StripPrefix=1
-
         # 系统服务 > Api文档
         - id: study-system-docs
           uri: lb://study-system

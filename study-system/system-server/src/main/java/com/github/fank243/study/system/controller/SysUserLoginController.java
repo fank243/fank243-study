@@ -2,8 +2,6 @@ package com.github.fank243.study.system.controller;
 
 import java.nio.charset.StandardCharsets;
 
-import javax.annotation.Resource;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +15,9 @@ import com.github.fank243.study.core.base.BaseController;
 import com.github.fank243.study.core.constants.CacheConstants;
 import com.github.fank243.study.core.constants.TimeConstant;
 import com.github.fank243.study.core.constants.ValidatorGroup;
+import com.github.fank243.study.core.domain.enums.LoginTypeEnum;
 import com.github.fank243.study.core.service.RedisService;
+import com.github.fank243.study.core.utils.ValidationUtils;
 import com.github.fank243.study.oauth2.api.constants.Oauth2Constants;
 import com.github.fank243.study.oauth2.api.domain.vo.OauthAccessTokenVO;
 import com.github.fank243.study.oauth2.api.domain.vo.OauthUserVO;
@@ -34,6 +34,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.net.URLDecoder;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.servlet.JakartaServletUtil;
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
@@ -65,14 +66,14 @@ public class SysUserLoginController extends BaseController {
     @PostMapping("/login")
     public ResultInfo<?> login(HttpServletRequest request,
         @RequestBody @Validated({ValidatorGroup.Login.class}) SysUserLoginDTO sysUserLoginDTO) {
-        // Class<?> clazz = ValidatorGroup.LoginUsername.class;
-        // if (LoginTypeEnum.MOBILE.name().equalsIgnoreCase(sysUserLoginDTO.getLoginType())) {
-        // clazz = ValidatorGroup.LoginMobile.class;
-        // }
-        // ResultInfo<?> validateResult = ValidationUtils.validate(sysUserLoginDTO, clazz);
-        // if (!validateResult.isSuccess()) {
-        // return validateResult;
-        // }
+        Class<?> clazz = ValidatorGroup.LoginUsername.class;
+        if (LoginTypeEnum.MOBILE.name().equalsIgnoreCase(sysUserLoginDTO.getLoginType())) {
+            clazz = ValidatorGroup.LoginMobile.class;
+        }
+        ResultInfo<?> validateResult = ValidationUtils.validate(sysUserLoginDTO, clazz);
+        if (!validateResult.isSuccess()) {
+            return validateResult;
+        }
 
         // 获取令牌
         ResultInfo<OauthAccessTokenVO> result = oauth2Service.getAccessToken(

@@ -1,7 +1,5 @@
 package com.github.fank243.study.oauth2.service;
 
-import javax.annotation.Resource;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +16,7 @@ import com.github.fank243.study.oauth2.utils.Oauth2Utils;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.crypto.SecureUtil;
+import jakarta.annotation.Resource;
 
 /**
  * 授权客户端表 服务类

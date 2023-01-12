@@ -2,8 +2,6 @@ package com.github.fank243.study.core.web.interceptor;
 
 import static org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type.SERVLET;
 
-import javax.annotation.Resource;
-
 import org.jetbrains.annotations.NotNull;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -18,6 +16,7 @@ import com.github.fank243.study.core.constants.InterceptorOrderConstant;
 import com.github.fank243.study.core.utils.WebUtils;
 
 import cn.hutool.core.util.StrUtil;
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 

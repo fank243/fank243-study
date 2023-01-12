@@ -2,8 +2,6 @@ package com.github.fank243.study.system.service;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +25,7 @@ import com.github.fank243.study.system.mapper.ISysPermMapper;
 import com.mzt.logapi.starter.annotation.LogRecord;
 
 import cn.hutool.core.bean.BeanUtil;
+import jakarta.annotation.Resource;
 
 /**
  * 系统权限表 服务类

@@ -118,7 +118,7 @@ public class SaTokenConfigure {
             .setError((e) -> {
                 log.error("认证异常：{}", e.getMessage(), e);
                 if (e instanceof NotLoginException) {
-                    return ResultInfo.err401(e.getMessage());
+                    return ResultInfo.err401();
                 } else if (e instanceof NotRoleException || e instanceof NotPermissionException
                     || e instanceof SameTokenInvalidException) {
                     return ResultInfo.err403().error(e.getMessage());

@@ -1,7 +1,5 @@
 package com.github.fank243.study.system.interceptor;
 
-import javax.annotation.Resource;
-
 import org.jetbrains.annotations.NotNull;
 
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -18,6 +16,7 @@ import com.github.fank243.study.system.properties.SystemProperties;
 
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.extra.spring.SpringUtil;
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;

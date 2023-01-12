@@ -3,8 +3,6 @@ package com.github.fank243.study.system.service;
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +33,7 @@ import com.mzt.logapi.starter.annotation.LogRecord;
 
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
+import jakarta.annotation.Resource;
 
 /**
  * 系统管理员表 服务类

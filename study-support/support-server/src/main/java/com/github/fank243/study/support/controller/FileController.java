@@ -3,8 +3,6 @@ package com.github.fank243.study.support.controller;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.annotation.Resource;
-
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +18,7 @@ import com.github.fank243.study.support.domain.dto.FileDTO;
 import com.github.fank243.study.support.service.FileService;
 
 import cn.hutool.core.io.FileTypeUtil;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 
 /**

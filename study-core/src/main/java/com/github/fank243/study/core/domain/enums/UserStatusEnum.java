@@ -18,12 +18,11 @@ public enum UserStatusEnum {
 
     LOGIN_LOCK(2, "登录锁定");
 
+    private final int code;
+    private final String desc;
+
     UserStatusEnum(int code, String desc) {
         this.code = code;
         this.desc = desc;
     }
-
-    private final int code;
-
-    private final String desc;
 }

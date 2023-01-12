@@ -22,9 +22,9 @@ public class Constants {
     public static final String BASE_PACKAGE_SERVICE = "com.github.fank243.study.**.service";
 
     /** 基包 > mapper **/
-    public static final String BASE_PACKAGE_MAPPER = "com.github.fank243.study.**.mapper";
+    public static final String BASE_PACKAGE_MAPPER = "com.github.fank243.study.*.mapper";
 
-    /** 跨服务调用安全令牌 **/
+    /** 跨服务调用安全令牌 Header Name **/
     public static final String SECURITY_TOKEN = "SecurityToken";
 
     /** 文件类型 **/

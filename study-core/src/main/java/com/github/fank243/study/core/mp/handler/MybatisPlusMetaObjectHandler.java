@@ -21,31 +21,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
 
-    @Override
-    public void insertFill(MetaObject metaObject) {
-        String userId = StpUtil.isLogin() ? StpUtil.getLoginIdAsString() : "";
-        log.debug("mybatis plus start insert fill，当前登录用户ID：{}", userId);
-
-        Date now = new Date();
-
-        fillValIfNullByName("createdDate", now, metaObject, false);
-        fillValIfNullByName("lastModifiedDate", now, metaObject, false);
-        fillValIfNullByName("createdBy", userId, metaObject, false);
-        fillValIfNullByName("lastModifiedBy", userId, metaObject, false);
-    }
-
-    @Override
-    public void updateFill(MetaObject metaObject) {
-        String userId = StpUtil.isLogin() ? StpUtil.getLoginIdAsString() : "";
-        log.debug("mybatis plus start update fill，当前登录用户ID：{}", userId);
-
-        fillValIfNullByName("lastModifiedDate", new Date(), metaObject, true);
-        fillValIfNullByName("lastModifiedBy", userId, metaObject, true);
-    }
-
     /**
      * 填充值，先判断是否有手动设置，优先手动设置的值，例如：job必须手动设置
-     * 
+     *
      * @param fieldName 属性名
      * @param fieldVal 属性值
      * @param metaObject MetaObject
@@ -67,6 +45,28 @@ public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
         if (ClassUtils.isAssignableValue(getterType, fieldVal)) {
             metaObject.setValue(fieldName, fieldVal);
         }
+    }
+
+    @Override
+    public void insertFill(MetaObject metaObject) {
+        String userId = StpUtil.isLogin() ? StpUtil.getLoginIdAsString() : "";
+        log.debug("mybatis plus start insert fill，当前登录用户ID：{}", userId);
+
+        Date now = new Date();
+
+        fillValIfNullByName("createdDate", now, metaObject, false);
+        fillValIfNullByName("lastModifiedDate", now, metaObject, false);
+        fillValIfNullByName("createdBy", userId, metaObject, false);
+        fillValIfNullByName("lastModifiedBy", userId, metaObject, false);
+    }
+
+    @Override
+    public void updateFill(MetaObject metaObject) {
+        String userId = StpUtil.isLogin() ? StpUtil.getLoginIdAsString() : "";
+        log.debug("mybatis plus start update fill，当前登录用户ID：{}", userId);
+
+        fillValIfNullByName("lastModifiedDate", new Date(), metaObject, true);
+        fillValIfNullByName("lastModifiedBy", userId, metaObject, true);
     }
 
 }

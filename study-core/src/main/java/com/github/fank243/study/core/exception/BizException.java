@@ -17,8 +17,8 @@ import lombok.EqualsAndHashCode;
 @Data
 public class BizException extends BaseException implements Serializable {
 
-    private int status = HttpStatus.BAD_REQUEST.value();
     private final String message;
+    private int status = HttpStatus.BAD_REQUEST.value();
 
     public BizException(String message) {
         this.message = message;

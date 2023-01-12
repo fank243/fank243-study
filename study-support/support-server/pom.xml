@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xmlns="http://maven.apache.org/POM/4.0.0"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
 		<artifactId>study-support</artifactId>
 		<groupId>com.github.fank243</groupId>
 		<version>${revision}</version>
 	</parent>
-    <modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
 
-    <artifactId>support-server</artifactId>
+	<artifactId>support-server</artifactId>
 
-    <properties>
-        <!--mvn install 不安装到本地仓库-->
-        <maven.install.skip>true</maven.install.skip>
-        <!--mvn 跳过单元测试-->
-        <maven.test.skip>true</maven.test.skip>
-        <boot-jar-output>${user.home}/devops/study</boot-jar-output>
-    </properties>
+	<properties>
+		<!--mvn install 不安装到本地仓库-->
+		<maven.install.skip>true</maven.install.skip>
+		<!--mvn 跳过单元测试-->
+		<maven.test.skip>true</maven.test.skip>
+		<boot-jar-output>${user.home}/devops/study</boot-jar-output>
+	</properties>
 
-    <dependencies>
+	<dependencies>
 		<dependency>
 			<groupId>com.github.fank243</groupId>
 			<artifactId>support-api</artifactId>
@@ -55,6 +55,16 @@
 			<artifactId>spring-cloud-starter-bootstrap</artifactId>
 		</dependency>
 
+		<!--登录会话管理器-->
+		<dependency>
+			<groupId>cn.dev33</groupId>
+			<artifactId>sa-token-spring-boot3-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>cn.dev33</groupId>
+			<artifactId>sa-token-dao-redis-jackson</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>com.aliyun</groupId>
 			<artifactId>aliyun-java-sdk-core</artifactId>
@@ -76,29 +86,29 @@
 		</dependency>
 	</dependencies>
 
-    <build>
-        <finalName>${project.artifactId}</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <!--
-                        分层打包：主要用于docker部署时打包的镜像文件变得更小
-                        https://docs.spring.io/spring-boot/docs/2.6.1/maven-plugin/reference/htmlsingle/#packaging.layers
-                     -->
-                    <layers>
-                        <enabled>true</enabled>
-                    </layers>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<!--
+						分层打包：主要用于docker部署时打包的镜像文件变得更小
+						https://docs.spring.io/spring-boot/docs/2.6.1/maven-plugin/reference/htmlsingle/#packaging.layers
+					 -->
+					<layers>
+						<enabled>true</enabled>
+					</layers>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>

@@ -1,7 +1,5 @@
 package com.github.fank243.study.oauth2.config;
 
-import javax.annotation.Resource;
-
 import org.springframework.stereotype.Component;
 
 import com.github.fank243.study.oauth2.api.domain.entity.OauthAccessTokenEntity;
@@ -11,6 +9,7 @@ import com.github.fank243.study.oauth2.service.OauthClientService;
 
 import cn.dev33.satoken.oauth2.logic.SaOAuth2Template;
 import cn.dev33.satoken.oauth2.model.SaClientModel;
+import jakarta.annotation.Resource;
 import lombok.SneakyThrows;
 
 /**

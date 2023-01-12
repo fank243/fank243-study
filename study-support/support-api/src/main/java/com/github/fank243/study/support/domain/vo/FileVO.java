@@ -5,14 +5,13 @@ import java.io.Serializable;
 import lombok.Data;
 
 /**
-* 文件表
-*
-* @author FanWeiJie
-* @since 2022-09-28 14:23:01
-*/
+ * 文件表
+ *
+ * @author FanWeiJie
+ * @since 2022-09-28 14:23:01
+ */
 @Data
 public class FileVO implements Serializable {
-
 
     /*** 文件ID */
     private String fileId;
@@ -34,6 +33,5 @@ public class FileVO implements Serializable {
 
     /*** 文件MD5值 */
     private String md5;
-
 
 }

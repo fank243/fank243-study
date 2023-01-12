@@ -23,15 +23,13 @@ public enum PermTypeEnum {
 
     /** 访问鉴权 **/
     public static final List<Integer> PERMS = Arrays.asList(MENU.code, BUTTON.code);
+    private final int code;
+    private final String desc;
 
     PermTypeEnum(int code, String desc) {
         this.code = code;
         this.desc = desc;
     }
-
-    private final int code;
-
-    private final String desc;
 
     public static PermTypeEnum getEnum(String code) {
         PermTypeEnum[] values = PermTypeEnum.values();

@@ -1,7 +1,5 @@
 package com.github.fank243.study.support.service;
 
-import javax.annotation.Resource;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +16,7 @@ import com.github.fank243.study.support.domain.vo.OperLogVO;
 import com.github.fank243.study.support.mapper.IOperLogMapper;
 
 import cn.hutool.core.bean.BeanUtil;
+import jakarta.annotation.Resource;
 
 /**
  * 请求响应日志表 服务类

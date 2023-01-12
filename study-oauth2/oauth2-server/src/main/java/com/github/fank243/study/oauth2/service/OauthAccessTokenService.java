@@ -1,7 +1,5 @@
 package com.github.fank243.study.oauth2.service;
 
-import javax.annotation.Resource;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,6 +8,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.fank243.common.result.ResultInfo;
 import com.github.fank243.study.oauth2.api.domain.entity.OauthAccessTokenEntity;
 import com.github.fank243.study.oauth2.mapper.IOauthAccessTokenDao;
+
+import jakarta.annotation.Resource;
 
 /**
  * 授权客户端表 服务类

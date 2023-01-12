@@ -2,8 +2,6 @@ package com.github.fank243.study.system.service;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +26,7 @@ import com.mzt.logapi.context.LogRecordContext;
 import com.mzt.logapi.starter.annotation.LogRecord;
 
 import cn.hutool.core.bean.BeanUtil;
+import jakarta.annotation.Resource;
 
 /**
  * <p>
@@ -64,7 +63,7 @@ public class SysRoleService extends ServiceImpl<ISysRoleMapper, SysRoleEntity> {
      * @return 操作结果
      */
     @LogRecord(type = LogRecordType.SYS_ROLE, bizNo = "{{#sysRole.roleId}}", success = "新增角色【{{#sysRole.roleName}}】",
-            successCondition = "{{#sysRole.roleId!=null}}")
+        successCondition = "{{#sysRole.roleId!=null}}")
     @Transactional(rollbackFor = Exception.class)
     public boolean add(SysRoleDTO sysRole) throws BizException {
         SysRoleEntity sysRoleEntity = sysRoleDao
@@ -89,7 +88,7 @@ public class SysRoleService extends ServiceImpl<ISysRoleMapper, SysRoleEntity> {
      * @return 操作结果
      */
     @LogRecord(type = LogRecordType.SYS_PERM, bizNo = "{{#sysRole.roleId}}", successCondition = "#_ret==true",
-            success = "修改角色信息：{_DIFF{#oldObject, #sysRole}}")
+        success = "修改角色信息：{_DIFF{#oldObject, #sysRole}}")
     @Transactional(rollbackFor = Exception.class)
     public boolean modify(SysRoleDTO sysRole) throws BizException {
         SysRoleEntity sysRoleEntity = sysRoleDao.selectById(sysRole.getRoleId());

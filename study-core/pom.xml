@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <groupId>com.github.fank243</groupId>
-        <artifactId>fank243-study</artifactId>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xmlns="http://maven.apache.org/POM/4.0.0"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<groupId>com.github.fank243</groupId>
+		<artifactId>fank243-study</artifactId>
 		<version>${revision}</version>
-    </parent>
-    <modelVersion>4.0.0</modelVersion>
-    <artifactId>study-core</artifactId>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>study-core</artifactId>
 
-    <dependencies>
+	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency>
+
 		<!-- 服务之间负载均衡组件 -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
@@ -70,15 +75,9 @@
 			<groupId>com.alicp.jetcache</groupId>
 			<artifactId>jetcache-starter-redisson</artifactId>
 		</dependency>
-
-		<!--登录会话管理器-->
 		<dependency>
 			<groupId>cn.dev33</groupId>
-			<artifactId>sa-token-spring-boot-starter</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>cn.dev33</groupId>
-			<artifactId>sa-token-dao-redis-jackson</artifactId>
+			<artifactId>sa-token-core</artifactId>
 		</dependency>
 
 		<dependency>
@@ -94,9 +93,9 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 		</dependency>
-        <!--hutool工具箱-->
-        <dependency>
-            <groupId>cn.hutool</groupId>
+		<!--hutool工具箱-->
+		<dependency>
+			<groupId>cn.hutool</groupId>
 			<artifactId>hutool-all</artifactId>
 		</dependency>
 		<!-- hutool > poi -->
