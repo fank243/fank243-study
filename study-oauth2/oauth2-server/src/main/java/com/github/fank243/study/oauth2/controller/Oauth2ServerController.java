@@ -96,7 +96,9 @@ public class Oauth2ServerController {
             .setNotLoginView(() -> "login")
             // 配置：登录处理函数
             .setDoLoginHandle((name, pwd) -> {
-                ResultInfo<String> result = oauthUserService.login(name, pwd);
+                String imgCode = request.getParameter("imgCode");
+                String randomStr = request.getParameter("randomStr");
+                ResultInfo<String> result = oauthUserService.login(name, pwd, imgCode, randomStr);
                 if (!result.isSuccess()) {
                     return SaResult.error(result.getMessage());
                 }

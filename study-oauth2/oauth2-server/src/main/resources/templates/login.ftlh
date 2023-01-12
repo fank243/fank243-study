@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>登录-统一认证授权中心</title>
+	<title>登录-统一认证授权中心</title>
     <#include "common/resources.ftlh">
 
-    <style>
+	<style>
         .main-body {
             top: 50%;
             left: 50%;
@@ -280,56 +280,58 @@
                 width: 360px !important;
             }
         }
-    </style>
+	</style>
 </head>
 <body>
 <div class="main-body">
-    <div class="login-main">
-        <div class="login-top">
-            <span>统一认证中心登录</span>
-            <span class="bg1"></span>
-            <span class="bg2"></span>
-        </div>
-        <form class="layui-form login-bottom">
-            <div class="center">
-                <div class="item">
-                    <span class="icon icon-2"></span>
-                    <label>
-                        <input type="text" name="name" lay-verify="required" placeholder="请输入登录账号" maxlength="20"/>
-                    </label>
-                </div>
+	<div class="login-main">
+		<div class="login-top">
+			<span>统一认证中心登录</span>
+			<span class="bg1"></span>
+			<span class="bg2"></span>
+		</div>
+		<form class="layui-form login-bottom">
+			<div class="center">
+				<div class="item">
+					<span class="icon icon-2"></span>
+					<label>
+						<input type="text" name="name" lay-verify="required" placeholder="请输入登录账号"
+							   maxlength="20"/>
+					</label>
+				</div>
 
-                <div class="item">
-                    <span class="icon icon-3"></span>
-                    <label>
-                        <input type="password" name="pwd" lay-verify="required|password" placeholder="请输入密码"
-                               maxlength="20">
-                    </label>
-                    <span class="bind-password icon icon-4"></span>
-                </div>
+				<div class="item">
+					<span class="icon icon-3"></span>
+					<label>
+						<input type="password" name="pwd" lay-verify="required|password" placeholder="请输入密码"
+							   maxlength="20">
+					</label>
+					<span class="bind-password icon icon-4"></span>
+				</div>
 
-                <div id="validatePanel" class="item" style="width: 137px;">
-                    <label>
-                        <input type="text" name="captcha" placeholder="请输入验证码" maxlength="4">
-                    </label>
-                    <img id="refreshCaptcha" class="validateImg" src="${basePath}/images/captcha.jpg" alt="图形验证码">
-                </div>
+				<div id="validatePanel" class="item" style="width: 137px;">
+					<label>
+						<input type="text" name="imgCode" placeholder="请输入验证码" maxlength="4">
+						<input type="hidden" name="randomStr" id="randomStr">
+					</label>
+					<img id="refreshCaptcha" class="validateImg" src="" alt="图形验证码">
+				</div>
 
-            </div>
-            <div class="tip">
-                <span class="icon-nocheck"></span>
-                <span class="login-tip">保持登录</span>
-                <a href="javascript:" class="forget-password">忘记密码？</a>
-            </div>
-            <div class="layui-form-item" style="text-align:center; width:100%;height:100%;margin:0px;">
-                <button class="login-btn" lay-submit="" lay-filter="login">立即登录</button>
-            </div>
-        </form>
-    </div>
+			</div>
+			<div class="tip">
+				<span class="icon-nocheck"></span>
+				<span class="login-tip">保持登录</span>
+				<a href="javascript:" class="forget-password">忘记密码？</a>
+			</div>
+			<div class="layui-form-item" style="text-align:center; width:100%;height:100%;margin:0px;">
+				<button class="login-btn" lay-submit="" lay-filter="login">立即登录</button>
+			</div>
+		</form>
+	</div>
 </div>
 
 <div class="footer">
-    ©2022 Study版权所有
+	©2022 Study版权所有
 </div>
 
 <script>
@@ -357,19 +359,31 @@
             }
         });
 
+        $('.validateImg').on('click', function () {
+            refreshCaptcha();
+        });
+
+        // 刷新图形验证码
+        window.refreshCaptcha = function () {
+            let randomStr = Math.random().toString(36).slice(-8);
+            $("#refreshCaptcha").attr("src", '${basePath}/code?randomStr=' + randomStr);
+            $("#randomStr").val(randomStr);
+        };
+        refreshCaptcha();
+
         // 进行登录操作
         form.on('submit(login)', function (data) {
             data = data.field;
             if (data.name === '') {
-                layer.msg('用户名不能为空');
+                layer.msg('用户名不能为空', {icon: 2});
                 return false;
             }
             if (data.pwd === '') {
-                layer.msg('密码不能为空');
+                layer.msg('密码不能为空', {icon: 2});
                 return false;
             }
-            if (data.captcha === '') {
-                layer.msg('验证码不能为空');
+            if (data.imgCode === '') {
+                layer.msg('验证码不能为空', {icon: 2});
                 return false;
             }
 
@@ -382,7 +396,7 @@
                         layer.msg(resp.message, {icon: 2});
                         return false;
                     }
-                    layer.msg('登录成功',{icon:1,time:1000},function (){
+                    layer.msg('登录成功', {icon: 1, time: 1000}, function () {
                         window.location = '${basePath}';
                     });
                 }

@@ -7,6 +7,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.fank243.common.result.ResultInfo;
+import com.github.fank243.study.core.constants.CacheConstants;
+import com.github.fank243.study.core.constants.enums.EnvEnum;
+import com.github.fank243.study.core.service.RedisService;
 import com.github.fank243.study.oauth2.api.domain.dto.OauthUserDTO;
 import com.github.fank243.study.oauth2.api.domain.entity.OauthClientEntity;
 import com.github.fank243.study.oauth2.api.domain.entity.OauthUserEntity;
@@ -15,7 +18,10 @@ import com.github.fank243.study.oauth2.utils.Oauth2Utils;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import jakarta.annotation.Resource;
 
 /**
@@ -33,9 +39,23 @@ public class OauthUserService extends ServiceImpl<IOauthUserDao, OauthUserEntity
     private OauthClientService oauthClientService;
     @Resource
     private OauthAccessTokenService oauthAccessTokenService;
+    @Resource
+    private RedisService redisService;
 
     @Transactional(rollbackFor = Exception.class)
-    public ResultInfo<String> login(String name, String pwd) {
+    public ResultInfo<String> login(String name, String pwd, String imgCode, String randomStr) {
+        if (StrUtil.isBlank(imgCode) || StrUtil.isBlank(randomStr)) {
+            return ResultInfo.err400("请输入图形验证码");
+        }
+        if (EnvEnum.PROD.name().equalsIgnoreCase(SpringUtil.getActiveProfile())) {
+            String key = CacheConstants.IMG_CODE_KEY + randomStr;
+            Object imgCodeObj = redisService.getObj(key);
+            redisService.delete(key);
+            if (ObjectUtil.isEmpty(imgCodeObj) || !imgCode.equalsIgnoreCase(String.valueOf(imgCodeObj))) {
+                return ResultInfo.err400("图形验证码不正确");
+            }
+        }
+
         OauthUserEntity oauthUserEntity =
             oauthUserDao.selectOne(new LambdaQueryWrapper<OauthUserEntity>().eq(OauthUserEntity::getUsername, name));
         if (oauthUserEntity == null) {
