@@ -2,6 +2,8 @@ package com.github.fank243.study.oauth2.handler;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -33,6 +35,26 @@ public class Oauth2ExceptionHandler {
     public ResultInfo<?> handlerSaOAuth2Exception(SaOAuth2Exception e) {
         log.error("Oauth2认证异常：{}", e.getMessage(), e);
         return ResultInfo.err401("Oauth2认证异常").error(e.getMessage());
+    }
+
+    /**
+     * 统一拦截 Spring Validator 针对请求参数的合法验证处理逻辑
+     *
+     * @param e Exception
+     * @return ResponseContent
+     */
+    @ExceptionHandler({BindException.class, MethodArgumentNotValidException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ResultInfo<?> handlerValidException(Exception e) {
+        String errMsg;
+        if (e instanceof MethodArgumentNotValidException ex) {
+            errMsg = ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
+        } else {
+            BindException ex = (BindException)e;
+            errMsg = ex.getAllErrors().get(0).getDefaultMessage();
+        }
+        return ResultInfo.err400(errMsg);
     }
 
     @ExceptionHandler(Exception.class)

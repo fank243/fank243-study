@@ -86,7 +86,7 @@ public class SaTokenConfigure {
             // 指定 [拦截路由]
             .addInclude("/**")
             // 指定 [放行路由]
-            .addExclude("/favicon.ico", "/static/**")
+            .addExclude("/favicon.ico", "/static/**", "/oauth2/**")
             // 指定[认证函数]: 每次请求执行
             .setAuth(obj -> {
                 // HTTP METHOD

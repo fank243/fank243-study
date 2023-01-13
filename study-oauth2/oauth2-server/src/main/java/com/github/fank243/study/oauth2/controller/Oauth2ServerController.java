@@ -6,10 +6,18 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.fank243.common.result.ResultInfo;
+import com.github.fank243.study.core.constants.CacheConstants;
+import com.github.fank243.study.core.constants.enums.EnvEnum;
+import com.github.fank243.study.core.service.RedisService;
 import com.github.fank243.study.core.utils.WebUtils;
+import com.github.fank243.study.oauth2.api.domain.dto.Oauth2LoginDTO;
 import com.github.fank243.study.oauth2.api.domain.vo.OauthAccessTokenVO;
 import com.github.fank243.study.oauth2.service.OauthUserService;
 
@@ -17,7 +25,9 @@ import cn.dev33.satoken.oauth2.config.SaOAuth2Config;
 import cn.dev33.satoken.oauth2.logic.SaOAuth2Handle;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -35,6 +45,10 @@ public class Oauth2ServerController {
 
     @Resource
     private OauthUserService oauthUserService;
+    @Resource
+    private RedisService redisService;
+    @Resource
+    private SaOAuth2Config cfg;
 
     @RequestMapping({"", "/index"})
     public String index(HttpServletResponse response) throws IOException {
@@ -89,6 +103,29 @@ public class Oauth2ServerController {
         return null;
     }
 
+    /** 登录接口 **/
+    @PostMapping("/oauth2/login")
+    @ResponseBody
+    public ResultInfo<?> login(@RequestBody @Validated Oauth2LoginDTO oauth2LoginDTO) {
+        if (EnvEnum.PROD.name().equalsIgnoreCase(SpringUtil.getActiveProfile())) {
+            String key = CacheConstants.IMG_CODE_KEY + oauth2LoginDTO.getRandomStr();
+            Object imgCodeObj = redisService.getObj(key);
+            redisService.delete(key);
+            if (ObjectUtil.isEmpty(imgCodeObj)
+                || !oauth2LoginDTO.getImgCode().equalsIgnoreCase(String.valueOf(imgCodeObj))) {
+                return ResultInfo.err400("图形验证码不正确");
+            }
+        }
+
+        // sa-token 登录
+        SaResult saResult =
+            (SaResult)cfg.getDoLoginHandle().apply(oauth2LoginDTO.getUsername(), oauth2LoginDTO.getPassword());
+        if (saResult.getCode() != SaResult.CODE_SUCCESS) {
+            return ResultInfo.err500(saResult.getMsg());
+        }
+        return ResultInfo.ok();
+    }
+
     @Autowired
     public void oauth2Config(SaOAuth2Config cfg, HttpServletRequest request) {
         cfg
@@ -96,9 +133,7 @@ public class Oauth2ServerController {
             .setNotLoginView(() -> "login")
             // 配置：登录处理函数
             .setDoLoginHandle((name, pwd) -> {
-                String imgCode = request.getParameter("imgCode");
-                String randomStr = request.getParameter("randomStr");
-                ResultInfo<String> result = oauthUserService.login(name, pwd, imgCode, randomStr);
+                ResultInfo<String> result = oauthUserService.login(name, pwd);
                 if (!result.isSuccess()) {
                     return SaResult.error(result.getMessage());
                 }

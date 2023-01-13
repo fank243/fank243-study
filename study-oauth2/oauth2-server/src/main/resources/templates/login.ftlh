@@ -295,7 +295,7 @@
 				<div class="item">
 					<span class="icon icon-2"></span>
 					<label>
-						<input type="text" name="name" lay-verify="required" placeholder="请输入登录账号"
+						<input type="text" name="username" lay-verify="required" placeholder="请输入登录账号"
 							   maxlength="20"/>
 					</label>
 				</div>
@@ -303,7 +303,7 @@
 				<div class="item">
 					<span class="icon icon-3"></span>
 					<label>
-						<input type="password" name="pwd" lay-verify="required|password" placeholder="请输入密码"
+						<input type="password" name="password" lay-verify="required|password" placeholder="请输入密码"
 							   maxlength="20">
 					</label>
 					<span class="bind-password icon icon-4"></span>
@@ -374,11 +374,11 @@
         // 进行登录操作
         form.on('submit(login)', function (data) {
             data = data.field;
-            if (data.name === '') {
+            if (data.username === '') {
                 layer.msg('用户名不能为空', {icon: 2});
                 return false;
             }
-            if (data.pwd === '') {
+            if (data.password === '') {
                 layer.msg('密码不能为空', {icon: 2});
                 return false;
             }
@@ -388,12 +388,13 @@
             }
 
             $.ajax({
-                url: "${basePath}/oauth2/doLogin",
+                url: "${basePath}/oauth2/login",
                 type: "POST",
-                data: data,
+                contentType: "application/json",
+                data: JSON.stringify(data),
                 success: function (resp) {
                     if (!resp.success) {
-                        layer.msg(resp.message, {icon: 2});
+                        parent.layer.msg(resp.message, {icon: 2});
                         return false;
                     }
                     layer.msg('登录成功', {icon: 1, time: 1000}, function () {
