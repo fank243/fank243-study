@@ -7,24 +7,29 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import com.github.fank243.common.result.ResultInfo;
 import com.github.fank243.study.core.annotation.Interceptor;
 import com.github.fank243.study.core.constants.InterceptorOrderConstant;
+import com.github.fank243.study.core.constants.enums.EnvEnum;
 import com.github.fank243.study.core.utils.WebUtils;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * 文件访问拦截器
- * 
+ *
  * @author FanWeiJie
  * @since 2022-06-10 10:10:49
  */
-@Interceptor(value = "fileInterceptor", include = {"/view/**"}, order = InterceptorOrderConstant.FILE)
+@Interceptor(value = "fileInterceptor", include = {"/file/**"}, order = InterceptorOrderConstant.FILE)
 public class FileInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response,
         @NotNull Object handler) throws Exception {
+        if (!EnvEnum.PROD.name().equals(SpringUtil.getActiveProfile())) {
+            return Boolean.TRUE;
+        }
         // referer 拦截
         String referer = request.getHeader("referer");
         String domain = WebUtils.getDomain(request);

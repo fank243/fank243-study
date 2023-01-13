@@ -23,4 +23,4 @@ springdoc:
     version: 1.0
 study:
   # 文件上传根路径
-  file.path: static/view
+  file.path: static/file

@@ -22,12 +22,12 @@ import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * 安全请求拦截器
- * 
+ *
  * @author FanWeiJie
  * @since 2022-06-10 10:10:49
  */
 @Interceptor(value = "securityInterceptor",
-    exclude = {"/login/**", "/oauth2/**", "/getToken/**", "/callback/**", "/view/**"},
+    exclude = {"/login/**", "/oauth2/**", "/getToken/**", "/callback/**", "/file/**"},
     order = InterceptorOrderConstant.SECURITY)
 @ConditionalOnWebApplication(type = SERVLET)
 public class SecurityInterceptor implements HandlerInterceptor {

@@ -22,6 +22,9 @@ public class FileDTO {
     /*** 文件类型 */
     private String fileType;
 
+    /*** 文件根目录 */
+    private String fileDir;
+
     /*** 文件后缀 */
     private String fileSuffix;
 

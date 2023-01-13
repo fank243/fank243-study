@@ -19,6 +19,7 @@ import com.github.fank243.study.support.service.FileService;
 
 import cn.hutool.core.io.FileTypeUtil;
 import jakarta.annotation.Resource;
+import jakarta.validation.constraints.NotBlank;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -43,7 +44,8 @@ public class FileController extends BaseController {
      */
     @RepeatSubmit
     @PostMapping("/upload")
-    public ResultInfo<?> upload(@RequestParam("file") MultipartFile multipartFile) throws IOException {
+    public ResultInfo<?> upload(@RequestParam("file") MultipartFile multipartFile,
+        @NotBlank(message = "文件根目录不能为空") String fileDir) throws IOException {
         InputStream inputStream;
         try {
             inputStream = multipartFile.getInputStream();
@@ -68,7 +70,8 @@ public class FileController extends BaseController {
         assert fileName != null;
         String fileSuffix = fileName.substring(fileName.lastIndexOf(".") + 1);
 
-        FileDTO fileDTO = FileDTO.builder().fileName(fileName).fileType(fileType).fileSuffix(fileSuffix).build();
+        FileDTO fileDTO =
+            FileDTO.builder().fileDir(fileDir).fileName(fileName).fileType(fileType).fileSuffix(fileSuffix).build();
 
         return fileService.saveFile(multipartFile.getInputStream(), fileDTO);
     }

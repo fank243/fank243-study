@@ -94,8 +94,11 @@ public class SaTokenConfigure {
                     SaHttpMethod.DELETE).check(() -> SaTokenException.throwByNull(null, "请求方法非法", 405));
 
                 SaRouter.match("/api/**", StpUtil::checkLogin);
+                // 文件浏览
+                SaRouter.notMatch("/file/view/**").match("/file/**", StpUtil::checkLogin);
                 // swagger ui
                 SaRouter.match("/support/**", StpUtil::checkLogin);
+                // 登录接口
                 SaRouter.notMatch("/system/login").match("/system/**", StpUtil::checkLogin);
 
                 Future<List<SysPermVO>> future =

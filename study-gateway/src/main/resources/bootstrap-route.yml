@@ -24,7 +24,9 @@ spring:
         - id: study-support-view
           uri: lb://study-support
           predicates:
-            - Path=/view/**
+            - Path=/file/**
+          filters:
+            - RewritePath=/file/(?<segment>.*), /support/file/$\{segment}
         # 支撑服务 > Api文档
         - id: study-support-docs
           uri: lb://study-support

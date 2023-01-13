@@ -85,16 +85,16 @@ public class AreaController extends BaseController {
     /**
      * 行政区划 > 根据行政区划代码获取子节点(树结构)
      * 
-     * @param code 行政区划代码
+     * @param areaCode 行政区划代码
      * @return 行政区划列表
      */
     @Operation(summary = "行政区划-根据行政区划代码获取")
-    @Parameter(name = "code", description = "六位行政区划代码", allowEmptyValue = true)
+    @Parameter(name = "areaCode", description = "六位行政区划代码", allowEmptyValue = true)
     @Parameter(name = "isLoadArea", description = "是否加载区县子节点", allowEmptyValue = true)
     @GetMapping("/list")
-    public ResultInfo<List<Area>> getAreaList(@RequestParam(required = false, defaultValue = "") String code,
+    public ResultInfo<List<Area>> getAreaList(@RequestParam(required = false, defaultValue = "") String areaCode,
         @RequestParam(required = false, defaultValue = "true") Boolean isLoadArea) {
-        List<Area> areaList = AreaHelper.getAreaList(code, isLoadArea);
+        List<Area> areaList = AreaHelper.getAreaList(areaCode, isLoadArea);
         return ResultInfo.ok(areaList);
     }
 }

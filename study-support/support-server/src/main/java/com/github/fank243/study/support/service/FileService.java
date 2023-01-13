@@ -57,7 +57,7 @@ public class FileService extends ServiceImpl<IFileMapper, FileEntity> {
 
         ApplicationHome applicationHome = new ApplicationHome(this.getClass());
         String uploadPath = applicationHome.getDir().getParentFile().getParentFile().getAbsolutePath()
-            + "/src/main/resources/" + fileProperties.getPath();
+            + "/src/main/resources/" + fileProperties.getPath() + "/" + fileDTO.getFileDir();
         File fileDir = new File(uploadPath + File.separator + dir);
         if (!FileUtil.exist(fileDir)) {
             boolean isOk = fileDir.mkdirs();
@@ -94,8 +94,9 @@ public class FileService extends ServiceImpl<IFileMapper, FileEntity> {
 
             // 文件相对路径
             fileEntity = BeanUtil.copyProperties(fileDTO, FileEntity.class);
-            fileEntity.setFilePath("/" + fileProperties.getPath().substring(fileProperties.getPath().indexOf("/") + 1)
-                + "/" + dir + "/" + fileName);
+            String filePath = "/" + fileProperties.getPath().substring(fileProperties.getPath().indexOf("/") + 1) + "/"
+                + fileDTO.getFileDir() + "/" + dir + "/" + fileName;
+            fileEntity.setFilePath(filePath);
             fileEntity.setFileSize(file.length());
             fileEntity.setFileMd5(fileMd5);
 
