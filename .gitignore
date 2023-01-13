@@ -36,3 +36,5 @@ study-file/file-server/src/main/resources/static/doc/
 study-file/file-server/src/main/resources/static/view/*
 
 polaris/
+
+file/
