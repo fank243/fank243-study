@@ -102,7 +102,7 @@ public class SysRoleController extends BaseController {
      * @return 操作结果
      */
     @LogRecord(type = LogRecordType.SYS_ROLE, bizNo = "{{#roleId}}", success = "删除角色【{{#roleName}}】成功",
-        successCondition = "{{#success == true}}")
+        successCondition = "{{#ret.success == true}}")
     @RepeatSubmit
     @DeleteMapping("/delete")
     public ResultInfo<?> delete(@RequestBody String[] ids) throws BizException {

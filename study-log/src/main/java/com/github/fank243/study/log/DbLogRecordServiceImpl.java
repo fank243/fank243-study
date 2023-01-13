@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.fank243.study.log.mapper.IOperLogMapper;
 import com.mzt.logapi.beans.LogRecord;
@@ -23,7 +22,6 @@ import lombok.extern.slf4j.Slf4j;
  * @since 2022-10-07 21:04:59
  */
 @Slf4j
-@DS("support")
 @Service
 public class DbLogRecordServiceImpl extends ServiceImpl<IOperLogMapper, OperLogEntity> implements ILogRecordService {
 
