@@ -32,9 +32,9 @@ public class Oauth2ExceptionHandler {
     @ExceptionHandler(SaOAuth2Exception.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ResponseBody
-    public ResultInfo<?> handlerSaOAuth2Exception(SaOAuth2Exception e) {
+    public ResultInfo<?> handlerSaOauth2Exception(SaOAuth2Exception e) {
         log.error("Oauth2认证异常：{}", e.getMessage(), e);
-        return ResultInfo.err401("Oauth2认证异常").error(e.getMessage());
+        return ResultInfo.err401("Oauth2认证异常[" + e.getMessage() + "]").error(e.toString());
     }
 
     /**

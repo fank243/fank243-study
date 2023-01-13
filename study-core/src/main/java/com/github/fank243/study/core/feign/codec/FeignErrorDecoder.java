@@ -1,6 +1,5 @@
 package com.github.fank243.study.core.feign.codec;
 
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 import com.github.fank243.common.result.ResultInfo;
@@ -24,12 +23,13 @@ public class FeignErrorDecoder extends ErrorDecoder.Default {
 
     @Override
     public Exception decode(String methodKey, Response response) {
-        Exception exception = super.decode(methodKey, response);
+        Exception exception;
         try {
+            String respTxt = Util.toString(response.body().asReader(StandardCharsets.UTF_8));
+            exception = super.decode(methodKey, response);
             if (exception instanceof RetryableException) {
                 return exception;
             }
-            String respTxt = Util.toString(response.body().asReader(StandardCharsets.UTF_8));
             if (StrUtil.isEmpty(respTxt)) {
                 exception = new RuntimeException(StrUtil.format("系统出错了[{}]", exception.getLocalizedMessage()));
                 return exception;
@@ -46,7 +46,7 @@ public class FeignErrorDecoder extends ErrorDecoder.Default {
                 exception = new RuntimeException(result.getMessage());
             }
             log.error("OpenFeign 调用异常：{}，响应信息：{}", response.status(), exception.getLocalizedMessage(), exception);
-        } catch (IOException ioException) {
+        } catch (Exception ioException) {
             ioException.printStackTrace();
             exception = new RuntimeException(StrUtil.format("系统出错了[{}]", ioException.getLocalizedMessage()));
         }
