@@ -294,13 +294,13 @@
             <input type="hidden" name="client_id" value="${clientId!}">
             <input type="hidden" name="scope" value="${scope!}">
             <div class="center">
-                <blockquote class="layui-elem-quote">登录后开发者将获得以下权限</blockquote>
+                <blockquote class="layui-elem-quote">授权后开发者将获得以下权限</blockquote>
                 <ul>
                     <li>用户信息</li>
                 </ul>
             </div>
             <div class="layui-form-item" style="text-align:center; width:100%;height:100%;margin:0px;">
-                <button class="login-btn" lay-submit="" lay-filter="confirm">确认登录</button>
+                <button class="login-btn" lay-submit="" lay-filter="confirm">确认授权</button>
                 <button class="login-btn" style="background-color: red" lay-submit="" lay-filter="cancel">取消</button>
             </div>
         </form>
