@@ -59,7 +59,7 @@ public class ValidateImageCodeFilter implements GlobalFilter, Ordered {
 
         ResultInfo<String> result = checkCode(request);
         if (!result.isSuccess()) {
-            return ReactiveUtils.renderJsonWithOK(exchange.getResponse(), result);
+            return ReactiveUtils.renderJsonOk(exchange.getResponse(), result);
         }
 
         return chain.filter(exchange);

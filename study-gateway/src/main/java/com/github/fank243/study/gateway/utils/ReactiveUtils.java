@@ -51,7 +51,7 @@ public class ReactiveUtils {
      * @param result {@link ResultInfo}
      * @return void
      */
-    public static Mono<Void> renderJsonWithOK(ServerHttpResponse response, ResultInfo<?> result) {
+    public static Mono<Void> renderJsonOk(ServerHttpResponse response, ResultInfo<?> result) {
         response.setRawStatusCode(HttpStatus.OK.value());
         response.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
         DataBuffer buffer = response.bufferFactory().wrap(result.toString().getBytes(StandardCharsets.UTF_8));
@@ -80,14 +80,14 @@ public class ReactiveUtils {
      * @param otherHeaderNames 其他自定义头文件，通常在Http服务器（例如Nginx）中配置
      * @return IP地址
      */
-    public static String getClientIP(ServerHttpRequest request, String... otherHeaderNames) {
+    public static String getClientIp(ServerHttpRequest request, String... otherHeaderNames) {
         String[] headers = {"X-Forwarded-For", "X-Real-IP", "Proxy-Client-IP", "WL-Proxy-Client-IP", "HTTP_CLIENT_IP",
             "HTTP_X_FORWARDED_FOR"};
         if (ArrayUtil.isNotEmpty(otherHeaderNames)) {
             headers = ArrayUtil.addAll(headers, otherHeaderNames);
         }
 
-        return getClientIPByHeader(request, headers);
+        return getClientIpByHeader(request, headers);
     }
 
     /**
@@ -103,7 +103,7 @@ public class ReactiveUtils {
      * @return IP地址
      * @since 4.4.1
      */
-    public static String getClientIPByHeader(ServerHttpRequest request, String... headerNames) {
+    public static String getClientIpByHeader(ServerHttpRequest request, String... headerNames) {
         String ip;
         for (String header : headerNames) {
             List<String> headerList = request.getHeaders().get(header);

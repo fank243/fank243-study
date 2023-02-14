@@ -136,18 +136,6 @@ public class SysUserService extends ServiceImpl<ISysUserMapper, SysUserEntity> {
         return sysUserDao.updateById(sysUserEntity) > 0;
     }
 
-    /**
-     * 根据用户名查找
-     *
-     * @param username 请求参数
-     * @return 操作结果
-     */
-    public SysUserEntity findByUsername(String username) {
-        QueryWrapper<SysUserEntity> wrapper = new QueryWrapper<>();
-        wrapper.eq("username", username);
-        return sysUserDao.selectOne(wrapper);
-    }
-
     @Transactional(rollbackFor = Exception.class)
     public ResultInfo<?> login(String openId, String clientIp, String userAgent) {
         SysUserEntity sysUser = sysUserDao.findByOpenId(openId);

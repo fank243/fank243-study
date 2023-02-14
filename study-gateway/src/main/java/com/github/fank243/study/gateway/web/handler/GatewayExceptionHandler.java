@@ -27,7 +27,7 @@ public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
     public Mono<Void> handle(ServerWebExchange exchange, @NotNull Throwable ex) {
         ServerHttpResponse response = exchange.getResponse();
 
-        log.error("[网关异常处理]请求路径:{}，响应状态：{}，异常信息:{}", exchange.getRequest().getPath(), response.getRawStatusCode(),
+        log.error("[网关异常处理]请求路径:{}，响应状态：{}，异常信息:{}", exchange.getRequest().getPath(), response.getStatusCode(),
             ex.getMessage(), ex);
 
         if (exchange.getResponse().isCommitted()) {

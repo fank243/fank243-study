@@ -25,12 +25,12 @@ public class SmsCodeDTO implements Serializable {
     /*** 手机号码 */
     @Pattern(regexp = RegexPool.MOBILE, message = "请填写正确的手机号码", groups = {Send.class, Validate.class})
     @NotBlank(message = "请填写手机号码", groups = {Send.class, Validate.class})
-    @Schema(description = "手机号码", required = true)
+    @Schema(description = "手机号码")
     private String mobile;
 
     /*** 验证码类型 */
     @Enum(clazz = smsCodeTypeEnum.class, message = "验证码类型必传", groups = {Send.class})
-    @Schema(description = "验证码类型", required = true)
+    @Schema(description = "验证码类型")
     private Integer smsCodeType;
 
     /*** 消息发送ID */
@@ -41,7 +41,7 @@ public class SmsCodeDTO implements Serializable {
     /*** 短信验证码 */
     @Pattern(regexp = RegexExtPool.NUMBER_SIX, message = "请填写短信验证码", groups = {Validate.class})
     @NotBlank(message = "请填写短信验证码", groups = {Validate.class})
-    @Schema(description = "短信验证码", required = true)
+    @Schema(description = "短信验证码")
     private String smsCode;
 
     public interface Send {}

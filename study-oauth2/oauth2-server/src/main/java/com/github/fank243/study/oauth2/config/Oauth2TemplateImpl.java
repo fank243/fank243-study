@@ -10,7 +10,6 @@ import com.github.fank243.study.oauth2.service.OauthClientService;
 import cn.dev33.satoken.oauth2.logic.SaOAuth2Template;
 import cn.dev33.satoken.oauth2.model.SaClientModel;
 import jakarta.annotation.Resource;
-import lombok.SneakyThrows;
 
 /**
  * Sa-Token OAuth2.0 整合实现
@@ -38,7 +37,6 @@ public class Oauth2TemplateImpl extends SaOAuth2Template {
     }
 
     /** 根据ClientId 和 LoginId 获取openid **/
-    @SneakyThrows
     @Override
     public String getOpenid(String clientId, Object userId) {
         OauthAccessTokenEntity entity = oauthAccessTokenService.findByUserId(String.valueOf(userId));
