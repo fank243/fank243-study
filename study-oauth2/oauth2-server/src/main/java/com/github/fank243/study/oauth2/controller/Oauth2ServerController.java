@@ -17,6 +17,7 @@ import com.github.fank243.study.core.constants.CacheConstants;
 import com.github.fank243.study.core.constants.enums.EnvEnum;
 import com.github.fank243.study.core.service.RedisService;
 import com.github.fank243.study.core.utils.WebUtils;
+import com.github.fank243.study.oauth2.api.constants.Oauth2Constants;
 import com.github.fank243.study.oauth2.api.domain.dto.Oauth2LoginDTO;
 import com.github.fank243.study.oauth2.api.domain.vo.OauthAccessTokenVO;
 import com.github.fank243.study.oauth2.service.OauthUserService;
@@ -90,12 +91,12 @@ public class Oauth2ServerController {
         String params = StrUtil.replaceLast(sb.toString(), "&", "");
 
         // 登录页面
-        if (StrUtil.equalsIgnoreCase("login", String.valueOf(obj))) {
+        if (StrUtil.equalsIgnoreCase(Oauth2Constants.LOGIN, String.valueOf(obj))) {
             modelMap.put("redirectUri", request.getRequestURL().toString() + params);
             return "login";
         }
         // 确认授权页面
-        else if (StrUtil.equalsIgnoreCase("confirm", String.valueOf(obj))) {
+        else if (StrUtil.equalsIgnoreCase(Oauth2Constants.CONFIRM, String.valueOf(obj))) {
             return "confirm";
         }
 

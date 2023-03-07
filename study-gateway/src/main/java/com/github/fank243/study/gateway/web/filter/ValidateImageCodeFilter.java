@@ -53,7 +53,8 @@ public class ValidateImageCodeFilter implements GlobalFilter, Ordered {
         boolean isLogin = CharSequenceUtil.equals(request.getURI().getPath(), ServerConstants.BASE_URI_SYSTEM_LOGIN);
 
         // 不是登录请求，直接向下执行
-        if (!isLogin || request.getQueryParams().containsKey("code")) {
+        String code = "code";
+        if (!isLogin || request.getQueryParams().containsKey(code)) {
             return chain.filter(exchange);
         }
 

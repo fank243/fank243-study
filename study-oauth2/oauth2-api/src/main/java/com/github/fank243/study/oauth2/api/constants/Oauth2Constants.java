@@ -11,6 +11,10 @@ import java.util.List;
  */
 public class Oauth2Constants {
 
+    public final static String LOGIN = "login";
+    public final static String CONFIRM = "confirm";
+    public final static String SYSTEM = "/system";
+
     /** 授权类型 **/
     public enum GrantType {
         /** 密码模式 **/

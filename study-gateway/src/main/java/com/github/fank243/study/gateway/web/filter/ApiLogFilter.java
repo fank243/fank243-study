@@ -65,12 +65,7 @@ public class ApiLogFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
 
-        // Span currentSpan = tracer.currentSpan();
         String traceId = "", spanId = "";
-        // if (currentSpan != null) {
-        // traceId = currentSpan.context().traceIdString();
-        // spanId = currentSpan.context().spanIdString();
-        // }
 
         MediaType contentType = request.getHeaders().getContentType();
 
