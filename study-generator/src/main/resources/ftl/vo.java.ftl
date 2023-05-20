@@ -2,13 +2,13 @@ package ${package.Entity};
 
 import java.io.Serializable;
 <#if swagger>
-	import io.swagger.annotations.ApiModel;
-	import io.swagger.annotations.ApiModelProperty;
+    import io.swagger.annotations.ApiModel;
+    import io.swagger.annotations.ApiModelProperty;
 </#if>
 <#if entityLombokModel>
-	import lombok.Data;
+    import lombok.Data;
     <#if chainModel>
-		import lombok.experimental.Accessors;
+        import lombok.experimental.Accessors;
     </#if>
 </#if>
 
@@ -20,7 +20,7 @@ import java.io.Serializable;
 */
 @Data
 <#if swagger>
-	@ApiModel(value="${entity}对象", description="${table.comment!}")
+    @ApiModel(value="${entity}对象", description="${table.comment!}")
 </#if>
 public class ${entity}VO implements Serializable {
 
@@ -32,9 +32,9 @@ public class ${entity}VO implements Serializable {
 
     <#if field.comment!?length gt 0>
         <#if swagger>
-			@ApiModelProperty(value = "${field.comment}")
+            @ApiModelProperty(value = "${field.comment}")
         <#else>
-			/*** ${field.comment} */
+            /*** ${field.comment} */
         </#if>
     </#if>
     <#if field.keyFlag>

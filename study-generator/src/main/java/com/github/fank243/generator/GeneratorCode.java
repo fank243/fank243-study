@@ -36,7 +36,7 @@ public class GeneratorCode {
 
     static {
         String jdbcUrl = System.getenv("MYSQL_URL");
-        USERNAME = System.getenv("MYSQL_PASSWORD");
+        USERNAME = System.getenv("MYSQL_USERNAME");
         PASSWORD = System.getenv("MYSQL_PASSWORD");
 
         Props props = PropsUtil.get("application");
@@ -134,7 +134,6 @@ public class GeneratorCode {
 
         AutoGenerator autoGenerator = new AutoGenerator(dataSourceConfig).config(configBuilder);
         autoGenerator.execute(new FreemarkerTemplateEngine());
-
     }
 
 }

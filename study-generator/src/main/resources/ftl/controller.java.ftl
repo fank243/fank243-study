@@ -52,7 +52,7 @@ private ${table.serviceName} ${table.serviceName?uncap_first};
 @GetMapping("/getById/{id}")
 public ResultInfo
 <${entity}VO> getById(@PathVariable String id){
-    ${entity}Entity ${entity?uncap_first} = ${table.serviceName?uncap_first}.getById(id);
+	${entity}Entity ${entity?uncap_first} = ${table.serviceName?uncap_first}.getById(id);
 	return ResultInfo.ok(BeanUtil.toBean(${entity?uncap_first},${entity}VO.class));
 	}
 

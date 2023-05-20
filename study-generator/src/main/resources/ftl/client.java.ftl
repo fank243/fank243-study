@@ -8,7 +8,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 * @author ${author}
 * @since ${date}
 */
-@FeignClient(value = "server-${package.ModuleName}", path = )
+@FeignClient(value = "server-${package.ModuleName}", path = "")
 public interface I${entity}Service {
 
 }

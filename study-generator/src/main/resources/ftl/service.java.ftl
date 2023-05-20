@@ -56,7 +56,7 @@ public PageBean
 			@Transactional(rollbackFor = Exception.class)
 			public boolean add(${entity}DTO ${entity?uncap_first}) throws BizException{
 			// TODO ${author} 业务逻辑
-            ${entity}Entity ${entity?uncap_first}Entity = BeanUtil.toBean(${entity?uncap_first},${entity}Entity.class);
+			${entity}Entity ${entity?uncap_first}Entity = BeanUtil.toBean(${entity?uncap_first},${entity}Entity.class);
 			return save(${entity?uncap_first}Entity);
 			}
 
@@ -69,7 +69,7 @@ public PageBean
 			@Transactional(rollbackFor = Exception.class)
 			public boolean modify(${entity}DTO ${entity?uncap_first}) throws BizException{
 			// TODO ${author} 业务逻辑
-            ${entity}Entity ${entity?uncap_first}Entity = BeanUtil.toBean(${entity?uncap_first},${entity}Entity.class);
+			${entity}Entity ${entity?uncap_first}Entity = BeanUtil.toBean(${entity?uncap_first},${entity}Entity.class);
 			return ${table.mapperName?uncap_first}.updateById(${entity?uncap_first}Entity) > 0;
 			}
 			}

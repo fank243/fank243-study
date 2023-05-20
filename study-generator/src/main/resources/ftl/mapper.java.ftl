@@ -14,4 +14,4 @@ import org.springframework.stereotype.Repository;
 public interface I${table.mapperName} extends ${superMapperClass}
 <${entity}Entity> {
 
-	}
+    }
