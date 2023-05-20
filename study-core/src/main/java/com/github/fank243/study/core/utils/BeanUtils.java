@@ -28,6 +28,6 @@ public class BeanUtils {
         if (page.getTotal() > 0) {
             voList = BeanUtil.copyToList(page.getRecords(), targetType);
         }
-        return new PageBean<T>(page.getCurrent(), page.getSize(), page.getTotal(), page.getPages(), voList);
+        return new PageBean<>(page.getCurrent(), page.getSize(), page.getTotal(), page.getPages(), voList);
     }
 }

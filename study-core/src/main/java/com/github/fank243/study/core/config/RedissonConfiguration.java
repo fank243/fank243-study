@@ -33,7 +33,7 @@ public class RedissonConfiguration {
         config.setTransportMode(TransportMode.NIO);
         SingleServerConfig singleServerConfig = config.useSingleServer();
         // 可以用"rediss://"来启用SSL连接
-        singleServerConfig.setAddress("redis://" + host + ":" + port + "");
+        singleServerConfig.setAddress("redis://" + host + ":" + port);
         singleServerConfig.setPassword(password);
         return Redisson.create(config);
     }

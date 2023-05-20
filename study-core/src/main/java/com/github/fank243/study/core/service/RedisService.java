@@ -20,7 +20,7 @@ import jakarta.annotation.Resource;
  * @author FanWeiJie
  * @since 2021-04-05 23:41:10
  **/
-@SuppressWarnings(value = {"unchecked", "rawtypes"})
+@SuppressWarnings(value = {"unchecked", "rawtypes", "UnusedReturnValue", "unused"})
 @Component
 public class RedisService {
 
@@ -247,7 +247,7 @@ public class RedisService {
     }
 
     /**
-     * 设置缓存 Hash
+     * 设置缓存Hash，单位：秒
      *
      * @param key Key
      * @param hashKey Hash Key
@@ -255,7 +255,7 @@ public class RedisService {
      * @param timeout 过期时间
      */
     public <T> boolean setHashValue(final String key, final String hashKey, final T value, long timeout) {
-        return setHashValue(key, hashKey, value, timeout);
+        return setHashValue(key, hashKey, value, timeout, TimeUnit.SECONDS);
     }
 
     /**

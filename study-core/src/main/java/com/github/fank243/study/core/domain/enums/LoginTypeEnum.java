@@ -26,6 +26,7 @@ public enum LoginTypeEnum {
         return null;
     }
 
+    @SuppressWarnings("unused")
     public static boolean valid(String loginType) {
         return getEnum(loginType) != null;
     }

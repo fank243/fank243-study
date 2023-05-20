@@ -41,6 +41,7 @@ public enum PermTypeEnum {
         return null;
     }
 
+    @SuppressWarnings("unused")
     public static boolean valid(String code) {
         return getEnum(code) != null;
     }

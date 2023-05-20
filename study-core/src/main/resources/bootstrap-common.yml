@@ -54,7 +54,7 @@ logging:
     com.alibaba.cloud: info
     com.alibaba.nacos: warn
     com.tencent: info
-    com.tencent.polaris.configuration: warn
+    com.tencent.polaris: warn
     com.baomidou.dynamic: info
     reactor: info
 

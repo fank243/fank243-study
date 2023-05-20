@@ -302,16 +302,6 @@ public class WebUtils {
     public static String getBaseUrl() {
         HttpServletRequest request = getRequest();
         assert request != null;
-        StringBuffer requestUrl = request.getRequestURL();
-        String url = requestUrl.toString();
-        if (!isLocalhost(getDomain(request))) {
-            if (SpringUtil.getActiveProfile().equalsIgnoreCase(EnvEnum.PROD.name())) {
-                url = url.replaceAll(request.getScheme(), "https");
-                requestUrl = new StringBuffer(url);
-            }
-        }
-        String baseUrl = requestUrl.delete(url.length() - request.getRequestURI().length(), url.length()).toString();
-        return baseUrl + request.getContextPath();
+        return getBaseUrl(request);
     }
-
 }
