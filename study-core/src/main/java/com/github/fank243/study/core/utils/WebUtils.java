@@ -1,5 +1,6 @@
 package com.github.fank243.study.core.utils;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,14 +24,19 @@ import com.github.fank243.study.core.constants.enums.EnvEnum;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.exceptions.UtilException;
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.net.NetUtil;
+import cn.hutool.core.util.CharsetUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.URLUtil;
 import cn.hutool.extra.servlet.JakartaServletUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.http.ContentType;
 import cn.hutool.http.Header;
 import cn.hutool.json.JSONUtil;
+import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -304,4 +310,32 @@ public class WebUtils {
         assert request != null;
         return getBaseUrl(request);
     }
+
+    /**
+     * 返回文件给客户端
+     *
+     * @param response 响应对象{@link HttpServletResponse}
+     * @param file 写出的文件对象
+     */
+    public static void write(HttpServletResponse response, File file) {
+        final String fileName = file.getName();
+        final String contentType = ObjectUtil.defaultIfNull(FileUtil.getMimeType(fileName), "application/octet-stream");
+        BufferedInputStream in = null;
+        ServletOutputStream out = null;
+        try {
+            in = FileUtil.getInputStream(file);
+            final String charset = ObjectUtil.defaultIfNull(response.getCharacterEncoding(), CharsetUtil.UTF_8);
+            final String encodeText = URLUtil.encodeAll(fileName, CharsetUtil.charset(charset));
+            response.setContentType(contentType);
+
+            out = response.getOutputStream();
+            IoUtil.copy(in, out, 2 << 12);
+        } catch (IOException e) {
+            throw new UtilException(e);
+        } finally {
+            IoUtil.close(out);
+            IoUtil.close(in);
+        }
+    }
+
 }

@@ -25,11 +25,14 @@ public class FileEntity extends BaseEntity {
     /** 文件名称(原始文件名称) */
     private String fileName;
 
+    /*** 文件 MineType */
+    private String mineType;
+
     /** 文件类型 */
     private String fileType;
 
-    /** 文件后缀 */
-    private String fileSuffix;
+    /*** 文件前缀URI */
+    private String filePrefix;
 
     /** 文件相对路径 */
     private String filePath;

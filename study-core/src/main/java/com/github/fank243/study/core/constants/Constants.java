@@ -29,13 +29,25 @@ public class Constants {
 
     /** 文件类型 **/
     public static final List<String> FILE_TYPE =
-        Arrays.asList("txt", "xls", "xlsx", "png", "bmp", "gif", "jpg", "jpeg", "docx", "pdf");
+        Arrays.asList("txt", "xls", "xlsx", "png", "bmp", "gif", "jpg", "jpeg", "docx", "pdf", "ppt");
+
+    /** 文件类型 > 文本文件 **/
+    public static final List<String> FILE_TYPE_TEXT = Arrays.asList("txt");
 
     /** 文件类型 > 图片文件 **/
-    public static final List<String> FILE_TYPE_IMG = Arrays.asList("png", "bmp", "gif", "jpg", "jpeg");
+    public static final List<String> FILE_TYPE_IMAGE = Arrays.asList("png", "bmp", "gif", "jpg", "jpeg");
 
     /** 文件类型 > 办公类文件 **/
-    public static final List<String> FILE_TYPE_OFFICE = Arrays.asList("xls", "xlsx", "docx", "pdf");
+    public static final List<String> FILE_TYPE_OFFICE = Arrays.asList("xls", "xlsx", "docx", "pdf", "ppt");
+
+    /** 文件URI前缀 > 仅被允许的 **/
+    public static final List<String> FILE_PREFIX_ALL = Arrays.asList("static", "user");
+
+    /** 文件URI前缀 > 免登录 **/
+    public static final List<String> FILE_PREFIX_NOT_LOGIN = Arrays.asList("static");
+
+    /** 文件URI前缀 > 登录用户 **/
+    public static final String FILE_PREFIX_USER = "user";
 
     /** 文件大小(MB) **/
     public static final int FILE_SIZE = 10;

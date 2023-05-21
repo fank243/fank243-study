@@ -12,11 +12,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.github.fank243.common.result.ResultInfo;
+import com.github.fank243.study.core.utils.WebUtils;
 
 import cn.hutool.core.bean.BeanUtil;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * 全局异常处理器
@@ -41,8 +44,22 @@ public class DefaultErrorController extends BasicErrorController {
             Map<String, Object> errMap = BeanUtil.beanToMap(ResultInfo.err404());
             return ResponseEntity.status(httpStatus).body(errMap);
         }
+        Map<String, Object> errMap =
+            BeanUtil.beanToMap(ResultInfo.error(httpStatus.value(), httpStatus.getReasonPhrase()));
+        return ResponseEntity.status(httpStatus).body(errMap);
+    }
 
-        return super.error(request);
+    @Override
+    public ModelAndView errorHtml(HttpServletRequest request, HttpServletResponse response) {
+        HttpStatus httpStatus = getStatus(request);
+        // 转换404异常
+        if (HttpStatus.NOT_FOUND.value() == httpStatus.value()) {
+            Map<String, Object> errMap = BeanUtil.beanToMap(ResultInfo.err404());
+            WebUtils.renderJson(response, errMap);
+            return null;
+        }
+        WebUtils.renderJson(response, ResultInfo.error(httpStatus.value(), httpStatus.getReasonPhrase()));
+        return null;
     }
 
 }

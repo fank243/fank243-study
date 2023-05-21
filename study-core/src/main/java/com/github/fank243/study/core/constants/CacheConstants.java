@@ -22,4 +22,7 @@ public class CacheConstants {
     /** 手机号码发送短信锁定 **/
     public static final String SMS_MOBILE_LOCK = "security:mobile:";
 
+    /** 文件ID KEY **/
+    public static final String FILE_ID_KEY = "files:file";
+
 }

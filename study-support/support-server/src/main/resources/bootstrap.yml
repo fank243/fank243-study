@@ -22,5 +22,5 @@ springdoc:
     description: 支撑服务接口文档
     version: 1.0
 study:
-  # 文件上传根路径
-  file.path: static/file
+  # 文件上传根路径，不能以“/”结尾
+  file.path: E:/data/upload

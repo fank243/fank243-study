@@ -1,12 +1,12 @@
 package com.github.fank243.study.core;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
 
-import com.github.fank243.common.result.ResultInfo;
-import com.github.fank243.study.core.utils.ValidationUtils;
+import com.github.fank243.study.core.constants.Constants;
 
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
+import cn.hutool.core.collection.CollUtil;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
@@ -20,14 +20,19 @@ import lombok.Data;
 public class Main {
 
     public static void main(String[] args) {
-        JSONObject json = new JSONObject();
-        json.set("title", "擦第三方");
-        json.set("number", "1");
-        json.set("amount", "1000.231");
+        // JSONObject json = new JSONObject();
+        // json.set("title", "擦第三方");
+        // json.set("number", "1");
+        // json.set("amount", "1000.231");
+        //
+        // Test test = JSONUtil.toBean(json, Test.class);
+        // ResultInfo<?> result = ValidationUtils.validate(test);
+        // System.out.println(result);
+        List<String> list = Constants.FILE_PREFIX_NOT_LOGIN;
+        String[] array = "/files/static/45c37cb1-8557-4ab4-b5e3-32a2e304afe2.png".split("/");
 
-        Test test = JSONUtil.toBean(json, Test.class);
-        ResultInfo<?> result = ValidationUtils.validate(test);
-        System.out.println(result);
+        boolean b = CollUtil.containsAny(Constants.FILE_PREFIX_NOT_LOGIN, Arrays.asList(array));
+        System.out.println(b);
     }
 
     @Data

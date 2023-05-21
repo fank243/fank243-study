@@ -5,7 +5,6 @@ import java.util.Optional;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.github.fank243.study.core.constants.Constants;
 import com.mzt.logapi.beans.Operator;
 import com.mzt.logapi.service.IOperatorGetService;
 import com.mzt.logapi.starter.annotation.EnableLogRecord;
@@ -18,7 +17,7 @@ import cn.dev33.satoken.stp.StpUtil;
  * @author FanWeiJie
  * @since 2022-10-07 21:00:04
  */
-@EnableLogRecord(tenant = Constants.BASE_PACKAGE)
+@EnableLogRecord(tenant = "com.github.fank243.study")
 @Configuration
 public class LogRecordConfiguration {
 
