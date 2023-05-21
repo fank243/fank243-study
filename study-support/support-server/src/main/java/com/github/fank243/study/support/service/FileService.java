@@ -89,7 +89,7 @@ public class FileService extends ServiceImpl<IFileMapper, FileEntity> {
 
             String fileMd5 = SecureUtil.md5(file);
             FileEntity fileEntity = fileMapper.findByFileNameAndFilePrefixAndFileMd5(fileDTO.getFileName(),
-                fileDTO.getFilePrefix(), fileMd5);
+                StrUtil.blankToDefault(fileDTO.getFilePrefix(), ""), fileMd5);
             if (fileEntity != null) {
                 // 删除重复文件
                 ThreadUtil.execute(() -> FileUtil.del(file));
