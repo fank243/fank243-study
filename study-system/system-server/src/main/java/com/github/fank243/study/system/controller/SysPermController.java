@@ -89,7 +89,7 @@ public class SysPermController extends BaseController {
     @PostMapping("/modify")
     public ResultInfo<?> modify(@RequestBody @Validated({ValidatorGroup.Modify.class}) SysPermDTO sysPerm)
         throws BizException {
-        boolean isOk = sysPermService.add(sysPerm);
+        boolean isOk = sysPermService.modify(sysPerm);
         return isOk ? ResultInfo.ok().message("修改成功") : ResultInfo.err500("修改失败");
     }
 
@@ -99,8 +99,8 @@ public class SysPermController extends BaseController {
      * @param permId 权限ID
      * @return 操作结果
      */
-    @LogRecord(type = LogRecordType.SYS_PERM, bizNo = "{{#permId}}", success = "删除管理员【{{#permName}}】成功",
-        successCondition = "{{#_ret.success == true}}")
+    @LogRecord(type = LogRecordType.LOG_SYS_PERM, subType = "delete", bizNo = "{{#permId}}",
+        success = "删除管理员【{{#permName}}】成功", successCondition = "{{#_ret.success == true}}")
     @RepeatSubmit
     @DeleteMapping("/{permId}")
     public ResultInfo<?> delete(@PathVariable("permId") String permId) throws BizException {

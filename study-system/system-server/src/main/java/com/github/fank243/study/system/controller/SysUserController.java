@@ -98,8 +98,8 @@ public class SysUserController extends BaseController {
      * @param userId 用户ID
      * @return 操作结果
      */
-    @LogRecord(type = LogRecordType.SYS_USER, bizNo = "{{#userId}}", success = "删除管理员【{{#username}}】成功",
-        successCondition = "{{#_ret.success == true}}")
+    @LogRecord(type = LogRecordType.LOG_SYS_USER, subType = "delete", bizNo = "{{#userId}}",
+        success = "删除管理员【{{#username}}】成功", successCondition = "{{#_ret.success == true}}")
     @RepeatSubmit
     @DeleteMapping("/{userId}")
     public ResultInfo<?> delete(@PathVariable("userId") String userId) {

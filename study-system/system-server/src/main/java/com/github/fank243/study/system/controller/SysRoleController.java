@@ -91,7 +91,7 @@ public class SysRoleController extends BaseController {
     @PostMapping("/modify")
     public ResultInfo<?> modify(@RequestBody @Validated({ValidatorGroup.Modify.class}) SysRoleDTO sysRole)
         throws BizException {
-        boolean isOk = sysRoleService.add(sysRole);
+        boolean isOk = sysRoleService.modify(sysRole);
         return isOk ? ResultInfo.ok().message("修改成功") : ResultInfo.err500("修改失败");
     }
 
@@ -101,8 +101,8 @@ public class SysRoleController extends BaseController {
      * @param ids 角色ID数组
      * @return 操作结果
      */
-    @LogRecord(type = LogRecordType.SYS_ROLE, bizNo = "{{#roleId}}", success = "删除角色【{{#roleName}}】成功",
-        successCondition = "{{#ret.success == true}}")
+    @LogRecord(type = LogRecordType.LOG_SYS_ROLE, subType = "delete", bizNo = "{{#roleId}}",
+        success = "删除角色【{{#roleName}}】成功", successCondition = "{{#ret.success == true}}")
     @RepeatSubmit
     @DeleteMapping("/delete")
     public ResultInfo<?> delete(@RequestBody String[] ids) throws BizException {

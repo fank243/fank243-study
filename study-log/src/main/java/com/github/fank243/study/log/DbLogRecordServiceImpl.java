@@ -1,6 +1,5 @@
 package com.github.fank243.study.log;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -39,17 +38,18 @@ public class DbLogRecordServiceImpl extends ServiceImpl<IOperLogMapper, OperLogE
 
             save(operLog);
         });
-
     }
 
+    @Deprecated
     @Override
     public List<LogRecord> queryLog(String bizNo, String type) {
-        return new ArrayList<>(0);
+        return null;
     }
 
+    @Deprecated
     @Override
     public List<LogRecord> queryLogByBizNo(String bizNo, String type, String subType) {
-        return new ArrayList<>(0);
+        return null;
     }
 
 }

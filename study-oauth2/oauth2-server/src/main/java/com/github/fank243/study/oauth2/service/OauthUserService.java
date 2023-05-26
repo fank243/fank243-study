@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.fank243.common.result.ResultInfo;
+import com.github.fank243.study.core.domain.enums.UserStatusEnum;
 import com.github.fank243.study.oauth2.api.domain.dto.OauthUserDTO;
 import com.github.fank243.study.oauth2.api.domain.entity.OauthClientEntity;
 import com.github.fank243.study.oauth2.api.domain.entity.OauthUserEntity;
@@ -44,6 +45,13 @@ public class OauthUserService extends ServiceImpl<IOauthUserDao, OauthUserEntity
         if (!oauthUserEntity.getPassword().equalsIgnoreCase(SecureUtil.md5(pwd))) {
             return ResultInfo.err400("用户名或密码错误");
         }
+        if (oauthUserEntity.getStatus() == UserStatusEnum.DISABLED.getCode()) {
+            return ResultInfo.err400("账号已被禁用");
+        }
+        if (oauthUserEntity.getStatus() == UserStatusEnum.LOGIN_LOCK.getCode()) {
+            return ResultInfo.err400("账号已被锁定");
+        }
+
         return ResultInfo.ok(oauthUserEntity.getUserId());
     }
 

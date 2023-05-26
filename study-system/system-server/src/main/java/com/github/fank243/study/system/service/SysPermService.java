@@ -59,8 +59,8 @@ public class SysPermService extends ServiceImpl<ISysPermMapper, SysPermEntity> {
      * @param sysPerm 请求参数
      * @return 操作结果
      */
-    @LogRecord(type = LogRecordType.SYS_PERM, bizNo = "{{#sysPerm.permId}}", success = "新增角色【{{#sysPerm.permName}}】",
-        successCondition = "{{#sysPerm.permId!=null}}")
+    @LogRecord(type = LogRecordType.LOG_SYS_PERM, subType = "insert", bizNo = "{{#sysPerm.permId}}",
+        success = "新增角色【{{#sysPerm.permName}}】", successCondition = "{{#sysPerm.permId!=null}}")
     @Transactional(rollbackFor = Exception.class)
     public boolean add(SysPermDTO sysPerm) throws BizException {
         SysPermEntity sysPermEntity = sysPermDao
@@ -84,8 +84,8 @@ public class SysPermService extends ServiceImpl<ISysPermMapper, SysPermEntity> {
      * @param sysPerm 请求参数
      * @return 操作结果
      */
-    @LogRecord(type = LogRecordType.SYS_PERM, bizNo = "{{#sysPerm.permId}}", successCondition = "#_ret==true",
-        success = "修改权限菜单：{_DIFF{#oldObject, #sysPerm}}")
+    @LogRecord(type = LogRecordType.LOG_SYS_PERM, subType = "update", bizNo = "{{#sysPerm.permId}}",
+        successCondition = "#_ret==true", success = "修改权限菜单：{_DIFF{#oldObject, #sysPerm}}")
     @Transactional(rollbackFor = Exception.class)
     public boolean modify(SysPermDTO sysPerm) throws BizException {
         SysPermEntity sysPermEntity = sysPermDao.selectById(sysPerm.getPermId());

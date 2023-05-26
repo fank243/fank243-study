@@ -8,9 +8,11 @@ package com.github.fank243.study.core.constants;
  */
 public class LogRecordType {
 
-    public static final String SYS_USER = "sys.user";
+    public static final String LOG_SYS_USER = "sys.user";
 
-    public static final String SYS_ROLE = "sys.role";
+    public static final String LOG_SYS_ROLE = "sys.role";
 
-    public static final String SYS_PERM = "sys.perm";
+    public static final String LOG_SYS_PERM = "sys.perm";
+
+    public static final String LOG_FILE = "file";
 }

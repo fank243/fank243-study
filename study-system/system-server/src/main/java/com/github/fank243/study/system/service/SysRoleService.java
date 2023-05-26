@@ -62,8 +62,8 @@ public class SysRoleService extends ServiceImpl<ISysRoleMapper, SysRoleEntity> {
      * @param sysRole 请求参数
      * @return 操作结果
      */
-    @LogRecord(type = LogRecordType.SYS_ROLE, bizNo = "{{#sysRole.roleId}}", success = "新增角色【{{#sysRole.roleName}}】",
-        successCondition = "{{#sysRole.roleId!=null}}")
+    @LogRecord(type = LogRecordType.LOG_SYS_ROLE, subType = "insert", bizNo = "{{#sysRole.roleId}}",
+        success = "新增角色【{{#sysRole.roleName}}】", successCondition = "{{#sysRole.roleId!=null}}")
     @Transactional(rollbackFor = Exception.class)
     public boolean add(SysRoleDTO sysRole) throws BizException {
         SysRoleEntity sysRoleEntity = sysRoleDao
@@ -87,8 +87,8 @@ public class SysRoleService extends ServiceImpl<ISysRoleMapper, SysRoleEntity> {
      * @param sysRole 请求参数
      * @return 操作结果
      */
-    @LogRecord(type = LogRecordType.SYS_PERM, bizNo = "{{#sysRole.roleId}}", successCondition = "#_ret==true",
-        success = "修改角色信息：{_DIFF{#oldObject, #sysRole}}")
+    @LogRecord(type = LogRecordType.LOG_SYS_PERM, subType = "update", bizNo = "{{#sysRole.roleId}}",
+        successCondition = "#_ret==true", success = "修改角色信息：{_DIFF{#oldObject, #sysRole}}")
     @Transactional(rollbackFor = Exception.class)
     public boolean modify(SysRoleDTO sysRole) throws BizException {
         SysRoleEntity sysRoleEntity = sysRoleDao.selectById(sysRole.getRoleId());

@@ -26,9 +26,6 @@ public class OperLogVO implements Serializable {
     /** 日志的子类型 */
     private String subType;
 
-    /** 方法执行时间（单位：毫秒） */
-    private Long executionTime;
-
     /** 操作人ID */
     private String operatorId;
 

@@ -2,8 +2,6 @@ package com.github.fank243.study.support.service;
 
 import java.io.File;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,7 +53,7 @@ public class FileService extends ServiceImpl<IFileMapper, FileEntity> {
      * @return 操作结果
      */
     @Transactional(rollbackFor = Exception.class)
-    public ResultInfo<Map<String, String>> saveFile(InputStream inputStream, FileDTO fileDTO) {
+    public ResultInfo<String> saveFile(InputStream inputStream, FileDTO fileDTO) {
         // 登录人ID
         String loginId = StpUtil.getLoginIdAsString();
 
@@ -93,9 +91,7 @@ public class FileService extends ServiceImpl<IFileMapper, FileEntity> {
             if (fileEntity != null) {
                 // 删除重复文件
                 ThreadUtil.execute(() -> FileUtil.del(file));
-                Map<String, String> map = new HashMap<>(1);
-                map.put("fileId", fileEntity.getFileId());
-                return ResultInfo.ok(map).message("上传文件成功");
+                return ResultInfo.ok(fileEntity.getFileId()).message("上传文件成功");
             }
             newFileEntity = BeanUtil.copyProperties(fileDTO, FileEntity.class);
 
@@ -131,9 +127,7 @@ public class FileService extends ServiceImpl<IFileMapper, FileEntity> {
         redisService.setHashValue(CacheConstants.FILE_ID_KEY, newFileEntity.getFileId(), newFileEntity,
             TimeConstant.DAY_7);
 
-        Map<String, String> map = new HashMap<>(2);
-        map.put("fileId", newFileEntity.getFileId());
-        return ResultInfo.ok(map).message("上传文件成功");
+        return ResultInfo.ok(newFileEntity.getFileId()).message("上传文件成功");
     }
 
     /**

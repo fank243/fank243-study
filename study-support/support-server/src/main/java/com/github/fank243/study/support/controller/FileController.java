@@ -17,10 +17,13 @@ import com.github.fank243.common.result.ResultInfo;
 import com.github.fank243.study.core.annotation.RepeatSubmit;
 import com.github.fank243.study.core.base.BaseController;
 import com.github.fank243.study.core.constants.Constants;
+import com.github.fank243.study.core.constants.LogRecordType;
 import com.github.fank243.study.core.constants.ServerConstants;
 import com.github.fank243.study.core.utils.WebUtils;
 import com.github.fank243.study.support.domain.dto.FileDTO;
 import com.github.fank243.study.support.service.FileService;
+import com.mzt.logapi.context.LogRecordContext;
+import com.mzt.logapi.starter.annotation.LogRecord;
 
 import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.exception.NotPermissionException;
@@ -53,6 +56,8 @@ public class FileController extends BaseController {
      * @param multipartFile 文件
      * @return 上传结果
      */
+    @LogRecord(type = LogRecordType.LOG_FILE, subType = "upload", bizNo = "{{#fileId}}",
+        success = "上传文件【{{#fileName}}】成功，文件ID：{{#fileId}}", successCondition = "{{#_ret.success == true}}")
     @RepeatSubmit
     @ResponseBody
     @PostMapping("/upload")
@@ -90,7 +95,14 @@ public class FileController extends BaseController {
         FileDTO fileDTO = FileDTO.builder().filePrefix(filePrefix).fileName(fileName).fileType(fileType)
             .fileType(fileType).loginId(loginId).build();
 
-        return fileService.saveFile(multipartFile.getInputStream(), fileDTO);
+        ResultInfo<String> result = fileService.saveFile(multipartFile.getInputStream(), fileDTO);
+        if (!result.isSuccess()) {
+            return result;
+        }
+
+        LogRecordContext.putVariable("fileId", result.getPayload());
+        LogRecordContext.putVariable("fileName", fileDTO.getFileName());
+        return result;
     }
 
     /**

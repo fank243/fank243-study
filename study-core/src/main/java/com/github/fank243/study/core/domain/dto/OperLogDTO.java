@@ -39,10 +39,6 @@ public class OperLogDTO extends BaseDTO {
     @Schema(description = "日志的子类型")
     private String subType;
 
-    /** 方法执行时间（单位：毫秒） */
-    @Schema(description = "方法执行时间", hidden = true)
-    private Long executionTime;
-
     /** 操作人ID */
     @Schema(description = "操作人ID")
     private String operatorId;

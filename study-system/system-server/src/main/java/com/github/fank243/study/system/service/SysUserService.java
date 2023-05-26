@@ -73,8 +73,8 @@ public class SysUserService extends ServiceImpl<ISysUserMapper, SysUserEntity> {
      * @param sysUser 请求参数
      * @return 操作结果
      */
-    @LogRecord(type = LogRecordType.SYS_USER, bizNo = "{{#sysUser.userId}}", success = "新增管理员【{{#sysUser.username}}】",
-        successCondition = "{{#sysUser.userId!=null}}")
+    @LogRecord(type = LogRecordType.LOG_SYS_USER, subType = "insert", bizNo = "{{#sysUser.userId}}",
+        success = "新增管理员【{{#sysUser.username}}】", successCondition = "{{#sysUser.userId!=null}}")
     @Transactional(rollbackFor = Exception.class)
     public boolean add(SysUserDTO sysUser) throws BizException {
         SysUserEntity sysUserEntity = sysUserDao
@@ -122,8 +122,8 @@ public class SysUserService extends ServiceImpl<ISysUserMapper, SysUserEntity> {
      * @param sysUser 请求参数
      * @return 操作结果
      */
-    @LogRecord(type = LogRecordType.SYS_USER, bizNo = "{{#sysUser.userId}}", successCondition = "#_ret==true",
-        success = "修改管理员信息：{_DIFF{#oldObject, #sysUser}}")
+    @LogRecord(type = LogRecordType.LOG_SYS_USER, subType = "update", bizNo = "{{#sysUser.userId}}",
+        successCondition = "#_ret==true", success = "修改管理员信息：{_DIFF{#oldObject, #sysUser}}")
     @Transactional(rollbackFor = Exception.class)
     public boolean modify(SysUserDTO sysUser) throws BizException {
         SysUserEntity sysUserEntity = sysUserDao.selectById(sysUser.getUserId());

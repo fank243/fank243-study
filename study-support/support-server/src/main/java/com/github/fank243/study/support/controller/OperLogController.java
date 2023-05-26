@@ -1,6 +1,5 @@
 package com.github.fank243.study.support.controller;
 
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,11 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.fank243.common.result.ResultInfo;
 import com.github.fank243.study.core.base.BaseController;
 import com.github.fank243.study.core.constants.ServerConstants;
-import com.github.fank243.study.core.constants.ValidatorGroup;
 import com.github.fank243.study.core.domain.dto.OperLogDTO;
 import com.github.fank243.study.core.domain.model.PageBean;
-import com.github.fank243.study.core.exception.BizException;
-import com.github.fank243.study.support.domain.entity.OperLogEntity;
+import com.github.fank243.study.log.OperLogEntity;
 import com.github.fank243.study.support.domain.vo.OperLogVO;
 import com.github.fank243.study.support.service.OperLogService;
 
@@ -56,26 +53,12 @@ public class OperLogController extends BaseController {
     /**
      * 操作日志 > 分页
      *
-     * @param reqRespLog 分页参数
+     * @param operLogDTO 分页参数
      * @return 日志列表
      */
     @Operation(summary = "操作日志-分页")
     @PostMapping("/page")
-    public ResultInfo<PageBean<OperLogVO>> page(@RequestBody OperLogDTO reqRespLog) {
-        return ResultInfo.ok(operLogService.page(reqRespLog));
-    }
-
-    /**
-     * 操作日志 > 新增
-     *
-     * @param reqRespLog 请求参数
-     * @return 操作结果
-     */
-    @Operation(summary = "操作日志-新增")
-    @PostMapping("/add")
-    public ResultInfo<?> add(@RequestBody @Validated({ValidatorGroup.Create.class}) OperLogDTO reqRespLog)
-        throws BizException {
-        boolean isOk = operLogService.add(reqRespLog);
-        return isOk ? ResultInfo.ok().message("添加成功") : ResultInfo.err500("添加失败");
+    public ResultInfo<PageBean<OperLogVO>> page(@RequestBody OperLogDTO operLogDTO) {
+        return ResultInfo.ok(operLogService.page(operLogDTO));
     }
 }
