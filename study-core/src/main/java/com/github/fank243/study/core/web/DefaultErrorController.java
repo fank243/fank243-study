@@ -4,6 +4,7 @@ import static org.springframework.boot.autoconfigure.condition.ConditionalOnWebA
 
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
 import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;
@@ -15,11 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.github.fank243.common.result.ResultInfo;
-import com.github.fank243.study.core.utils.WebUtils;
+import com.github.fank243.study.core.utils.LogUtils;
 
 import cn.hutool.core.bean.BeanUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.SneakyThrows;
 
 /**
  * 全局异常处理器
@@ -32,6 +36,11 @@ import jakarta.servlet.http.HttpServletResponse;
 @ConditionalOnWebApplication(type = SERVLET)
 public class DefaultErrorController extends BasicErrorController {
 
+    @Getter
+    @Setter
+    @Value("${study.base-url:}")
+    private String baseUrl;
+
     public DefaultErrorController(ErrorAttributes errorAttributes, ErrorProperties errorProperties) {
         super(errorAttributes, errorProperties);
     }
@@ -42,23 +51,24 @@ public class DefaultErrorController extends BasicErrorController {
         // 转换404异常
         if (HttpStatus.NOT_FOUND.value() == httpStatus.value()) {
             Map<String, Object> errMap = BeanUtil.beanToMap(ResultInfo.err404());
+            LogUtils.printLog(DefaultErrorController.class.getSimpleName(), request, ResultInfo.err404());
             return ResponseEntity.status(httpStatus).body(errMap);
         }
-        Map<String, Object> errMap =
-            BeanUtil.beanToMap(ResultInfo.error(httpStatus.value(), httpStatus.getReasonPhrase()));
+        ResultInfo<Object> result = ResultInfo.error(httpStatus.value(), httpStatus.getReasonPhrase());
+        Map<String, Object> errMap = BeanUtil.beanToMap(result);
+        LogUtils.printLog(DefaultErrorController.class.getSimpleName(), request, result);
         return ResponseEntity.status(httpStatus).body(errMap);
     }
 
+    @SneakyThrows
     @Override
     public ModelAndView errorHtml(HttpServletRequest request, HttpServletResponse response) {
         HttpStatus httpStatus = getStatus(request);
-        // 转换404异常
-        if (HttpStatus.NOT_FOUND.value() == httpStatus.value()) {
-            Map<String, Object> errMap = BeanUtil.beanToMap(ResultInfo.err404());
-            WebUtils.renderJson(response, errMap);
-            return null;
-        }
-        WebUtils.renderJson(response, ResultInfo.error(httpStatus.value(), httpStatus.getReasonPhrase()));
+        LogUtils.printLog(DefaultErrorController.class.getSimpleName(), request,
+            ResultInfo.error(httpStatus.value(), httpStatus.getReasonPhrase()));
+
+        response.setStatus(httpStatus.value());
+        response.sendRedirect(baseUrl + "/error/" + httpStatus.value());
         return null;
     }
 

@@ -15,4 +15,10 @@ public class HttpConstants {
     public static final String JSON = ".json";
 
     public static final String XML = ".xml";
+
+    public static final String ERROR_401 = "/error/401";
+    public static final String ERROR_403 = "/error/403";
+    public static final String ERROR_404 = "/error/404";
+    public static final String ERROR_405 = "/error/405";
+    public static final String ERROR_500 = "/error/500";
 }

@@ -1,4 +1,4 @@
-package com.github.fank243.study.gateway.domain;
+package com.github.fank243.study.core.domain.model;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -12,7 +12,7 @@ import lombok.Data;
  * @since 2022-09-26 15:14:51
  */
 @Data
-public class ReqRespLogDTO implements Serializable {
+public class ReqRespLog implements Serializable {
 
     /*** 日志类型 */
     private String logType;

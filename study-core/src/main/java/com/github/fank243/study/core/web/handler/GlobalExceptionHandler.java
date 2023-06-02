@@ -2,6 +2,7 @@ package com.github.fank243.study.core.web.handler;
 
 import static org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type.SERVLET;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.github.fank243.common.result.ResultInfo;
 import com.github.fank243.study.core.exception.BizException;
+import com.github.fank243.study.core.utils.WebUtils;
 
 import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.exception.SaTokenException;
@@ -31,6 +33,9 @@ import lombok.extern.slf4j.Slf4j;
 @ConditionalOnWebApplication(type = SERVLET)
 public class GlobalExceptionHandler {
 
+    @Value("${study.base-url:}")
+    private String baseUrl;
+
     /** Spring Validate 参数验证异常 */
     @ExceptionHandler(BindException.class)
     public ResultInfo<?> handlerBindException(BindException e) {
@@ -42,15 +47,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResultInfo<?> handlerHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
         log.error("全局异常拦截[405]：{}", e.getMessage(), e);
-        return ResultInfo.err500().error(e.getMessage());
+        return WebUtils.renderHtml(baseUrl, ResultInfo.err405().error(e.getMessage()));
     }
 
     /** 接口请求类型不支持异常 */
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
     public ResultInfo<?> handlerHttpMediaTypeNotSupportedException(HttpMediaTypeNotSupportedException e) {
         log.error("全局异常拦截[HttpMediaTypeNotSupportedException]：{}", e.getMessage(), e);
-        return ResultInfo.error(HttpStatus.UNSUPPORTED_MEDIA_TYPE.value(), e.getLocalizedMessage())
-            .error(e.getMessage());
+        return WebUtils.renderHtml(baseUrl,
+            ResultInfo.error(HttpStatus.UNSUPPORTED_MEDIA_TYPE.value(), e.getLocalizedMessage()).error(e.getMessage()));
     }
 
     /** 错误的请求异常 **/
@@ -74,14 +79,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BizException.class)
     public ResultInfo<?> handlerBizException(BizException e) {
         log.error("全局异常拦截[BizException]:{}", e.getLocalizedMessage(), e);
-        return ResultInfo.error(e.getStatus(), e.getLocalizedMessage()).error(e.getMessage());
+        return WebUtils.renderHtml(baseUrl,
+            ResultInfo.error(e.getStatus(), e.getLocalizedMessage()).error(e.getMessage()));
     }
 
     /** 默认异常 */
     @ExceptionHandler(Exception.class)
     public ResultInfo<?> handleException(Exception e) {
         log.error("全局异常拦截[Exception]：{}", e.getMessage(), e);
-        return ResultInfo.err500(e.getLocalizedMessage()).error(e.getMessage());
+        return WebUtils.renderHtml(baseUrl, ResultInfo.err500(e.getLocalizedMessage()).error(e.getMessage()));
+
     }
 
 }

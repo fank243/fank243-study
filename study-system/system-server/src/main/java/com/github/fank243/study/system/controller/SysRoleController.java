@@ -50,7 +50,7 @@ public class SysRoleController extends BaseController {
      * @param roleId 角色ID
      * @return 角色信息
      */
-    @GetMapping("/{roleId}")
+    @GetMapping("/id/{roleId}")
     public ResultInfo<SysRoleVO> getById(@PathVariable String roleId) {
         SysRoleEntity sysRole = sysRoleService.getById(roleId);
         return ResultInfo.ok(BeanUtil.toBean(sysRole, SysRoleVO.class));
@@ -104,7 +104,7 @@ public class SysRoleController extends BaseController {
     @LogRecord(type = LogRecordType.LOG_SYS_ROLE, subType = "delete", bizNo = "{{#roleId}}",
         success = "删除角色【{{#roleName}}】成功", successCondition = "{{#ret.success == true}}")
     @RepeatSubmit
-    @DeleteMapping("/delete")
+    @DeleteMapping("/id/delete")
     public ResultInfo<?> delete(@RequestBody String[] ids) throws BizException {
         List<SysRoleVO> sysUserList = sysRoleService.findByRoleIn(List.of(ids));
         String roleName = sysUserList.stream().map(SysRoleVO::getRoleName).collect(Collectors.joining("、"));

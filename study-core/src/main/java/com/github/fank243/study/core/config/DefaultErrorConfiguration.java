@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * Error Properties 配置
- * 
+ *
  * @author FanWeiJie
  * @since 2022-10-05 20:35:37
  */

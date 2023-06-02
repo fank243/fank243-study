@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.fank243.common.result.ResultInfo;
 import com.github.fank243.study.core.constants.CacheConstants;
+import com.github.fank243.study.core.constants.HttpConstants;
 import com.github.fank243.study.core.constants.enums.EnvEnum;
 import com.github.fank243.study.core.service.RedisService;
 import com.github.fank243.study.core.utils.WebUtils;
@@ -23,15 +24,19 @@ import com.github.fank243.study.oauth2.api.domain.vo.OauthAccessTokenVO;
 import com.github.fank243.study.oauth2.service.OauthUserService;
 
 import cn.dev33.satoken.oauth2.config.SaOAuth2Config;
+import cn.dev33.satoken.oauth2.logic.SaOAuth2Consts;
 import cn.dev33.satoken.oauth2.logic.SaOAuth2Handle;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
+import cn.hutool.http.Header;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -40,9 +45,14 @@ import lombok.extern.slf4j.Slf4j;
  * @author FanWeiJie
  * @since 2021-11-24 16:26:32
  */
+@Getter
+@Setter
 @Slf4j
 @Controller
 public class Oauth2ServerController {
+
+    @Value("${study.base-url:}")
+    private String baseUrl;
 
     @Resource
     private OauthUserService oauthUserService;
@@ -51,16 +61,10 @@ public class Oauth2ServerController {
     @Resource
     private SaOAuth2Config cfg;
 
-    @RequestMapping({"", "/index"})
-    public String index(HttpServletResponse response) throws IOException {
-        response.sendRedirect("/error/401");
-        return null;
-    }
-
     /** 请求统一入口 **/
     @SuppressWarnings("unchecked")
     @RequestMapping("/oauth2/*")
-    public Object request(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) {
+    public Object request(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // oauth2 认证入口
         Object obj = SaOAuth2Handle.serverRequest();
         if (obj instanceof SaResult saResult) {
@@ -83,21 +87,20 @@ public class Oauth2ServerController {
             return null;
         }
 
-        Map<String, String[]> parameterMap = request.getParameterMap();
-        StringBuilder sb = new StringBuilder("?");
-        for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
-            sb.append(entry.getKey()).append("=").append(entry.getValue()[0]).append("&");
-        }
-        String params = StrUtil.replaceLast(sb.toString(), "&", "");
-
         // 登录页面
         if (StrUtil.equalsIgnoreCase(Oauth2Constants.LOGIN, String.valueOf(obj))) {
-            modelMap.put("redirectUri", request.getRequestURL().toString() + params);
             return "login";
         }
         // 确认授权页面
         else if (StrUtil.equalsIgnoreCase(Oauth2Constants.CONFIRM, String.valueOf(obj))) {
             return "confirm";
+        }
+        // 404
+        else if (StrUtil.equalsIgnoreCase(SaOAuth2Consts.NOT_HANDLE, String.valueOf(obj))) {
+            if (WebUtils.isBrowser(request.getHeader(Header.ACCEPT.getValue()))) {
+                response.sendRedirect(baseUrl + HttpConstants.ERROR_404);
+                return null;
+            }
         }
 
         WebUtils.renderJson(response, ResultInfo.err500(String.valueOf(obj)));

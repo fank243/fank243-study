@@ -1,15 +1,11 @@
 package com.github.fank243.study.core;
 
-import java.math.BigDecimal;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import com.github.fank243.study.core.constants.Constants;
-
-import cn.hutool.core.collection.CollUtil;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
-import lombok.Data;
+import cn.hutool.core.util.ReUtil;
+import cn.hutool.core.util.StrUtil;
 
 /**
  * 测试专用
@@ -18,33 +14,28 @@ import lombok.Data;
  * @since 2022-10-03 02:35:28
  */
 public class Main {
+    public static final String REGEX_CAR_NUM = "[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼,]";
 
     public static void main(String[] args) {
-        // JSONObject json = new JSONObject();
-        // json.set("title", "擦第三方");
-        // json.set("number", "1");
-        // json.set("amount", "1000.231");
-        //
-        // Test test = JSONUtil.toBean(json, Test.class);
-        // ResultInfo<?> result = ValidationUtils.validate(test);
-        // System.out.println(result);
-        List<String> list = Constants.FILE_PREFIX_NOT_LOGIN;
-        String[] array = "/files/static/45c37cb1-8557-4ab4-b5e3-32a2e304afe2.png".split("/");
+        String str = "京A0429X京A1114挂,京A12345京A0429X京A1114挂,京A12345京A0429X京A1114挂京A1234挂";
+        str = str.replaceAll(",", "");
 
-        boolean b = CollUtil.containsAny(Constants.FILE_PREFIX_NOT_LOGIN, Arrays.asList(array));
-        System.out.println(b);
+        List<String> list = new ArrayList<>();
+        dd(list, str);
+        System.out.println(list.stream().distinct().collect(Collectors.toList()));
+
     }
 
-    @Data
-    static class Test {
-
-        @NotBlank(message = "标题不能为空")
-        private String title;
-
-        @Positive(message = "number必须为正数")
-        private Integer number;
-
-        @Positive(message = "amount必须为正数")
-        private BigDecimal amount;
+    public static void dd(List<String> list, String str) {
+        int index = ReUtil.lastIndexOf(REGEX_CAR_NUM, str).start();
+        String replace = StrUtil.replace(str, index, index, ",");
+        for (String str2 : replace.split(",")) {
+            int count = ReUtil.count(REGEX_CAR_NUM, str2);
+            if (count > 1) {
+                dd(list, str2);
+            } else {
+                list.add(str2);
+            }
+        }
     }
 }

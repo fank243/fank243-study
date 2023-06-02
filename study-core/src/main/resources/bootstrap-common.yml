@@ -35,26 +35,22 @@ logging:
   # config: file:study-core/src/main/resources/logback-spring.xml
   config: classpath:logback-spring.xml
   level:
-    org.springframework: info
-    org.springframework.oauth2: debug
-    org.springframework.cloud.openfeign: debug
-    org.springframework.cloud.sleuth: info
-    org.springframework.web.servlet: debug
-    org.springframework.security: debug
-    org.thymeleaf: info
-    org.apache: info
-    org.mybatis: info
-    org.hibernate: info
-    org.jboss: info
-    io.netty: info
-    io.grpc: info
-    io.lettuce: info
-    io.micrometer: info
-    com.zaxxer: info
-    com.alibaba.cloud: info
-    com.alibaba.nacos: warn
-    com.tencent: info
-    com.tencent.polaris: warn
-    com.baomidou.dynamic: info
-    reactor: info
+    org.springframework: warn
+    org.apache: warn
+    org.redisson: warn
+    org.thymeleaf: warn
+    org.mybatis: warn
+    org.hibernate: warn
+    org.jboss: warn
+    org.bouncycastle: warn
+    io.netty: warn
+    io.grpc: warn
+    io.lettuce: warn
+    io.micrometer: warn
+    com.zaxxer: warn
+    com.alibaba: warn
+    com.alicp: warn
+    com.tencent: warn
+    com.baomidou: warn
+    reactor: warn
 

@@ -47,8 +47,8 @@ public class SysUserController extends BaseController {
      * @param userId 用户ID
      * @return 用户信息
      */
-    @GetMapping("/{userId}")
-    public ResultInfo<SysUserVO> getById(@PathVariable String userId) {
+    @GetMapping("/id/{userId}")
+    public ResultInfo<SysUserVO> getByUserId(@PathVariable String userId) {
         SysUserEntity sysUser = sysUserService.getById(userId);
         return ResultInfo.ok(BeanUtil.toBean(sysUser, SysUserVO.class));
     }
@@ -101,7 +101,7 @@ public class SysUserController extends BaseController {
     @LogRecord(type = LogRecordType.LOG_SYS_USER, subType = "delete", bizNo = "{{#userId}}",
         success = "删除管理员【{{#username}}】成功", successCondition = "{{#_ret.success == true}}")
     @RepeatSubmit
-    @DeleteMapping("/{userId}")
+    @DeleteMapping("/id/{userId}")
     public ResultInfo<?> delete(@PathVariable("userId") String userId) {
         SysUserVO sysUserVO = sysUserService.findByUserId(userId);
         if (sysUserVO == null) {

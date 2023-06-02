@@ -18,6 +18,7 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.github.fank243.common.result.ResultInfo;
 import com.github.fank243.study.core.constants.HttpConstants;
 import com.github.fank243.study.core.constants.enums.EnvEnum;
 
@@ -143,6 +144,42 @@ public class WebUtils {
 
     public static Map<String, String> getParams() {
         return getParams(Objects.requireNonNull(getRequest()));
+    }
+
+    /**
+     * 根据请求是否来自于浏览器，向客户端发送重定向或者响应JSON
+     * 
+     * @param baseUrl baseUrl
+     * @param result result
+     * @return ResultInfo
+     */
+    public static ResultInfo<?> renderHtml(String baseUrl, ResultInfo<?> result) {
+        HttpServletRequest request = WebUtils.getRequest();
+        HttpServletResponse response = WebUtils.getResponse();
+
+        if (request != null) {
+            LogUtils.printLog("全局异常", request, result);
+        }
+        if (WebUtils.isBrowser()) {
+            String redirectUri = switch (result.getStatus()) {
+                case 401 -> HttpConstants.ERROR_401;
+                case 403 -> HttpConstants.ERROR_403;
+                case 404 -> HttpConstants.ERROR_404;
+                case 405 -> HttpConstants.ERROR_405;
+                default -> HttpConstants.ERROR_500;
+            };
+
+            if (response != null) {
+                try {
+                    response.sendRedirect(baseUrl + redirectUri);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return null;
+        }
+
+        return result;
     }
 
     /**
@@ -336,6 +373,25 @@ public class WebUtils {
             IoUtil.close(out);
             IoUtil.close(in);
         }
+    }
+
+    /**
+     * 是否浏览器请求
+     * 
+     * @return true：浏览器请求，false：请求
+     */
+    public static boolean isBrowser() {
+        return isBrowser(Objects.requireNonNull(getRequest()).getHeader(Header.ACCEPT.getValue()));
+    }
+
+    /**
+     * 是否浏览器请求
+     * 
+     * @param accept 请求头参数
+     * @return true：浏览器请求，false：请求
+     */
+    public static boolean isBrowser(String accept) {
+        return accept.contains(ContentType.TEXT_HTML.getValue());
     }
 
 }

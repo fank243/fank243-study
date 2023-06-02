@@ -1,5 +1,6 @@
 package com.github.fank243.study.gateway.utils;
 
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Objects;
@@ -17,6 +18,7 @@ import com.github.fank243.common.result.ResultInfo;
 
 import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.exception.SaTokenException;
+import cn.hutool.core.codec.Base64;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.net.NetUtil;
 import cn.hutool.core.util.ArrayUtil;
@@ -29,6 +31,8 @@ import reactor.core.publisher.Mono;
  * @since 2020-10-25 15:44:35
  */
 public class ReactiveUtils {
+    private static final String AUTHORIZE_URL =
+        "/oauth2/authorize?response_type=code&client_id={{clientId}}&redirect_uri={{domain}}/system/login/{{redirect}}&scope=user_info";
 
     /**
      * 响应 JSON
@@ -184,5 +188,22 @@ public class ReactiveUtils {
         }
 
         return result;
+    }
+
+    /**
+     * 获取访问域名
+     *
+     * @param request ServerHttpRequest
+     * @return 域名
+     */
+    public static String getDomain(ServerHttpRequest request) {
+        URI url = request.getURI();
+        return url.getScheme() + "://" + url.getAuthority();
+    }
+
+    public static String getAuthorizeUrl(ServerHttpRequest request, String clientId, String redirect) {
+        String domain = ReactiveUtils.getDomain(request);
+        return AUTHORIZE_URL.replace("{{clientId}}", clientId).replace("{{domain}}", domain).replace("{{redirect}}",
+            Base64.encodeStr(redirect.getBytes(StandardCharsets.UTF_8), false, false));
     }
 }

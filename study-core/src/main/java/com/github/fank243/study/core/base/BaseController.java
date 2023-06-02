@@ -2,6 +2,8 @@ package com.github.fank243.study.core.base;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import cn.dev33.satoken.stp.StpUtil;
+
 /**
  * Base Controller
  * 
@@ -10,4 +12,21 @@ import org.springframework.web.bind.annotation.RestController;
  * @ignore
  */
 @RestController
-public class BaseController {}
+public class BaseController {
+
+    /**
+     * 获取登录用户ID，如果用户未登录则返回空串
+     * 
+     * @return 用户ID
+     */
+    protected String getLoginId() {
+        return StpUtil.isLogin() ? StpUtil.getLoginIdAsString() : "";
+    }
+
+    /**
+     * 退出登陆
+     */
+    protected void logout() {
+        StpUtil.logout();
+    }
+}

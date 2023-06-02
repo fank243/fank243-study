@@ -10,22 +10,25 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
+import com.github.fank243.common.result.ResultCodeEnum;
 import com.github.fank243.common.result.ResultInfo;
 import com.github.fank243.study.core.domain.enums.PermTypeEnum;
 import com.github.fank243.study.system.domain.vo.SysPermVO;
 import com.github.fank243.study.system.service.ISysPermService;
 
 import cn.dev33.satoken.context.SaHolder;
+import cn.dev33.satoken.context.model.SaRequest;
+import cn.dev33.satoken.context.model.SaResponse;
 import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.exception.NotPermissionException;
 import cn.dev33.satoken.exception.NotRoleException;
-import cn.dev33.satoken.exception.SaTokenException;
 import cn.dev33.satoken.exception.SameTokenInvalidException;
 import cn.dev33.satoken.reactor.filter.SaReactorFilter;
 import cn.dev33.satoken.router.SaHttpMethod;
@@ -34,6 +37,9 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.http.ContentType;
+import cn.hutool.http.Header;
+import cn.hutool.http.HttpStatus;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 
@@ -86,12 +92,15 @@ public class SaTokenConfigure {
             // 指定 [拦截路由]
             .addInclude("/**")
             // 指定 [放行路由]
-            .addExclude("/favicon.ico", "/static/**", "/oauth2/**")
+            .addExclude("/favicon.ico", "/static/**", "/error/**", "/oauth2/**")
             // 指定[认证函数]: 每次请求执行
             .setAuth(obj -> {
                 // HTTP METHOD
                 SaRouter.notMatch(SaHttpMethod.OPTIONS, SaHttpMethod.GET, SaHttpMethod.PUT, SaHttpMethod.POST,
-                    SaHttpMethod.DELETE).check(() -> SaTokenException.throwByNull(null, "请求方法非法", 405));
+                    SaHttpMethod.DELETE).check(() -> {
+                        throw new ResponseStatusException(org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED,
+                            "非法请求");
+                    });
 
                 SaRouter.match("/api/**", StpUtil::checkLogin);
                 // 文件浏览
@@ -99,7 +108,7 @@ public class SaTokenConfigure {
                 // swagger ui
                 SaRouter.match("/support/**", StpUtil::checkLogin);
                 // 登录接口
-                SaRouter.notMatch("/system/login").match("/system/**", StpUtil::checkLogin);
+                SaRouter.notMatch("/system/login/**").match("/system/**", StpUtil::checkLogin);
 
                 Future<List<SysPermVO>> future =
                     ThreadUtil.execAsync(() -> sysPermService.getByPermTypes(PermTypeEnum.PERMS));
@@ -107,6 +116,7 @@ public class SaTokenConfigure {
                 try {
                     perms = future.get();
                 } catch (InterruptedException | ExecutionException e) {
+                    e.printStackTrace();
                     throw new RuntimeException(e);
                 }
                 // 菜单、接口权限
@@ -124,12 +134,20 @@ public class SaTokenConfigure {
             .setError((e) -> {
                 log.error("认证异常：{}", e.getMessage(), e);
                 if (e instanceof NotLoginException) {
-                    return ResultInfo.err401();
+                    return response(ResultInfo.err401().error(e.getMessage()));
                 } else if (e instanceof NotRoleException || e instanceof NotPermissionException
                     || e instanceof SameTokenInvalidException) {
-                    return ResultInfo.err403().error(e.getMessage());
+                    return response(ResultInfo.err403().error(e.getMessage()));
+                } else if (e instanceof ResponseStatusException ex) {
+                    ResultInfo<?> result;
+                    if (org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED.value() == ex.getStatusCode().value()) {
+                        result = ResultInfo.err405(ex.getReason()).error(e.getMessage());
+                    } else {
+                        result = ResultInfo.error(ex.getStatusCode().value(), ex.getReason()).error(e.getMessage());
+                    }
+                    return response(result);
                 }
-                return ResultInfo.err500("oauth2认证异常").error(e.getMessage());
+                return response(ResultInfo.err500("Oauth2认证异常").error(e.getMessage()));
             })
             // 前置函数：在每次认证函数之前执行
             .setBeforeAuth(r -> SaHolder.getResponse()
@@ -141,7 +159,25 @@ public class SaTokenConfigure {
                 .setHeader("X-XSS-Protection", "1; mode=block")
                 // 禁用浏览器内容嗅探
                 .setHeader("X-Content-Type-Options", "nosniff"));
-        // application/json
-        // .setHeader("Content-Type", "application/json; charset=utf-8"));
+    }
+
+    private ResultInfo<?> response(ResultInfo<?> resultInfo) {
+        SaRequest request = SaHolder.getRequest();
+        SaResponse response = SaHolder.getResponse();
+        boolean isHtml = request.getHeader(Header.ACCEPT.getValue()).contains(ContentType.TEXT_HTML.getValue());
+        if (isHtml && HttpStatus.HTTP_UNAUTHORIZED == resultInfo.getStatus()) {
+            String url = request.getUrl();
+            if (url.contains("/oauth") || url.contains("/login")) {
+                response.redirect("/login");
+            } else {
+                response.redirect("/login?redirect=" + url);
+            }
+            return null;
+        }
+        if (ResultCodeEnum.R401.getStatus() == resultInfo.getStatus()) {
+            response.setStatus(HttpStatus.HTTP_UNAUTHORIZED);
+        }
+        response.addHeader(Header.CONTENT_TYPE.getValue(), ContentType.JSON.getValue());
+        return resultInfo;
     }
 }

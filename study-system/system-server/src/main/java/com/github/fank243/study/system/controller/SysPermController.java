@@ -48,7 +48,7 @@ public class SysPermController extends BaseController {
      * @param permId 权限ID
      * @return 权限信息
      */
-    @GetMapping("/{permId}")
+    @GetMapping("/id/{permId}")
     public ResultInfo<SysPermVO> getById(@PathVariable("permId") String permId) {
         SysPermEntity sysPerm = sysPermService.getById(permId);
         return ResultInfo.ok(BeanUtil.toBean(sysPerm, SysPermVO.class));
@@ -102,7 +102,7 @@ public class SysPermController extends BaseController {
     @LogRecord(type = LogRecordType.LOG_SYS_PERM, subType = "delete", bizNo = "{{#permId}}",
         success = "删除管理员【{{#permName}}】成功", successCondition = "{{#_ret.success == true}}")
     @RepeatSubmit
-    @DeleteMapping("/{permId}")
+    @DeleteMapping("/id/{permId}")
     public ResultInfo<?> delete(@PathVariable("permId") String permId) throws BizException {
         SysPermVO sysPermVO = sysPermService.findByPermId(permId);
         if (sysPermVO == null) {
