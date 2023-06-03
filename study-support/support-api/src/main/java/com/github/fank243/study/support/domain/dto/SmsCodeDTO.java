@@ -3,7 +3,7 @@ package com.github.fank243.study.support.domain.dto;
 import java.io.Serializable;
 
 import com.github.fank243.common.pattern.RegexExtPool;
-import com.github.fank243.study.core.domain.validator.annotation.Enum;
+import com.github.fank243.study.core.model.validation.annotation.Enum;
 import com.github.fank243.study.support.constants.smsCodeTypeEnum;
 
 import cn.hutool.core.lang.RegexPool;

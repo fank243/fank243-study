@@ -33,8 +33,8 @@ import org.springframework.web.reactive.function.server.HandlerStrategies;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.server.ServerWebExchange;
 
-import com.github.fank243.study.core.domain.model.ReqRespLog;
-import com.github.fank243.study.core.utils.LogUtils;
+import com.github.fank243.study.core.model.log.LogUtils;
+import com.github.fank243.study.core.model.log.ReqRespLog;
 import com.github.fank243.study.gateway.constants.FilterOrderConstant;
 
 import cn.dev33.satoken.stp.StpUtil;

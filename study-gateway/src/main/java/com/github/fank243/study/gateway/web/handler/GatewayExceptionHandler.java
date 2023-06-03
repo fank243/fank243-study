@@ -12,6 +12,7 @@ import org.springframework.web.server.ServerWebExchange;
 import com.github.fank243.common.result.ResultInfo;
 import com.github.fank243.study.gateway.utils.ReactiveUtils;
 
+import cn.hutool.http.ContentType;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
@@ -40,7 +41,7 @@ public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
 
         boolean isHtml = false;
         for (MediaType mediaType : request.getHeaders().getAccept()) {
-            if ("text/html".equalsIgnoreCase(mediaType.toString())) {
+            if (ContentType.TEXT_HTML.getValue().equalsIgnoreCase(mediaType.toString())) {
                 isHtml = true;
             }
         }

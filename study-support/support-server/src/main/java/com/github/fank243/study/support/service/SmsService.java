@@ -18,7 +18,7 @@ import com.github.fank243.study.core.constants.TimeConstant;
 import com.github.fank243.study.core.domain.dto.OperLogDTO;
 import com.github.fank243.study.core.domain.model.PageBean;
 import com.github.fank243.study.core.exception.BizException;
-import com.github.fank243.study.core.service.RedisService;
+import com.github.fank243.study.core.model.redis.RedisService;
 import com.github.fank243.study.core.utils.BeanUtils;
 import com.github.fank243.study.support.domain.dto.SmsCodeDTO;
 import com.github.fank243.study.support.domain.dto.SmsContentDTO;

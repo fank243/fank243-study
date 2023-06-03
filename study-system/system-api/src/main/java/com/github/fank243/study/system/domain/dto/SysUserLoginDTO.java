@@ -5,9 +5,9 @@ import java.io.Serializable;
 import org.hibernate.validator.constraints.Length;
 
 import com.github.fank243.common.pattern.RegexExtPool;
-import com.github.fank243.study.core.constants.ValidatorGroup;
 import com.github.fank243.study.core.domain.enums.LoginTypeEnum;
-import com.github.fank243.study.core.domain.validator.annotation.Enum;
+import com.github.fank243.study.core.model.validation.ValidatorGroup;
+import com.github.fank243.study.core.model.validation.annotation.Enum;
 
 import cn.hutool.core.lang.RegexPool;
 import jakarta.validation.constraints.NotBlank;

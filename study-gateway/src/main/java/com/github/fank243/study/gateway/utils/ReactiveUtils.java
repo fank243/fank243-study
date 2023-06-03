@@ -203,7 +203,10 @@ public class ReactiveUtils {
 
     public static String getAuthorizeUrl(ServerHttpRequest request, String clientId, String redirect) {
         String domain = ReactiveUtils.getDomain(request);
-        return AUTHORIZE_URL.replace("{{clientId}}", clientId).replace("{{domain}}", domain).replace("{{redirect}}",
-            Base64.encodeStr(redirect.getBytes(StandardCharsets.UTF_8), false, false));
+        // @formatter:off
+        return AUTHORIZE_URL.replace("{{clientId}}", clientId)
+                .replace("{{domain}}", domain)
+                .replace("{{redirect}}", Base64.encodeStr(redirect.getBytes(StandardCharsets.UTF_8), false, false));
+        // @formatter:on
     }
 }

@@ -3,7 +3,7 @@ package com.github.fank243.study.gateway.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.github.fank243.study.core.service.RedisService;
+import com.github.fank243.study.core.model.redis.RedisService;
 import com.github.fank243.study.gateway.web.filter.ApiLogFilter;
 import com.github.fank243.study.gateway.web.filter.SecurityFilter;
 import com.github.fank243.study.gateway.web.filter.ValidateImageCodeFilter;

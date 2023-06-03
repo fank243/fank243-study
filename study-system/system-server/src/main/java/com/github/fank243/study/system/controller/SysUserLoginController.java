@@ -3,7 +3,6 @@ package com.github.fank243.study.system.controller;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
@@ -18,10 +17,11 @@ import com.github.fank243.common.result.ResultInfo;
 import com.github.fank243.study.core.base.BaseController;
 import com.github.fank243.study.core.constants.CacheConstants;
 import com.github.fank243.study.core.constants.TimeConstant;
-import com.github.fank243.study.core.constants.ValidatorGroup;
 import com.github.fank243.study.core.domain.enums.LoginTypeEnum;
-import com.github.fank243.study.core.service.RedisService;
-import com.github.fank243.study.core.utils.ValidationUtils;
+import com.github.fank243.study.core.model.redis.RedisService;
+import com.github.fank243.study.core.model.validation.ValidationUtils;
+import com.github.fank243.study.core.model.validation.ValidatorGroup;
+import com.github.fank243.study.core.properties.StudyProperties;
 import com.github.fank243.study.core.utils.WebUtils;
 import com.github.fank243.study.oauth2.api.constants.Oauth2Constants;
 import com.github.fank243.study.oauth2.api.domain.vo.OauthAccessTokenVO;
@@ -30,7 +30,6 @@ import com.github.fank243.study.oauth2.api.service.IOauth2Service;
 import com.github.fank243.study.system.domain.dto.SysUserLoginDTO;
 import com.github.fank243.study.system.domain.entity.SysUserEntity;
 import com.github.fank243.study.system.domain.vo.SysUserLoginVO;
-import com.github.fank243.study.system.properties.SystemProperties;
 import com.github.fank243.study.system.service.SysUserService;
 
 import cn.dev33.satoken.stp.SaTokenInfo;
@@ -43,8 +42,6 @@ import cn.hutool.extra.servlet.JakartaServletUtil;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -58,17 +55,10 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class SysUserLoginController extends BaseController {
 
-    @Getter
-    @Setter
-    @Value("${study.base-url:}")
-    private String baseUrl;
-
     @Resource
     private IOauth2Service oauth2Service;
     @Resource
     private SysUserService sysUserService;
-    @Resource
-    private SystemProperties systemProperties;
     @Resource
     private RedisService redisService;
 
@@ -94,8 +84,8 @@ public class SysUserLoginController extends BaseController {
         // 获取令牌
         ResultInfo<OauthAccessTokenVO> result = oauth2Service.getAccessToken(
             Oauth2Constants.GrantType.PASSWORD.name().toLowerCase(), sysUserLoginDTO.getUsername(),
-            sysUserLoginDTO.getPassword(), String.join(",", Oauth2Constants.Scope.SCOPE_ALL),
-            systemProperties.getClientId(), systemProperties.getClientSecret());
+            sysUserLoginDTO.getPassword(), String.join(",", Oauth2Constants.Scope.SCOPE_ALL), StudyProperties.clientId,
+            StudyProperties.clientSecret);
         if (!result.isSuccess()) {
             return result;
         }
@@ -123,7 +113,7 @@ public class SysUserLoginController extends BaseController {
         // 获取令牌
         ResultInfo<OauthAccessTokenVO> result =
             oauth2Service.getAccessToken(Oauth2Constants.GrantType.AUTHORIZATION_CODE.name().toLowerCase(), code,
-                systemProperties.getClientId(), systemProperties.getClientSecret());
+                StudyProperties.clientId, StudyProperties.clientSecret);
         if (!result.isSuccess()) {
             WebUtils.renderJson(response, result);
             return null;
@@ -135,7 +125,8 @@ public class SysUserLoginController extends BaseController {
             return null;
         }
 
-        redirect = StrUtil.isNotBlank(redirect) ? Base64.decodeStr(redirect, StandardCharsets.UTF_8) : baseUrl;
+        redirect =
+            StrUtil.isNotBlank(redirect) ? Base64.decodeStr(redirect, StandardCharsets.UTF_8) : StudyProperties.baseUrl;
         response.sendRedirect(redirect);
         return null;
     }

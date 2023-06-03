@@ -2,7 +2,6 @@ package com.github.fank243.study.gateway.web;
 
 import java.nio.charset.StandardCharsets;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ServerWebExchange;
 
 import com.github.fank243.study.core.constants.HttpConstants;
+import com.github.fank243.study.core.properties.StudyProperties;
 import com.github.fank243.study.gateway.utils.ReactiveUtils;
 
 import cn.hutool.core.net.URLDecoder;
@@ -30,18 +30,15 @@ import reactor.core.publisher.Mono;
 @RequestMapping
 public class GatewayController {
 
-    private static final String LOGIN_URL =
-        "/oauth2/authorize?response_type=code&client_id={{clientId}}&redirect_uri={{domain}}/system/login/{{redirect}}&scope=user_info";
-    @Value("${study.oauth.client-id:}")
-    private String clientId;
-
     @RequestMapping("/login")
     public Mono<Void> login(@RequestParam(value = "redirect", required = false, defaultValue = "") String redirect,
         ServerWebExchange exchange) {
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
+
+        String authorizeUrl = ReactiveUtils.getAuthorizeUrl(request, StudyProperties.clientId, redirect);
         response.setStatusCode(HttpStatus.SEE_OTHER);
-        response.getHeaders().set("Location", ReactiveUtils.getAuthorizeUrl(request, clientId, redirect));
+        response.getHeaders().set("Location", authorizeUrl);
         return response.setComplete();
     }
 

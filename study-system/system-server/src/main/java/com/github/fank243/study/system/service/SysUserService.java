@@ -18,7 +18,7 @@ import com.github.fank243.study.core.constants.LogRecordType;
 import com.github.fank243.study.core.domain.enums.UserStatusEnum;
 import com.github.fank243.study.core.domain.model.PageBean;
 import com.github.fank243.study.core.exception.BizException;
-import com.github.fank243.study.core.service.RedisService;
+import com.github.fank243.study.core.model.redis.RedisService;
 import com.github.fank243.study.core.utils.BeanUtils;
 import com.github.fank243.study.oauth2.api.domain.dto.OauthUserDTO;
 import com.github.fank243.study.oauth2.api.domain.vo.OauthAccessTokenVO;

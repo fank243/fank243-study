@@ -3,7 +3,7 @@ package com.github.fank243.study.system.domain.dto;
 import org.hibernate.validator.constraints.Length;
 
 import com.github.fank243.study.core.base.BaseDTO;
-import com.github.fank243.study.core.constants.ValidatorGroup;
+import com.github.fank243.study.core.model.validation.ValidatorGroup;
 import com.mzt.logapi.starter.annotation.DiffLogAllFields;
 
 import jakarta.validation.constraints.NotBlank;

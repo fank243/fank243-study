@@ -1,18 +1,17 @@
 package com.github.fank243.study.system.interceptor;
 
 import org.jetbrains.annotations.NotNull;
-
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.github.fank243.common.result.ResultInfo;
 import com.github.fank243.study.core.annotation.Interceptor;
 import com.github.fank243.study.core.constants.CacheConstants;
 import com.github.fank243.study.core.constants.TimeConstant;
-import com.github.fank243.study.core.service.RedisService;
+import com.github.fank243.study.core.model.redis.RedisService;
+import com.github.fank243.study.core.properties.StudyProperties;
 import com.github.fank243.study.oauth2.api.constants.Oauth2Constants;
 import com.github.fank243.study.oauth2.api.domain.vo.OauthAccessTokenVO;
 import com.github.fank243.study.oauth2.api.service.IOauth2Service;
-import com.github.fank243.study.system.properties.SystemProperties;
 
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.extra.spring.SpringUtil;
@@ -33,8 +32,6 @@ public class TokenRefreshInterceptor implements HandlerInterceptor {
 
     @Resource
     private RedisService redisService;
-    @Resource
-    private SystemProperties systemProperties;
 
     @Override
     public boolean preHandle(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response,
@@ -54,9 +51,9 @@ public class TokenRefreshInterceptor implements HandlerInterceptor {
         if (obj instanceof OauthAccessTokenVO oauthAccessTokenVO) {
             // 有请求就刷新令牌
             IOauth2Service oauth2Service = SpringUtil.getBean(IOauth2Service.class);
-            ResultInfo<OauthAccessTokenVO> result = oauth2Service.refreshToken(
-                Oauth2Constants.GrantType.REFRESH_TOKEN.name().toLowerCase(), oauthAccessTokenVO.getRefreshToken(),
-                systemProperties.getClientId(), systemProperties.getClientSecret());
+            ResultInfo<OauthAccessTokenVO> result =
+                oauth2Service.refreshToken(Oauth2Constants.GrantType.REFRESH_TOKEN.name().toLowerCase(),
+                    oauthAccessTokenVO.getRefreshToken(), StudyProperties.clientId, StudyProperties.clientSecret);
             if (!result.isSuccess()) {
                 log.info("【令牌刷新拦截器】刷新令牌失败：{}", result);
             } else {

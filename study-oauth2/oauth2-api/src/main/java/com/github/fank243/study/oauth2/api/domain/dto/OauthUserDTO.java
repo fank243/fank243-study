@@ -2,7 +2,7 @@ package com.github.fank243.study.oauth2.api.domain.dto;
 
 import java.io.Serializable;
 
-import com.github.fank243.study.core.constants.ValidatorGroup;
+import com.github.fank243.study.core.model.validation.ValidatorGroup;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

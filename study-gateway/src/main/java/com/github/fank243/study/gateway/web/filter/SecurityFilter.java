@@ -15,7 +15,7 @@ import com.github.fank243.common.result.ResultInfo;
 import com.github.fank243.study.core.constants.CacheConstants;
 import com.github.fank243.study.core.constants.Constants;
 import com.github.fank243.study.core.constants.TimeConstant;
-import com.github.fank243.study.core.service.RedisService;
+import com.github.fank243.study.core.model.redis.RedisService;
 import com.github.fank243.study.gateway.constants.FilterOrderConstant;
 import com.github.fank243.study.gateway.utils.ReactiveUtils;
 

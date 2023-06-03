@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +15,8 @@ import com.github.fank243.common.result.ResultInfo;
 import com.github.fank243.study.core.constants.CacheConstants;
 import com.github.fank243.study.core.constants.HttpConstants;
 import com.github.fank243.study.core.constants.enums.EnvEnum;
-import com.github.fank243.study.core.service.RedisService;
+import com.github.fank243.study.core.model.redis.RedisService;
+import com.github.fank243.study.core.properties.StudyProperties;
 import com.github.fank243.study.core.utils.WebUtils;
 import com.github.fank243.study.oauth2.api.constants.Oauth2Constants;
 import com.github.fank243.study.oauth2.api.domain.dto.Oauth2LoginDTO;
@@ -35,8 +35,6 @@ import cn.hutool.http.Header;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -45,14 +43,9 @@ import lombok.extern.slf4j.Slf4j;
  * @author FanWeiJie
  * @since 2021-11-24 16:26:32
  */
-@Getter
-@Setter
 @Slf4j
 @Controller
 public class Oauth2ServerController {
-
-    @Value("${study.base-url:}")
-    private String baseUrl;
 
     @Resource
     private OauthUserService oauthUserService;
@@ -98,7 +91,7 @@ public class Oauth2ServerController {
         // 404
         else if (StrUtil.equalsIgnoreCase(SaOAuth2Consts.NOT_HANDLE, String.valueOf(obj))) {
             if (WebUtils.isBrowser(request.getHeader(Header.ACCEPT.getValue()))) {
-                response.sendRedirect(baseUrl + HttpConstants.ERROR_404);
+                response.sendRedirect(StudyProperties.baseUrl + HttpConstants.ERROR_404);
                 return null;
             }
         }

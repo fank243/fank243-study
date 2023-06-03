@@ -14,7 +14,7 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 
 import com.github.fank243.study.core.constants.CacheConstants;
 import com.github.fank243.study.core.constants.SecurityConstants;
-import com.github.fank243.study.core.service.RedisService;
+import com.github.fank243.study.core.model.redis.RedisService;
 import com.wf.captcha.GifCaptcha;
 
 import lombok.RequiredArgsConstructor;

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.fank243.common.result.ResultInfo;
 import com.github.fank243.study.core.constants.ServerConstants;
-import com.github.fank243.study.core.constants.ValidatorGroup;
+import com.github.fank243.study.core.model.validation.ValidatorGroup;
 import com.github.fank243.study.oauth2.api.constants.Oauth2Constants;
 import com.github.fank243.study.oauth2.api.domain.dto.OauthUserDTO;
 import com.github.fank243.study.oauth2.api.domain.entity.OauthUserEntity;

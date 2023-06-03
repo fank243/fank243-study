@@ -23,7 +23,7 @@ import com.github.fank243.common.result.ResultInfo;
 import com.github.fank243.study.core.constants.CacheConstants;
 import com.github.fank243.study.core.constants.ServerConstants;
 import com.github.fank243.study.core.constants.enums.EnvEnum;
-import com.github.fank243.study.core.service.RedisService;
+import com.github.fank243.study.core.model.redis.RedisService;
 import com.github.fank243.study.gateway.constants.FilterOrderConstant;
 import com.github.fank243.study.gateway.utils.ReactiveUtils;
 
