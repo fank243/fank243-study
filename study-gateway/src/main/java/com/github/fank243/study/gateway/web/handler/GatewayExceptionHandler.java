@@ -1,10 +1,12 @@
 package com.github.fank243.study.gateway.web.handler;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.server.ServerWebExchange;
@@ -12,7 +14,6 @@ import org.springframework.web.server.ServerWebExchange;
 import com.github.fank243.common.result.ResultInfo;
 import com.github.fank243.study.gateway.utils.ReactiveUtils;
 
-import cn.hutool.http.ContentType;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
@@ -32,22 +33,20 @@ public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
 
-        log.error("[网关异常处理]请求路径:{}，响应状态：{}，异常信息:{}", request.getPath(), response.getStatusCode(), ex.getMessage(), ex);
+        String path = request.getURI().getPath();
+        log.error("[网关异常处理]请求路径:{}，响应状态：{}，异常信息:{}", path, response.getStatusCode(), ex.getMessage(), ex);
 
         if (exchange.getResponse().isCommitted()) {
             return Mono.error(ex);
         }
         ResultInfo<?> result = ReactiveUtils.handlerException(response, ex);
+        result.setPath(path);
 
-        boolean isHtml = false;
-        for (MediaType mediaType : request.getHeaders().getAccept()) {
-            if (ContentType.TEXT_HTML.getValue().equalsIgnoreCase(mediaType.toString())) {
-                isHtml = true;
-            }
-        }
-        if (isHtml) {
+        if (ReactiveUtils.acceptTextHtml(request)) {
+            String errUri = String.format("/error/%s?message=%s&path=%s", result.getStatus(),
+                URLEncoder.encode(result.getMessage(), StandardCharsets.UTF_8), path);
             response.setStatusCode(HttpStatus.SEE_OTHER);
-            response.getHeaders().set("Location", "/error/" + result.getStatus());
+            response.getHeaders().set("Location", errUri);
             return response.setComplete();
         }
 

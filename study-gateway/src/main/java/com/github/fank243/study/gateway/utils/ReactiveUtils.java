@@ -6,10 +6,13 @@ import java.util.List;
 import java.util.Objects;
 
 import org.springframework.core.io.buffer.DataBuffer;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
+import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.support.WebExchangeBindException;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -41,23 +44,21 @@ public class ReactiveUtils {
      * @param result {@link ResultInfo}
      * @return void
      */
-    public static Mono<Void> renderJson(ServerHttpResponse response, ResultInfo<?> result) {
-        response.setRawStatusCode(result.getStatus());
-        response.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
-        DataBuffer buffer = response.bufferFactory().wrap(result.toString().getBytes(StandardCharsets.UTF_8));
-        return response.writeWith(Mono.just(buffer));
+    public static Mono<Void> renderJsonOk(ServerHttpResponse response, ResultInfo<?> result) {
+        result.setStatus(HttpStatus.OK.value());
+        return renderJson(response, result);
     }
 
     /**
      * 响应 JSON
-     * 
+     *
      * @param response {@link ServerHttpResponse}
      * @param result {@link ResultInfo}
      * @return void
      */
-    public static Mono<Void> renderJsonOk(ServerHttpResponse response, ResultInfo<?> result) {
-        response.setRawStatusCode(HttpStatus.OK.value());
-        response.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
+    public static Mono<Void> renderJson(ServerHttpResponse response, ResultInfo<?> result) {
+        response.setRawStatusCode(result.getStatus());
+        response.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         DataBuffer buffer = response.bufferFactory().wrap(result.toString().getBytes(StandardCharsets.UTF_8));
         return response.writeWith(Mono.just(buffer));
     }
@@ -201,6 +202,14 @@ public class ReactiveUtils {
         return url.getScheme() + "://" + url.getAuthority();
     }
 
+    /**
+     * 生成oauth2登录认证URL
+     * 
+     * @param request ServerHttpRequest
+     * @param clientId clientId
+     * @param redirect 登陆成功重定向原URL
+     * @return 认证URL
+     */
     public static String getAuthorizeUrl(ServerHttpRequest request, String clientId, String redirect) {
         String domain = ReactiveUtils.getDomain(request);
         // @formatter:off
@@ -208,5 +217,18 @@ public class ReactiveUtils {
                 .replace("{{domain}}", domain)
                 .replace("{{redirect}}", Base64.encodeStr(redirect.getBytes(StandardCharsets.UTF_8), false, false));
         // @formatter:on
+    }
+
+    /**
+     * 检查当前请求是否显式支持 {@code “text/html”}媒体类型，此处不考虑“match-all”媒体类型
+     * 
+     * @param request ServerHttpRequest
+     * @return true：支持
+     */
+    public static boolean acceptTextHtml(ServerHttpRequest request) {
+        List<MediaType> acceptedMediaTypes = request.getHeaders().getAccept();
+        acceptedMediaTypes.removeIf(MediaType.ALL::equalsTypeAndSubtype);
+        MimeTypeUtils.sortBySpecificity(acceptedMediaTypes);
+        return acceptedMediaTypes.stream().anyMatch(MediaType.TEXT_HTML::isCompatibleWith);
     }
 }

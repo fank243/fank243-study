@@ -86,7 +86,6 @@ public class GlobalExceptionHandler {
         log.error("全局异常拦截[Exception]：{}", e.getMessage(), e);
         return WebUtils.renderHtml(StudyProperties.baseUrl,
             ResultInfo.err500(e.getLocalizedMessage()).error(e.getMessage()));
-
     }
 
 }

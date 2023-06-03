@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,7 +32,6 @@ import cn.dev33.satoken.util.SaResult;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import cn.hutool.http.Header;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -90,7 +90,7 @@ public class Oauth2ServerController {
         }
         // 404
         else if (StrUtil.equalsIgnoreCase(SaOAuth2Consts.NOT_HANDLE, String.valueOf(obj))) {
-            if (WebUtils.isBrowser(request.getHeader(Header.ACCEPT.getValue()))) {
+            if (WebUtils.acceptTextHtml(request.getHeader(HttpHeaders.ACCEPT))) {
                 response.sendRedirect(StudyProperties.baseUrl + HttpConstants.ERROR_404);
                 return null;
             }

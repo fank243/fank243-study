@@ -10,6 +10,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -37,9 +40,6 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.http.ContentType;
-import cn.hutool.http.Header;
-import cn.hutool.http.HttpStatus;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 
@@ -164,8 +164,8 @@ public class SaTokenConfigure {
     private ResultInfo<?> response(ResultInfo<?> resultInfo) {
         SaRequest request = SaHolder.getRequest();
         SaResponse response = SaHolder.getResponse();
-        boolean isHtml = request.getHeader(Header.ACCEPT.getValue()).contains(ContentType.TEXT_HTML.getValue());
-        if (isHtml && HttpStatus.HTTP_UNAUTHORIZED == resultInfo.getStatus()) {
+        boolean isHtml = request.getHeader(HttpHeaders.ACCEPT).contains(MediaType.TEXT_HTML_VALUE);
+        if (isHtml && HttpStatus.UNAUTHORIZED.value() == resultInfo.getStatus()) {
             String url = request.getUrl();
             if (url.contains("/oauth") || url.contains("/login")) {
                 response.redirect("/login");
@@ -175,9 +175,9 @@ public class SaTokenConfigure {
             return null;
         }
         if (ResultCodeEnum.R401.getStatus() == resultInfo.getStatus()) {
-            response.setStatus(HttpStatus.HTTP_UNAUTHORIZED);
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
         }
-        response.addHeader(Header.CONTENT_TYPE.getValue(), ContentType.JSON.getValue());
+        response.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         return resultInfo;
     }
 }

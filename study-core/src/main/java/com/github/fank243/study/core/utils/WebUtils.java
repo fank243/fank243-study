@@ -11,9 +11,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -35,8 +39,6 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.extra.servlet.JakartaServletUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import cn.hutool.http.ContentType;
-import cn.hutool.http.Header;
 import cn.hutool.json.JSONUtil;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
@@ -45,14 +47,16 @@ import jakarta.servlet.http.HttpSession;
 
 /**
  * 客户端工具类
- * 
+ *
  * @author FanWeiJie
  * @since 2021-04-05 23:41:10
  */
 @SuppressWarnings("unused")
 public class WebUtils {
 
-    /** localhost **/
+    /**
+     * localhost
+     **/
     private static final String LOCALHOST = "localhost";
 
     /**
@@ -149,7 +153,7 @@ public class WebUtils {
 
     /**
      * 根据请求是否来自于浏览器，向客户端发送重定向或者响应JSON
-     * 
+     *
      * @param baseUrl baseUrl
      * @param result result
      * @return ResultInfo
@@ -158,10 +162,11 @@ public class WebUtils {
         HttpServletRequest request = WebUtils.getRequest();
         HttpServletResponse response = WebUtils.getResponse();
 
-        if (request != null) {
-            LogUtils.printLog("全局异常", request, result);
-        }
-        if (WebUtils.isBrowser()) {
+        assert request != null;
+        assert response != null;
+        LogUtils.printLog("全局异常", request, result);
+
+        if (WebUtils.acceptTextHtml(request.getHeader(HttpHeaders.ACCEPT))) {
             String redirectUri = switch (result.getStatus()) {
                 case 401 -> HttpConstants.ERROR_401;
                 case 403 -> HttpConstants.ERROR_403;
@@ -170,12 +175,12 @@ public class WebUtils {
                 default -> HttpConstants.ERROR_500;
             };
 
-            if (response != null) {
-                try {
-                    response.sendRedirect(baseUrl + redirectUri);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+            try {
+                redirectUri += String.format("?message=%s&path=%s",
+                    URLEncoder.encode(result.getMessage(), StandardCharsets.UTF_8), request.getRequestURI());
+                response.sendRedirect(baseUrl + redirectUri);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
             return null;
         }
@@ -185,17 +190,17 @@ public class WebUtils {
 
     /**
      * 将字符串渲染到客户端
-     * 
+     *
      * @param response 渲染对象
      * @param str 待渲染的字符串
      */
     public static void renderStr(HttpServletResponse response, String str) {
-        JakartaServletUtil.write(response, str, ContentType.TEXT_PLAIN.getValue());
+        JakartaServletUtil.write(response, str, MediaType.TEXT_PLAIN_VALUE);
     }
 
     /**
      * 将JSON字符串渲染到客户端
-     * 
+     *
      * @param response 渲染对象
      * @param obj 对象
      */
@@ -205,7 +210,7 @@ public class WebUtils {
 
     /**
      * 将JSON字符串渲染到客户端
-     * 
+     *
      * @param response 渲染对象
      * @param str 待渲染的字符串
      */
@@ -225,7 +230,7 @@ public class WebUtils {
 
     /**
      * 将输入流渲染到客户端
-     * 
+     *
      * @param response 渲染对象
      * @param inputStream 输入流
      */
@@ -235,7 +240,7 @@ public class WebUtils {
 
     /**
      * 将文件渲染到客户端
-     * 
+     *
      * @param response 渲染对象
      * @param file 文件
      */
@@ -247,8 +252,8 @@ public class WebUtils {
      * 是否是Ajax异步请求
      */
     public static boolean isAjax(HttpServletRequest request) {
-        String accept = request.getHeader(Header.ACCEPT.getValue());
-        if (accept != null && accept.contains(ContentType.JSON.getValue())) {
+        String accept = request.getHeader(HttpHeaders.ACCEPT);
+        if (accept != null && accept.contains(MediaType.APPLICATION_JSON_VALUE)) {
             return true;
         }
 
@@ -268,7 +273,7 @@ public class WebUtils {
 
     /**
      * 内容编码
-     * 
+     *
      * @param str 内容
      * @return 编码后的内容
      */
@@ -278,7 +283,7 @@ public class WebUtils {
 
     /**
      * 内容解码
-     * 
+     *
      * @param str 内容
      * @return 解码后的内容
      */
@@ -288,7 +293,7 @@ public class WebUtils {
 
     /**
      * 验证请求域名是否本地地址
-     * 
+     *
      * @param domain 域名或IP，如：localhost，127.0.0.1
      * @return 是否本地地址
      */
@@ -308,7 +313,7 @@ public class WebUtils {
 
     /**
      * 获取访问域名
-     * 
+     *
      * @param request HttpServletRequest
      * @return 域名
      */
@@ -321,7 +326,7 @@ public class WebUtils {
 
     /**
      * 获取请求跳转地址并转换HTTPS
-     * 
+     *
      * @param request HttpServletRequest
      * @return BaseURL
      */
@@ -377,22 +382,34 @@ public class WebUtils {
     }
 
     /**
-     * 是否浏览器请求
-     * 
-     * @return true：浏览器请求，false：请求
+     * Return the list of acceptable {@linkplain MediaType media types}, as specified by the {@code Accept} header.
+     * <p>
+     * Returns an empty list when the acceptable media types are unspecified.
      */
-    public static boolean isBrowser() {
-        return isBrowser(Objects.requireNonNull(getRequest()).getHeader(Header.ACCEPT.getValue()));
+    public static List<MediaType> getAccept(String accept) {
+        return MediaType.parseMediaTypes(List.of(accept.split(",")));
     }
 
     /**
-     * 是否浏览器请求
+     * 查当前请求是否显式支持 {@code “text/html”}媒体类型，此处不考虑“match-all”媒体类型
+     * 
+     * @return true：支持
+     */
+    public static boolean acceptTextHtml() {
+        return acceptTextHtml(Objects.requireNonNull(getRequest()).getHeader(HttpHeaders.ACCEPT));
+    }
+
+    /**
+     * 检查当前请求是否显式支持 {@code “text/html”}媒体类型，此处不考虑“match-all”媒体类型
      * 
      * @param accept 请求头参数
-     * @return true：浏览器请求，false：请求
+     * @return true：支持
      */
-    public static boolean isBrowser(String accept) {
-        return accept.contains(ContentType.TEXT_HTML.getValue());
+    public static boolean acceptTextHtml(String accept) {
+        List<MediaType> acceptedMediaTypes = getAccept(accept);
+        acceptedMediaTypes.removeIf(MediaType.ALL::equalsTypeAndSubtype);
+        MimeTypeUtils.sortBySpecificity(acceptedMediaTypes);
+        return acceptedMediaTypes.stream().anyMatch(MediaType.TEXT_HTML::isCompatibleWith);
     }
 
 }

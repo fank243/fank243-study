@@ -86,7 +86,7 @@ public class SmsService extends ServiceImpl<ISmsMapper, SmsEntity> {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public ResultInfo<?> send(SmsContentDTO smsContentDTO) {
+    public ResultInfo<?> send(SmsContentDTO smsContentDTO) throws BizException {
         ResultInfo<?> result = validateMobile(smsContentDTO.getMobile());
         if (!result.isSuccess()) {
             return result;
@@ -108,7 +108,7 @@ public class SmsService extends ServiceImpl<ISmsMapper, SmsEntity> {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public ResultInfo<?> sendSmsCode(SmsCodeDTO smsCodeDTO) {
+    public ResultInfo<?> sendSmsCode(SmsCodeDTO smsCodeDTO) throws BizException {
         ResultInfo<?> resultInfo = validateMobile(smsCodeDTO.getMobile());
         if (!resultInfo.isSuccess()) {
             return resultInfo;

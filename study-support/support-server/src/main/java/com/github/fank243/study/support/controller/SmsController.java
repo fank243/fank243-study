@@ -10,6 +10,7 @@ import com.github.fank243.common.result.ResultInfo;
 import com.github.fank243.study.core.annotation.RepeatSubmit;
 import com.github.fank243.study.core.base.BaseController;
 import com.github.fank243.study.core.constants.ServerConstants;
+import com.github.fank243.study.core.exception.BizException;
 import com.github.fank243.study.support.domain.dto.SmsCodeDTO;
 import com.github.fank243.study.support.domain.dto.SmsContentDTO;
 import com.github.fank243.study.support.service.SmsService;
@@ -43,7 +44,7 @@ public class SmsController extends BaseController {
     @Operation(summary = "短信-发送")
     @RepeatSubmit
     @PostMapping("/send")
-    public ResultInfo<?> send(@RequestBody @Validated SmsContentDTO smsContentDTO) {
+    public ResultInfo<?> send(@RequestBody @Validated SmsContentDTO smsContentDTO) throws BizException {
         return smsService.send(smsContentDTO);
     }
 
@@ -56,7 +57,8 @@ public class SmsController extends BaseController {
     @Operation(summary = "短信-发送验证码")
     @RepeatSubmit
     @PostMapping("/send/code")
-    public ResultInfo<?> sendSmsCode(@RequestBody @Validated(SmsCodeDTO.Send.class) SmsCodeDTO smsCodeDTO) {
+    public ResultInfo<?> sendSmsCode(@RequestBody @Validated(SmsCodeDTO.Send.class) SmsCodeDTO smsCodeDTO)
+        throws BizException {
         return smsService.sendSmsCode(smsCodeDTO);
     }
 

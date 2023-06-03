@@ -43,31 +43,31 @@ public class GatewayController {
     }
 
     @RequestMapping(HttpConstants.ERROR_401)
-    public String err401(String message, Model model) {
+    public String err401(String message, String path, Model model) {
         model.addAttribute("message", URLDecoder.decode(message, StandardCharsets.UTF_8));
         return "error/401";
     }
 
     @RequestMapping(HttpConstants.ERROR_403)
-    public String err403(String message, Model model) {
+    public String err403(String message, String path, Model model) {
         model.addAttribute("message", URLDecoder.decode(message, StandardCharsets.UTF_8));
         return "error/403";
     }
 
     @RequestMapping(HttpConstants.ERROR_404)
-    public String err404(String message, Model model) {
+    public String err404(String message, String path, Model model) {
         model.addAttribute("message", URLDecoder.decode(message, StandardCharsets.UTF_8));
         return "error/404";
     }
 
     @RequestMapping(HttpConstants.ERROR_405)
-    public String err405(String message, Model model) {
+    public String err405(String message, String path, Model model) {
         model.addAttribute("message", URLDecoder.decode(message, StandardCharsets.UTF_8));
         return "error/405";
     }
 
     @RequestMapping(HttpConstants.ERROR_500)
-    public String err500(String message, Model model) {
+    public String err500(String message, String path, Model model) {
         model.addAttribute("message", URLDecoder.decode(message, StandardCharsets.UTF_8));
         return "error/500";
     }

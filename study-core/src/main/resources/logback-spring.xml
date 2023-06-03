@@ -57,7 +57,7 @@
 
     <!-- graylog https://github.com/osiegmar/logback-gelf/blob/master/examples/advanced_udp.xml -->
     <appender name="graylog" class="de.siegmar.logbackgelf.GelfUdpAppender">
-        <graylogHost>${study.server-addr}</graylogHost>
+        <graylogHost>${ENV_SERVER_ADDR}</graylogHost>
         <graylogPort>12201</graylogPort>
         <!--以下为可选配置-->
         <maxChunkSize>508</maxChunkSize>

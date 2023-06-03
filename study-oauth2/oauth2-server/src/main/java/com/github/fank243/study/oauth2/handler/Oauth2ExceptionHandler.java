@@ -61,7 +61,7 @@ public class Oauth2ExceptionHandler {
     @ResponseBody
     public ResultInfo<?> handlerException(Exception e, HttpServletResponse response) throws Exception {
         log.error("统一认证异常，异常信息：{}", e.getMessage(), e);
-        if (WebUtils.isBrowser()) {
+        if (WebUtils.acceptTextHtml()) {
             response.sendRedirect(HttpConstants.ERROR_500 + "?message=" + URLEncodeUtil.encode(e.getMessage()));
         }
         return ResultInfo.err500(e.getMessage()).error(e.toString());

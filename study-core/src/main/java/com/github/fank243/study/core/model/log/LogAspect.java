@@ -25,16 +25,11 @@ import jakarta.servlet.http.HttpServletRequest;
 public class LogAspect {
 
     @Around("execution(public * com.github.fank243.study.*.controller..*(..))")
-    public Object round(ProceedingJoinPoint point) {
+    public Object round(ProceedingJoinPoint point) throws Throwable {
         Object[] args = point.getArgs();
         HttpServletRequest request = WebUtils.getRequest();
         if (request == null) {
-            try {
-                return point.proceed();
-            } catch (Throwable e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            }
+            return point.proceed();
         }
         ReqRespLog reqRespLog = new ReqRespLog();
         if (StpUtil.isLogin()) {
@@ -48,14 +43,7 @@ public class LogAspect {
         reqRespLog.setReqTime(new Date());
         reqRespLog.setClientIp(JakartaServletUtil.getClientIP(request));
 
-        Object result;
-        try {
-            result = point.proceed(args);
-        } catch (Throwable e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-
+        Object result = point.proceed(args);
         if (result != null) {
             reqRespLog.setRespBody(JSONUtil.toJsonStr(result));
         }
