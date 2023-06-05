@@ -29,12 +29,12 @@
 		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies -->
 		<spring-boot.version>3.1.0</spring-boot.version>
 		<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-dependencies -->
-		<spring-cloud.version>2022.0.2</spring-cloud.version>
+		<spring-cloud.version>2022.0.3</spring-cloud.version>
 		<!-- https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E -->
 		<!-- https://mvnrepository.com/artifact/com.alibaba.cloud/spring-cloud-alibaba-dependencies -->
 		<spring-cloud-alibaba.version>2022.0.0.0-RC1</spring-cloud-alibaba.version>
 		<!-- https://mvnrepository.com/artifact/com.tencent.cloud/spring-cloud-tencent-dependencies -->
-		<spring-cloud-tencent.version>1.11.4-2022.0.1</spring-cloud-tencent.version>
+		<spring-cloud-tencent.version>1.11.7-2022.0.1</spring-cloud-tencent.version>
 
 		<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
 		<maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>

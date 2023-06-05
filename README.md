@@ -3,30 +3,14 @@
 ## JVM OPTIONS
 
 ```bash
-# gateway
--Dstudy.server-addr=127.0.0.1
--javaagent:E:/devops/local/apache-skywalking-apm-bin/agent/skywalking-agent.jar
--Dskywalking.agent.service_name=study-gateway
+-javaagent:D:/devops/local/skywalking-agent/skywalking-agent.jar
+-Dskywalking.agent.service_name=${服务名称}
 -Dskywalking.collector.backend_service=127.0.0.1:11800
-
-# other
--Dstudy.nacos-addr=127.0.0.1
--javaagent:E:/devops/local/apache-skywalking-apm-bin/agent/skywalking-agent.jar
--Dskywalking.agent.service_name=study-oauth2
--Dskywalking.collector.backend_service=127.0.0.1:11800
-```
-
-## Application Start
-
-idea VM options
-
-```bash
--Dstudy.server-addr=${remote addr} 
 ```
 
 ## Apache SkyWorking
 
-idea VM options
+idea vm options
 
 ```bash
 # vm
