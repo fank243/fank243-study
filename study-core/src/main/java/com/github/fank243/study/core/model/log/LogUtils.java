@@ -2,8 +2,6 @@ package com.github.fank243.study.core.model.log;
 
 import java.util.Date;
 
-import org.slf4j.MDC;
-
 import com.github.fank243.common.result.ResultInfo;
 import com.github.fank243.study.core.utils.WebUtils;
 
@@ -65,11 +63,6 @@ public class LogUtils {
      * @param reqRespLog 请求参数
      */
     public static void printLog(String desc, ReqRespLog reqRespLog) {
-        // 异步线程需要手动注入
-        if (StrUtil.isNotBlank(reqRespLog.getTraceId())) {
-            MDC.put("traceId", reqRespLog.getTraceId());
-            MDC.put("spanId", reqRespLog.getSpanId());
-        }
         if (log.isDebugEnabled()) {
             if (StrUtil.isNotBlank(desc)) {
                 log.debug("请求日志[{}]：{} {} {}", desc, reqRespLog.getReqMethod(), reqRespLog.getReqUri(),
@@ -77,7 +70,6 @@ public class LogUtils {
             } else {
                 log.debug("请求日志：{} {} {}", reqRespLog.getReqMethod(), reqRespLog.getReqUri(),
                     JSONUtil.toJsonStr(reqRespLog));
-
             }
         }
     }

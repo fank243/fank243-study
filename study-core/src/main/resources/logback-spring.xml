@@ -15,13 +15,24 @@
 
     <!-- 彩色日志依赖的渲染类 -->
     <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
-    <conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter"/>
-    <conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter"/>
+    <conversionRule conversionWord="wex"
+                    converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter"/>
+    <conversionRule conversionWord="wEx"
+                    converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter"/>
 
     <!--控制台输出格式-->
-    <property name="consolePatternLayout" value="${CONSOLE_LOG_PATTERN:-%clr(%d{HH:mm:ss}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr([%t]){faint} %clr(%-40.40logger{39}){cyan} %clr(: %L){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
+    <property name="consolePatternLayout"
+              value="${CONSOLE_LOG_PATTERN:-%clr(%d{HH:mm:ss}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr([%t]){faint} %clr(%-40.40logger{39}){cyan} %clr(: %L){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
     <!--RollingFile 输出格式-->
-    <property name="filePatternLayout" value="%d{yyyy-MM-dd HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } [%t] %-40.40logger{39} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+    <property name="filePatternLayout"
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } [%t] logger : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+
+    <!-- skywalking 控制台-->
+    <property name="skywalkingConsolePatternLayout"
+              value="${CONSOLE_LOG_PATTERN:-%clr(%d{HH:mm:ss}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr([%t]){faint} %clr([%tid]){faint} %clr(%-40.40logger{39}){cyan} %clr(: %L){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
+    <!-- skywalking 文件-->
+    <property name="skywalkingFilePatternLayout"
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } [%t] [%tid] %logger : %L %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
 
     <!--RollingFile 单文件分隔大小-->
     <property name="fileSize" value="50MB"/>
@@ -32,9 +43,15 @@
 
     <!--控制台-->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
+        <!--      <encoder>
+                  <charset>UTF-8</charset>
+                  <pattern>${consolePatternLayout}</pattern>
+              </encoder>-->
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.TraceIdPatternLogbackLayout">
+                <pattern>${skywalkingConsolePatternLayout}</pattern>
+            </layout>
             <charset>UTF-8</charset>
-            <pattern>${consolePatternLayout}</pattern>
         </encoder>
     </appender>
 
@@ -49,9 +66,15 @@
             <maxHistory>${fileMax}</maxHistory>
             <totalSizeCap>${fileTotalSize}</totalSizeCap>
         </rollingPolicy>
-        <encoder>
+        <!--<encoder>
             <charset>UTF-8</charset>
             <pattern>${filePatternLayout}</pattern>
+        </encoder>-->
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.mdc.TraceIdMDCPatternLogbackLayout">
+                <Pattern>${skywalkingFilePatternLayout}</Pattern>
+            </layout>
+            <charset>UTF-8</charset>
         </encoder>
     </appender>
 

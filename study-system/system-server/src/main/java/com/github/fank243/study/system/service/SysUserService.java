@@ -45,7 +45,7 @@ import jakarta.annotation.Resource;
 public class SysUserService extends ServiceImpl<ISysUserMapper, SysUserEntity> {
 
     @Resource
-    private ISysUserMapper sysUserDao;
+    private ISysUserMapper sysUserMapper;
     @Resource
     private IOauth2Service oauth2Service;
     @Resource
@@ -63,7 +63,7 @@ public class SysUserService extends ServiceImpl<ISysUserMapper, SysUserEntity> {
         // TODO FanWeiJie 添加查询条件
         QueryWrapper<SysUserEntity> wrapper = new QueryWrapper<>();
         IPage<SysUserEntity> page =
-            sysUserDao.selectPage(new Page<>(sysUser.getCurrPage(), sysUser.getPageSize()), wrapper);
+            sysUserMapper.selectPage(new Page<>(sysUser.getCurrPage(), sysUser.getPageSize()), wrapper);
         return BeanUtils.convert(page, SysUserVO.class);
     }
 
@@ -77,7 +77,7 @@ public class SysUserService extends ServiceImpl<ISysUserMapper, SysUserEntity> {
         success = "新增管理员【{{#sysUser.username}}】", successCondition = "{{#sysUser.userId!=null}}")
     @Transactional(rollbackFor = Exception.class)
     public boolean add(SysUserDTO sysUser) throws BizException {
-        SysUserEntity sysUserEntity = sysUserDao
+        SysUserEntity sysUserEntity = sysUserMapper
             .selectOne(Wrappers.<SysUserEntity>lambdaQuery().eq(SysUserEntity::getUsername, sysUser.getUsername()));
         if (sysUserEntity != null) {
             throw new BizException("用户名已存在");
@@ -126,19 +126,19 @@ public class SysUserService extends ServiceImpl<ISysUserMapper, SysUserEntity> {
         successCondition = "#_ret==true", success = "修改管理员信息：{_DIFF{#oldObject, #sysUser}}")
     @Transactional(rollbackFor = Exception.class)
     public boolean modify(SysUserDTO sysUser) throws BizException {
-        SysUserEntity sysUserEntity = sysUserDao.selectById(sysUser.getUserId());
+        SysUserEntity sysUserEntity = sysUserMapper.selectById(sysUser.getUserId());
         if (sysUserEntity == null) {
             throw new BizException("用户不存在");
         }
         LogRecordContext.putVariable("oldObject", BeanUtil.copyProperties(sysUserEntity, SysUserDTO.class));
 
         sysUserEntity = BeanUtil.toBean(sysUser, SysUserEntity.class);
-        return sysUserDao.updateById(sysUserEntity) > 0;
+        return sysUserMapper.updateById(sysUserEntity) > 0;
     }
 
     @Transactional(rollbackFor = Exception.class)
     public ResultInfo<?> login(String openId, String clientIp, String userAgent) {
-        SysUserEntity sysUser = sysUserDao.findByOpenId(openId);
+        SysUserEntity sysUser = sysUserMapper.findByOpenId(openId);
         if (sysUser == null) {
             return ResultInfo.err400("账号不存在");
         }
@@ -154,7 +154,7 @@ public class SysUserService extends ServiceImpl<ISysUserMapper, SysUserEntity> {
         // 更新登录信息
         sysUser.setLastLoginTime(now);
         sysUser.setLastLoginIp(clientIp);
-        sysUserDao.updateLoginInfoByUserId(sysUser);
+        sysUserMapper.updateLoginInfoByUserId(sysUser);
 
         // 登录日志
         SysUserLoginLogEntity sysUserLoginLog = SysUserLoginLogEntity.builder().userId(sysUser.getUserId())
@@ -166,7 +166,7 @@ public class SysUserService extends ServiceImpl<ISysUserMapper, SysUserEntity> {
 
     public List<SysUserVO> findByUserIdIn(List<String> ids) {
         List<SysUserEntity> sysUserEntities =
-            sysUserDao.selectList(new LambdaQueryWrapper<SysUserEntity>().in(SysUserEntity::getUserId, ids));
+            sysUserMapper.selectList(new LambdaQueryWrapper<SysUserEntity>().in(SysUserEntity::getUserId, ids));
         return BeanUtil.copyToList(sysUserEntities, SysUserVO.class);
     }
 

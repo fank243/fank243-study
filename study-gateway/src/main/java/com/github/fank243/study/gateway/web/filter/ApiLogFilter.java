@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import org.apache.skywalking.apm.toolkit.trace.TraceContext;
 import org.jetbrains.annotations.NotNull;
 import org.reactivestreams.Publisher;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -54,17 +55,13 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class ApiLogFilter implements GlobalFilter, Ordered {
 
-    // private final Tracer tracer;
-    /**
-     * default HttpMessageReader
-     */
     private static final List<HttpMessageReader<?>> MESSAGE_READERS = HandlerStrategies.withDefaults().messageReaders();
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
 
-        String traceId = "", spanId = "";
+        String traceId = TraceContext.traceId(), spanId = String.valueOf(TraceContext.spanId());
 
         MediaType contentType = request.getHeaders().getContentType();
 
