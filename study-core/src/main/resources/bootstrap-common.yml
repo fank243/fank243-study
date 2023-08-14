@@ -35,6 +35,8 @@ logging:
   # config: file:study-core/src/main/resources/logback-spring.xml
   config: classpath:logback-spring.xml
   level:
+    root: info
+    com.github.fank243: debug
     org.springframework: warn
     org.apache: warn
     org.redisson: warn
@@ -43,14 +45,14 @@ logging:
     org.hibernate: warn
     org.jboss: warn
     org.bouncycastle: warn
+    com.zaxxer: warn
+    com.alibaba: warn
+    com.alicp: warn
+    com.tencent: debug
+    com.baomidou: warn
     io.netty: warn
     io.grpc: warn
     io.lettuce: warn
     io.micrometer: warn
-    com.zaxxer: warn
-    com.alibaba: warn
-    com.alicp: warn
-    com.tencent: warn
-    com.baomidou: warn
     reactor: warn
 

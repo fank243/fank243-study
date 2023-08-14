@@ -92,14 +92,13 @@ public class SaTokenConfigure {
             // 指定 [拦截路由]
             .addInclude("/**")
             // 指定 [放行路由]
-            .addExclude("/favicon.ico", "/static/**", "/error/**", "/oauth2/**")
+            .addExclude("/favicon.ico", "/static/**", "/error/**", "/oauth2/**", "/auth/**")
             // 指定[认证函数]: 每次请求执行
             .setAuth(obj -> {
                 // HTTP METHOD
                 SaRouter.notMatch(SaHttpMethod.OPTIONS, SaHttpMethod.GET, SaHttpMethod.PUT, SaHttpMethod.POST,
                     SaHttpMethod.DELETE).check(() -> {
-                        throw new ResponseStatusException(org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED,
-                            "非法请求");
+                        throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED, "非法请求");
                     });
 
                 SaRouter.match("/api/**", StpUtil::checkLogin);

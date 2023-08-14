@@ -104,7 +104,7 @@ public class SysPermService extends ServiceImpl<ISysPermMapper, SysPermEntity> {
     }
 
     @Cached(name = "system:perm:type:", expire = TimeConstant.DAY_1)
-    @CacheRefresh(refresh = TimeConstant.HOUR_1, stopRefreshAfterLastAccess = TimeConstant.DAY_1)
+    @CacheRefresh(refresh = TimeConstant.MINUTE_5, stopRefreshAfterLastAccess = TimeConstant.HOUR_1)
     public List<SysPermVO> findByPermTypes(List<Integer> permTypes) {
         return sysPermDao.findByPermTypes(permTypes);
     }
