@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.fank243</groupId>
 	<artifactId>fank243-study</artifactId>
-	<version>${revision}</version>
+	<version>1.2.1</version>
 	<modules>
 		<module>study-dependencies</module>
 		<module>study-log</module>
