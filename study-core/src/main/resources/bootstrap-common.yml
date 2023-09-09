@@ -48,7 +48,7 @@ logging:
     com.zaxxer: warn
     com.alibaba: warn
     com.alicp: warn
-    com.tencent: debug
+    com.tencent: warn
     com.baomidou: warn
     io.netty: warn
     io.grpc: warn
