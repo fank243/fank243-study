@@ -3,19 +3,21 @@ package com.github.fank243.study.oauth2.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.fank243.common.result.ResultInfo;
 import com.github.fank243.study.core.domain.enums.UserStatusEnum;
-import com.github.fank243.study.oauth2.api.domain.dto.OauthUserDTO;
+import com.github.fank243.study.oauth2.api.constants.Oauth2Constants;
+import com.github.fank243.study.oauth2.api.domain.dto.OauthUserAccessTokenDTO;
+import com.github.fank243.study.oauth2.api.domain.entity.OauthAccessTokenEntity;
 import com.github.fank243.study.oauth2.api.domain.entity.OauthClientEntity;
 import com.github.fank243.study.oauth2.api.domain.entity.OauthUserEntity;
-import com.github.fank243.study.oauth2.mapper.IOauthUserDao;
+import com.github.fank243.study.oauth2.mapper.IOauthUserMapper;
 import com.github.fank243.study.oauth2.utils.Oauth2Utils;
+import com.mybatisflex.core.query.QueryWrapper;
+import com.mybatisflex.core.row.Db;
+import com.mybatisflex.core.row.Row;
+import com.mybatisflex.spring.service.impl.ServiceImpl;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.convert.Convert;
 import cn.hutool.crypto.SecureUtil;
 import jakarta.annotation.Resource;
 
@@ -26,10 +28,10 @@ import jakarta.annotation.Resource;
  * @since 2021-11-26
  */
 @Service
-public class OauthUserService extends ServiceImpl<IOauthUserDao, OauthUserEntity> {
+public class OauthUserService extends ServiceImpl<IOauthUserMapper, OauthUserEntity> {
 
     @Resource
-    private IOauthUserDao oauthUserDao;
+    private IOauthUserMapper oauthUserDao;
     @Resource
     private OauthClientService oauthClientService;
     @Resource
@@ -37,8 +39,8 @@ public class OauthUserService extends ServiceImpl<IOauthUserDao, OauthUserEntity
 
     @Transactional(rollbackFor = Exception.class)
     public ResultInfo<String> login(String name, String pwd) {
-        OauthUserEntity oauthUserEntity =
-            oauthUserDao.selectOne(new LambdaQueryWrapper<OauthUserEntity>().eq(OauthUserEntity::getUsername, name));
+        QueryWrapper queryWrapper = QueryWrapper.create(OauthUserEntity.builder().username(name).build());
+        OauthUserEntity oauthUserEntity = oauthUserDao.selectOneByQuery(queryWrapper);
         if (oauthUserEntity == null) {
             return ResultInfo.err400("用户名或密码错误");
         }
@@ -55,19 +57,37 @@ public class OauthUserService extends ServiceImpl<IOauthUserDao, OauthUserEntity
         return ResultInfo.ok(oauthUserEntity.getUserId());
     }
 
-    public OauthUserEntity findByUserId(String userId) {
-        return oauthUserDao.selectOne(new LambdaQueryWrapper<OauthUserEntity>().eq(OauthUserEntity::getUserId, userId));
+    public OauthUserEntity findOneByQuery(QueryWrapper queryWrapper) {
+        return oauthUserDao.selectOneByQuery(queryWrapper);
+    }
+
+    public OauthUserAccessTokenDTO findUserAccessTokenByUsername(String username) {
+        Row row = Db.selectOneBySql(
+            "select a.user_id,a.username,a.nickname,b.open_id from tb_oauth_user a left join tb_oauth_access_token b on a.user_id = b.user_id where a.username = ?",
+            username);
+        return row != null ? row.toEntity(OauthUserAccessTokenDTO.class) : null;
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public ResultInfo<?> addUser(String clientId, OauthUserDTO oauthUserDTO) {
-        Long count = oauthUserDao.selectCount(
-            new LambdaQueryWrapper<OauthUserEntity>().eq(OauthUserEntity::getUsername, oauthUserDTO.getUsername()));
-        if (Convert.toLong(count) > 0) {
-            return ResultInfo.err400("用户名已被占用");
+    public ResultInfo<?> addUser(String clientId, OauthUserAccessTokenDTO oauthUserAccessTokenDTO) {
+        QueryWrapper queryWrapper =
+            QueryWrapper.create(OauthUserEntity.builder().username(oauthUserAccessTokenDTO.getUsername()).build());
+        OauthUserEntity oauthUserEntity = oauthUserDao.selectOneByQuery(queryWrapper);
+        if (oauthUserEntity != null) {
+            OauthAccessTokenEntity oauthAccessTokenEntity =
+                oauthAccessTokenService.findByUserId(oauthUserEntity.getUserId());
+            // @formatter:off
+            OauthUserAccessTokenDTO oauth2UserDTO = OauthUserAccessTokenDTO.builder()
+                    .userId(oauthUserEntity.getUserId())
+                    .username(oauthUserEntity.getUsername())
+                    .nickname(oauthUserEntity.getNickname())
+                    .openId(oauthAccessTokenEntity.getOpenId())
+                    .build();
+            // @formatter:on
+            return ResultInfo.error(Oauth2Constants.USER_REPEAT_CODE, "用户已经存在").payload(oauth2UserDTO);
         }
         // 创建用户
-        OauthUserEntity oauthUserEntity = BeanUtil.copyProperties(oauthUserDTO, OauthUserEntity.class);
+        oauthUserEntity = BeanUtil.copyProperties(oauthUserAccessTokenDTO, OauthUserEntity.class);
         oauthUserEntity.setPassword(SecureUtil.md5(oauthUserEntity.getPassword()));
         boolean isOk = save(oauthUserEntity);
         if (!isOk) {
@@ -81,12 +101,11 @@ public class OauthUserService extends ServiceImpl<IOauthUserDao, OauthUserEntity
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public ResultInfo<?> modifyPassword(String userId, OauthUserDTO oauthUserDTO) {
-        LambdaUpdateWrapper<OauthUserEntity> wrapper = new LambdaUpdateWrapper<>();
-        wrapper.set(OauthUserEntity::getPassword, SecureUtil.md5(oauthUserDTO.getPassword()))
-            .eq(OauthUserEntity::getUserId, userId);
+    public ResultInfo<?> modifyPassword(String userId, OauthUserAccessTokenDTO oauthUserAccessTokenDTO) {
+        OauthUserEntity oauthUserEntity = OauthUserAccessTokenDTO.builder()
+            .password(SecureUtil.md5(oauthUserAccessTokenDTO.getPassword())).userId(userId).build();
 
-        boolean isOk = update(null, wrapper);
+        boolean isOk = saveOrUpdate(oauthUserEntity);
 
         return isOk ? ResultInfo.ok() : ResultInfo.err500("修改密码失败");
     }

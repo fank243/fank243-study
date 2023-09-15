@@ -2,10 +2,10 @@ package com.github.fank243.study.oauth2.service;
 
 import org.springframework.stereotype.Service;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.fank243.study.oauth2.api.domain.entity.OauthClientEntity;
-import com.github.fank243.study.oauth2.mapper.IOauthClientDao;
+import com.github.fank243.study.oauth2.mapper.IOauthClientMapper;
+import com.mybatisflex.core.query.QueryWrapper;
+import com.mybatisflex.spring.service.impl.ServiceImpl;
 
 import jakarta.annotation.Resource;
 
@@ -16,14 +16,14 @@ import jakarta.annotation.Resource;
  * @since 2021-11-26
  */
 @Service
-public class OauthClientService extends ServiceImpl<IOauthClientDao, OauthClientEntity> {
+public class OauthClientService extends ServiceImpl<IOauthClientMapper, OauthClientEntity> {
 
     @Resource
-    private IOauthClientDao oauthClientDao;
+    private IOauthClientMapper oauthClientDao;
 
     public OauthClientEntity findByClientId(String clientId) {
-        return oauthClientDao
-            .selectOne(new LambdaQueryWrapper<OauthClientEntity>().eq(OauthClientEntity::getClientId, clientId));
+        OauthClientEntity entity = OauthClientEntity.builder().clientId(clientId).build();
+        return oauthClientDao.selectOneByQuery(QueryWrapper.create(entity));
     }
 
 }

@@ -11,6 +11,8 @@ import java.util.List;
  */
 public class Oauth2Constants {
 
+    /** 用户重复 **/
+    public static final int USER_REPEAT_CODE = 2002;
     public final static String LOGIN = "login";
     public final static String CONFIRM = "confirm";
     public final static String SYSTEM = "/system";

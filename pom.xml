@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.fank243</groupId>
 	<artifactId>fank243-study</artifactId>
-	<version>1.2.1</version>
+	<version>1.2.2</version>
 	<modules>
 		<module>study-dependencies</module>
 		<module>study-log</module>
@@ -23,8 +23,6 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
-
-		<revision>1.2.1</revision>
 
 		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies -->
 		<spring-boot.version>3.1.3</spring-boot.version>

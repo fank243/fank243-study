@@ -3,8 +3,8 @@ package com.github.fank243.study.system.mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.github.fank243.study.system.domain.entity.SysUserEntity;
+import com.mybatisflex.core.BaseMapper;
 
 /**
  * 系统管理员表 数据访问层
@@ -22,15 +22,6 @@ public interface ISysUserMapper extends BaseMapper<SysUserEntity> {
      */
     @Select("select * from tb_sys_user where username = #{username}")
     SysUserEntity findByUsername(String username);
-
-    /**
-     * 根据OpenID查找
-     *
-     * @param openId OpenID
-     * @return 用户实体
-     */
-    @Select("select * from tb_sys_user where open_id = #{openId}")
-    SysUserEntity findByOpenId(String openId);
 
     /**
      * 更新用户登录信息

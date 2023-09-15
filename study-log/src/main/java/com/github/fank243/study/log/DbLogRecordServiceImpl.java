@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.fank243.study.log.mapper.IOperLogMapper;
+import com.mybatisflex.spring.service.impl.ServiceImpl;
 import com.mzt.logapi.beans.LogRecord;
 import com.mzt.logapi.service.ILogRecordService;
 

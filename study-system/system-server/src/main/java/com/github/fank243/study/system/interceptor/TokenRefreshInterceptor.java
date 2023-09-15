@@ -6,7 +6,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import com.github.fank243.common.result.ResultInfo;
 import com.github.fank243.study.core.annotation.Interceptor;
 import com.github.fank243.study.core.constants.CacheConstants;
-import com.github.fank243.study.core.constants.TimeConstant;
+import com.github.fank243.study.core.constants.TimeConstants;
 import com.github.fank243.study.core.model.redis.RedisService;
 import com.github.fank243.study.core.properties.StudyProperties;
 import com.github.fank243.study.oauth2.api.constants.Oauth2Constants;
@@ -44,7 +44,7 @@ public class TokenRefreshInterceptor implements HandlerInterceptor {
         }
         String userId = StpUtil.getLoginIdAsString();
         String key = CacheConstants.OAUTH2_TOKEN + userId;
-        if (redisService.getExpire(key) > TimeConstant.MINUTE_5) {
+        if (redisService.getExpire(key) > TimeConstants.MINUTE_5) {
             return HandlerInterceptor.super.preHandle(request, response, handler);
         }
         Object obj = redisService.getObj(key);
@@ -58,7 +58,7 @@ public class TokenRefreshInterceptor implements HandlerInterceptor {
                 log.info("【令牌刷新拦截器】刷新令牌失败：{}", result);
             } else {
                 // 覆写redis
-                redisService.setObj(key, result.getPayload(), TimeConstant.MINUTE_30);
+                redisService.setObj(key, result.getPayload(), TimeConstants.MINUTE_30);
             }
         }
         return HandlerInterceptor.super.preHandle(request, response, handler);

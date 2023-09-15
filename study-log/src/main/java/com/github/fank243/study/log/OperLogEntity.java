@@ -3,10 +3,16 @@ package com.github.fank243.study.log;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.mybatisflex.annotation.Id;
+import com.mybatisflex.annotation.KeyType;
+import com.mybatisflex.annotation.Table;
+import com.mybatisflex.annotation.UseDataSource;
+import com.mybatisflex.core.keygen.KeyGenerators;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 /**
  * 操作日志表
@@ -14,12 +20,16 @@ import lombok.Data;
  * @author FanWeiJie
  * @since 2022-09-26 15:14:51
  */
-@Data
-@TableName("tb_operation_log")
+@Getter
+@Setter
+@SuperBuilder
+@NoArgsConstructor
+@UseDataSource("support")
+@Table("tb_operation_log")
 public class OperLogEntity implements Serializable {
 
     /** 日志唯一ID */
-    @TableId
+    @Id(keyType = KeyType.Generator, value = KeyGenerators.snowFlakeId)
     private String logId;
 
     /** 租户 */

@@ -17,10 +17,11 @@ import com.github.fank243.study.core.constants.CacheConstants;
 import com.github.fank243.study.core.constants.HttpConstants;
 import com.github.fank243.study.core.constants.enums.EnvEnum;
 import com.github.fank243.study.core.model.redis.RedisService;
+import com.github.fank243.study.core.model.validation.ValidatorGroup;
 import com.github.fank243.study.core.properties.StudyProperties;
 import com.github.fank243.study.core.utils.WebUtils;
 import com.github.fank243.study.oauth2.api.constants.Oauth2Constants;
-import com.github.fank243.study.oauth2.api.domain.dto.Oauth2LoginDTO;
+import com.github.fank243.study.oauth2.api.domain.dto.OauthLoginDTO;
 import com.github.fank243.study.oauth2.api.domain.vo.OauthAccessTokenVO;
 import com.github.fank243.study.oauth2.service.OauthUserService;
 
@@ -103,20 +104,21 @@ public class Oauth2ServerController {
     /** 登录接口 **/
     @PostMapping("/oauth2/login")
     @ResponseBody
-    public ResultInfo<?> login(@RequestBody @Validated Oauth2LoginDTO oauth2LoginDTO) {
+    public ResultInfo<?>
+        login(@RequestBody @Validated(value = ValidatorGroup.Login.class) OauthLoginDTO oauthLoginDTO) {
         if (EnvEnum.PROD.name().equalsIgnoreCase(SpringUtil.getActiveProfile())) {
-            String key = CacheConstants.IMG_CODE_KEY + oauth2LoginDTO.getRandomStr();
+            String key = CacheConstants.IMG_CODE_KEY + oauthLoginDTO.getRandomStr();
             Object imgCodeObj = redisService.getObj(key);
             redisService.delete(key);
             if (ObjectUtil.isEmpty(imgCodeObj)
-                || !oauth2LoginDTO.getImgCode().equalsIgnoreCase(String.valueOf(imgCodeObj))) {
+                || !oauthLoginDTO.getImgCode().equalsIgnoreCase(String.valueOf(imgCodeObj))) {
                 return ResultInfo.err400("图形验证码不正确");
             }
         }
 
         // sa-token 登录
         SaResult saResult =
-            (SaResult)cfg.getDoLoginHandle().apply(oauth2LoginDTO.getUsername(), oauth2LoginDTO.getPassword());
+            (SaResult)cfg.getDoLoginHandle().apply(oauthLoginDTO.getUsername(), oauthLoginDTO.getPassword());
         if (saResult.getCode() != SaResult.CODE_SUCCESS) {
             return ResultInfo.err500(saResult.getMsg());
         }

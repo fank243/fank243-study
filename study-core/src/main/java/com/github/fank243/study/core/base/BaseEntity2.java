@@ -21,7 +21,7 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @SuperBuilder
 @NoArgsConstructor
-public class BaseEntity implements Serializable {
+public class BaseEntity2 implements Serializable {
 
     protected static final String YY_MM_DD_HH_MM_SS = "yy/MM/dd HH:mm:ss";
 

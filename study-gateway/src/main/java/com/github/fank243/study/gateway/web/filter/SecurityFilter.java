@@ -14,7 +14,7 @@ import com.github.fank243.common.pattern.RegexExtPool;
 import com.github.fank243.common.result.ResultInfo;
 import com.github.fank243.study.core.constants.CacheConstants;
 import com.github.fank243.study.core.constants.Constants;
-import com.github.fank243.study.core.constants.TimeConstant;
+import com.github.fank243.study.core.constants.TimeConstants;
 import com.github.fank243.study.core.model.redis.RedisService;
 import com.github.fank243.study.gateway.constants.FilterOrderConstant;
 import com.github.fank243.study.gateway.utils.ReactiveUtils;
@@ -48,7 +48,7 @@ public class SecurityFilter implements GlobalFilter, Ordered {
 
         String uuid = StrUtil.uuid();
         ServerHttpRequest serverHttpRequest = request.mutate().header(Constants.SECURITY_TOKEN, uuid).build();
-        redisService.setObj(CacheConstants.SECURITY_TOKEN + uuid, uuid, TimeConstant.MINUTE_5);
+        redisService.setObj(CacheConstants.SECURITY_TOKEN + uuid, uuid, TimeConstants.MINUTE_5);
         return chain.filter(exchange.mutate().request(serverHttpRequest.mutate().build()).build());
     }
 

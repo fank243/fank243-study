@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>study-support</artifactId>
 		<groupId>com.github.fank243</groupId>
-		<version>1.2.1</version>
+		<version>1.2.2</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
@@ -74,17 +74,17 @@
 			<artifactId>aliyun-java-sdk-dysmsapi</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>com.github.fank243</groupId>
-			<artifactId>fank243-sms</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>com.github.fank243</groupId>
+            <artifactId>fank243-sms</artifactId>
+        </dependency>
 
-		<!--Graylog 发送器-->
-		<dependency>
-			<groupId>de.siegmar</groupId>
-			<artifactId>logback-gelf</artifactId>
-		</dependency>
-	</dependencies>
+        <!--Graylog 发送器-->
+        <dependency>
+            <groupId>de.siegmar</groupId>
+            <artifactId>logback-gelf</artifactId>
+        </dependency>
+    </dependencies>
 
 	<build>
 		<finalName>${project.artifactId}</finalName>

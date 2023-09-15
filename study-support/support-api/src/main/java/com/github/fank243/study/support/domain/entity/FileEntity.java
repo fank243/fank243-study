@@ -1,11 +1,15 @@
 package com.github.fank243.study.support.domain.entity;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.fank243.study.core.base.BaseEntity;
+import com.mybatisflex.annotation.Id;
+import com.mybatisflex.annotation.KeyType;
+import com.mybatisflex.annotation.Table;
+import com.mybatisflex.core.keygen.KeyGenerators;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 /**
  * 文件表
@@ -13,13 +17,15 @@ import lombok.EqualsAndHashCode;
  * @author FanWeiJie
  * @since 2022-09-28 14:23:01
  */
-@Data
-@EqualsAndHashCode(callSuper = true)
-@TableName("tb_file")
+@Getter
+@Setter
+@SuperBuilder
+@NoArgsConstructor
+@Table("tb_file")
 public class FileEntity extends BaseEntity {
 
     /** 文件ID */
-    @TableId
+    @Id(keyType = KeyType.Generator, value = KeyGenerators.snowFlakeId)
     private String fileId;
 
     /** 文件名称(原始文件名称) */

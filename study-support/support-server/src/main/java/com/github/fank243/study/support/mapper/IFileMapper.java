@@ -4,8 +4,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.github.fank243.study.support.domain.entity.FileEntity;
+import com.mybatisflex.core.BaseMapper;
 
 /**
  * 文件表 数据访问层

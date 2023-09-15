@@ -5,16 +5,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsRequest;
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.fank243.common.result.ResultInfo;
 import com.github.fank243.sms.properties.AliyunSmsProperties;
 import com.github.fank243.sms.strategy.SmsStrategy;
 import com.github.fank243.sms.strategy.impl.AliyunSmsStrategy;
 import com.github.fank243.study.core.constants.CacheConstants;
-import com.github.fank243.study.core.constants.TimeConstant;
+import com.github.fank243.study.core.constants.TimeConstants;
 import com.github.fank243.study.core.domain.dto.OperLogDTO;
 import com.github.fank243.study.core.domain.model.PageBean;
 import com.github.fank243.study.core.exception.BizException;
@@ -28,6 +24,9 @@ import com.github.fank243.study.support.domain.vo.OperLogVO;
 import com.github.fank243.study.support.domain.vo.SmsCodeVO;
 import com.github.fank243.study.support.domain.vo.SmsSendVO;
 import com.github.fank243.study.support.mapper.ISmsMapper;
+import com.mybatisflex.core.paginate.Page;
+import com.mybatisflex.core.query.QueryWrapper;
+import com.mybatisflex.spring.service.impl.ServiceImpl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.IdUtil;
@@ -58,11 +57,11 @@ public class SmsService extends ServiceImpl<ISmsMapper, SmsEntity> {
      * @return 列表
      */
     public PageBean<OperLogVO> page(OperLogDTO reqRespLog) {
-        // TODO FanWeiJie 添加查询条件
-        QueryWrapper<SmsEntity> wrapper = new QueryWrapper<>();
-        IPage<SmsEntity> page =
-            smsMapper.selectPage(new Page<>(reqRespLog.getCurrPage(), reqRespLog.getPageSize()), wrapper);
-        return BeanUtils.convert(page, OperLogVO.class);
+        // // TODO FanWeiJie 添加查询条件
+        QueryWrapper wrapper = new QueryWrapper();
+        Page<SmsEntity> smsEntityPage =
+            smsMapper.paginate(new Page<>(reqRespLog.getCurrPage(), reqRespLog.getPageSize()), wrapper);
+        return BeanUtils.convert(smsEntityPage, OperLogVO.class);
     }
 
     /**
@@ -134,11 +133,11 @@ public class SmsService extends ServiceImpl<ISmsMapper, SmsEntity> {
         String msgId = IdUtil.simpleUUID();
         smsCodeDTO.setMsgId(msgId);
         smsCodeDTO.setSmsCode(smsCode);
-        boolean isOk = redisService.setObj(CacheConstants.SMS_CODE_KEY + msgId, smsCodeDTO, TimeConstant.MINUTE_5);
+        boolean isOk = redisService.setObj(CacheConstants.SMS_CODE_KEY + msgId, smsCodeDTO, TimeConstants.MINUTE_5);
         if (!isOk) {
             return ResultInfo.err500("短信验证码发送失败");
         }
-        redisService.setObj(CacheConstants.SMS_MOBILE_LOCK + smsCodeDTO.getMobile(), "1", TimeConstant.MINUTE_1);
+        redisService.setObj(CacheConstants.SMS_MOBILE_LOCK + smsCodeDTO.getMobile(), "1", TimeConstants.MINUTE_1);
 
         SmsDTO smsDTO = BeanUtil.copyProperties(smsCodeDTO, SmsDTO.class);
         smsDTO.setContent("您本次的验证码是" + smsCode + "，5分钟内有效，为保障安全，请勿泄露。");

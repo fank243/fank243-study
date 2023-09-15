@@ -1,11 +1,20 @@
 package com.github.fank243.study.system.domain.entity;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.github.fank243.study.core.base.BaseEntity;
+import org.hibernate.validator.constraints.Length;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import com.github.fank243.study.core.base.BaseEntity;
+import com.github.fank243.study.core.model.validation.ValidatorGroup;
+import com.mybatisflex.annotation.Id;
+import com.mybatisflex.annotation.KeyType;
+import com.mybatisflex.annotation.Table;
+import com.mybatisflex.core.keygen.KeyGenerators;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 /**
  * 系统权限表
@@ -13,30 +22,38 @@ import lombok.EqualsAndHashCode;
  * @author FanWeiJie
  * @since 2022-05-13
  */
-@Data
-@EqualsAndHashCode(callSuper = true)
-@TableName("tb_sys_perm")
+@Getter
+@Setter
+@SuperBuilder
+@NoArgsConstructor
+@Table("tb_sys_perm")
 public class SysPermEntity extends BaseEntity {
 
     /** 权限ID */
-    @TableId
+    @NotNull(message = "菜单ID必传", groups = {ValidatorGroup.Modify.class})
+    @Id(keyType = KeyType.Generator, value = KeyGenerators.snowFlakeId)
     private String permId;
 
+    /** 父ID */
+    @NotNull(message = "请选择父菜单", groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
     private String pid;
 
-    /** 权限代码 */
+    /*** 菜单代码 */
+    @Length(min = 2, max = 20, message = "菜单代码长度在2-20位之间",
+        groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
+    @NotBlank(message = "菜单代码不能为空", groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
     private String permCode;
 
-    /** 权限地址 */
+    /*** 菜单地址 */
     private String permUri;
 
-    /** 状态(0：正常，1：禁用) **/
-    private Integer status;
-
-    /*** 权限名称 */
+    /*** 菜单名称 */
+    @Length(min = 2, max = 20, message = "菜单名称长度在2-20位之间",
+        groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
+    @NotBlank(message = "菜单名称不能为空", groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
     private String permName;
 
-    /** 权限描述 */
+    /*** 菜单描述 */
     private String permDesc;
 
 }

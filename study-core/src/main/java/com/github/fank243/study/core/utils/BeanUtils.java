@@ -3,8 +3,8 @@ package com.github.fank243.study.core.utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.fank243.study.core.domain.model.PageBean;
+import com.mybatisflex.core.paginate.Page;
 
 import cn.hutool.core.bean.BeanUtil;
 
@@ -23,11 +23,12 @@ public class BeanUtils {
      * @param targetType 目标类型
      * @return IPage
      */
-    public static <T> PageBean<T> convert(IPage<?> page, Class<T> targetType) {
+    public static <T> PageBean<T> convert(Page<?> page, Class<T> targetType) {
         List<T> voList = new ArrayList<>(1);
-        if (page.getTotal() > 0) {
+        if (page.getTotalRow() > 0) {
             voList = BeanUtil.copyToList(page.getRecords(), targetType);
         }
-        return new PageBean<>(page.getCurrent(), page.getSize(), page.getTotal(), page.getPages(), voList);
+        return new PageBean<>(page.getPageNumber(), page.getPageSize(), page.getTotalRow(), page.getTotalPage(),
+            voList);
     }
 }

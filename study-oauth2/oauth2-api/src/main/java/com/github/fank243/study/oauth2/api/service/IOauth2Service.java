@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.github.fank243.common.result.ResultInfo;
 import com.github.fank243.study.core.constants.ServerConstants;
-import com.github.fank243.study.oauth2.api.domain.dto.OauthUserDTO;
+import com.github.fank243.study.oauth2.api.domain.dto.OauthUserAccessTokenDTO;
 import com.github.fank243.study.oauth2.api.domain.vo.OauthAccessTokenVO;
 import com.github.fank243.study.oauth2.api.domain.vo.OauthUserVO;
 
@@ -79,6 +79,15 @@ public interface IOauth2Service {
         @RequestParam("client_secret") String clientSecret);
 
     /**
+     * 根据用户名获取用户信息
+     *
+     * @param username 用户名
+     * @return 用户信息
+     */
+    @GetMapping(value = "/users/username")
+    ResultInfo<?> getUserByUsername(@RequestParam("username") String username);
+
+    /**
      * 获取用户信息
      *
      * @param accessToken 令牌
@@ -92,19 +101,19 @@ public interface IOauth2Service {
     /**
      * 创建账号
      *
-     * @param oauthUserDTO 账号信息
+     * @param oauthUserAccessTokenDTO 账号信息
      * @return OpenID
      */
     @PostMapping(value = "/users/add")
-    ResultInfo<?> addUser(@RequestBody OauthUserDTO oauthUserDTO);
+    ResultInfo<?> addUser(@RequestBody OauthUserAccessTokenDTO oauthUserAccessTokenDTO);
 
     /**
      * 修改密码
      *
-     * @param oauthUserDTO 账号信息
+     * @param oauthUserAccessTokenDTO 账号信息
      * @return 操作结果
      */
     @PostMapping(value = "/users/password")
-    ResultInfo<?> modifyPassword(@RequestBody OauthUserDTO oauthUserDTO);
+    ResultInfo<?> modifyPassword(@RequestBody OauthUserAccessTokenDTO oauthUserAccessTokenDTO);
 
 }

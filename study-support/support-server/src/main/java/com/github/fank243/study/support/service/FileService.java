@@ -6,11 +6,10 @@ import java.io.InputStream;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.fank243.common.result.ResultInfo;
 import com.github.fank243.study.core.constants.CacheConstants;
 import com.github.fank243.study.core.constants.Constants;
-import com.github.fank243.study.core.constants.TimeConstant;
+import com.github.fank243.study.core.constants.TimeConstants;
 import com.github.fank243.study.core.model.redis.RedisService;
 import com.github.fank243.study.core.model.redisson.RedissonService;
 import com.github.fank243.study.support.constants.SupportConstants;
@@ -18,6 +17,7 @@ import com.github.fank243.study.support.domain.dto.FileDTO;
 import com.github.fank243.study.support.domain.entity.FileEntity;
 import com.github.fank243.study.support.mapper.IFileMapper;
 import com.github.fank243.study.support.web.config.FileProperties;
+import com.mybatisflex.spring.service.impl.ServiceImpl;
 
 import cn.dev33.satoken.exception.NotPermissionException;
 import cn.dev33.satoken.stp.StpUtil;
@@ -125,7 +125,7 @@ public class FileService extends ServiceImpl<IFileMapper, FileEntity> {
 
         // 存入缓存
         redisService.setHashValue(CacheConstants.FILE_ID_KEY, newFileEntity.getFileId(), newFileEntity,
-            TimeConstant.DAY_7);
+            TimeConstants.DAY_7);
 
         return ResultInfo.ok(newFileEntity.getFileId()).message("上传文件成功");
     }
@@ -141,10 +141,10 @@ public class FileService extends ServiceImpl<IFileMapper, FileEntity> {
 
         FileEntity fileEntity;
         if (obj == null) {
-            fileEntity = fileMapper.selectById(fileId);
+            fileEntity = fileMapper.selectOneById(fileId);
             if (fileEntity != null) {
                 // 存入缓存
-                redisService.setHashValue(CacheConstants.FILE_ID_KEY, fileId, fileEntity, TimeConstant.DAY_7);
+                redisService.setHashValue(CacheConstants.FILE_ID_KEY, fileId, fileEntity, TimeConstants.DAY_7);
             } else {
                 return null;
             }

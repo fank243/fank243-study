@@ -2,11 +2,13 @@ package com.github.fank243.study.system.domain.entity;
 
 import java.util.Date;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.mybatisflex.annotation.Id;
+import com.mybatisflex.annotation.KeyType;
+import com.mybatisflex.annotation.Table;
+import com.mybatisflex.core.keygen.KeyGenerators;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 系统管理员登录日志表
@@ -14,12 +16,12 @@ import lombok.Data;
  * @author FanWeiJie
  * @since 2022-06-27
  */
-@Data
-@Builder
-@TableName("tb_sys_user_login_log")
+@Getter
+@Setter
+@Table("tb_sys_user_login_log")
 public class SysUserLoginLogEntity {
 
-    @TableId
+    @Id(keyType = KeyType.Generator, value = KeyGenerators.snowFlakeId)
     private String id;
 
     /** 用户ID */

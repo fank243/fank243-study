@@ -2,14 +2,16 @@ package com.github.fank243.study.system.domain.dto;
 
 import org.hibernate.validator.constraints.Length;
 
-import com.github.fank243.study.core.base.BaseDTO;
 import com.github.fank243.study.core.model.validation.ValidatorGroup;
+import com.github.fank243.study.system.domain.entity.SysRoleEntity;
 import com.mzt.logapi.starter.annotation.DiffLogAllFields;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 /**
  * 系统角色表
@@ -17,10 +19,12 @@ import lombok.EqualsAndHashCode;
  * @author FanWeiJie
  * @since 2022-06-27
  */
+@Getter
+@Setter
+@SuperBuilder
 @DiffLogAllFields
-@Data
-@EqualsAndHashCode(callSuper = true)
-public class SysRoleDTO extends BaseDTO {
+@NoArgsConstructor
+public class SysRoleDTO extends SysRoleEntity {
 
     /*** 角色ID */
     @NotBlank(message = "角色ID必传", groups = {ValidatorGroup.Modify.class})

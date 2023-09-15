@@ -2,8 +2,8 @@ package com.github.fank243.study.support.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.github.fank243.study.support.domain.entity.SmsEntity;
+import com.mybatisflex.core.BaseMapper;
 
 /**
  * 短信发送记录表 数据访问层

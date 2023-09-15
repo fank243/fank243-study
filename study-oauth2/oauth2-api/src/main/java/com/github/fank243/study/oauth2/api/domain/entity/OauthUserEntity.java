@@ -1,16 +1,23 @@
 package com.github.fank243.study.oauth2.api.domain.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.github.fank243.study.core.constants.DateConstant;
+import com.github.fank243.study.core.constants.DateConstants;
+import com.github.fank243.study.core.model.validation.ValidatorGroup;
+import com.mybatisflex.annotation.Column;
+import com.mybatisflex.annotation.Id;
+import com.mybatisflex.annotation.KeyType;
+import com.mybatisflex.annotation.Table;
+import com.mybatisflex.core.keygen.KeyGenerators;
 
-import lombok.Data;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 /**
  * 系统管理员表
@@ -18,21 +25,28 @@ import lombok.Data;
  * @author FanWeiJie
  * @since 2022-06-27
  */
-@Data
-@TableName("tb_oauth_user")
-public class OauthUserEntity {
+@Getter
+@Setter
+@SuperBuilder
+@NoArgsConstructor
+@Table("tb_oauth_user")
+public class OauthUserEntity implements Serializable {
 
     /** 用户ID */
-    @TableId
+    @Id(keyType = KeyType.Generator, value = KeyGenerators.snowFlakeId)
     private String userId;
 
     /** 用户名 */
+    @NotBlank(message = "请填写用户名", groups = {ValidatorGroup.Login.class})
+    @NotBlank(message = "参数[username]不能为空", groups = {ValidatorGroup.Create.class})
     private String username;
 
     /** 昵称 */
     private String nickname;
 
     /** 登录密码 */
+    @NotBlank(message = "请填写登录密码", groups = {ValidatorGroup.Login.class})
+    @NotBlank(message = "参数[password]不能为空", groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
     private String password;
 
     /** 状态(0：正常，1：禁用，2：登录锁定) */
@@ -42,25 +56,27 @@ public class OauthUserEntity {
     private Integer loginErrCount;
 
     /** 登录锁定时间 */
+    @JSONField(format = DateConstants.YYYY_MM_DD_HH_MM_SS)
     private Date loginLockTime;
 
     /** 最近登录时间 */
+    @JsonFormat(pattern = DateConstants.YYYY_MM_DD_HH_MM_SS)
     private Date lastLoginTime;
 
     /** 最近登录IP */
     private String lastLoginIp;
 
     /** 是否已删除(0：未删除，1：已删除) */
-    @TableLogic
+    @Column(isLogicDelete = true)
     private Integer isDeleted;
 
     /** 创建时间 **/
-    @JsonFormat(pattern = DateConstant.YY_MM_DD_HH_MM_SS)
-    @TableField(fill = FieldFill.INSERT)
+    @JsonFormat(pattern = DateConstants.YYYY_MM_DD_HH_MM_SS)
+    @Column(onInsertValue = "now()")
     private Date createdDate;
 
     /** 最近修改时间 **/
-    @JsonFormat(pattern = DateConstant.YY_MM_DD_HH_MM_SS)
-    @TableField(fill = FieldFill.INSERT_UPDATE)
+    @JsonFormat(pattern = DateConstants.YYYY_MM_DD_HH_MM_SS)
+    @Column(onInsertValue = "now()", onUpdateValue = "now()")
     private Date lastModifiedDate;
 }

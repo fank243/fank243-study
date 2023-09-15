@@ -6,7 +6,7 @@ package com.github.fank243.study.core.constants;
  * @author FanWeiJie
  * @since 2021-06-08 22:49:20
  */
-public class TimeConstant {
+public class TimeConstants {
 
     /** 1min **/
     public static final int MINUTE_1 = 60;
