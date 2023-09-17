@@ -1,6 +1,6 @@
 package com.github.fank243.study.system.mapper;
 
-import com.github.fank243.study.system.domain.entity.SysUserLoginLogEntity;
+import com.github.fank243.study.system.domain.SysUserLoginLogEntity;
 import com.mybatisflex.core.BaseMapper;
 
 /**

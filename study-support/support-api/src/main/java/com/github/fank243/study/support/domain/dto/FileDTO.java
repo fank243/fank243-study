@@ -1,10 +1,13 @@
 package com.github.fank243.study.support.domain.dto;
 
+import com.github.fank243.study.core.base.BaseDTO;
 import com.github.fank243.study.core.constants.Constants;
 
 import cn.hutool.core.util.StrUtil;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 /**
  * 文件表
@@ -12,9 +15,11 @@ import lombok.Data;
  * @author FanWeiJie
  * @since 2022-09-28 14:23:01
  */
-@Data
-@Builder
-public class FileDTO {
+@Getter
+@Setter
+@SuperBuilder
+@NoArgsConstructor
+public class FileDTO extends BaseDTO {
 
     /*** 文件ID */
     private String fileId;
@@ -39,6 +44,9 @@ public class FileDTO {
 
     /*** 登录人ID */
     private String loginId;
+
+    /*** 文件 MineType */
+    private String mineType;
 
     public String getFilePrefix() {
         if (StrUtil.equals(this.filePrefix, Constants.FILE_PREFIX_USER)) {

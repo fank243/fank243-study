@@ -1,8 +1,7 @@
 package com.github.fank243.study.support.domain.dto;
 
-import java.io.Serializable;
-
 import com.github.fank243.common.pattern.RegexExtPool;
+import com.github.fank243.study.core.base.BaseDTO;
 import com.github.fank243.study.core.model.validation.annotation.Enum;
 import com.github.fank243.study.support.constants.smsCodeTypeEnum;
 
@@ -10,7 +9,10 @@ import cn.hutool.core.lang.RegexPool;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 /**
  * 短信验证码
@@ -18,9 +20,12 @@ import lombok.Data;
  * @author FanWeiJie
  * @since 2022-09-26 15:14:51
  */
+@Getter
+@Setter
+@SuperBuilder
+@NoArgsConstructor
 @Schema(description = "短信验证码请求实体")
-@Data
-public class SmsCodeDTO implements Serializable {
+public class SmsCodeDTO extends BaseDTO {
 
     /*** 手机号码 */
     @Pattern(regexp = RegexPool.MOBILE, message = "请填写正确的手机号码", groups = {Send.class, Validate.class})

@@ -1,14 +1,41 @@
 package com.github.fank243.study.oauth2.mapper;
 
-import com.github.fank243.study.oauth2.api.domain.entity.OauthUserEntity;
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.github.fank243.study.oauth2.domain.OauthUserEntity;
 import com.mybatisflex.core.BaseMapper;
 
 /**
- * 授权用户表 数据访问层
+ * Oauth2用户表 映射层
  *
  * @author FanWeiJie
- * @since 2021-11-26
+ * @since 2023-09-17 17:33:19
  */
 public interface IOauthUserMapper extends BaseMapper<OauthUserEntity> {
 
+    /**
+     * 根据主键ID查询
+     *
+     * @param userId 主键
+     * @return Oauth2用户表
+     */
+    OauthUserEntity findByUserId(Long userId);
+
+    /**
+     * 多条件查询
+     *
+     * @param oauthUser 条件参数
+     * @return Oauth2用户表
+     */
+    OauthUserEntity findByCondition(@Param("oauthUser") OauthUserEntity oauthUser);
+
+    /**
+     * 多条件查询
+     *
+     * @param oauthUser 条件参数
+     * @return Oauth2用户表
+     */
+    List<OauthUserEntity> findListByCondition(@Param("oauthUser") OauthUserEntity oauthUser);
 }

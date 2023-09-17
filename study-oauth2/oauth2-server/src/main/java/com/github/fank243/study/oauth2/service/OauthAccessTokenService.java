@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.github.fank243.common.result.ResultInfo;
-import com.github.fank243.study.oauth2.api.domain.entity.OauthAccessTokenEntity;
+import com.github.fank243.study.oauth2.domain.OauthAccessTokenEntity;
 import com.github.fank243.study.oauth2.mapper.IOauthAccessTokenMapper;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;

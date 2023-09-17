@@ -10,7 +10,7 @@ import com.github.fank243.study.core.constants.TimeConstants;
 import com.github.fank243.study.core.model.redis.RedisService;
 import com.github.fank243.study.core.properties.StudyProperties;
 import com.github.fank243.study.oauth2.api.constants.Oauth2Constants;
-import com.github.fank243.study.oauth2.api.domain.vo.OauthAccessTokenVO;
+import com.github.fank243.study.oauth2.api.domain.dto.OauthAccessTokenDTO;
 import com.github.fank243.study.oauth2.api.service.IOauth2Service;
 
 import cn.dev33.satoken.stp.StpUtil;
@@ -48,12 +48,12 @@ public class TokenRefreshInterceptor implements HandlerInterceptor {
             return HandlerInterceptor.super.preHandle(request, response, handler);
         }
         Object obj = redisService.getObj(key);
-        if (obj instanceof OauthAccessTokenVO oauthAccessTokenVO) {
+        if (obj instanceof OauthAccessTokenDTO oauthAccessTokenDTO) {
             // 有请求就刷新令牌
             IOauth2Service oauth2Service = SpringUtil.getBean(IOauth2Service.class);
-            ResultInfo<OauthAccessTokenVO> result =
+            ResultInfo<OauthAccessTokenDTO> result =
                 oauth2Service.refreshToken(Oauth2Constants.GrantType.REFRESH_TOKEN.name().toLowerCase(),
-                    oauthAccessTokenVO.getRefreshToken(), StudyProperties.clientId, StudyProperties.clientSecret);
+                    oauthAccessTokenDTO.getRefreshToken(), StudyProperties.clientId, StudyProperties.clientSecret);
             if (!result.isSuccess()) {
                 log.info("【令牌刷新拦截器】刷新令牌失败：{}", result);
             } else {

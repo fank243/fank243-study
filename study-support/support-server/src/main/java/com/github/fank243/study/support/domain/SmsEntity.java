@@ -1,9 +1,10 @@
-package com.github.fank243.study.support.domain.entity;
+package com.github.fank243.study.support.domain;
 
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.github.fank243.study.core.constants.DateConstants;
+import com.github.fank243.study.core.model.mf.MybatisFlexTableListener;
 import com.mybatisflex.annotation.Id;
 import com.mybatisflex.annotation.KeyType;
 import com.mybatisflex.annotation.Table;
@@ -22,7 +23,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @SuperBuilder
-@Table("tb_support_sms")
+@Table(value = "tb_support_sms", onInsert = MybatisFlexTableListener.class, onUpdate = MybatisFlexTableListener.class)
 public class SmsEntity {
 
     @Id(keyType = KeyType.Generator, value = KeyGenerators.snowFlakeId)

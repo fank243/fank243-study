@@ -1,6 +1,7 @@
-package com.github.fank243.study.support.domain.entity;
+package com.github.fank243.study.support.domain;
 
 import com.github.fank243.study.core.base.BaseEntity;
+import com.github.fank243.study.core.model.mf.MybatisFlexTableListener;
 import com.mybatisflex.annotation.Id;
 import com.mybatisflex.annotation.KeyType;
 import com.mybatisflex.annotation.Table;
@@ -21,7 +22,7 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @SuperBuilder
 @NoArgsConstructor
-@Table("tb_support_area")
+@Table(value = "tb_support_area", onInsert = MybatisFlexTableListener.class, onUpdate = MybatisFlexTableListener.class)
 public class AreaEntity extends BaseEntity {
 
     /** 主键ID */

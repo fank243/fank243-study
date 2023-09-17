@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Select;
 
-import com.github.fank243.study.system.domain.entity.SysRoleEntity;
+import com.github.fank243.study.system.domain.SysRoleEntity;
 import com.github.fank243.study.system.domain.vo.SysRoleVO;
 import com.mybatisflex.core.BaseMapper;
 

@@ -1,6 +1,6 @@
 package com.github.fank243.study.oauth2.mapper;
 
-import com.github.fank243.study.oauth2.api.domain.entity.OauthClientEntity;
+import com.github.fank243.study.oauth2.domain.OauthClientEntity;
 import com.mybatisflex.core.BaseMapper;
 
 /**

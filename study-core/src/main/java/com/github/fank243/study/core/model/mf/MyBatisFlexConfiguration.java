@@ -21,6 +21,8 @@ public class MyBatisFlexConfiguration {
         AuditManager.setAuditEnable(true);
 
         // 设置 SQL 审计收集器
-        AuditManager.setMessageCollector(auditMessage -> log.info("MyBatis Flex 审计日志：{}", auditMessage));
+        AuditManager.setMessageCollector(auditMessage -> {
+            log.info("MyBatis Flex 审计日志：{}", auditMessage);
+        });
     }
 }

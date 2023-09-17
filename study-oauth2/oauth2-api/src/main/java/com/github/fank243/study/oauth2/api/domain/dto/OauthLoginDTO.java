@@ -1,7 +1,7 @@
 package com.github.fank243.study.oauth2.api.domain.dto;
 
+import com.github.fank243.study.core.base.BaseDTO;
 import com.github.fank243.study.core.model.validation.ValidatorGroup;
-import com.github.fank243.study.oauth2.api.domain.entity.OauthUserEntity;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -19,7 +19,17 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @SuperBuilder
 @NoArgsConstructor
-public class OauthLoginDTO extends OauthUserEntity {
+public class OauthLoginDTO extends BaseDTO {
+
+    /** 用户名 */
+    @NotBlank(message = "请填写用户名", groups = {ValidatorGroup.Login.class})
+    @NotBlank(message = "参数[username]不能为空", groups = {ValidatorGroup.Create.class})
+    private String username;
+
+    /** 登录密码 */
+    @NotBlank(message = "请填写登录密码", groups = {ValidatorGroup.Login.class})
+    @NotBlank(message = "参数[password]不能为空", groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
+    private String password;
 
     @NotBlank(message = "请填写图形验证码", groups = {ValidatorGroup.Login.class})
     private String imgCode;

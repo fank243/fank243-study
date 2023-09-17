@@ -12,10 +12,9 @@ import com.github.fank243.study.core.constants.ServerConstants;
 import com.github.fank243.study.core.model.validation.ValidatorGroup;
 import com.github.fank243.study.oauth2.api.constants.Oauth2Constants;
 import com.github.fank243.study.oauth2.api.domain.dto.OauthUserAccessTokenDTO;
-import com.github.fank243.study.oauth2.api.domain.entity.OauthUserEntity;
-import com.github.fank243.study.oauth2.api.domain.vo.OauthUserVO;
+import com.github.fank243.study.oauth2.api.domain.dto.OauthUserDTO;
+import com.github.fank243.study.oauth2.domain.OauthUserEntity;
 import com.github.fank243.study.oauth2.service.OauthUserService;
-import com.mybatisflex.core.query.QueryWrapper;
 
 import cn.dev33.satoken.oauth2.logic.SaOAuth2Util;
 import cn.dev33.satoken.oauth2.model.AccessTokenModel;
@@ -73,13 +72,13 @@ public class OauthUserController {
         }
         AccessTokenModel accessTokenModel = (AccessTokenModel)result.getPayload();
 
-        QueryWrapper queryWrapper =
-            QueryWrapper.create(OauthUserEntity.builder().userId(String.valueOf(accessTokenModel.loginId)).build());
-        OauthUserEntity oauthUserEntity = oauthUserService.findOneByQuery(queryWrapper);
-        OauthUserVO oauthUserVO = BeanUtil.copyProperties(oauthUserEntity, OauthUserVO.class);
-        oauthUserVO.setOpenId(openId);
+        OauthUserEntity oauthUserEntity =
+            OauthUserEntity.builder().userId(String.valueOf(accessTokenModel.loginId)).build();
+        oauthUserEntity = oauthUserService.findByCondition(oauthUserEntity);
+        OauthUserDTO oauthUserDTO = BeanUtil.copyProperties(oauthUserEntity, OauthUserDTO.class);
+        oauthUserDTO.setOpenId(openId);
 
-        return ResultInfo.ok(oauthUserVO);
+        return ResultInfo.ok(oauthUserDTO);
     }
 
     /** 根据用户名获取 **/
@@ -113,8 +112,9 @@ public class OauthUserController {
             return result;
         }
         AccessTokenModel accessTokenModel = (AccessTokenModel)result.getPayload();
+        oauthUserAccessTokenDTO.setUserId(String.valueOf(accessTokenModel.loginId));
 
-        result = oauthUserService.modifyPassword(String.valueOf(accessTokenModel.loginId), oauthUserAccessTokenDTO);
+        result = oauthUserService.modifyPassword(oauthUserAccessTokenDTO);
         if (result.isSuccess()) {
             return result;
         }

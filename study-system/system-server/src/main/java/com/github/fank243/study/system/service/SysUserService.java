@@ -1,6 +1,6 @@
 package com.github.fank243.study.system.service;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -15,12 +15,12 @@ import com.github.fank243.study.core.exception.BizException;
 import com.github.fank243.study.core.model.redis.RedisService;
 import com.github.fank243.study.core.utils.BeanUtils;
 import com.github.fank243.study.oauth2.api.constants.Oauth2Constants;
+import com.github.fank243.study.oauth2.api.domain.dto.OauthAccessTokenDTO;
 import com.github.fank243.study.oauth2.api.domain.dto.OauthUserAccessTokenDTO;
-import com.github.fank243.study.oauth2.api.domain.vo.OauthAccessTokenVO;
 import com.github.fank243.study.oauth2.api.service.IOauth2Service;
+import com.github.fank243.study.system.domain.SysUserEntity;
+import com.github.fank243.study.system.domain.SysUserLoginLogEntity;
 import com.github.fank243.study.system.domain.dto.SysUserDTO;
-import com.github.fank243.study.system.domain.entity.SysUserEntity;
-import com.github.fank243.study.system.domain.entity.SysUserLoginLogEntity;
 import com.github.fank243.study.system.domain.vo.SysUserVO;
 import com.github.fank243.study.system.mapper.ISysUserMapper;
 import com.mybatisflex.core.paginate.Page;
@@ -108,15 +108,15 @@ public class SysUserService extends ServiceImpl<ISysUserMapper, SysUserEntity> {
         if (obj == null) {
             throw new IllegalStateException("令牌已过期失效，请重新登录");
         }
-        OauthAccessTokenVO oauthAccessTokenVO = (OauthAccessTokenVO)obj;
+        OauthAccessTokenDTO oauthAccessTokenDTO = (OauthAccessTokenDTO)obj;
 
         // @formatter:off
         OauthUserAccessTokenDTO oauthUserAccessTokenDTO =
              OauthUserAccessTokenDTO.builder()
                 .username(sysUser.getUsername()).nickname(sysUser.getNickname())
                 .password(sysUser.getPassword())
-                .accessToken(oauthAccessTokenVO.getAccessToken())
-                .openId(oauthAccessTokenVO.getOpenId())
+                .accessToken(oauthAccessTokenDTO.getAccessToken())
+                .openId(oauthAccessTokenDTO.getOpenId())
                 .build();
         // @formatter:on
         result = oauth2Service.addUser(oauthUserAccessTokenDTO);
@@ -154,7 +154,7 @@ public class SysUserService extends ServiceImpl<ISysUserMapper, SysUserEntity> {
         successCondition = "#_ret==true", success = "修改管理员信息：{_DIFF{#oldObject, #sysUser}}")
     @Transactional(rollbackFor = Exception.class)
     public boolean modify(SysUserDTO sysUser) throws BizException {
-        SysUserEntity sysUserEntity = sysUserMapper.selectOneById(sysUser.getUserId());
+        SysUserEntity sysUserEntity = super.getById(sysUser.getUserId());
         if (sysUserEntity == null) {
             throw new BizException("用户不存在");
         }
@@ -167,31 +167,21 @@ public class SysUserService extends ServiceImpl<ISysUserMapper, SysUserEntity> {
 
     @Transactional(rollbackFor = Exception.class)
     public ResultInfo<?> login(String openId, String clientIp, String userAgent) {
-        SysUserEntity sysUserEntity = SysUserEntity.builder().build();
-        sysUserEntity.setOpenId(openId);
-        QueryWrapper queryWrapper = QueryWrapper.create(sysUserEntity);
-        SysUserEntity sysUser = sysUserMapper.selectOneByQuery(queryWrapper);
+        SysUserEntity sysUser = sysUserMapper.findByCondition(SysUserEntity.builder().openId(openId).build());
         if (sysUser == null) {
             return ResultInfo.err400("账号不存在");
         }
-        if (EnumUtil.equals(UserStatusEnum.DISABLED, String.valueOf(sysUser.getStatus().getCode()))) {
+        if (EnumUtil.equals(UserStatusEnum.DISABLED, String.valueOf(sysUser.getStatus()))) {
             return ResultInfo.err400("账户已被禁用，请联系客服处理");
         }
 
         // 执行登录流程
         StpUtil.login(sysUser.getUserId(), "PC");
 
-        Date now = new Date();
-
-        // 更新登录信息
-        sysUser.setLastLoginTime(now);
-        sysUser.setLastLoginIp(clientIp);
-        sysUserMapper.updateLoginInfoByUserId(sysUser);
-
         // 登录日志
         SysUserLoginLogEntity sysUserLoginLog = new SysUserLoginLogEntity();
         sysUserLoginLog.setUserId(sysUser.getUserId());
-        sysUserLoginLog.setLoginTime(now);
+        sysUserLoginLog.setLoginTime(LocalDateTime.now());
         sysUserLoginLog.setLoginIp(clientIp);
         sysUserLoginLog.setLoginDevice(userAgent);
         sysUserLoginLogService.add(sysUserLoginLog);
@@ -205,7 +195,7 @@ public class SysUserService extends ServiceImpl<ISysUserMapper, SysUserEntity> {
     }
 
     public SysUserVO findByUserId(String userId) {
-        SysUserEntity sysUserEntity = getById(userId);
+        SysUserEntity sysUserEntity = super.getById(userId);
         return BeanUtil.copyProperties(sysUserEntity, SysUserVO.class);
     }
 }

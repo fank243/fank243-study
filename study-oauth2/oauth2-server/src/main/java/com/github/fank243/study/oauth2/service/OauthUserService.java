@@ -7,9 +7,9 @@ import com.github.fank243.common.result.ResultInfo;
 import com.github.fank243.study.core.domain.enums.UserStatusEnum;
 import com.github.fank243.study.oauth2.api.constants.Oauth2Constants;
 import com.github.fank243.study.oauth2.api.domain.dto.OauthUserAccessTokenDTO;
-import com.github.fank243.study.oauth2.api.domain.entity.OauthAccessTokenEntity;
-import com.github.fank243.study.oauth2.api.domain.entity.OauthClientEntity;
-import com.github.fank243.study.oauth2.api.domain.entity.OauthUserEntity;
+import com.github.fank243.study.oauth2.domain.OauthAccessTokenEntity;
+import com.github.fank243.study.oauth2.domain.OauthClientEntity;
+import com.github.fank243.study.oauth2.domain.OauthUserEntity;
 import com.github.fank243.study.oauth2.mapper.IOauthUserMapper;
 import com.github.fank243.study.oauth2.utils.Oauth2Utils;
 import com.mybatisflex.core.query.QueryWrapper;
@@ -31,7 +31,7 @@ import jakarta.annotation.Resource;
 public class OauthUserService extends ServiceImpl<IOauthUserMapper, OauthUserEntity> {
 
     @Resource
-    private IOauthUserMapper oauthUserDao;
+    private IOauthUserMapper oauthUserMapper;
     @Resource
     private OauthClientService oauthClientService;
     @Resource
@@ -40,7 +40,7 @@ public class OauthUserService extends ServiceImpl<IOauthUserMapper, OauthUserEnt
     @Transactional(rollbackFor = Exception.class)
     public ResultInfo<String> login(String name, String pwd) {
         QueryWrapper queryWrapper = QueryWrapper.create(OauthUserEntity.builder().username(name).build());
-        OauthUserEntity oauthUserEntity = oauthUserDao.selectOneByQuery(queryWrapper);
+        OauthUserEntity oauthUserEntity = oauthUserMapper.selectOneByQuery(queryWrapper);
         if (oauthUserEntity == null) {
             return ResultInfo.err400("用户名或密码错误");
         }
@@ -57,10 +57,6 @@ public class OauthUserService extends ServiceImpl<IOauthUserMapper, OauthUserEnt
         return ResultInfo.ok(oauthUserEntity.getUserId());
     }
 
-    public OauthUserEntity findOneByQuery(QueryWrapper queryWrapper) {
-        return oauthUserDao.selectOneByQuery(queryWrapper);
-    }
-
     public OauthUserAccessTokenDTO findUserAccessTokenByUsername(String username) {
         Row row = Db.selectOneBySql(
             "select a.user_id,a.username,a.nickname,b.open_id from tb_oauth_user a left join tb_oauth_access_token b on a.user_id = b.user_id where a.username = ?",
@@ -72,7 +68,7 @@ public class OauthUserService extends ServiceImpl<IOauthUserMapper, OauthUserEnt
     public ResultInfo<?> addUser(String clientId, OauthUserAccessTokenDTO oauthUserAccessTokenDTO) {
         QueryWrapper queryWrapper =
             QueryWrapper.create(OauthUserEntity.builder().username(oauthUserAccessTokenDTO.getUsername()).build());
-        OauthUserEntity oauthUserEntity = oauthUserDao.selectOneByQuery(queryWrapper);
+        OauthUserEntity oauthUserEntity = oauthUserMapper.selectOneByQuery(queryWrapper);
         if (oauthUserEntity != null) {
             OauthAccessTokenEntity oauthAccessTokenEntity =
                 oauthAccessTokenService.findByUserId(oauthUserEntity.getUserId());
@@ -101,13 +97,16 @@ public class OauthUserService extends ServiceImpl<IOauthUserMapper, OauthUserEnt
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public ResultInfo<?> modifyPassword(String userId, OauthUserAccessTokenDTO oauthUserAccessTokenDTO) {
-        OauthUserEntity oauthUserEntity = OauthUserAccessTokenDTO.builder()
-            .password(SecureUtil.md5(oauthUserAccessTokenDTO.getPassword())).userId(userId).build();
+    public ResultInfo<?> modifyPassword(OauthUserAccessTokenDTO oauthUserAccessTokenDTO) {
+        OauthUserEntity oauthUserEntity = BeanUtil.toBean(oauthUserAccessTokenDTO, OauthUserEntity.class);
+        oauthUserEntity.setPassword(SecureUtil.md5(oauthUserAccessTokenDTO.getPassword()));
 
         boolean isOk = saveOrUpdate(oauthUserEntity);
 
         return isOk ? ResultInfo.ok() : ResultInfo.err500("修改密码失败");
     }
 
+    public OauthUserEntity findByCondition(OauthUserEntity oauthUserEntity) {
+        return oauthUserMapper.findByCondition(oauthUserEntity);
+    }
 }

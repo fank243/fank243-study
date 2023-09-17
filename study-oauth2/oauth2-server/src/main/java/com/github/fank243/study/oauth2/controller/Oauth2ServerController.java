@@ -21,8 +21,8 @@ import com.github.fank243.study.core.model.validation.ValidatorGroup;
 import com.github.fank243.study.core.properties.StudyProperties;
 import com.github.fank243.study.core.utils.WebUtils;
 import com.github.fank243.study.oauth2.api.constants.Oauth2Constants;
+import com.github.fank243.study.oauth2.api.domain.dto.OauthAccessTokenDTO;
 import com.github.fank243.study.oauth2.api.domain.dto.OauthLoginDTO;
-import com.github.fank243.study.oauth2.api.domain.vo.OauthAccessTokenVO;
 import com.github.fank243.study.oauth2.service.OauthUserService;
 
 import cn.dev33.satoken.oauth2.config.SaOAuth2Config;
@@ -68,13 +68,13 @@ public class Oauth2ServerController {
             }
             if (saResult.getData() != null) {
                 Map<String, Object> data = (Map<String, Object>)saResult.getData();
-                OauthAccessTokenVO oauthAccessTokenVO = OauthAccessTokenVO.builder()
+                OauthAccessTokenDTO oauthAccessTokenDTO = OauthAccessTokenDTO.builder()
                     .openId(String.valueOf(data.get("openid"))).clientId(String.valueOf(data.get("client_id")))
                     .scope(String.valueOf(data.get("scope"))).accessToken(String.valueOf(data.get("access_token")))
                     .refreshToken(String.valueOf(data.get("refresh_token")))
                     .expiresIn(String.valueOf(data.get("expires_in")))
                     .refreshExpiresIn(String.valueOf(data.get("refresh_expires_in"))).build();
-                WebUtils.renderJson(response, ResultInfo.ok(saResult.getMsg(), oauthAccessTokenVO));
+                WebUtils.renderJson(response, ResultInfo.ok(saResult.getMsg(), oauthAccessTokenDTO));
                 return null;
             }
             WebUtils.renderJson(response, ResultInfo.ok().message(saResult.getMsg()));

@@ -3,7 +3,7 @@ package com.github.fank243.study.system.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.github.fank243.study.system.domain.entity.SysUserLoginLogEntity;
+import com.github.fank243.study.system.domain.SysUserLoginLogEntity;
 import com.github.fank243.study.system.mapper.ISysUserLoginLogMapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
 

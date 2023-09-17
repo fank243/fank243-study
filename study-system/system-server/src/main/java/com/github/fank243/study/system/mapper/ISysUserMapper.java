@@ -1,9 +1,10 @@
 package com.github.fank243.study.system.mapper;
 
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import java.util.List;
 
-import com.github.fank243.study.system.domain.entity.SysUserEntity;
+import org.apache.ibatis.annotations.Param;
+
+import com.github.fank243.study.system.domain.SysUserEntity;
 import com.mybatisflex.core.BaseMapper;
 
 /**
@@ -15,20 +16,27 @@ import com.mybatisflex.core.BaseMapper;
 public interface ISysUserMapper extends BaseMapper<SysUserEntity> {
 
     /**
-     * 根据用户名查找
+     * 根据主键ID查询
      *
-     * @param username 用户名
-     * @return 用户实体
+     * @param userId 主键
+     * @return 系统管理员表
      */
-    @Select("select * from tb_sys_user where username = #{username}")
-    SysUserEntity findByUsername(String username);
+    SysUserEntity findByUserId(Long userId);
 
     /**
-     * 更新用户登录信息
+     * 多条件查询
      *
-     * @param sysUser 登录用户
-     * @return 操作结果
+     * @param sysUser 条件参数
+     * @return 系统管理员表
      */
-    @Update("update tb_sys_user set last_login_time = #{lastLoginTime},last_login_ip = #{lastLoginIp} where user_id = #{userId}")
-    int updateLoginInfoByUserId(SysUserEntity sysUser);
+    SysUserEntity findByCondition(@Param("sysUser") SysUserEntity sysUser);
+
+    /**
+     * 多条件查询
+     *
+     * @param sysUser 条件参数
+     * @return 系统管理员表
+     */
+    List<SysUserEntity> findListByCondition(@Param("sysUser") SysUserEntity sysUser);
+
 }

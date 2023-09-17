@@ -2,8 +2,8 @@ package com.github.fank243.study.system.domain.dto;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.github.fank243.study.core.base.BaseDTO;
 import com.github.fank243.study.core.model.validation.ValidatorGroup;
-import com.github.fank243.study.system.domain.entity.SysRoleEntity;
 import com.mzt.logapi.starter.annotation.DiffLogAllFields;
 
 import jakarta.validation.constraints.NotBlank;
@@ -24,11 +24,11 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @DiffLogAllFields
 @NoArgsConstructor
-public class SysRoleDTO extends SysRoleEntity {
+public class SysRoleDTO extends BaseDTO {
 
-    /*** 角色ID */
+    /** 角色ID */
     @NotBlank(message = "角色ID必传", groups = {ValidatorGroup.Modify.class})
-    private String roleId;
+    private Long roleId;
 
     /*** 角色代码 */
     @Length(min = 2, max = 10, message = "角色代码长度在3-20位之间",
@@ -48,5 +48,4 @@ public class SysRoleDTO extends SysRoleEntity {
     /*** 状态(0：正常，1：禁用) */
     @NotNull(message = "请选择角色状态", groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
     private Integer status;
-
 }

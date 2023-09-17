@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import com.github.fank243.common.area.Area;
-import com.github.fank243.study.support.domain.entity.AreaEntity;
+import com.github.fank243.study.support.domain.AreaEntity;
 import com.mybatisflex.core.BaseMapper;
 
 /**

@@ -24,11 +24,11 @@ import com.github.fank243.study.core.model.validation.ValidatorGroup;
 import com.github.fank243.study.core.properties.StudyProperties;
 import com.github.fank243.study.core.utils.WebUtils;
 import com.github.fank243.study.oauth2.api.constants.Oauth2Constants;
-import com.github.fank243.study.oauth2.api.domain.vo.OauthAccessTokenVO;
-import com.github.fank243.study.oauth2.api.domain.vo.OauthUserVO;
+import com.github.fank243.study.oauth2.api.domain.dto.OauthAccessTokenDTO;
+import com.github.fank243.study.oauth2.api.domain.dto.OauthUserDTO;
 import com.github.fank243.study.oauth2.api.service.IOauth2Service;
+import com.github.fank243.study.system.domain.SysUserEntity;
 import com.github.fank243.study.system.domain.dto.SysUserDTO;
-import com.github.fank243.study.system.domain.entity.SysUserEntity;
 import com.github.fank243.study.system.domain.vo.SysUserLoginVO;
 import com.github.fank243.study.system.service.SysUserService;
 
@@ -82,7 +82,7 @@ public class SysUserLoginController extends BaseController {
         }
 
         // 获取令牌
-        ResultInfo<OauthAccessTokenVO> result = oauth2Service.getAccessToken(
+        ResultInfo<OauthAccessTokenDTO> result = oauth2Service.getAccessToken(
             Oauth2Constants.GrantType.PASSWORD.name().toLowerCase(), sysUserDTO.getUsername(), sysUserDTO.getPassword(),
             String.join(",", Oauth2Constants.Scope.SCOPE_ALL), StudyProperties.clientId, StudyProperties.clientSecret);
         if (!result.isSuccess()) {
@@ -110,7 +110,7 @@ public class SysUserLoginController extends BaseController {
             return null;
         }
         // 获取令牌
-        ResultInfo<OauthAccessTokenVO> result =
+        ResultInfo<OauthAccessTokenDTO> result =
             oauth2Service.getAccessToken(Oauth2Constants.GrantType.AUTHORIZATION_CODE.name().toLowerCase(), code,
                 StudyProperties.clientId, StudyProperties.clientSecret);
         if (!result.isSuccess()) {
@@ -130,20 +130,20 @@ public class SysUserLoginController extends BaseController {
         return null;
     }
 
-    private ResultInfo<?> doLogin(HttpServletRequest request, OauthAccessTokenVO oauthAccessTokenVO) {
+    private ResultInfo<?> doLogin(HttpServletRequest request, OauthAccessTokenDTO oauthAccessTokenDTO) {
         // 获取用户信息
-        ResultInfo<OauthUserVO> result =
-            oauth2Service.getUserInfo(oauthAccessTokenVO.getAccessToken(), oauthAccessTokenVO.getOpenId());
+        ResultInfo<OauthUserDTO> result =
+            oauth2Service.getUserInfo(oauthAccessTokenDTO.getAccessToken(), oauthAccessTokenDTO.getOpenId());
         if (!result.isSuccess()) {
             return result;
         }
-        OauthUserVO oauthUserVO = result.getPayload();
+        OauthUserDTO oauthUserDTO = result.getPayload();
 
         String clientIp = JakartaServletUtil.getClientIP(request);
         String userAgent = request.getHeader(HttpHeaders.USER_AGENT);
 
         // 本地登录
-        ResultInfo<?> loginResult = sysUserService.login(oauthUserVO.getOpenId(), clientIp, userAgent);
+        ResultInfo<?> loginResult = sysUserService.login(oauthUserDTO.getOpenId(), clientIp, userAgent);
         if (!loginResult.isSuccess()) {
             return loginResult;
         }
@@ -160,7 +160,7 @@ public class SysUserLoginController extends BaseController {
 
         // 写入redis
         String key = CacheConstants.OAUTH2_TOKEN + sysUserLoginVO.getUserId();
-        redisService.setObj(key, oauthAccessTokenVO, TimeConstants.MINUTE_30);
+        redisService.setObj(key, oauthAccessTokenDTO, TimeConstants.MINUTE_30);
 
         return ResultInfo.ok(sysUserLoginVO);
     }

@@ -11,11 +11,6 @@
 	<artifactId>study-log</artifactId>
 
 	<dependencies>
-		<!--日志记录器-->
-		<dependency>
-			<groupId>io.github.mouzt</groupId>
-			<artifactId>bizlog-sdk</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>com.github.fank243</groupId>
 			<artifactId>study-core</artifactId>

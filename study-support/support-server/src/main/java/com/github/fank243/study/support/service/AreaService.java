@@ -16,7 +16,7 @@ import com.github.fank243.common.area.Area;
 import com.github.fank243.common.area.AreaConstants;
 import com.github.fank243.common.area.AreaHelper;
 import com.github.fank243.study.core.constants.TimeConstants;
-import com.github.fank243.study.support.domain.entity.AreaEntity;
+import com.github.fank243.study.support.domain.AreaEntity;
 import com.github.fank243.study.support.mapper.IAreaMapper;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;

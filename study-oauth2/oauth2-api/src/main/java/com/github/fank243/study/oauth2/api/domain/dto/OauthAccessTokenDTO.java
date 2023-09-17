@@ -1,11 +1,11 @@
-package com.github.fank243.study.oauth2.api.domain.vo;
+package com.github.fank243.study.oauth2.api.domain.dto;
 
-import java.io.Serializable;
+import com.github.fank243.study.core.base.BaseDTO;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 /**
  * 系统管理员表
@@ -13,11 +13,11 @@ import lombok.NoArgsConstructor;
  * @author FanWeiJie
  * @since 2022-06-27
  */
-@Data
+@Getter
+@Setter
+@SuperBuilder
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class OauthAccessTokenVO implements Serializable {
+public class OauthAccessTokenDTO extends BaseDTO {
 
     /** OpenID **/
     private String openId;

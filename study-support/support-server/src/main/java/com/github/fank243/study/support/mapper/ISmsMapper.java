@@ -2,7 +2,7 @@ package com.github.fank243.study.support.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.github.fank243.study.support.domain.entity.SmsEntity;
+import com.github.fank243.study.support.domain.SmsEntity;
 import com.mybatisflex.core.BaseMapper;
 
 /**

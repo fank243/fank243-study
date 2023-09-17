@@ -5,6 +5,7 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mybatisflex.annotation.Column;
+import com.mzt.logapi.starter.annotation.DIffLogIgnore;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,21 +27,21 @@ public class BaseEntity implements Serializable {
     protected static final String YY_MM_DD_HH_MM_SS = "yy/MM/dd HH:mm:ss";
 
     /** 创建人 **/
-    @Column(onInsertValue = "")
+    @DIffLogIgnore
     private String createdBy;
 
     /** 创建时间 **/
     @JsonFormat(pattern = YY_MM_DD_HH_MM_SS)
-    @Column(onInsertValue = "now()")
+    @DIffLogIgnore
     private Date createdDate;
 
     /** 最近修改人 **/
-    @Column(onUpdateValue = "")
+    @DIffLogIgnore
     private String lastModifiedBy;
 
     /** 最近修改时间 **/
     @JsonFormat(pattern = YY_MM_DD_HH_MM_SS)
-    @Column(onInsertValue = "now()", onUpdateValue = "now()")
+    @DIffLogIgnore
     private Date lastModifiedDate;
 
     /** 当前页码 **/

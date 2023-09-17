@@ -15,6 +15,9 @@ spring:
       address: grpc://${study.server-addr}:8091
       namespace: Polaris
 
+mybatis-flex:
+  mapper-locations: classpath:/com/github/fank243/study/**/mapper/xml/*.xml
+
 # springdoc 公共配置部分
 springdoc:
   author:
@@ -55,4 +58,5 @@ logging:
     io.lettuce: warn
     io.micrometer: warn
     reactor: warn
+
 

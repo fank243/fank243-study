@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.github.fank243.common.result.ResultInfo;
 import com.github.fank243.study.core.constants.ServerConstants;
+import com.github.fank243.study.oauth2.api.domain.dto.OauthAccessTokenDTO;
 import com.github.fank243.study.oauth2.api.domain.dto.OauthUserAccessTokenDTO;
-import com.github.fank243.study.oauth2.api.domain.vo.OauthAccessTokenVO;
-import com.github.fank243.study.oauth2.api.domain.vo.OauthUserVO;
+import com.github.fank243.study.oauth2.api.domain.dto.OauthUserDTO;
 
 /**
  * Oauth2 客户端
@@ -45,7 +45,7 @@ public interface IOauth2Service {
      * @return 令牌
      */
     @PostMapping(value = "/token", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
-    ResultInfo<OauthAccessTokenVO> getAccessToken(@RequestParam("grant_type") String grantType,
+    ResultInfo<OauthAccessTokenDTO> getAccessToken(@RequestParam("grant_type") String grantType,
         @RequestParam("username") String username, @RequestParam("password") String password,
         @RequestParam("scope") String scope, @RequestParam("client_id") String clientId,
         @RequestParam("client_secret") String clientSecret);
@@ -60,7 +60,7 @@ public interface IOauth2Service {
      * @return 令牌
      */
     @PostMapping(value = "/token", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
-    ResultInfo<OauthAccessTokenVO> getAccessToken(@RequestParam("grant_type") String grantType,
+    ResultInfo<OauthAccessTokenDTO> getAccessToken(@RequestParam("grant_type") String grantType,
         @RequestParam("code") String code, @RequestParam("client_id") String clientId,
         @RequestParam("client_secret") String clientSecret);
 
@@ -74,7 +74,7 @@ public interface IOauth2Service {
      * @return 令牌
      */
     @PostMapping(value = "/refresh", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
-    ResultInfo<OauthAccessTokenVO> refreshToken(@RequestParam("grant_type") String grantType,
+    ResultInfo<OauthAccessTokenDTO> refreshToken(@RequestParam("grant_type") String grantType,
         @RequestParam("refresh_token") String refreshToken, @RequestParam("client_id") String clientId,
         @RequestParam("client_secret") String clientSecret);
 
@@ -95,7 +95,7 @@ public interface IOauth2Service {
      * @return 用户信息
      */
     @GetMapping(value = "/users/info")
-    ResultInfo<OauthUserVO> getUserInfo(@RequestParam("accessToken") String accessToken,
+    ResultInfo<OauthUserDTO> getUserInfo(@RequestParam("accessToken") String accessToken,
         @RequestParam("openId") String openId);
 
     /**

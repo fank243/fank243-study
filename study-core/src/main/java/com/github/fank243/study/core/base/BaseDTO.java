@@ -2,9 +2,10 @@ package com.github.fank243.study.core.base;
 
 import java.io.Serializable;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 /**
  * BaseDTO
@@ -12,9 +13,10 @@ import lombok.NoArgsConstructor;
  * @author FanWeiJie
  * @since 2021-06-15 19:27:04
  */
-@Data
+@Getter
+@Setter
+@SuperBuilder
 @NoArgsConstructor
-@AllArgsConstructor
 public class BaseDTO implements Serializable {
 
     /** 当前页码 **/

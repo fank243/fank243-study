@@ -2,7 +2,7 @@ package com.github.fank243.study.oauth2.service;
 
 import org.springframework.stereotype.Service;
 
-import com.github.fank243.study.oauth2.api.domain.entity.OauthClientEntity;
+import com.github.fank243.study.oauth2.domain.OauthClientEntity;
 import com.github.fank243.study.oauth2.mapper.IOauthClientMapper;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;

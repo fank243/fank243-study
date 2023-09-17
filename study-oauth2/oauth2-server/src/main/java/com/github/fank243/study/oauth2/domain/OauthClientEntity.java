@@ -1,4 +1,4 @@
-package com.github.fank243.study.oauth2.api.domain.entity;
+package com.github.fank243.study.oauth2.domain;
 
 import java.io.Serializable;
 

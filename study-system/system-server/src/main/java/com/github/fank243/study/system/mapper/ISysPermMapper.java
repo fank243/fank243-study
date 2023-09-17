@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
-import com.github.fank243.study.system.domain.entity.SysPermEntity;
+import com.github.fank243.study.system.domain.SysPermEntity;
 import com.github.fank243.study.system.domain.vo.SysPermVO;
 import com.mybatisflex.core.BaseMapper;
 
