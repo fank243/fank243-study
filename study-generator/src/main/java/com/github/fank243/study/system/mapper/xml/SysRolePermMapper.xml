@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.fank243.study.system.mapper.ISysRolePermMapper">
+    <resultMap id="BaseResultMap" type="com.github.fank243.study.system.entity.SysRolePermEntity">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="role_id" jdbcType="INTEGER" property="roleId"/>
+        <result column="perm_id" jdbcType="INTEGER" property="permId"/>
+    </resultMap>
+
+    <sql id="TABLE_NAME">tb_sys_role_perm</sql>
+    <sql id="Base_Column_List">
+        `id`,`role_id`,`perm_id`
+    </sql>
+
+    <select id="findById" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from tb_sys_role_perm <where> and id = #{id} </where>
+    </select>
+
+    <select id="findByCondition" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from tb_sys_role_perm
+        <where>
+            <if test="sysRolePerm.id != null and sysRolePerm.id != ''">
+                and id = #{sysRolePerm.id,jdbcType=INTEGER}
+            </if>
+            <if test="sysRolePerm.roleId != null and sysRolePerm.roleId != ''">
+                and role_id = #{sysRolePerm.roleId,jdbcType=INTEGER}
+            </if>
+            <if test="sysRolePerm.permId != null and sysRolePerm.permId != ''">
+                and perm_id = #{sysRolePerm.permId,jdbcType=INTEGER}
+            </if>
+            
+        </where>
+        limit 1
+    </select>
+
+    <select id="findListByCondition" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from tb_sys_role_perm
+        <where>
+            <if test="sysRolePerm.id != null and sysRolePerm.id != ''">
+                and id = #{sysRolePerm.id,jdbcType=INTEGER}
+            </if>
+            <if test="sysRolePerm.roleId != null and sysRolePerm.roleId != ''">
+                and role_id = #{sysRolePerm.roleId,jdbcType=INTEGER}
+            </if>
+            <if test="sysRolePerm.permId != null and sysRolePerm.permId != ''">
+                and perm_id = #{sysRolePerm.permId,jdbcType=INTEGER}
+            </if>
+            
+        </where>
+    </select>
+</mapper>
