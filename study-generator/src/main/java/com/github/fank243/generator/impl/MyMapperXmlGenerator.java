@@ -12,6 +12,8 @@ import com.mybatisflex.codegen.constant.TemplateConst;
 import com.mybatisflex.codegen.entity.Table;
 import com.mybatisflex.codegen.generator.impl.MapperXmlGenerator;
 
+import cn.hutool.core.util.StrUtil;
+
 /**
  * 自定义MapperXML生成器
  * 
@@ -47,6 +49,9 @@ public class MyMapperXmlGenerator extends MapperXmlGenerator {
 
         // 字段转换
         Map<String, Object> columnMap = GeneratorUtils.convertColumn(table);
+
+		String entityNameUnderlineCase = StrUtil.toUnderlineCase(table.getEntityJavaFileName().replaceAll("Entity", ""));
+		columnMap.put("entityNameUnderlineCase", entityNameUnderlineCase.toUpperCase());
 
         Map<String, Object> params = new HashMap<>(columnMap);
         params.put("table", table);

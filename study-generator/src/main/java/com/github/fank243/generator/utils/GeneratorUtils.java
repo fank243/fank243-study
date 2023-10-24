@@ -25,7 +25,8 @@ public class GeneratorUtils {
 
     public static Map<String, Object> convertColumn(Table table) {
         var ref = new Object() {
-            String primaryColumnName = "", primaryPropertyType = "", propertySimpleType = "", primaryPropertyName = "";
+			// 主键字段名称|主键类型|主键简单类型|主键属性名称
+			String primaryColumnName = "", primaryPropertyName = "", primaryPropertyType = "", propertySimpleType = "";
             String logicDeleteName = "";
         };
         table.getColumns().forEach(column -> {

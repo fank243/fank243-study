@@ -7,10 +7,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.github.fank243.generator.domain.MyTable;
+import com.github.fank243.generator.impl.MyDTOrGenerator;
 import com.github.fank243.generator.impl.MyMapperGenerator;
 import com.github.fank243.generator.impl.MyMapperXmlGenerator;
 import com.github.fank243.generator.utils.DBUtils;
 import com.github.fank243.study.core.base.BaseEntity;
+import com.github.fank243.study.core.constants.Constants;
 import com.github.fank243.study.core.model.mf.MybatisFlexTableListener;
 import com.mybatisflex.annotation.KeyType;
 import com.mybatisflex.codegen.Generator;
@@ -44,6 +46,7 @@ public class GeneratorApp {
 
         GeneratorFactory.registerGenerator(GenTypeConst.MAPPER, new MyMapperGenerator());
         GeneratorFactory.registerGenerator(GenTypeConst.MAPPER_XML, new MyMapperXmlGenerator());
+        GeneratorFactory.registerGenerator("dto", new MyDTOrGenerator());
         for (MyTable myTable : buildTable()) {
             GlobalConfig globalConfig = createGlobalConfigUseStyle(myTable);
             Generator generator = new Generator(dataSource, globalConfig);
@@ -81,23 +84,20 @@ public class GeneratorApp {
     }
 
     public static GlobalConfig createGlobalConfigUseStyle(MyTable myTable) {
+        String srcDir = "F:/workspaces/fank243/fank243-study/study-generator/src/main/java";
+        String basePackage = Constants.BASE_PACKAGE + "." + myTable.getModelName();
+
         // 创建配置内容
         GlobalConfig globalConfig = new GlobalConfig();
         globalConfig.setAuthor("FanWeiJie");
         globalConfig.setSince(DateUtil.now());
 
-        String srcDir = "F:/workspaces/fank243/fank243-study/study-generator/src/main/java";
-        String templateDir = "F:/workspaces/fank243/fank243-study/study-generator/src/main/resources/enjoy";
-
         // dir
         globalConfig.setSourceDir(srcDir);
         globalConfig.setMapperXmlPath(srcDir + "/com/github/fank243/study/" + myTable.getModelName() + "/mapper/xml");
 
-        globalConfig.setEntityTemplatePath(templateDir + "/entity.tpl");
-        globalConfig.setMapperTemplatePath(templateDir + "/mapper.tpl");
-        globalConfig.setMapperXmlTemplatePath(templateDir + "/mapperXml.tpl");
-
-        globalConfig.getPackageConfig().setBasePackage("com.github.fank243.study." + myTable.getModelName());
+        globalConfig.getPackageConfig().setBasePackage(basePackage);
+        globalConfig.setEntityPackage(basePackage + ".domain");
 
         // 设置表前缀和只生成哪些表，setGenerateTable 未配置时，生成所有表
         globalConfig.getStrategyConfig().setTablePrefix("tb_").setGenerateTable(myTable.getTableName())

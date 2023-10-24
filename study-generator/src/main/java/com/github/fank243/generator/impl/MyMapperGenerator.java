@@ -46,12 +46,14 @@ public class MyMapperGenerator extends MapperGenerator {
         if (mapperJavaFile.exists() && !mapperConfig.isOverwriteEnable()) {
             return;
         }
+		packageConfig.setEntityPackage(packageConfig.getEntityPackage().replace("domain", "dto"));
 
         // 字段转换
         Map<String, Object> columnMap = GeneratorUtils.convertColumn(table);
 
         Map<String, Object> params = new HashMap<>(columnMap);
         params.put("table", table);
+		params.put("dtoName", table.buildEntityClassName().replace("Entity", "DTO"));
         params.put("mapperConfig", mapperConfig);
         params.put("packageConfig", packageConfig);
         params.put("javadocConfig", globalConfig.getJavadocConfig());

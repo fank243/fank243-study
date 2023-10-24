@@ -29,7 +29,7 @@ public interface ISysUserMapper extends BaseMapper<SysUserEntity> {
      * @param sysUser 条件参数
      * @return 系统管理员表
      */
-    SysUserEntity findByCondition(@Param("sysUser") SysUserEntity sysUser);
+	SysUserEntity findByCondition(@Param("params") SysUserEntity sysUser);
 
     /**
      * 多条件查询
@@ -37,6 +37,6 @@ public interface ISysUserMapper extends BaseMapper<SysUserEntity> {
      * @param sysUser 条件参数
      * @return 系统管理员表
      */
-    List<SysUserEntity> findListByCondition(@Param("sysUser") SysUserEntity sysUser);
+	List<SysUserEntity> findListByCondition(@Param("params") SysUserEntity sysUser);
 
 }

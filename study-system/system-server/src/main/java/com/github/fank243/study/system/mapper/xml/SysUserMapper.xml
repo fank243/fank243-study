@@ -22,11 +22,45 @@
         ,`username`,`nickname`,`status`,`open_id`,`is_deleted`,`created_by`,`created_date`,`last_modified_by`,`last_modified_date`
     </sql>
 
+    <!--通用查询条件-->
+    <sql id="WHERE_SYS_USER">
+        and is_deleted = false
+        <if test="sysUser.userId != null and sysUser.userId != ''">
+            and user_id = #{sysUser.userId,jdbcType=INTEGER}
+        </if>
+        <if test="sysUser.username != null and sysUser.username != ''">
+            and username = #{sysUser.username,jdbcType=VARCHAR}
+        </if>
+        <if test="sysUser.nickname != null and sysUser.nickname != ''">
+            and nickname = #{sysUser.nickname,jdbcType=VARCHAR}
+        </if>
+        <if test="sysUser.status != null and sysUser.status != ''">
+            and status = #{sysUser.status,jdbcType=INTEGER}
+        </if>
+        <if test="sysUser.openId != null and sysUser.openId != ''">
+            and open_id = #{sysUser.openId,jdbcType=VARCHAR}
+        </if>
+        <if test="sysUser.isDeleted != null and sysUser.isDeleted != ''">
+            and is_deleted = #{sysUser.isDeleted,jdbcType=INTEGER}
+        </if>
+        <if test="sysUser.createdBy != null and sysUser.createdBy != ''">
+            and created_by = #{sysUser.createdBy,jdbcType=VARCHAR}
+        </if>
+        <if test="sysUser.createdDate != null and sysUser.createdDate != ''">
+            and created_date = #{sysUser.createdDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="sysUser.lastModifiedBy != null and sysUser.lastModifiedBy != ''">
+            and last_modified_by = #{sysUser.lastModifiedBy,jdbcType=VARCHAR}
+        </if>
+        <if test="sysUser.lastModifiedDate != null and sysUser.lastModifiedDate != ''">
+            and last_modified_date = #{sysUser.lastModifiedDate,jdbcType=TIMESTAMP}
+        </if>
+    </sql>
+
     <select id="findByUserId" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from tb_sys_user
-        <where>and user_id = #{userId} and is_deleted = false</where>
+        from tb_sys_user where is_deleted = false and user_id = #{userId}
     </select>
 
     <select id="findByCondition" resultMap="BaseResultMap">
@@ -34,37 +68,7 @@
         <include refid="Base_Column_List"/>
         from tb_sys_user
         <where>
-            <if test="sysUser.userId != null and sysUser.userId != ''">
-                and user_id = #{sysUser.userId,jdbcType=INTEGER}
-            </if>
-            <if test="sysUser.username != null and sysUser.username != ''">
-                and username = #{sysUser.username,jdbcType=VARCHAR}
-            </if>
-            <if test="sysUser.nickname != null and sysUser.nickname != ''">
-                and nickname = #{sysUser.nickname,jdbcType=VARCHAR}
-            </if>
-            <if test="sysUser.status != null and sysUser.status != ''">
-                and status = #{sysUser.status,jdbcType=INTEGER}
-            </if>
-            <if test="sysUser.openId != null and sysUser.openId != ''">
-                and open_id = #{sysUser.openId,jdbcType=VARCHAR}
-            </if>
-            <if test="sysUser.isDeleted != null and sysUser.isDeleted != ''">
-                and is_deleted = #{sysUser.isDeleted,jdbcType=INTEGER}
-            </if>
-            <if test="sysUser.createdBy != null and sysUser.createdBy != ''">
-                and created_by = #{sysUser.createdBy,jdbcType=VARCHAR}
-            </if>
-            <if test="sysUser.createdDate != null and sysUser.createdDate != ''">
-                and created_date = #{sysUser.createdDate,jdbcType=TIMESTAMP}
-            </if>
-            <if test="sysUser.lastModifiedBy != null and sysUser.lastModifiedBy != ''">
-                and last_modified_by = #{sysUser.lastModifiedBy,jdbcType=VARCHAR}
-            </if>
-            <if test="sysUser.lastModifiedDate != null and sysUser.lastModifiedDate != ''">
-                and last_modified_date = #{sysUser.lastModifiedDate,jdbcType=TIMESTAMP}
-            </if>
-            and is_deleted = false
+
         </where>
         limit 1
     </select>
@@ -74,37 +78,9 @@
         <include refid="Base_Column_List"/>
         from tb_sys_user
         <where>
-            <if test="sysUser.userId != null and sysUser.userId != ''">
-                and user_id = #{sysUser.userId,jdbcType=INTEGER}
-            </if>
-            <if test="sysUser.username != null and sysUser.username != ''">
-                and username = #{sysUser.username,jdbcType=VARCHAR}
-            </if>
-            <if test="sysUser.nickname != null and sysUser.nickname != ''">
-                and nickname = #{sysUser.nickname,jdbcType=VARCHAR}
-            </if>
-            <if test="sysUser.status != null and sysUser.status != ''">
-                and status = #{sysUser.status,jdbcType=INTEGER}
-            </if>
-            <if test="sysUser.openId != null and sysUser.openId != ''">
-                and open_id = #{sysUser.openId,jdbcType=VARCHAR}
-            </if>
-            <if test="sysUser.isDeleted != null and sysUser.isDeleted != ''">
-                and is_deleted = #{sysUser.isDeleted,jdbcType=INTEGER}
-            </if>
-            <if test="sysUser.createdBy != null and sysUser.createdBy != ''">
-                and created_by = #{sysUser.createdBy,jdbcType=VARCHAR}
-            </if>
-            <if test="sysUser.createdDate != null and sysUser.createdDate != ''">
-                and created_date = #{sysUser.createdDate,jdbcType=TIMESTAMP}
-            </if>
-            <if test="sysUser.lastModifiedBy != null and sysUser.lastModifiedBy != ''">
-                and last_modified_by = #{sysUser.lastModifiedBy,jdbcType=VARCHAR}
-            </if>
-            <if test="sysUser.lastModifiedDate != null and sysUser.lastModifiedDate != ''">
-                and last_modified_date = #{sysUser.lastModifiedDate,jdbcType=TIMESTAMP}
-            </if>
-            and is_deleted = false
+            <include refid="WHERE_SYS_USER"/>
         </where>
+
+
     </select>
 </mapper>

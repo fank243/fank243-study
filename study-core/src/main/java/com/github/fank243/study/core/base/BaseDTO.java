@@ -1,7 +1,9 @@
 package com.github.fank243.study.core.base;
 
 import java.io.Serializable;
+import java.util.List;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -34,5 +36,13 @@ public class BaseDTO implements Serializable {
             return 10;
         }
         return pageSize > 100 ? 100 : pageSize;
+    }
+
+    private List<ColumnSort> columnSortList;
+
+    @Data
+    static class ColumnSort {
+        private String sortColumn;
+        private String sortType;
     }
 }
