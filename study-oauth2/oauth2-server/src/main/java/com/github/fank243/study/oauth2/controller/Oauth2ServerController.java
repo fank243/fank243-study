@@ -101,6 +101,10 @@ public class Oauth2ServerController {
         return null;
     }
 
+    @RequestMapping("/login")
+    public String login() {
+        return "login";
+    }
     /** 登录接口 **/
     @PostMapping("/oauth2/login")
     @ResponseBody

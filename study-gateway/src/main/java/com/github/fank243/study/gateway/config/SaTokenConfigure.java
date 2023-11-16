@@ -115,7 +115,7 @@ public class SaTokenConfigure {
                 try {
                     perms = future.get();
                 } catch (InterruptedException | ExecutionException e) {
-                    e.printStackTrace();
+					log.error("获取登录用户所有权限异常：{}", e.getMessage(), e);
                     throw new RuntimeException(e);
                 }
                 // 菜单、接口权限

@@ -156,7 +156,7 @@ public class SysUserLoginController extends BaseController {
         sysUserLoginVO.setTokenTimeout(tokenInfo.getTokenTimeout());
         sysUserLoginVO.setSessionTimeout(tokenInfo.getSessionTimeout());
         sysUserLoginVO.setTokenSessionTimeout(tokenInfo.getTokenSessionTimeout());
-        sysUserLoginVO.setTokenActivityTimeout(tokenInfo.getTokenActivityTimeout());
+		sysUserLoginVO.setTokenActiveTimeout(tokenInfo.getTokenActiveTimeout());
 
         // 写入redis
         String key = CacheConstants.OAUTH2_TOKEN + sysUserLoginVO.getUserId();
