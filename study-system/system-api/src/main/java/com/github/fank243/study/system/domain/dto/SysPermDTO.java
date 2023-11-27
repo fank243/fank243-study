@@ -34,7 +34,7 @@ public class SysPermDTO extends BaseDTO {
 
     /** 父ID */
     @NotNull(message = "请选择父菜单", groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
-    private String pid;
+	private Long pid;
 
     /*** 菜单代码 */
     @Length(min = 2, max = 20, message = "菜单代码长度在2-20位之间",

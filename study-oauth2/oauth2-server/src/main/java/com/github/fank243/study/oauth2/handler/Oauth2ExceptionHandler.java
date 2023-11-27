@@ -30,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 public class Oauth2ExceptionHandler {
 
     @ExceptionHandler(SaOAuth2Exception.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+//    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ResponseBody
     public ResultInfo<?> handlerSaOauth2Exception(SaOAuth2Exception e) {
         log.error("Oauth2认证异常：{}", e.getMessage(), e);

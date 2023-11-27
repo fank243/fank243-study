@@ -12,7 +12,6 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -45,28 +44,38 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 
         for (HandlerInterceptor handlerInterceptor : handlerInterceptors) {
             // 为添加了此注解的类自动配置
-            Interceptor annotation = AnnotationUtils.findAnnotation(handlerInterceptor.getClass(), Interceptor.class);
-            InterceptorRegistration registration = registry.addInterceptor(handlerInterceptor);
+            Interceptor annotation = getInterceptorAnnotation(handlerInterceptor);
             if (annotation == null) {
                 continue;
             }
 
             // 需要拦截的资源
             List<String> includeList = new ArrayList<>(Arrays.asList(annotation.include()));
-            if (includeList.size() > 0) {
-                registration.addPathPatterns(includeList);
+            if (!includeList.isEmpty()) {
+                registry.addInterceptor(handlerInterceptor).addPathPatterns(includeList);
             }
 
             // 需要排除的资源以及静态资源
             List<String> excludeList = new ArrayList<>(Arrays.asList(annotation.exclude()));
             excludeList.add("/docs/**");
-            registration.excludePathPatterns(excludeList);
+            registry.addInterceptor(handlerInterceptor).excludePathPatterns(excludeList);
         }
     }
 
     /**
+     * 获取拦截器的注解信息
+     *
+     * @param handlerInterceptor 拦截器对象
+     * @return 拦截器的注解信息
+     */
+    private Interceptor getInterceptorAnnotation(HandlerInterceptor handlerInterceptor) {
+        Class<?> handlerInterceptorClass = handlerInterceptor.getClass();
+        return AnnotationUtils.findAnnotation(handlerInterceptorClass, Interceptor.class);
+    }
+
+    /**
      * 对列表中的拦截根据order字段的值从小到大排序
-     * 
+     *
      * @param o 目标对象
      * @return 序号
      */
@@ -77,5 +86,4 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         }
         return annotation.order();
     }
-
 }

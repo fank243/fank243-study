@@ -16,6 +16,7 @@ import com.github.fank243.generator.domain.MyTable;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Jdbc Tool
@@ -23,6 +24,7 @@ import cn.hutool.core.util.StrUtil;
  * @author FanWeiJie
  * @date 2023/09/16 22:28
  */
+@Slf4j
 public class DBUtils {
     public static final String JDBC_URL;
 
@@ -38,7 +40,7 @@ public class DBUtils {
             // 注册驱动
             Class.forName(Driver.class.getName());
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
     }
 
@@ -47,7 +49,7 @@ public class DBUtils {
         try {
             return DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             return null;
         }
     }
@@ -97,7 +99,7 @@ public class DBUtils {
 
             return tableList;
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             return null;
         }
     }
@@ -120,21 +122,21 @@ public class DBUtils {
                 rs.close();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         try {
             if (ps != null) {
                 ps.close();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         try {
             if (conn != null) {
                 conn.close();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
     }
 }

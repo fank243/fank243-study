@@ -88,7 +88,9 @@ public class OauthUserController {
         return ResultInfo.ok(oauthUserAccessTokenDTO);
     }
 
-    /** 获取用户信息 **/
+    /**
+     * 新增用户
+     **/
     @PostMapping({"/users/add"})
     public ResultInfo<?>
         addUser(@RequestBody @Validated(ValidatorGroup.Create.class) OauthUserAccessTokenDTO oauthUserAccessTokenDTO) {

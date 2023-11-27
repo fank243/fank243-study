@@ -34,7 +34,7 @@ public class OperLogService extends ServiceImpl<IOperLogMapper, OperLogEntity> {
      * @return 列表
      */
     public PageBean<OperLogVO> page(OperLogDTO operLogDTO) {
-        QueryWrapper queryWrapper = QueryWrapper.create().orderBy(OperLogEntity::getCreateTime, false);
+		QueryWrapper queryWrapper = QueryWrapper.create().orderBy(OperLogEntity::getCreatedTime, false);
 
         Page<OperLogEntity> operLogEntityPage =
             operLogMapper.paginate(new Page<>(operLogDTO.getCurrPage(), operLogDTO.getPageSize()), queryWrapper);

@@ -59,7 +59,12 @@
 .dtree{width:260px;}
 .dtree-nav-item{line-height:33px;padding-left:16px;}
 .dtree-nav-ul-sid{display: none;}
-.dtree-none-text{font-size: 12px;text-align: center;color: gray;}
+
+.dtree-none-text {
+	font-size: 12px;
+	text-align: center;
+	color: rgb(128, 128, 128);
+}
 
 /* 树线*/
 .dtree-nav-first-line,.dtree-nav-line,.dtree-nav-last-line{position: relative;}

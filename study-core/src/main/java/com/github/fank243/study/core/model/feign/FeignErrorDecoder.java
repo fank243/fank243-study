@@ -47,7 +47,7 @@ public class FeignErrorDecoder extends ErrorDecoder.Default {
             }
             log.error("OpenFeign 调用异常：{}，响应信息：{}", response.status(), exception.getLocalizedMessage(), exception);
         } catch (Exception ioException) {
-            ioException.printStackTrace();
+			log.error(ioException.getMessage(), ioException);
             exception = new RuntimeException(StrUtil.format("系统出错了[{}]", ioException.getLocalizedMessage()));
         }
         return exception;

@@ -27,7 +27,7 @@ import lombok.experimental.SuperBuilder;
 public class SysRoleDTO extends BaseDTO {
 
     /** 角色ID */
-    @NotBlank(message = "角色ID必传", groups = {ValidatorGroup.Modify.class})
+	@NotNull(message = "角色ID必传", groups = {ValidatorGroup.Modify.class})
     private Long roleId;
 
     /*** 角色代码 */

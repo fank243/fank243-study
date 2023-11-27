@@ -54,5 +54,5 @@ public class OperLogEntity implements Serializable {
     private String extra;
 
     /** 日志操作时间 */
-    private Date createTime;
+	private Date createdTime;
 }

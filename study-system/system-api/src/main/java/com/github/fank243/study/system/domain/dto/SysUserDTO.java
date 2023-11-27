@@ -12,6 +12,7 @@ import com.mzt.logapi.starter.annotation.DiffLogAllFields;
 
 import cn.hutool.core.lang.RegexPool;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,7 +33,7 @@ import lombok.experimental.SuperBuilder;
 public class SysUserDTO extends BaseDTO {
 
     /** 用户ID */
-    @NotBlank(message = "用户ID必传", groups = {ValidatorGroup.Modify.class})
+	@NotNull(message = "用户ID必传", groups = {ValidatorGroup.Modify.class})
     private Long userId;
 
     /** 用户名 */

@@ -19,7 +19,11 @@ import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * 防重复提交拦截器抽象父类
- * 
+ *
+ * <p>该类是一个抽象父类，用于实现防止重复提交的拦截器功能。</p>
+ *
+ * <p>该拦截器通过拦截器注解和条件注解来实现，用于防止用户在Web应用程序中进行重复提交操作。</p>
+ *
  * @author FanWeiJie
  * @since 2022-06-10 09:56:23
  */
@@ -35,17 +39,16 @@ public abstract class AbstractRepeatSubmitInterceptor implements HandlerIntercep
 
             RepeatSubmit annotation = method.getAnnotation(RepeatSubmit.class);
             if (annotation == null) {
-                return Boolean.TRUE;
+				return true;
             }
 
             // 根据不同的验证规则执行相应的验证逻辑
             if (this.isRepeatSubmit(request, annotation)) {
                 WebUtils.renderJson(response, ResultInfo.err429(annotation.message()));
-                return Boolean.FALSE;
+				return false;
             }
         }
-
-        return Boolean.TRUE;
+		return true;
     }
 
     /**

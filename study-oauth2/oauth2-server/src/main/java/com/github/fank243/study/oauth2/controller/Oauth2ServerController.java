@@ -150,7 +150,7 @@ public class Oauth2ServerController {
                 return "confirm";
             });
         // 开启密码认证模式
-        cfg.setIsPassword(true);
+        cfg.setIsPassword(Boolean.TRUE);
     }
 
 }

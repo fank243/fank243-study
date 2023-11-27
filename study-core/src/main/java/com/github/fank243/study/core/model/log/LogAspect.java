@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.github.fank243.study.core.utils.WebUtils;
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.extra.servlet.JakartaServletUtil;
 import cn.hutool.json.JSONUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,9 +32,9 @@ public class LogAspect {
             return point.proceed();
         }
         ReqRespLog reqRespLog = new ReqRespLog();
-//        if (StpUtil.isLogin()) {
-//            reqRespLog.setUserId(StpUtil.getLoginIdAsString());
-//        }
+		if (StpUtil.isLogin()) {
+			reqRespLog.setUserId(StpUtil.getLoginIdAsString());
+		}
         reqRespLog.setReqUri(request.getRequestURI());
         reqRespLog.setReqMethod(request.getMethod());
         reqRespLog.setReqHeader(JSONUtil.toJsonStr(WebUtils.getHeader(request)));
