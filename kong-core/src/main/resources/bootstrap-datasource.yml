@@ -1,0 +1,45 @@
+spring:
+  redis:
+    host: localhost
+    port: 6379
+    password: redis
+    database: 0
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql://${kong.server-addr}:3306/kong-cloud?useUnicode=true&characterEncoding=utf8&useSSL=false&autoReconnect=true&failOverReadOnly=false
+  data:
+    redis:
+      host: ${spring.redis.host}
+      port: ${spring.redis.port}
+      password: ${spring.redis.password}
+      database: ${spring.redis.database}
+  jpa:
+    show-sql: true
+#    hibernate:
+#      ddl-auto: update
+    open-in-view: false
+
+# https://github.com/alibaba/jetcache/blob/master/docs/CN/Config.md
+jetcache:
+  statIntervalMinutes: 15
+  areaInCacheName: false
+  local:
+    default:
+      type: caffeine
+      keyConvertor: jackson
+      # 每个缓存实例可缓存最大数量
+      limit: 100
+  remote:
+    default:
+      type: redisson
+      keyConvertor: jackson
+      valueEncoder: java
+      valueDecoder: java
+      poolConfig:
+        minIdle: 5
+        maxIdle: 20
+        maxTotal: 50
+      # 默认过期时间，单位：毫秒，此处设为：1个小时
+      defaultExpireInMillis: 3600000

@@ -1,0 +1,50 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        # Oauth2 登录认证
+        - id: kong-oauth2
+          uri: lb://kong-oauth2
+          predicates:
+            - Path=/oauth2/**
+        # Oauth2 静态资源
+        - id: kong-oauth2
+          uri: lb://kong-oauth2
+          predicates:
+            - Path=/auth/**
+
+        # 支撑服务
+        - id: kong-support
+          uri: lb://kong-support
+          predicates:
+            - Path=/api/support/**
+          filters:
+            - StripPrefix=1
+        # 支撑服务 > 文件浏览
+        - id: kong-support-view
+          uri: lb://kong-support
+          predicates:
+            - Path=/file/**
+          filters:
+            - RewritePath=/file/(?<segment>.*), /support/file/$\{segment}
+        # 支撑服务 > Api文档
+        - id: kong-support-docs
+          uri: lb://kong-support
+          predicates:
+            - Path=/support/**
+
+        # 系统服务
+        - id: kong-system
+          uri: lb://kong-system
+          predicates:
+            - Path=/api/system/**
+          filters:
+            - StripPrefix=1
+        # 系统服务 > Api文档
+        - id: kong-system-docs
+          uri: lb://kong-system
+          predicates:
+            - Path=/system/**
+
+
+# 获取路由地址：/actuator/gateway/routes

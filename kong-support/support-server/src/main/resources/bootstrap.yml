@@ -1,0 +1,25 @@
+server:
+  port: 8902
+  servlet:
+    context-path: /support
+
+spring:
+  profiles.include: common,datasource
+  application.name: kong-support
+  # 指定devtools端口
+  devtools.livereload.port: 35734
+  # 单文件上传大小
+  servlet.multipart.max-file-size: 10MB
+  # 总请求流数据大小
+  servlet.multipart.max-request-size: 10MB
+
+springdoc:
+  api-info:
+    title: 支撑服务接口文档
+    description: 支撑服务接口文档
+    version: 1.0
+kong:
+  # 文件上传根路径，不能以“/”结尾
+  file.path: E:/data/upload
+  sms:
+    # 短信服务配置
