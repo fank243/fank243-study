@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2024 Kong@杰少
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.fank243.kong.support.mapper.ISupportAreaMapper">
+    <resultMap id="BaseResultMap" type="com.github.fank243.kong.support.domain.SupportAreaEntity">
+        <id column="area_id" jdbcType="INTEGER" property="areaId"/>
+        <result column="province_code" jdbcType="VARCHAR" property="provinceCode"/>
+        <result column="province_name" jdbcType="VARCHAR" property="provinceName"/>
+        <result column="city_code" jdbcType="VARCHAR" property="cityCode"/>
+        <result column="city_name" jdbcType="VARCHAR" property="cityName"/>
+        <result column="area_code" jdbcType="VARCHAR" property="areaCode"/>
+        <result column="area_name" jdbcType="VARCHAR" property="areaName"/>
+        <result column="created_by" jdbcType="VARCHAR" property="createdBy"/>
+        <result column="created_date" jdbcType="TIMESTAMP" property="createdDate"/>
+        <result column="last_modified_by" jdbcType="VARCHAR" property="lastModifiedBy"/>
+        <result column="last_modified_date" jdbcType="TIMESTAMP" property="lastModifiedDate"/>
+    </resultMap>
+
+    <!-- 表名 -->
+    <sql id="TABLE_NAME">tb_support_area</sql>
+
+    <!-- 所有字段 -->
+    <sql id="Base_Column_List">
+        `area_id`,`province_code`,`province_name`,`city_code`,`city_name`,`area_code`,`area_name`,`created_by`,`created_date`,`last_modified_by`,`last_modified_date`
+    </sql>
+
+    <!-- 通用查询条件 -->
+    <sql id="WHERE_SUPPORT_AREA">
+            <if test="supportArea.areaId != null and supportArea.areaId != ''">
+                and area_id = #{params.areaId,jdbcType=INTEGER}
+            </if>
+            <if test="supportArea.provinceCode != null and supportArea.provinceCode != ''">
+                and province_code = #{params.provinceCode,jdbcType=VARCHAR}
+            </if>
+            <if test="supportArea.provinceName != null and supportArea.provinceName != ''">
+                and province_name = #{params.provinceName,jdbcType=VARCHAR}
+            </if>
+            <if test="supportArea.cityCode != null and supportArea.cityCode != ''">
+                and city_code = #{params.cityCode,jdbcType=VARCHAR}
+            </if>
+            <if test="supportArea.cityName != null and supportArea.cityName != ''">
+                and city_name = #{params.cityName,jdbcType=VARCHAR}
+            </if>
+            <if test="supportArea.areaCode != null and supportArea.areaCode != ''">
+                and area_code = #{params.areaCode,jdbcType=VARCHAR}
+            </if>
+            <if test="supportArea.areaName != null and supportArea.areaName != ''">
+                and area_name = #{params.areaName,jdbcType=VARCHAR}
+            </if>
+            <if test="supportArea.createdBy != null and supportArea.createdBy != ''">
+                and created_by = #{params.createdBy,jdbcType=VARCHAR}
+            </if>
+            <if test="supportArea.createdDate != null and supportArea.createdDate != ''">
+                and created_date = #{params.createdDate,jdbcType=TIMESTAMP}
+            </if>
+            <if test="supportArea.lastModifiedBy != null and supportArea.lastModifiedBy != ''">
+                and last_modified_by = #{params.lastModifiedBy,jdbcType=VARCHAR}
+            </if>
+            <if test="supportArea.lastModifiedDate != null and supportArea.lastModifiedDate != ''">
+                and last_modified_date = #{params.lastModifiedDate,jdbcType=TIMESTAMP}
+            </if>
+        
+    </sql>
+
+    <!-- 排序 -->
+    <sql id="SORT_SUPPORT_AREA">
+        <if test="params.columnSortList != null and params.columnSortList.size() > 0">
+          order by
+          <foreach collection="params.columnSortList" item="item" separator=",">
+              #{item.sortColumn} #{item.sortType}
+          </foreach>
+      </if>
+    </sql>
+
+     <!-- 根据主键查询 -->
+    <select id="findByAreaId" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from tb_support_area <where> and area_id = #{areaId} </where>
+    </select>
+
+    <!-- 多条件查询(单条记录) -->
+    <select id="findByCondition" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_support_area
+        <where>
+           <include refid="WHERE_SUPPORT_AREA"/>
+        </where>
+        <include refid="SORT_SUPPORT_AREA"/>
+        limit 1
+    </select>
+
+    <!-- 多条件查询(多条记录) -->
+    <select id="findListByCondition" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_support_area
+        <where>
+            <include refid="WHERE_SUPPORT_AREA"/>
+        </where>
+        <include refid="SORT_SUPPORT_AREA"/>
+    </select>
+</mapper>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2024 Kong@杰少
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.fank243.kong.system.mapper.ISysRolePermMapper">
+    <resultMap id="BaseResultMap" type="com.github.fank243.kong.system.domain.SysRolePermEntity">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="role_id" jdbcType="INTEGER" property="roleId"/>
+        <result column="perm_id" jdbcType="INTEGER" property="permId"/>
+    </resultMap>
+
+    <!-- 表名 -->
+    <sql id="TABLE_NAME">tb_sys_role_perm</sql>
+
+    <!-- 所有字段 -->
+    <sql id="Base_Column_List">
+        `id`,`role_id`,`perm_id`
+    </sql>
+
+    <!-- 通用查询条件 -->
+    <sql id="WHERE_SYS_ROLE_PERM">
+            <if test="sysRolePerm.id != null and sysRolePerm.id != ''">
+                and id = #{params.id,jdbcType=INTEGER}
+            </if>
+            <if test="sysRolePerm.roleId != null and sysRolePerm.roleId != ''">
+                and role_id = #{params.roleId,jdbcType=INTEGER}
+            </if>
+            <if test="sysRolePerm.permId != null and sysRolePerm.permId != ''">
+                and perm_id = #{params.permId,jdbcType=INTEGER}
+            </if>
+        
+    </sql>
+
+    <!-- 排序 -->
+    <sql id="SORT_SYS_ROLE_PERM">
+        <if test="params.columnSortList != null and params.columnSortList.size() > 0">
+          order by
+          <foreach collection="params.columnSortList" item="item" separator=",">
+              #{item.sortColumn} #{item.sortType}
+          </foreach>
+      </if>
+    </sql>
+
+     <!-- 根据主键查询 -->
+    <select id="findById" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from tb_sys_role_perm <where> and id = #{id} </where>
+    </select>
+
+    <!-- 多条件查询(单条记录) -->
+    <select id="findByCondition" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_sys_role_perm
+        <where>
+           <include refid="WHERE_SYS_ROLE_PERM"/>
+        </where>
+        <include refid="SORT_SYS_ROLE_PERM"/>
+        limit 1
+    </select>
+
+    <!-- 多条件查询(多条记录) -->
+    <select id="findListByCondition" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_sys_role_perm
+        <where>
+            <include refid="WHERE_SYS_ROLE_PERM"/>
+        </where>
+        <include refid="SORT_SYS_ROLE_PERM"/>
+    </select>
+</mapper>
