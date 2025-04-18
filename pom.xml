@@ -21,7 +21,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.fank243</groupId>
     <artifactId>kong-cloud</artifactId>
-    <version>1.2.3</version>
+    <version>1.2.4</version>
     <modules>
         <module>kong-log</module>
         <module>kong-core</module>
@@ -36,8 +36,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
 
         <kong-denpendencies.version>1.1.0</kong-denpendencies.version>
 
