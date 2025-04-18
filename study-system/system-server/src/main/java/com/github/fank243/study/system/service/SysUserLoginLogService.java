@@ -3,9 +3,9 @@ package com.github.fank243.study.system.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.github.fank243.study.system.domain.entity.SysUserLoginLogEntity;
+import com.github.fank243.study.system.domain.SysUserLoginLogEntity;
 import com.github.fank243.study.system.mapper.ISysUserLoginLogMapper;
+import com.mybatisflex.spring.service.impl.ServiceImpl;
 
 /**
  * 系统管理员登录日志表 服务类

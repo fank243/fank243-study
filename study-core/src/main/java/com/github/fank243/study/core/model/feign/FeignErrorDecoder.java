@@ -1,8 +1,24 @@
+/*
+ * Copyright (c) 2024 fank243
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.github.fank243.study.core.model.feign;
 
 import java.nio.charset.StandardCharsets;
 
-import com.github.fank243.common.result.ResultInfo;
+import com.github.fank243.kong.tool.result.ResultInfo;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
@@ -47,7 +63,7 @@ public class FeignErrorDecoder extends ErrorDecoder.Default {
             }
             log.error("OpenFeign 调用异常：{}，响应信息：{}", response.status(), exception.getLocalizedMessage(), exception);
         } catch (Exception ioException) {
-            ioException.printStackTrace();
+			log.error(ioException.getMessage(), ioException);
             exception = new RuntimeException(StrUtil.format("系统出错了[{}]", ioException.getLocalizedMessage()));
         }
         return exception;

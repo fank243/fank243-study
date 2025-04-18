@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.fank243.study.system.mapper.ISysUserMapper">
+    <resultMap id="BaseResultMap" type="com.github.fank243.study.system.domain.SysUserEntity">
+        <id column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="nickname" jdbcType="VARCHAR" property="nickname"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="open_id" jdbcType="VARCHAR" property="openId"/>
+        <result column="is_deleted" jdbcType="INTEGER" property="isDeleted"/>
+        <result column="created_by" jdbcType="VARCHAR" property="createdBy"/>
+        <result column="created_date" jdbcType="TIMESTAMP" property="createdDate"/>
+        <result column="last_modified_by" jdbcType="VARCHAR" property="lastModifiedBy"/>
+        <result column="last_modified_date" jdbcType="TIMESTAMP" property="lastModifiedDate"/>
+    </resultMap>
+
+    <sql id="TABLE_NAME">tb_sys_user</sql>
+    <sql id="Base_Column_List">
+        `user_id`
+        ,`username`,`nickname`,`status`,`open_id`,`is_deleted`,`created_by`,`created_date`,`last_modified_by`,`last_modified_date`
+    </sql>
+
+    <!--通用查询条件-->
+    <sql id="WHERE_SYS_USER">
+        and is_deleted = false
+        <if test="sysUser.userId != null and sysUser.userId != ''">
+            and user_id = #{sysUser.userId,jdbcType=INTEGER}
+        </if>
+        <if test="sysUser.username != null and sysUser.username != ''">
+            and username = #{sysUser.username,jdbcType=VARCHAR}
+        </if>
+        <if test="sysUser.nickname != null and sysUser.nickname != ''">
+            and nickname = #{sysUser.nickname,jdbcType=VARCHAR}
+        </if>
+        <if test="sysUser.status != null and sysUser.status != ''">
+            and status = #{sysUser.status,jdbcType=INTEGER}
+        </if>
+        <if test="sysUser.openId != null and sysUser.openId != ''">
+            and open_id = #{sysUser.openId,jdbcType=VARCHAR}
+        </if>
+        <if test="sysUser.isDeleted != null and sysUser.isDeleted != ''">
+            and is_deleted = #{sysUser.isDeleted,jdbcType=INTEGER}
+        </if>
+        <if test="sysUser.createdBy != null and sysUser.createdBy != ''">
+            and created_by = #{sysUser.createdBy,jdbcType=VARCHAR}
+        </if>
+        <if test="sysUser.createdDate != null and sysUser.createdDate != ''">
+            and created_date = #{sysUser.createdDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="sysUser.lastModifiedBy != null and sysUser.lastModifiedBy != ''">
+            and last_modified_by = #{sysUser.lastModifiedBy,jdbcType=VARCHAR}
+        </if>
+        <if test="sysUser.lastModifiedDate != null and sysUser.lastModifiedDate != ''">
+            and last_modified_date = #{sysUser.lastModifiedDate,jdbcType=TIMESTAMP}
+        </if>
+    </sql>
+
+    <select id="findByUserId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_sys_user where is_deleted = false and user_id = #{userId}
+    </select>
+
+    <select id="findByCondition" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_sys_user
+        <where>
+
+        </where>
+        limit 1
+    </select>
+
+    <select id="findListByCondition" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_sys_user
+        <where>
+            <include refid="WHERE_SYS_USER"/>
+        </where>
+
+
+    </select>
+</mapper>

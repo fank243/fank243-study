@@ -1,16 +1,32 @@
+/*
+ * Copyright (c) 2024 fank243
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.github.fank243.study.system.interceptor;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import com.github.fank243.common.result.ResultInfo;
+import com.github.fank243.kong.tool.result.ResultInfo;
 import com.github.fank243.study.core.annotation.Interceptor;
 import com.github.fank243.study.core.constants.CacheConstants;
-import com.github.fank243.study.core.constants.TimeConstant;
+import com.github.fank243.study.core.constants.TimeConstants;
 import com.github.fank243.study.core.model.redis.RedisService;
 import com.github.fank243.study.core.properties.StudyProperties;
 import com.github.fank243.study.oauth2.api.constants.Oauth2Constants;
-import com.github.fank243.study.oauth2.api.domain.vo.OauthAccessTokenVO;
+import com.github.fank243.study.oauth2.api.domain.dto.OauthAccessTokenDTO;
 import com.github.fank243.study.oauth2.api.service.IOauth2Service;
 
 import cn.dev33.satoken.stp.StpUtil;
@@ -44,21 +60,21 @@ public class TokenRefreshInterceptor implements HandlerInterceptor {
         }
         String userId = StpUtil.getLoginIdAsString();
         String key = CacheConstants.OAUTH2_TOKEN + userId;
-        if (redisService.getExpire(key) > TimeConstant.MINUTE_5) {
+        if (redisService.getExpire(key) > TimeConstants.MINUTE_5) {
             return HandlerInterceptor.super.preHandle(request, response, handler);
         }
         Object obj = redisService.getObj(key);
-        if (obj instanceof OauthAccessTokenVO oauthAccessTokenVO) {
+        if (obj instanceof OauthAccessTokenDTO oauthAccessTokenDTO) {
             // 有请求就刷新令牌
             IOauth2Service oauth2Service = SpringUtil.getBean(IOauth2Service.class);
-            ResultInfo<OauthAccessTokenVO> result =
+            ResultInfo<OauthAccessTokenDTO> result =
                 oauth2Service.refreshToken(Oauth2Constants.GrantType.REFRESH_TOKEN.name().toLowerCase(),
-                    oauthAccessTokenVO.getRefreshToken(), StudyProperties.clientId, StudyProperties.clientSecret);
+                    oauthAccessTokenDTO.getRefreshToken(), StudyProperties.clientId, StudyProperties.clientSecret);
             if (!result.isSuccess()) {
                 log.info("【令牌刷新拦截器】刷新令牌失败：{}", result);
             } else {
                 // 覆写redis
-                redisService.setObj(key, result.getPayload(), TimeConstant.MINUTE_30);
+                redisService.setObj(key, result.getPayload(), TimeConstants.MINUTE_30);
             }
         }
         return HandlerInterceptor.super.preHandle(request, response, handler);

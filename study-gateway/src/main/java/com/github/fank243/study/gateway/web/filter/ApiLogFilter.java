@@ -97,9 +97,7 @@ public class ApiLogFilter implements GlobalFilter, Ordered {
         }
         // 获取响应体
         ServerHttpResponseDecorator decoratedResponse = recordResponseLog(exchange, reqRespLog);
-        return chain.filter(exchange.mutate().response(decoratedResponse).build()).then(Mono.fromRunnable(() -> {
-            LogUtils.printLog(reqRespLog);
-        }));
+        return chain.filter(exchange.mutate().response(decoratedResponse).build()).then(Mono.fromRunnable(() -> LogUtils.printLog(reqRespLog)));
     }
 
     /**
@@ -142,9 +140,7 @@ public class ApiLogFilter implements GlobalFilter, Ordered {
 
             // 记录普通的
             return chain.filter(exchange.mutate().request(decoratedRequest).response(decoratedResponse).build())
-                .then(Mono.fromRunnable(() -> {
-                    LogUtils.printLog(reqRespLog);
-                }));
+                    .then(Mono.fromRunnable(() -> LogUtils.printLog(reqRespLog)));
         }));
     }
 

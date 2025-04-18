@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2024 fank243
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.github.fank243.study.oauth2.api.service;
 
 import org.springframework.cloud.openfeign.FeignClient;
@@ -7,11 +23,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.github.fank243.common.result.ResultInfo;
+import com.github.fank243.kong.tool.result.ResultInfo;
 import com.github.fank243.study.core.constants.ServerConstants;
+import com.github.fank243.study.oauth2.api.domain.dto.OauthAccessTokenDTO;
+import com.github.fank243.study.oauth2.api.domain.dto.OauthUserAccessTokenDTO;
 import com.github.fank243.study.oauth2.api.domain.dto.OauthUserDTO;
-import com.github.fank243.study.oauth2.api.domain.vo.OauthAccessTokenVO;
-import com.github.fank243.study.oauth2.api.domain.vo.OauthUserVO;
 
 /**
  * Oauth2 客户端
@@ -45,7 +61,7 @@ public interface IOauth2Service {
      * @return 令牌
      */
     @PostMapping(value = "/token", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
-    ResultInfo<OauthAccessTokenVO> getAccessToken(@RequestParam("grant_type") String grantType,
+    ResultInfo<OauthAccessTokenDTO> getAccessToken(@RequestParam("grant_type") String grantType,
         @RequestParam("username") String username, @RequestParam("password") String password,
         @RequestParam("scope") String scope, @RequestParam("client_id") String clientId,
         @RequestParam("client_secret") String clientSecret);
@@ -60,7 +76,7 @@ public interface IOauth2Service {
      * @return 令牌
      */
     @PostMapping(value = "/token", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
-    ResultInfo<OauthAccessTokenVO> getAccessToken(@RequestParam("grant_type") String grantType,
+    ResultInfo<OauthAccessTokenDTO> getAccessToken(@RequestParam("grant_type") String grantType,
         @RequestParam("code") String code, @RequestParam("client_id") String clientId,
         @RequestParam("client_secret") String clientSecret);
 
@@ -74,9 +90,18 @@ public interface IOauth2Service {
      * @return 令牌
      */
     @PostMapping(value = "/refresh", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
-    ResultInfo<OauthAccessTokenVO> refreshToken(@RequestParam("grant_type") String grantType,
+    ResultInfo<OauthAccessTokenDTO> refreshToken(@RequestParam("grant_type") String grantType,
         @RequestParam("refresh_token") String refreshToken, @RequestParam("client_id") String clientId,
         @RequestParam("client_secret") String clientSecret);
+
+    /**
+     * 根据用户名获取用户信息
+     *
+     * @param username 用户名
+     * @return 用户信息
+     */
+    @GetMapping(value = "/users/username")
+    ResultInfo<?> getUserByUsername(@RequestParam("username") String username);
 
     /**
      * 获取用户信息
@@ -86,25 +111,25 @@ public interface IOauth2Service {
      * @return 用户信息
      */
     @GetMapping(value = "/users/info")
-    ResultInfo<OauthUserVO> getUserInfo(@RequestParam("accessToken") String accessToken,
+    ResultInfo<OauthUserDTO> getUserInfo(@RequestParam("accessToken") String accessToken,
         @RequestParam("openId") String openId);
 
     /**
      * 创建账号
      *
-     * @param oauthUserDTO 账号信息
+     * @param oauthUserAccessTokenDTO 账号信息
      * @return OpenID
      */
     @PostMapping(value = "/users/add")
-    ResultInfo<?> addUser(@RequestBody OauthUserDTO oauthUserDTO);
+    ResultInfo<?> addUser(@RequestBody OauthUserAccessTokenDTO oauthUserAccessTokenDTO);
 
     /**
      * 修改密码
      *
-     * @param oauthUserDTO 账号信息
+     * @param oauthUserAccessTokenDTO 账号信息
      * @return 操作结果
      */
     @PostMapping(value = "/users/password")
-    ResultInfo<?> modifyPassword(@RequestBody OauthUserDTO oauthUserDTO);
+    ResultInfo<?> modifyPassword(@RequestBody OauthUserAccessTokenDTO oauthUserAccessTokenDTO);
 
 }

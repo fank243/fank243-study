@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2024 fank243
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xmlns="http://maven.apache.org/POM/4.0.0"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
 		<artifactId>study-support</artifactId>
 		<groupId>com.github.fank243</groupId>
-		<version>1.2.1</version>
+		<version>1.2.2</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
@@ -62,7 +78,7 @@
 		</dependency>
 		<dependency>
 			<groupId>cn.dev33</groupId>
-			<artifactId>sa-token-dao-redis-jackson</artifactId>
+            <artifactId>sa-token-redis-jackson</artifactId>
 		</dependency>
 
 		<dependency>
@@ -74,30 +90,50 @@
 			<artifactId>aliyun-java-sdk-dysmsapi</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>com.github.fank243</groupId>
-			<artifactId>fank243-sms</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>com.github.fank243</groupId>
+            <artifactId>kong-sms</artifactId>
+        </dependency>
 
-		<!--Graylog 发送器-->
-		<dependency>
-			<groupId>de.siegmar</groupId>
-			<artifactId>logback-gelf</artifactId>
-		</dependency>
-	</dependencies>
+        <!--Graylog 发送器-->
+        <dependency>
+            <groupId>de.siegmar</groupId>
+            <artifactId>logback-gelf</artifactId>
+        </dependency>
+    </dependencies>
 
 	<build>
-		<finalName>${project.artifactId}</finalName>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<!--
-						分层打包：主要用于docker部署时打包的镜像文件变得更小
-						https://docs.spring.io/spring-boot/docs/2.6.1/maven-plugin/reference/htmlsingle/#packaging.layers
-					 -->
-					<layers>
+        <finalName>${project.artifactId}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                    <include>**/*.yml</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                    <include>**/*.yml</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <!--
+                        分层打包：主要用于docker部署时打包的镜像文件变得更小
+                        https://docs.spring.io/spring-boot/docs/2.6.1/maven-plugin/reference/htmlsingle/#packaging.layers
+                     -->
+                    <layers>
 						<enabled>true</enabled>
 					</layers>
 				</configuration>

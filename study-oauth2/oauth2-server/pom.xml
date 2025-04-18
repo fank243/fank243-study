@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>study-oauth2</artifactId>
 		<groupId>com.github.fank243</groupId>
-		<version>1.2.1</version>
+		<version>1.2.2</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>oauth2-server</artifactId>
@@ -61,7 +61,7 @@
 		</dependency>
 		<dependency>
 			<groupId>cn.dev33</groupId>
-			<artifactId>sa-token-dao-redis-jackson</artifactId>
+			<artifactId>sa-token-redis-jackson</artifactId>
 		</dependency>
 
 		<!--Graylog 发送器-->
@@ -72,17 +72,37 @@
 	</dependencies>
 
 	<build>
-		<finalName>${project.artifactId}</finalName>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<!--
-						分层打包：主要用于docker部署时打包的镜像文件变得更小
-						https://docs.spring.io/spring-boot/docs/2.6.1/maven-plugin/reference/htmlsingle/#packaging.layers
-					 -->
-					<layers>
+        <finalName>${project.artifactId}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                    <include>**/*.yml</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                    <include>**/*.yml</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <!--
+                        分层打包：主要用于docker部署时打包的镜像文件变得更小
+                        https://docs.spring.io/spring-boot/docs/2.6.1/maven-plugin/reference/htmlsingle/#packaging.layers
+                     -->
+                    <layers>
 						<enabled>true</enabled>
 					</layers>
 				</configuration>

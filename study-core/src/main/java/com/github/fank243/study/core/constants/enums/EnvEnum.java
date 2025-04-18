@@ -17,5 +17,5 @@ public enum EnvEnum {
     /** 生产环境 **/
     PROD
 
-    ;
+
 }

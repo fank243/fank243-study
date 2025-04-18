@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2024 fank243
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.github.fank243.study.system.controller;
 
 import java.io.IOException;
@@ -13,10 +29,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.github.fank243.common.result.ResultInfo;
+import com.github.fank243.kong.tool.result.ResultInfo;
 import com.github.fank243.study.core.base.BaseController;
 import com.github.fank243.study.core.constants.CacheConstants;
-import com.github.fank243.study.core.constants.TimeConstant;
+import com.github.fank243.study.core.constants.TimeConstants;
 import com.github.fank243.study.core.domain.enums.LoginTypeEnum;
 import com.github.fank243.study.core.model.redis.RedisService;
 import com.github.fank243.study.core.model.validation.ValidationUtils;
@@ -24,11 +40,11 @@ import com.github.fank243.study.core.model.validation.ValidatorGroup;
 import com.github.fank243.study.core.properties.StudyProperties;
 import com.github.fank243.study.core.utils.WebUtils;
 import com.github.fank243.study.oauth2.api.constants.Oauth2Constants;
-import com.github.fank243.study.oauth2.api.domain.vo.OauthAccessTokenVO;
-import com.github.fank243.study.oauth2.api.domain.vo.OauthUserVO;
+import com.github.fank243.study.oauth2.api.domain.dto.OauthAccessTokenDTO;
+import com.github.fank243.study.oauth2.api.domain.dto.OauthUserDTO;
 import com.github.fank243.study.oauth2.api.service.IOauth2Service;
-import com.github.fank243.study.system.domain.dto.SysUserLoginDTO;
-import com.github.fank243.study.system.domain.entity.SysUserEntity;
+import com.github.fank243.study.system.domain.SysUserEntity;
+import com.github.fank243.study.system.domain.dto.SysUserDTO;
 import com.github.fank243.study.system.domain.vo.SysUserLoginVO;
 import com.github.fank243.study.system.service.SysUserService;
 
@@ -65,27 +81,26 @@ public class SysUserLoginController extends BaseController {
     /**
      * Oauth2 > 密码模式
      *
-     * @param sysUserLoginDTO 请求参数
+     * @param sysUserDTO 请求参数
      * @return 登录用户信息
      */
     @PostMapping("/login")
     @ResponseBody
     public ResultInfo<?> login(HttpServletRequest request,
-        @RequestBody @Validated({ValidatorGroup.Login.class}) SysUserLoginDTO sysUserLoginDTO) {
+        @RequestBody @Validated({ValidatorGroup.Login.class}) SysUserDTO sysUserDTO) {
         Class<?> clazz = ValidatorGroup.LoginUsername.class;
-        if (LoginTypeEnum.MOBILE.name().equalsIgnoreCase(sysUserLoginDTO.getLoginType())) {
+        if (LoginTypeEnum.MOBILE.name().equalsIgnoreCase(sysUserDTO.getLoginType())) {
             clazz = ValidatorGroup.LoginMobile.class;
         }
-        ResultInfo<?> validateResult = ValidationUtils.validate(sysUserLoginDTO, clazz);
+        ResultInfo<?> validateResult = ValidationUtils.validate(sysUserDTO, clazz);
         if (!validateResult.isSuccess()) {
             return validateResult;
         }
 
         // 获取令牌
-        ResultInfo<OauthAccessTokenVO> result = oauth2Service.getAccessToken(
-            Oauth2Constants.GrantType.PASSWORD.name().toLowerCase(), sysUserLoginDTO.getUsername(),
-            sysUserLoginDTO.getPassword(), String.join(",", Oauth2Constants.Scope.SCOPE_ALL), StudyProperties.clientId,
-            StudyProperties.clientSecret);
+        ResultInfo<OauthAccessTokenDTO> result = oauth2Service.getAccessToken(
+            Oauth2Constants.GrantType.PASSWORD.name().toLowerCase(), sysUserDTO.getUsername(), sysUserDTO.getPassword(),
+            String.join(",", Oauth2Constants.Scope.SCOPE_ALL), StudyProperties.clientId, StudyProperties.clientSecret);
         if (!result.isSuccess()) {
             return result;
         }
@@ -111,7 +126,7 @@ public class SysUserLoginController extends BaseController {
             return null;
         }
         // 获取令牌
-        ResultInfo<OauthAccessTokenVO> result =
+        ResultInfo<OauthAccessTokenDTO> result =
             oauth2Service.getAccessToken(Oauth2Constants.GrantType.AUTHORIZATION_CODE.name().toLowerCase(), code,
                 StudyProperties.clientId, StudyProperties.clientSecret);
         if (!result.isSuccess()) {
@@ -131,20 +146,20 @@ public class SysUserLoginController extends BaseController {
         return null;
     }
 
-    private ResultInfo<?> doLogin(HttpServletRequest request, OauthAccessTokenVO oauthAccessTokenVO) {
+    private ResultInfo<?> doLogin(HttpServletRequest request, OauthAccessTokenDTO oauthAccessTokenDTO) {
         // 获取用户信息
-        ResultInfo<OauthUserVO> result =
-            oauth2Service.getUserInfo(oauthAccessTokenVO.getAccessToken(), oauthAccessTokenVO.getOpenId());
+        ResultInfo<OauthUserDTO> result =
+            oauth2Service.getUserInfo(oauthAccessTokenDTO.getAccessToken(), oauthAccessTokenDTO.getOpenId());
         if (!result.isSuccess()) {
             return result;
         }
-        OauthUserVO oauthUserVO = result.getPayload();
+        OauthUserDTO oauthUserDTO = result.getPayload();
 
         String clientIp = JakartaServletUtil.getClientIP(request);
         String userAgent = request.getHeader(HttpHeaders.USER_AGENT);
 
         // 本地登录
-        ResultInfo<?> loginResult = sysUserService.login(oauthUserVO.getOpenId(), clientIp, userAgent);
+        ResultInfo<?> loginResult = sysUserService.login(oauthUserDTO.getOpenId(), clientIp, userAgent);
         if (!loginResult.isSuccess()) {
             return loginResult;
         }
@@ -157,11 +172,11 @@ public class SysUserLoginController extends BaseController {
         sysUserLoginVO.setTokenTimeout(tokenInfo.getTokenTimeout());
         sysUserLoginVO.setSessionTimeout(tokenInfo.getSessionTimeout());
         sysUserLoginVO.setTokenSessionTimeout(tokenInfo.getTokenSessionTimeout());
-        sysUserLoginVO.setTokenActivityTimeout(tokenInfo.getTokenActivityTimeout());
+		sysUserLoginVO.setTokenActiveTimeout(tokenInfo.getTokenActiveTimeout());
 
         // 写入redis
         String key = CacheConstants.OAUTH2_TOKEN + sysUserLoginVO.getUserId();
-        redisService.setObj(key, oauthAccessTokenVO, TimeConstant.MINUTE_30);
+        redisService.setObj(key, oauthAccessTokenDTO, TimeConstants.MINUTE_30);
 
         return ResultInfo.ok(sysUserLoginVO);
     }

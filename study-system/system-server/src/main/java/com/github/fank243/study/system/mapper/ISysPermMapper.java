@@ -5,9 +5,9 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.github.fank243.study.system.domain.entity.SysPermEntity;
+import com.github.fank243.study.system.domain.SysPermEntity;
 import com.github.fank243.study.system.domain.vo.SysPermVO;
+import com.mybatisflex.core.BaseMapper;
 
 /**
  * 系统权限表 数据访问层

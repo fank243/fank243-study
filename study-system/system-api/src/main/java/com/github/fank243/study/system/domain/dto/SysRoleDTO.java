@@ -8,8 +8,10 @@ import com.mzt.logapi.starter.annotation.DiffLogAllFields;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 /**
  * 系统角色表
@@ -17,14 +19,16 @@ import lombok.EqualsAndHashCode;
  * @author FanWeiJie
  * @since 2022-06-27
  */
+@Getter
+@Setter
+@SuperBuilder
 @DiffLogAllFields
-@Data
-@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
 public class SysRoleDTO extends BaseDTO {
 
-    /*** 角色ID */
-    @NotBlank(message = "角色ID必传", groups = {ValidatorGroup.Modify.class})
-    private String roleId;
+    /** 角色ID */
+	@NotNull(message = "角色ID必传", groups = {ValidatorGroup.Modify.class})
+    private Long roleId;
 
     /*** 角色代码 */
     @Length(min = 2, max = 10, message = "角色代码长度在3-20位之间",
@@ -44,5 +48,4 @@ public class SysRoleDTO extends BaseDTO {
     /*** 状态(0：正常，1：禁用) */
     @NotNull(message = "请选择角色状态", groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
     private Integer status;
-
 }

@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 import org.springframework.http.HttpStatus;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 /**
  * 自定义异常
@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
  * @since 2021-04-05 23:41:10
  */
 @EqualsAndHashCode(callSuper = true)
-@Data
+@Getter
 public class BizException extends BaseException implements Serializable {
 
     private final String message;

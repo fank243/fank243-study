@@ -1,5 +1,7 @@
 package com.github.fank243.study.core.domain.enums;
 
+import com.mybatisflex.annotation.EnumValue;
+
 import lombok.Getter;
 
 /**
@@ -18,6 +20,7 @@ public enum UserStatusEnum {
 
     LOGIN_LOCK(2, "登录锁定");
 
+    @EnumValue
     private final int code;
     private final String desc;
 

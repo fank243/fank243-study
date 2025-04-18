@@ -57,7 +57,7 @@ public class RedisService {
      * @param timeUnit 过期时间单位
      */
     public <T> boolean setObj(final String key, final T value, final Long timeout, TimeUnit timeUnit) {
-        if (key == null || "".equals(key)) {
+		if (key == null || key.isEmpty()) {
             return Boolean.FALSE;
         }
         redisTemplate.opsForValue().set(key, value, timeout, timeUnit);
@@ -71,7 +71,7 @@ public class RedisService {
      * @return 缓存键值对应的数据
      */
     public <T> T getObj(final String key) {
-        if (key == null || "".equals(key)) {
+		if (key == null || key.isEmpty()) {
             return null;
         }
         ValueOperations<String, T> operation = redisTemplate.opsForValue();
@@ -108,7 +108,7 @@ public class RedisService {
      * @param timeUnit 过期时间单位
      */
     public <T> boolean setList(final String key, final List<T> value, long timeout, TimeUnit timeUnit) {
-        if (key == null || "".equals(key) || value == null) {
+		if (key == null || key.isEmpty() || value == null) {
             return Boolean.FALSE;
         }
         Long count = redisTemplate.opsForList().rightPushAll(key, value);
@@ -157,7 +157,7 @@ public class RedisService {
      * @param timeUnit 过期时间单位
      */
     public <T> boolean setSet(final String key, final Set<T> value, long timeout, TimeUnit timeUnit) {
-        if (key == null || "".equals(key) || value == null) {
+		if (key == null || key.isEmpty() || value == null) {
             return Boolean.FALSE;
         }
         BoundSetOperations<String, T> operations = redisTemplate.boundSetOps(key);
@@ -323,7 +323,7 @@ public class RedisService {
      * 获取 Key 过期时间
      *
      * @param key Key
-     * @return 时间(秒) 返回0代表为永久有效
+	 * @return 时间(秒) 返回值为0时代表为永久有效
      */
     public long getExpire(final String key) {
         Long seconds = redisTemplate.getExpire(key, TimeUnit.SECONDS);

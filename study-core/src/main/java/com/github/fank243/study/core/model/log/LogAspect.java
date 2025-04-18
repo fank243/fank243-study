@@ -32,9 +32,9 @@ public class LogAspect {
             return point.proceed();
         }
         ReqRespLog reqRespLog = new ReqRespLog();
-        if (StpUtil.isLogin()) {
-            reqRespLog.setUserId(StpUtil.getLoginIdAsString());
-        }
+		if (StpUtil.isLogin()) {
+			reqRespLog.setUserId(StpUtil.getLoginIdAsString());
+		}
         reqRespLog.setReqUri(request.getRequestURI());
         reqRespLog.setReqMethod(request.getMethod());
         reqRespLog.setReqHeader(JSONUtil.toJsonStr(WebUtils.getHeader(request)));

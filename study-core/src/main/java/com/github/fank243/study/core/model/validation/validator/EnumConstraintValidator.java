@@ -12,7 +12,6 @@ import jakarta.validation.ConstraintValidatorContext;
 
 /**
  * 校验枚举值是否合法，枚举类需提供静态方法.
- * 
  * <code>
  * public static boolean valid(String code){
  *     // 执行验证逻辑

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.fank243.study.system.mapper.ISysPermMapper">
+    <resultMap id="BaseResultMap" type="com.github.fank243.study.system.domain.SysPermEntity">
+        <id column="perm_id" jdbcType="INTEGER" property="permId"/>
+        <result column="perm_pid" jdbcType="INTEGER" property="permPid"/>
+        <result column="perm_code" jdbcType="VARCHAR" property="permCode"/>
+        <result column="perm_uri" jdbcType="VARCHAR" property="permUri"/>
+        <result column="perm_name" jdbcType="VARCHAR" property="permName"/>
+        <result column="perm_desc" jdbcType="VARCHAR" property="permDesc"/>
+        <result column="perm_type" jdbcType="BIT" property="permType"/>
+        <result column="is_external" jdbcType="BIT" property="isExternal"/>
+        <result column="status" jdbcType="BIT" property="status"/>
+        <result column="created_by" jdbcType="VARCHAR" property="createdBy"/>
+        <result column="created_date" jdbcType="TIMESTAMP" property="createdDate"/>
+        <result column="last_modified_by" jdbcType="VARCHAR" property="lastModifiedBy"/>
+        <result column="last_modified_date" jdbcType="TIMESTAMP" property="lastModifiedDate"/>
+    </resultMap>
+
+    <sql id="TABLE_NAME">tb_sys_perm</sql>
+    <sql id="Base_Column_List">
+        `perm_id`
+        ,`perm_pid`,`perm_code`,`perm_uri`,`perm_name`,`perm_desc`,`perm_type`,`is_external`,`status`,`created_by`,`created_date`,`last_modified_by`,`last_modified_date`
+    </sql>
+
+    <select id="findByPermId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_sys_perm
+        <where>and perm_id = #{permId}</where>
+    </select>
+
+    <select id="findByCondition" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_sys_perm
+        <where>
+            <foreach collection="sysPerm" item="item" separator=",">
+                <if test="item.permId != null and item.permId != ''">
+                    and perm_id = #{item.permId,jdbcType=INTEGER}
+                </if>
+                <if test="item.permPid != null and item.permPid != ''">
+                    and perm_pid = #{item.permPid,jdbcType=INTEGER}
+                </if>
+                <if test="item.permCode != null and item.permCode != ''">
+                    and perm_code = #{item.permCode,jdbcType=VARCHAR}
+                </if>
+                <if test="item.permUri != null and item.permUri != ''">
+                    and perm_uri = #{item.permUri,jdbcType=VARCHAR}
+                </if>
+                <if test="item.permName != null and item.permName != ''">
+                    and perm_name = #{item.permName,jdbcType=VARCHAR}
+                </if>
+                <if test="item.permDesc != null and item.permDesc != ''">
+                    and perm_desc = #{item.permDesc,jdbcType=VARCHAR}
+                </if>
+                <if test="item.permType != null and item.permType != ''">
+                    and perm_type = #{item.permType,jdbcType=BIT}
+                </if>
+                <if test="item.isExternal != null and item.isExternal != ''">
+                    and is_external = #{item.isExternal,jdbcType=BIT}
+                </if>
+                <if test="item.status != null and item.status != ''">
+                    and status = #{item.status,jdbcType=BIT}
+                </if>
+                <if test="item.createdBy != null and item.createdBy != ''">
+                    and created_by = #{item.createdBy,jdbcType=VARCHAR}
+                </if>
+                <if test="item.createdDate != null and item.createdDate != ''">
+                    and created_date = #{item.createdDate,jdbcType=TIMESTAMP}
+                </if>
+                <if test="item.lastModifiedBy != null and item.lastModifiedBy != ''">
+                    and last_modified_by = #{item.lastModifiedBy,jdbcType=VARCHAR}
+                </if>
+                <if test="item.lastModifiedDate != null and item.lastModifiedDate != ''">
+                    and last_modified_date = #{item.lastModifiedDate,jdbcType=TIMESTAMP}
+                </if>
+            </foreach>
+
+        </where>
+        limit 1
+    </select>
+
+    <select id="findListByCondition" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_sys_perm
+        <where>
+            <foreach collection="sysPerm" item="item" separator=",">
+                <if test="item.permId != null and item.permId != ''">
+                    and perm_id = #{item.permId,jdbcType=INTEGER}
+                </if>
+                <if test="item.permPid != null and item.permPid != ''">
+                    and perm_pid = #{item.permPid,jdbcType=INTEGER}
+                </if>
+                <if test="item.permCode != null and item.permCode != ''">
+                    and perm_code = #{item.permCode,jdbcType=VARCHAR}
+                </if>
+                <if test="item.permUri != null and item.permUri != ''">
+                    and perm_uri = #{item.permUri,jdbcType=VARCHAR}
+                </if>
+                <if test="item.permName != null and item.permName != ''">
+                    and perm_name = #{item.permName,jdbcType=VARCHAR}
+                </if>
+                <if test="item.permDesc != null and item.permDesc != ''">
+                    and perm_desc = #{item.permDesc,jdbcType=VARCHAR}
+                </if>
+                <if test="item.permType != null and item.permType != ''">
+                    and perm_type = #{item.permType,jdbcType=BIT}
+                </if>
+                <if test="item.isExternal != null and item.isExternal != ''">
+                    and is_external = #{item.isExternal,jdbcType=BIT}
+                </if>
+                <if test="item.status != null and item.status != ''">
+                    and status = #{item.status,jdbcType=BIT}
+                </if>
+                <if test="item.createdBy != null and item.createdBy != ''">
+                    and created_by = #{item.createdBy,jdbcType=VARCHAR}
+                </if>
+                <if test="item.createdDate != null and item.createdDate != ''">
+                    and created_date = #{item.createdDate,jdbcType=TIMESTAMP}
+                </if>
+                <if test="item.lastModifiedBy != null and item.lastModifiedBy != ''">
+                    and last_modified_by = #{item.lastModifiedBy,jdbcType=VARCHAR}
+                </if>
+                <if test="item.lastModifiedDate != null and item.lastModifiedDate != ''">
+                    and last_modified_date = #{item.lastModifiedDate,jdbcType=TIMESTAMP}
+                </if>
+            </foreach>
+
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.fank243.study.system.mapper.ISysUserLoginLogMapper">
+    <resultMap id="BaseResultMap" type="com.github.fank243.study.system.domain.SysUserLoginLogEntity">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="login_time" jdbcType="TIMESTAMP" property="loginTime"/>
+        <result column="login_ip" jdbcType="VARCHAR" property="loginIp"/>
+        <result column="login_device" jdbcType="VARCHAR" property="loginDevice"/>
+    </resultMap>
+
+    <sql id="TABLE_NAME">tb_sys_user_login_log</sql>
+    <sql id="Base_Column_List">
+        `id`
+        ,`user_id`,`login_time`,`login_ip`,`login_device`
+    </sql>
+
+    <select id="findById" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_sys_user_login_log
+        <where>and id = #{id}</where>
+    </select>
+
+    <select id="findByCondition" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_sys_user_login_log
+        <where>
+            <foreach collection="sysUserLoginLog" item="item" separator=",">
+                <if test="item.id != null and item.id != ''">
+                    and id = #{item.id,jdbcType=INTEGER}
+                </if>
+                <if test="item.userId != null and item.userId != ''">
+                    and user_id = #{item.userId,jdbcType=INTEGER}
+                </if>
+                <if test="item.loginTime != null and item.loginTime != ''">
+                    and login_time = #{item.loginTime,jdbcType=TIMESTAMP}
+                </if>
+                <if test="item.loginIp != null and item.loginIp != ''">
+                    and login_ip = #{item.loginIp,jdbcType=VARCHAR}
+                </if>
+                <if test="item.loginDevice != null and item.loginDevice != ''">
+                    and login_device = #{item.loginDevice,jdbcType=VARCHAR}
+                </if>
+            </foreach>
+
+        </where>
+        limit 1
+    </select>
+
+    <select id="findListByCondition" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_sys_user_login_log
+        <where>
+            <foreach collection="sysUserLoginLog" item="item" separator=",">
+                <if test="item.id != null and item.id != ''">
+                    and id = #{item.id,jdbcType=INTEGER}
+                </if>
+                <if test="item.userId != null and item.userId != ''">
+                    and user_id = #{item.userId,jdbcType=INTEGER}
+                </if>
+                <if test="item.loginTime != null and item.loginTime != ''">
+                    and login_time = #{item.loginTime,jdbcType=TIMESTAMP}
+                </if>
+                <if test="item.loginIp != null and item.loginIp != ''">
+                    and login_ip = #{item.loginIp,jdbcType=VARCHAR}
+                </if>
+                <if test="item.loginDevice != null and item.loginDevice != ''">
+                    and login_device = #{item.loginDevice,jdbcType=VARCHAR}
+                </if>
+            </foreach>
+
+        </where>
+    </select>
+</mapper>

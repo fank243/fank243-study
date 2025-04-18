@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2024 fank243
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.github.fank243.study.core.utils;
 
 import java.io.BufferedInputStream;
@@ -22,7 +38,7 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.github.fank243.common.result.ResultInfo;
+import com.github.fank243.kong.tool.result.ResultInfo;
 import com.github.fank243.study.core.constants.HttpConstants;
 import com.github.fank243.study.core.constants.enums.EnvEnum;
 import com.github.fank243.study.core.model.log.LogUtils;
@@ -46,8 +62,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 /**
- * 客户端工具类
- *
+ * WebUtils是一个处理与Web相关操作的实用类，提供了一系列处理请求、响应和会话等操作的方法。
+ * <p>
+ * 包括获取请求参数、获取请求头信息、渲染HTML、渲染JSON、编码解码内容等功能。 还提供了判断请求是否为Ajax异步请求、验证请求域名是否为本地地址等辅助方法。 该类还包含一些常量和私有方法用于辅助操作。
+ * </p>
+ * 
  * @author FanWeiJie
  * @since 2021-04-05 23:41:10
  */
@@ -61,20 +80,30 @@ public class WebUtils {
 
     /**
      * 获取String参数
+	 *
+	 * @param name 参数名称
+	 * @return 参数值
      */
     public static String getParameter(String name) {
         return Objects.requireNonNull(getRequest()).getParameter(name);
     }
 
     /**
-     * 获取String参数
+	 * 从请求中获取String类型的参数值。
+	 *
+	 * @param name 参数名称
+	 * @param defaultValue 默认值
+	 * @return 参数值，如果参数不存在则返回默认值
      */
     public static String getParameter(String name, String defaultValue) {
         return Convert.toStr(Objects.requireNonNull(getRequest()).getParameter(name), defaultValue);
     }
 
     /**
-     * 获取Integer参数
+	 * 从请求中获取参数并将其转换为Integer类型
+	 *
+	 * @param name 参数名称
+	 * @return 转换后的Integer值
      */
     public static Integer getParameterToInt(String name) {
         return Convert.toInt(Objects.requireNonNull(getRequest()).getParameter(name));
@@ -82,13 +111,19 @@ public class WebUtils {
 
     /**
      * 获取Integer参数
+	 *
+	 * @param name 参数名
+	 * @param defaultValue 默认值
+	 * @return 参数的整数值
      */
     public static Integer getParameterToInt(String name, Integer defaultValue) {
         return Convert.toInt(Objects.requireNonNull(getRequest()).getParameter(name), defaultValue);
     }
 
     /**
-     * 获取request
+	 * 获取请求对象。
+	 *
+	 * @return 当前请求的HttpServletRequest对象，如果获取失败则返回null。
      */
     public static HttpServletRequest getRequest() {
         try {
@@ -100,6 +135,8 @@ public class WebUtils {
 
     /**
      * 获取response
+	 *
+	 * @return 当前请求的HttpServletResponse对象，如果获取失败则返回null
      */
     public static HttpServletResponse getResponse() {
         try {
@@ -110,12 +147,19 @@ public class WebUtils {
     }
 
     /**
-     * 获取session
+	 * 获取当前请求的HttpSession。
+	 *
+	 * @return HttpSession对象
      */
     public static HttpSession getSession() {
         return Objects.requireNonNull(getRequest()).getSession();
     }
 
+	/**
+	 * 获取当前请求的ServletRequestAttributes。
+	 *
+	 * @return ServletRequestAttributes对象
+	 */
     public static ServletRequestAttributes getRequestAttributes() {
         try {
             RequestAttributes attributes = RequestContextHolder.getRequestAttributes();
@@ -125,6 +169,12 @@ public class WebUtils {
         }
     }
 
+	/**
+	 * 从HttpServletRequest中获取请求头信息并返回一个包含所有头部键值对的Map。
+	 *
+	 * @param request HttpServletRequest对象
+	 * @return 包含请求头信息的Map
+	 */
     public static Map<String, String> getHeader(HttpServletRequest request) {
         Enumeration<String> enumeration = request.getHeaderNames();
         Map<String, String> headerMap = new LinkedHashMap<>(0);
@@ -138,6 +188,12 @@ public class WebUtils {
         return headerMap;
     }
 
+	/**
+	 * 从HttpServletRequest中获取参数并返回一个Map。 参数包括请求中的所有参数，以键值对的形式存储在Map中。 返回的Map中的值为参数数组中的第一个元素。
+	 *
+	 * @param request HttpServletRequest对象
+	 * @return 包含参数的Map
+	 */
     public static Map<String, String> getParams(HttpServletRequest request) {
         Map<String, String[]> parameterMap = request.getParameterMap();
         Map<String, String> bodyMap = new LinkedHashMap<>(parameterMap.size());
@@ -147,17 +203,22 @@ public class WebUtils {
         return bodyMap;
     }
 
+	/**
+	 * 获取String参数
+	 *
+	 * @return 请求参数的映射
+	 */
     public static Map<String, String> getParams() {
         return getParams(Objects.requireNonNull(getRequest()));
     }
 
     /**
-     * 根据请求是否来自于浏览器，向客户端发送重定向或者响应JSON
-     *
-     * @param baseUrl baseUrl
-     * @param result result
-     * @return ResultInfo
-     */
+	 * 渲染HTML页面
+	 *
+	 * @param baseUrl 基本URL
+	 * @param result 结果对象
+	 * @return 结果对象
+	 */
     public static ResultInfo<?> renderHtml(String baseUrl, ResultInfo<?> result) {
         HttpServletRequest request = WebUtils.getRequest();
         HttpServletResponse response = WebUtils.getResponse();
@@ -249,8 +310,11 @@ public class WebUtils {
     }
 
     /**
-     * 是否是Ajax异步请求
-     */
+	 * 判断请求是否为Ajax异步请求
+	 *
+	 * @param request HTTP请求对象
+	 * @return 是否为Ajax异步请求
+	 */
     public static boolean isAjax(HttpServletRequest request) {
         String accept = request.getHeader(HttpHeaders.ACCEPT);
         if (accept != null && accept.contains(MediaType.APPLICATION_JSON_VALUE)) {

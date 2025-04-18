@@ -3,6 +3,8 @@ package com.github.fank243.study.core.domain.enums;
 import java.util.Arrays;
 import java.util.List;
 
+import com.mybatisflex.annotation.EnumValue;
+
 import lombok.Getter;
 
 /**
@@ -23,7 +25,10 @@ public enum PermTypeEnum {
 
     /** 访问鉴权 **/
     public static final List<Integer> PERMS = Arrays.asList(MENU.code, BUTTON.code);
+
+    @EnumValue
     private final int code;
+
     private final String desc;
 
     PermTypeEnum(int code, String desc) {

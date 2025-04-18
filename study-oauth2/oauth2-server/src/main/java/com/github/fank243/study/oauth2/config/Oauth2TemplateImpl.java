@@ -2,8 +2,8 @@ package com.github.fank243.study.oauth2.config;
 
 import org.springframework.stereotype.Component;
 
-import com.github.fank243.study.oauth2.api.domain.entity.OauthAccessTokenEntity;
-import com.github.fank243.study.oauth2.api.domain.entity.OauthClientEntity;
+import com.github.fank243.study.oauth2.domain.OauthAccessTokenEntity;
+import com.github.fank243.study.oauth2.domain.OauthClientEntity;
 import com.github.fank243.study.oauth2.service.OauthAccessTokenService;
 import com.github.fank243.study.oauth2.service.OauthClientService;
 

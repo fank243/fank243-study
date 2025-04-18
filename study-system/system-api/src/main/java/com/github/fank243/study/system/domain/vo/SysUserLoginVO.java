@@ -20,8 +20,10 @@ public class SysUserLoginVO implements Serializable {
     public long sessionTimeout;
     /** Token-Session剩余有效时间 (单位: 秒) */
     public long tokenSessionTimeout;
-    /** token剩余无操作有效时间 (单位: 秒) */
-    public long tokenActivityTimeout;
+	/**
+	 * token 距离被冻结还剩多少时间（单位: 秒） (单位: 秒)
+	 */
+	public long tokenActiveTimeout;
     /*** 用户ID */
     private String userId;
     /*** 用户名 */

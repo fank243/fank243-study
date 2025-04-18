@@ -31,11 +31,7 @@ public class RedissonService {
     }
 
     /**
-     * 获取锁并锁定
-     * 
-     * 如果KEY已被锁定，会一直等待直到获得锁
-     * 
-     * redis中生成一条hash结构数据体
+	 * 获取锁并锁定，如果KEY已被锁定，会一直等待直到获得锁 redis中生成一条hash结构数据体
      *
      * @param lockKey 锁KEY
      */
@@ -44,11 +40,7 @@ public class RedissonService {
     }
 
     /**
-     * 获取锁并锁定(秒)
-     *
-     * 如果KEY已被锁定，会一直等待直到获得锁
-     * 
-     * redis中生成一条hash结构数据体
+	 * 获取锁并锁定(秒)，如果KEY已被锁定，会一直等待直到获得锁 redis中生成一条hash结构数据体
      * 
      * @param lockKey 锁KEY
      * @param leaseTime 锁定时长(秒)
@@ -58,11 +50,7 @@ public class RedissonService {
     }
 
     /**
-     * 锁定并设定锁定时长(自定义时间单位)
-     *
-     * 如果KEY已被锁定，会一直等待直到获得锁
-     * 
-     * redis中生成一条hash结构数据体
+	 * 锁定并设定锁定时长(自定义时间单位) 如果KEY已被锁定，会一直等待直到获得锁 redis中生成一条hash结构数据体
      * 
      * @param lockKey 锁KEY
      * @param timeout 锁定时长

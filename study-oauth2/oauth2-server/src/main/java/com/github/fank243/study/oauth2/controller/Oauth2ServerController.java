@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2024 fank243
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.github.fank243.study.oauth2.controller;
 
 import java.io.IOException;
@@ -12,16 +28,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.github.fank243.common.result.ResultInfo;
+import com.github.fank243.kong.tool.result.ResultInfo;
 import com.github.fank243.study.core.constants.CacheConstants;
 import com.github.fank243.study.core.constants.HttpConstants;
 import com.github.fank243.study.core.constants.enums.EnvEnum;
 import com.github.fank243.study.core.model.redis.RedisService;
+import com.github.fank243.study.core.model.validation.ValidatorGroup;
 import com.github.fank243.study.core.properties.StudyProperties;
 import com.github.fank243.study.core.utils.WebUtils;
 import com.github.fank243.study.oauth2.api.constants.Oauth2Constants;
-import com.github.fank243.study.oauth2.api.domain.dto.Oauth2LoginDTO;
-import com.github.fank243.study.oauth2.api.domain.vo.OauthAccessTokenVO;
+import com.github.fank243.study.oauth2.api.domain.dto.OauthAccessTokenDTO;
+import com.github.fank243.study.oauth2.api.domain.dto.OauthLoginDTO;
 import com.github.fank243.study.oauth2.service.OauthUserService;
 
 import cn.dev33.satoken.oauth2.config.SaOAuth2Config;
@@ -67,13 +84,13 @@ public class Oauth2ServerController {
             }
             if (saResult.getData() != null) {
                 Map<String, Object> data = (Map<String, Object>)saResult.getData();
-                OauthAccessTokenVO oauthAccessTokenVO = OauthAccessTokenVO.builder()
+                OauthAccessTokenDTO oauthAccessTokenDTO = OauthAccessTokenDTO.builder()
                     .openId(String.valueOf(data.get("openid"))).clientId(String.valueOf(data.get("client_id")))
                     .scope(String.valueOf(data.get("scope"))).accessToken(String.valueOf(data.get("access_token")))
                     .refreshToken(String.valueOf(data.get("refresh_token")))
                     .expiresIn(String.valueOf(data.get("expires_in")))
                     .refreshExpiresIn(String.valueOf(data.get("refresh_expires_in"))).build();
-                WebUtils.renderJson(response, ResultInfo.ok(saResult.getMsg(), oauthAccessTokenVO));
+                WebUtils.renderJson(response, ResultInfo.ok(saResult.getMsg(), oauthAccessTokenDTO));
                 return null;
             }
             WebUtils.renderJson(response, ResultInfo.ok().message(saResult.getMsg()));
@@ -100,23 +117,28 @@ public class Oauth2ServerController {
         return null;
     }
 
+    @RequestMapping("/login")
+    public String login() {
+        return "login";
+    }
     /** 登录接口 **/
     @PostMapping("/oauth2/login")
     @ResponseBody
-    public ResultInfo<?> login(@RequestBody @Validated Oauth2LoginDTO oauth2LoginDTO) {
+    public ResultInfo<?>
+        login(@RequestBody @Validated(value = ValidatorGroup.Login.class) OauthLoginDTO oauthLoginDTO) {
         if (EnvEnum.PROD.name().equalsIgnoreCase(SpringUtil.getActiveProfile())) {
-            String key = CacheConstants.IMG_CODE_KEY + oauth2LoginDTO.getRandomStr();
+            String key = CacheConstants.IMG_CODE_KEY + oauthLoginDTO.getRandomStr();
             Object imgCodeObj = redisService.getObj(key);
             redisService.delete(key);
             if (ObjectUtil.isEmpty(imgCodeObj)
-                || !oauth2LoginDTO.getImgCode().equalsIgnoreCase(String.valueOf(imgCodeObj))) {
+                || !oauthLoginDTO.getImgCode().equalsIgnoreCase(String.valueOf(imgCodeObj))) {
                 return ResultInfo.err400("图形验证码不正确");
             }
         }
 
         // sa-token 登录
         SaResult saResult =
-            (SaResult)cfg.getDoLoginHandle().apply(oauth2LoginDTO.getUsername(), oauth2LoginDTO.getPassword());
+            (SaResult)cfg.getDoLoginHandle().apply(oauthLoginDTO.getUsername(), oauthLoginDTO.getPassword());
         if (saResult.getCode() != SaResult.CODE_SUCCESS) {
             return ResultInfo.err500(saResult.getMsg());
         }
@@ -144,7 +166,7 @@ public class Oauth2ServerController {
                 return "confirm";
             });
         // 开启密码认证模式
-        cfg.setIsPassword(true);
+        cfg.setIsPassword(Boolean.TRUE);
     }
 
 }

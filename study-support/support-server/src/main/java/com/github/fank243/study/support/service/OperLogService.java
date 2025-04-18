@@ -2,16 +2,15 @@ package com.github.fank243.study.support.service;
 
 import org.springframework.stereotype.Service;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.fank243.study.core.domain.dto.OperLogDTO;
 import com.github.fank243.study.core.domain.model.PageBean;
 import com.github.fank243.study.core.utils.BeanUtils;
 import com.github.fank243.study.log.OperLogEntity;
 import com.github.fank243.study.log.mapper.IOperLogMapper;
 import com.github.fank243.study.support.domain.vo.OperLogVO;
+import com.mybatisflex.core.paginate.Page;
+import com.mybatisflex.core.query.QueryWrapper;
+import com.mybatisflex.spring.service.impl.ServiceImpl;
 
 import cn.hutool.core.bean.BeanUtil;
 import jakarta.annotation.Resource;
@@ -35,11 +34,14 @@ public class OperLogService extends ServiceImpl<IOperLogMapper, OperLogEntity> {
      * @return 列表
      */
     public PageBean<OperLogVO> page(OperLogDTO operLogDTO) {
-        QueryWrapper<OperLogEntity> wrapper = new QueryWrapper<>();
-        wrapper.setEntity(BeanUtil.copyProperties(operLogDTO, OperLogEntity.class));
-        wrapper.orderByDesc("create_time");
-        IPage<OperLogEntity> page =
-            operLogMapper.selectPage(new Page<>(operLogDTO.getCurrPage(), operLogDTO.getPageSize()), wrapper);
-        return BeanUtils.convert(page, OperLogVO.class);
+		QueryWrapper queryWrapper = QueryWrapper.create().orderBy(OperLogEntity::getCreatedTime, false);
+
+        Page<OperLogEntity> operLogEntityPage =
+            operLogMapper.paginate(new Page<>(operLogDTO.getCurrPage(), operLogDTO.getPageSize()), queryWrapper);
+
+        OperLogEntity operLogEntity = BeanUtil.copyProperties(operLogDTO, OperLogEntity.class);
+        QueryWrapper.create(operLogEntity);
+
+        return BeanUtils.convert(operLogEntityPage, OperLogVO.class);
     }
 }

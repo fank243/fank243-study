@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2024 fank243
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.github.fank243.study.support.service;
 
 import java.io.File;
@@ -6,18 +22,18 @@ import java.io.InputStream;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.github.fank243.common.result.ResultInfo;
+import com.github.fank243.kong.tool.result.ResultInfo;
 import com.github.fank243.study.core.constants.CacheConstants;
 import com.github.fank243.study.core.constants.Constants;
-import com.github.fank243.study.core.constants.TimeConstant;
+import com.github.fank243.study.core.constants.TimeConstants;
 import com.github.fank243.study.core.model.redis.RedisService;
 import com.github.fank243.study.core.model.redisson.RedissonService;
 import com.github.fank243.study.support.constants.SupportConstants;
+import com.github.fank243.study.support.domain.FileEntity;
 import com.github.fank243.study.support.domain.dto.FileDTO;
-import com.github.fank243.study.support.domain.entity.FileEntity;
 import com.github.fank243.study.support.mapper.IFileMapper;
 import com.github.fank243.study.support.web.config.FileProperties;
+import com.mybatisflex.spring.service.impl.ServiceImpl;
 
 import cn.dev33.satoken.exception.NotPermissionException;
 import cn.dev33.satoken.stp.StpUtil;
@@ -125,7 +141,7 @@ public class FileService extends ServiceImpl<IFileMapper, FileEntity> {
 
         // 存入缓存
         redisService.setHashValue(CacheConstants.FILE_ID_KEY, newFileEntity.getFileId(), newFileEntity,
-            TimeConstant.DAY_7);
+            TimeConstants.DAY_7);
 
         return ResultInfo.ok(newFileEntity.getFileId()).message("上传文件成功");
     }
@@ -141,10 +157,10 @@ public class FileService extends ServiceImpl<IFileMapper, FileEntity> {
 
         FileEntity fileEntity;
         if (obj == null) {
-            fileEntity = fileMapper.selectById(fileId);
+            fileEntity = fileMapper.selectOneById(fileId);
             if (fileEntity != null) {
                 // 存入缓存
-                redisService.setHashValue(CacheConstants.FILE_ID_KEY, fileId, fileEntity, TimeConstant.DAY_7);
+                redisService.setHashValue(CacheConstants.FILE_ID_KEY, fileId, fileEntity, TimeConstants.DAY_7);
             } else {
                 return null;
             }

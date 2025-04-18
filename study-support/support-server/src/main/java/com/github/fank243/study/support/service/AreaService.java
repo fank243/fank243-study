@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2024 fank243
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.github.fank243.study.support.service;
 
 import java.util.ArrayList;
@@ -12,14 +28,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.alicp.jetcache.anno.CachePenetrationProtect;
 import com.alicp.jetcache.anno.CacheRefresh;
 import com.alicp.jetcache.anno.Cached;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.github.fank243.common.area.Area;
-import com.github.fank243.common.area.AreaConstants;
-import com.github.fank243.common.area.AreaHelper;
-import com.github.fank243.study.core.constants.TimeConstant;
-import com.github.fank243.study.support.domain.entity.AreaEntity;
+import com.github.fank243.kong.tool.area.Area;
+import com.github.fank243.kong.tool.area.AreaConstants;
+import com.github.fank243.kong.tool.area.AreaHelper;
+import com.github.fank243.study.core.constants.TimeConstants;
+import com.github.fank243.study.support.domain.AreaEntity;
 import com.github.fank243.study.support.mapper.IAreaMapper;
+import com.mybatisflex.core.query.QueryWrapper;
+import com.mybatisflex.spring.service.impl.ServiceImpl;
 
 import cn.hutool.core.util.StrUtil;
 import jakarta.annotation.Resource;
@@ -39,14 +55,13 @@ public class AreaService extends ServiceImpl<IAreaMapper, AreaEntity> {
     private IAreaMapper areaMapper;
 
     /** 生成区域树 **/
-    @Cached(name = "support:area:tree:", key = "#level", expire = TimeConstant.DAY_1)
-    @CacheRefresh(refresh = TimeConstant.HOUR_1, stopRefreshAfterLastAccess = TimeConstant.HOUR_1)
+    @Cached(name = "support:area:tree:", key = "#level", expire = TimeConstants.DAY_1)
+    @CacheRefresh(refresh = TimeConstants.HOUR_1, stopRefreshAfterLastAccess = TimeConstants.HOUR_1)
     @CachePenetrationProtect
     public List<Area> generatorTree(int level) {
-        QueryWrapper<AreaEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.orderByAsc("(IF(area_code = '', 1, 0)),area_code");
-        List<AreaEntity> areaEntities = areaMapper.selectList(queryWrapper);
-
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.where("(IF(area_code = '', 1, 0))");
+        List<AreaEntity> areaEntities = areaMapper.selectListByQuery(queryWrapper);
         List<Area> areas = new ArrayList<>(34);
         // 省级
         Map<String, List<AreaEntity>> provinceMap =
@@ -103,15 +118,15 @@ public class AreaService extends ServiceImpl<IAreaMapper, AreaEntity> {
     }
 
     /** 查询所有省级行政区划 **/
-    @Cached(name = "support:area:", key = "'province'", expire = TimeConstant.DAY_1)
+    @Cached(name = "support:area:", key = "'province'", expire = TimeConstants.DAY_1)
     @CachePenetrationProtect
     public List<Area> findProvinces() {
         return areaMapper.findProvinces();
     }
 
     /** 根据行政区划代码查询所辖行政区划 **/
-    @Cached(name = "support:area:code:", key = "#code", expire = TimeConstant.DAY_1)
-    @CacheRefresh(refresh = TimeConstant.HOUR_1, stopRefreshAfterLastAccess = TimeConstant.HOUR_1)
+    @Cached(name = "support:area:code:", key = "#code", expire = TimeConstants.DAY_1)
+    @CacheRefresh(refresh = TimeConstants.HOUR_1, stopRefreshAfterLastAccess = TimeConstants.HOUR_1)
     public List<Area> findAreaByCode(String code) {
         AreaConstants.AreaCodeTypeEnum areaCodeType = AreaHelper.getAreaCodeType(code);
         if (AreaConstants.AreaCodeTypeEnum.PROVINCE.name().equalsIgnoreCase(areaCodeType.name())) {
@@ -128,7 +143,7 @@ public class AreaService extends ServiceImpl<IAreaMapper, AreaEntity> {
         long startTime = System.currentTimeMillis();
 
         // 清理历史记录
-        areaMapper.delete(new QueryWrapper<>());
+        areaMapper.deleteByQuery(new QueryWrapper());
 
         List<AreaEntity> areaEntityList = new ArrayList<>();
         areaList.forEach(area -> {

@@ -10,8 +10,10 @@ import com.mzt.logapi.starter.annotation.DiffLogAllFields;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 /**
  * 系统菜单表
@@ -19,18 +21,20 @@ import lombok.EqualsAndHashCode;
  * @author FanWeiJie
  * @since 2022-06-27
  */
+@Getter
+@Setter
+@SuperBuilder
 @DiffLogAllFields
-@Data
-@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
 public class SysPermDTO extends BaseDTO {
 
-    /*** 菜单ID */
+    /** 权限ID */
     @NotNull(message = "菜单ID必传", groups = {ValidatorGroup.Modify.class})
-    private String permId;
+    private Long permId;
 
     /** 父ID */
     @NotNull(message = "请选择父菜单", groups = {ValidatorGroup.Create.class, ValidatorGroup.Modify.class})
-    private String pid;
+	private Long pid;
 
     /*** 菜单代码 */
     @Length(min = 2, max = 20, message = "菜单代码长度在2-20位之间",
