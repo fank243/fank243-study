@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2024 Kong@杰少
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.fank243.kong.oauth2.mapper.IOauthClientMapper">
+    <resultMap id="BaseResultMap" type="domain.com.github.fank243.kong.oauth2.OauthClientEntity">
+        <id column="client_id" jdbcType="VARCHAR" property="clientId"/>
+        <result column="client_secret" jdbcType="VARCHAR" property="clientSecret"/>
+        <result column="resource_ids" jdbcType="VARCHAR" property="resourceIds"/>
+        <result column="scope" jdbcType="VARCHAR" property="scope"/>
+        <result column="grant_types" jdbcType="VARCHAR" property="grantTypes"/>
+        <result column="redirect_url" jdbcType="VARCHAR" property="redirectUrl"/>
+        <result column="additional_information" jdbcType="VARCHAR" property="additionalInformation"/>
+    </resultMap>
+
+    <!-- 表名 -->
+    <sql id="TABLE_NAME">tb_oauth_client</sql>
+
+    <!-- 所有字段 -->
+    <sql id="Base_Column_List">
+        `client_id`,`client_secret`,`resource_ids`,`scope`,`grant_types`,`redirect_url`,`additional_information`
+    </sql>
+
+    <!-- 通用查询条件 -->
+    <sql id="WHERE_OAUTH_CLIENT">
+            <if test="oauthClient.clientId != null and oauthClient.clientId != ''">
+                and client_id = #{params.clientId,jdbcType=VARCHAR}
+            </if>
+            <if test="oauthClient.clientSecret != null and oauthClient.clientSecret != ''">
+                and client_secret = #{params.clientSecret,jdbcType=VARCHAR}
+            </if>
+            <if test="oauthClient.resourceIds != null and oauthClient.resourceIds != ''">
+                and resource_ids = #{params.resourceIds,jdbcType=VARCHAR}
+            </if>
+            <if test="oauthClient.scope != null and oauthClient.scope != ''">
+                and scope = #{params.scope,jdbcType=VARCHAR}
+            </if>
+            <if test="oauthClient.grantTypes != null and oauthClient.grantTypes != ''">
+                and grant_types = #{params.grantTypes,jdbcType=VARCHAR}
+            </if>
+            <if test="oauthClient.redirectUrl != null and oauthClient.redirectUrl != ''">
+                and redirect_url = #{params.redirectUrl,jdbcType=VARCHAR}
+            </if>
+            <if test="oauthClient.additionalInformation != null and oauthClient.additionalInformation != ''">
+                and additional_information = #{params.additionalInformation,jdbcType=VARCHAR}
+            </if>
+        
+    </sql>
+
+    <!-- 排序 -->
+    <sql id="SORT_OAUTH_CLIENT">
+        <if test="params.columnSortList != null and params.columnSortList.size() > 0">
+          order by
+          <foreach collection="params.columnSortList" item="item" separator=",">
+              #{item.sortColumn} #{item.sortType}
+          </foreach>
+      </if>
+    </sql>
+
+     <!-- 根据主键查询 -->
+    <select id="findByClientId" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from tb_oauth_client <where> and client_id = #{clientId} </where>
+    </select>
+
+    <!-- 多条件查询(单条记录) -->
+    <select id="findByCondition" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_oauth_client
+        <where>
+           <include refid="WHERE_OAUTH_CLIENT"/>
+        </where>
+        <include refid="SORT_OAUTH_CLIENT"/>
+        limit 1
+    </select>
+
+    <!-- 多条件查询(多条记录) -->
+    <select id="findListByCondition" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_oauth_client
+        <where>
+            <include refid="WHERE_OAUTH_CLIENT"/>
+        </where>
+        <include refid="SORT_OAUTH_CLIENT"/>
+    </select>
+</mapper>

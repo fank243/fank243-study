@@ -1,0 +1,59 @@
+<!--
+  ~ Copyright (c) 2024 Kong@杰少
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!Doctype>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>xm-select</title>
+    <script src="static/js/request.js"></script>
+    <script src="static/js/jquery-1.11.3.min.js"></script>
+</head>
+
+<body>
+
+<div>
+    <button onclick="test()">测试</button>
+</div>
+
+<script src="static/lib/layui/layui.js"></script>
+<script type="text/javascript">
+    // https://maplemei.gitee.io/xm-select/#/plugin/tree
+    layui.use(['element'], function () {
+        window.test = function (){
+            // layer.open({
+            //     type:2,
+            //     title: "登录",
+            //     area:['800','600'],
+            //     btn:[],
+            //     content: "http://localhost:8112/new/customer/auth/login-box/0",
+            // });
+            ajaxPost({
+                url: "",
+                isNeedLogin: false,
+                isLoad: true,
+                isHandleFail: true,
+                success: function (res) {
+                    layer.msg("success:" + res.payload.goodsList[0].goodsName);
+                }
+            });
+            // layer.closeAll(function (){
+            //    location.reload();
+            // });
+        }
+    });
+</script>
+</body>

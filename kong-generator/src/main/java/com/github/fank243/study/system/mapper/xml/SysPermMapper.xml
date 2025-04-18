@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2024 Kong@杰少
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.fank243.kong.system.mapper.ISysPermMapper">
+    <resultMap id="BaseResultMap" type="domain.com.github.fank243.kong.system.SysPermEntity">
+        <id column="perm_id" jdbcType="INTEGER" property="permId"/>
+        <result column="perm_pid" jdbcType="INTEGER" property="permPid"/>
+        <result column="perm_code" jdbcType="VARCHAR" property="permCode"/>
+        <result column="perm_uri" jdbcType="VARCHAR" property="permUri"/>
+        <result column="perm_name" jdbcType="VARCHAR" property="permName"/>
+        <result column="perm_desc" jdbcType="VARCHAR" property="permDesc"/>
+        <result column="perm_type" jdbcType="BIT" property="permType"/>
+        <result column="is_external" jdbcType="BIT" property="isExternal"/>
+        <result column="status" jdbcType="BIT" property="status"/>
+        <result column="created_by" jdbcType="VARCHAR" property="createdBy"/>
+        <result column="created_date" jdbcType="TIMESTAMP" property="createdDate"/>
+        <result column="last_modified_by" jdbcType="VARCHAR" property="lastModifiedBy"/>
+        <result column="last_modified_date" jdbcType="TIMESTAMP" property="lastModifiedDate"/>
+    </resultMap>
+
+    <!-- 表名 -->
+    <sql id="TABLE_NAME">tb_sys_perm</sql>
+
+    <!-- 所有字段 -->
+    <sql id="Base_Column_List">
+        `perm_id`,`perm_pid`,`perm_code`,`perm_uri`,`perm_name`,`perm_desc`,`perm_type`,`is_external`,`status`,`created_by`,`created_date`,`last_modified_by`,`last_modified_date`
+    </sql>
+
+    <!-- 通用查询条件 -->
+    <sql id="WHERE_SYS_PERM">
+            <if test="sysPerm.permId != null and sysPerm.permId != ''">
+                and perm_id = #{params.permId,jdbcType=INTEGER}
+            </if>
+            <if test="sysPerm.permPid != null and sysPerm.permPid != ''">
+                and perm_pid = #{params.permPid,jdbcType=INTEGER}
+            </if>
+            <if test="sysPerm.permCode != null and sysPerm.permCode != ''">
+                and perm_code = #{params.permCode,jdbcType=VARCHAR}
+            </if>
+            <if test="sysPerm.permUri != null and sysPerm.permUri != ''">
+                and perm_uri = #{params.permUri,jdbcType=VARCHAR}
+            </if>
+            <if test="sysPerm.permName != null and sysPerm.permName != ''">
+                and perm_name = #{params.permName,jdbcType=VARCHAR}
+            </if>
+            <if test="sysPerm.permDesc != null and sysPerm.permDesc != ''">
+                and perm_desc = #{params.permDesc,jdbcType=VARCHAR}
+            </if>
+            <if test="sysPerm.permType != null and sysPerm.permType != ''">
+                and perm_type = #{params.permType,jdbcType=BIT}
+            </if>
+            <if test="sysPerm.isExternal != null and sysPerm.isExternal != ''">
+                and is_external = #{params.isExternal,jdbcType=BIT}
+            </if>
+            <if test="sysPerm.status != null and sysPerm.status != ''">
+                and status = #{params.status,jdbcType=BIT}
+            </if>
+            <if test="sysPerm.createdBy != null and sysPerm.createdBy != ''">
+                and created_by = #{params.createdBy,jdbcType=VARCHAR}
+            </if>
+            <if test="sysPerm.createdDate != null and sysPerm.createdDate != ''">
+                and created_date = #{params.createdDate,jdbcType=TIMESTAMP}
+            </if>
+            <if test="sysPerm.lastModifiedBy != null and sysPerm.lastModifiedBy != ''">
+                and last_modified_by = #{params.lastModifiedBy,jdbcType=VARCHAR}
+            </if>
+            <if test="sysPerm.lastModifiedDate != null and sysPerm.lastModifiedDate != ''">
+                and last_modified_date = #{params.lastModifiedDate,jdbcType=TIMESTAMP}
+            </if>
+        
+    </sql>
+
+    <!-- 排序 -->
+    <sql id="SORT_SYS_PERM">
+        <if test="params.columnSortList != null and params.columnSortList.size() > 0">
+          order by
+          <foreach collection="params.columnSortList" item="item" separator=",">
+              #{item.sortColumn} #{item.sortType}
+          </foreach>
+      </if>
+    </sql>
+
+     <!-- 根据主键查询 -->
+    <select id="findByPermId" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from tb_sys_perm <where> and perm_id = #{permId} </where>
+    </select>
+
+    <!-- 多条件查询(单条记录) -->
+    <select id="findByCondition" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_sys_perm
+        <where>
+           <include refid="WHERE_SYS_PERM"/>
+        </where>
+        <include refid="SORT_SYS_PERM"/>
+        limit 1
+    </select>
+
+    <!-- 多条件查询(多条记录) -->
+    <select id="findListByCondition" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_sys_perm
+        <where>
+            <include refid="WHERE_SYS_PERM"/>
+        </where>
+        <include refid="SORT_SYS_PERM"/>
+    </select>
+</mapper>

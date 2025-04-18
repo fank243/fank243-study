@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2024 Kong@杰少
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.fank243.kong.log.mapper.IOperationLogMapper">
+    <resultMap id="BaseResultMap" type="com.github.fank243.kong.log.domain.OperationLogEntity">
+        <id column="log_id" jdbcType="INTEGER" property="logId"/>
+        <result column="tenant" jdbcType="VARCHAR" property="tenant"/>
+        <result column="log_type" jdbcType="VARCHAR" property="logType"/>
+        <result column="biz_no" jdbcType="VARCHAR" property="bizNo"/>
+        <result column="sub_type" jdbcType="VARCHAR" property="subType"/>
+        <result column="operator_id" jdbcType="VARCHAR" property="operatorId"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="extra" jdbcType="VARCHAR" property="extra"/>
+        <result column="created_date" jdbcType="TIMESTAMP" property="createdDate"/>
+    </resultMap>
+
+    <!-- 表名 -->
+    <sql id="TABLE_NAME">tb_operation_log</sql>
+
+    <!-- 所有字段 -->
+    <sql id="Base_Column_List">
+        `log_id`,`tenant`,`log_type`,`biz_no`,`sub_type`,`operator_id`,`content`,`extra`,`created_date`
+    </sql>
+
+    <!-- 通用查询条件 -->
+    <sql id="WHERE_OPERATION_LOG">
+            <if test="operationLog.logId != null and operationLog.logId != ''">
+                and log_id = #{params.logId,jdbcType=INTEGER}
+            </if>
+            <if test="operationLog.tenant != null and operationLog.tenant != ''">
+                and tenant = #{params.tenant,jdbcType=VARCHAR}
+            </if>
+            <if test="operationLog.logType != null and operationLog.logType != ''">
+                and log_type = #{params.logType,jdbcType=VARCHAR}
+            </if>
+            <if test="operationLog.bizNo != null and operationLog.bizNo != ''">
+                and biz_no = #{params.bizNo,jdbcType=VARCHAR}
+            </if>
+            <if test="operationLog.subType != null and operationLog.subType != ''">
+                and sub_type = #{params.subType,jdbcType=VARCHAR}
+            </if>
+            <if test="operationLog.operatorId != null and operationLog.operatorId != ''">
+                and operator_id = #{params.operatorId,jdbcType=VARCHAR}
+            </if>
+            <if test="operationLog.content != null and operationLog.content != ''">
+                and content = #{params.content,jdbcType=VARCHAR}
+            </if>
+            <if test="operationLog.extra != null and operationLog.extra != ''">
+                and extra = #{params.extra,jdbcType=VARCHAR}
+            </if>
+            <if test="operationLog.createdDate != null and operationLog.createdDate != ''">
+                and created_date = #{params.createdDate,jdbcType=TIMESTAMP}
+            </if>
+        
+    </sql>
+
+    <!-- 排序 -->
+    <sql id="SORT_OPERATION_LOG">
+        <if test="params.columnSortList != null and params.columnSortList.size() > 0">
+          order by
+          <foreach collection="params.columnSortList" item="item" separator=",">
+              #{item.sortColumn} #{item.sortType}
+          </foreach>
+      </if>
+    </sql>
+
+     <!-- 根据主键查询 -->
+    <select id="findByLogId" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from tb_operation_log <where> and log_id = #{logId} </where>
+    </select>
+
+    <!-- 多条件查询(单条记录) -->
+    <select id="findByCondition" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_operation_log
+        <where>
+           <include refid="WHERE_OPERATION_LOG"/>
+        </where>
+        <include refid="SORT_OPERATION_LOG"/>
+        limit 1
+    </select>
+
+    <!-- 多条件查询(多条记录) -->
+    <select id="findListByCondition" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_operation_log
+        <where>
+            <include refid="WHERE_OPERATION_LOG"/>
+        </where>
+        <include refid="SORT_OPERATION_LOG"/>
+    </select>
+</mapper>

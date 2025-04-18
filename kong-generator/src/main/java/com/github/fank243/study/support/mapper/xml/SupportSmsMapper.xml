@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2024 Kong@杰少
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.fank243.kong.support.mapper.ISupportSmsMapper">
+    <resultMap id="BaseResultMap" type="com.github.fank243.kong.support.domain.SupportSmsEntity">
+        <id column="sms_id" jdbcType="INTEGER" property="smsId"/>
+        <result column="msg_id" jdbcType="VARCHAR" property="msgId"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="created_date" jdbcType="TIMESTAMP" property="createdDate"/>
+    </resultMap>
+
+    <!-- 表名 -->
+    <sql id="TABLE_NAME">tb_support_sms</sql>
+
+    <!-- 所有字段 -->
+    <sql id="Base_Column_List">
+        `sms_id`,`msg_id`,`mobile`,`content`,`created_date`
+    </sql>
+
+    <!-- 通用查询条件 -->
+    <sql id="WHERE_SUPPORT_SMS">
+            <if test="supportSms.smsId != null and supportSms.smsId != ''">
+                and sms_id = #{params.smsId,jdbcType=INTEGER}
+            </if>
+            <if test="supportSms.msgId != null and supportSms.msgId != ''">
+                and msg_id = #{params.msgId,jdbcType=VARCHAR}
+            </if>
+            <if test="supportSms.mobile != null and supportSms.mobile != ''">
+                and mobile = #{params.mobile,jdbcType=VARCHAR}
+            </if>
+            <if test="supportSms.content != null and supportSms.content != ''">
+                and content = #{params.content,jdbcType=VARCHAR}
+            </if>
+            <if test="supportSms.createdDate != null and supportSms.createdDate != ''">
+                and created_date = #{params.createdDate,jdbcType=TIMESTAMP}
+            </if>
+        
+    </sql>
+
+    <!-- 排序 -->
+    <sql id="SORT_SUPPORT_SMS">
+        <if test="params.columnSortList != null and params.columnSortList.size() > 0">
+          order by
+          <foreach collection="params.columnSortList" item="item" separator=",">
+              #{item.sortColumn} #{item.sortType}
+          </foreach>
+      </if>
+    </sql>
+
+     <!-- 根据主键查询 -->
+    <select id="findBySmsId" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from tb_support_sms <where> and sms_id = #{smsId} </where>
+    </select>
+
+    <!-- 多条件查询(单条记录) -->
+    <select id="findByCondition" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_support_sms
+        <where>
+           <include refid="WHERE_SUPPORT_SMS"/>
+        </where>
+        <include refid="SORT_SUPPORT_SMS"/>
+        limit 1
+    </select>
+
+    <!-- 多条件查询(多条记录) -->
+    <select id="findListByCondition" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_support_sms
+        <where>
+            <include refid="WHERE_SUPPORT_SMS"/>
+        </where>
+        <include refid="SORT_SUPPORT_SMS"/>
+    </select>
+</mapper>
